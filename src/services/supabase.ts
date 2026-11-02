@@ -2,15 +2,18 @@ import { createClient } from '@supabase/supabase-js';
 import type {
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
-  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant
+  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense
 } from '../types/database';
 
 import {
   INITIAL_PROPERTIES, INITIAL_UNITS, INITIAL_TENANTS, INITIAL_LEASES,
   INITIAL_PAYMENTS, INITIAL_VENDORS, INITIAL_MAINTENANCE, INITIAL_BILLS,
-  INITIAL_NOTICES, INITIAL_COMMUNICATIONS, INITIAL_AUTOMATION_RULES,
+  INITIAL_EXPENSES, INITIAL_NOTICES, INITIAL_COMMUNICATIONS, INITIAL_AUTOMATION_RULES,
   INITIAL_AUTOMATION_LOGS, INITIAL_TASKS, INITIAL_APPLICANTS
 } from './mockData';
+
+// Direct import of versioned JSON database stored in repository
+import databaseJson from '../data/database.json';
 
 // Supabase client instance (with public demo fallback keys)
 const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || 'https://northstar-demo.supabase.co';
@@ -18,8 +21,8 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'e
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// LOCAL PERSISTENT STATE ENGINE FOR STANDALONE DEMO EXECUTION
-const STORAGE_KEY = 'propertyflow_db_v1';
+// LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
+const STORAGE_KEY = 'propertyflow_db_v2';
 
 export interface DatabaseState {
   properties: Property[];
@@ -30,6 +33,7 @@ export interface DatabaseState {
   vendors: Vendor[];
   maintenance_requests: MaintenanceRequest[];
   bills: Bill[];
+  expenses: Expense[];
   notices: Notice[];
   communications: Communication[];
   automation_rules: AutomationRule[];
@@ -43,10 +47,36 @@ function loadInitialState(): DatabaseState {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (parsed.expenses && parsed.properties) {
+        return parsed;
+      }
     }
   } catch (e) {
     console.warn('Failed to load state from localStorage', e);
+  }
+
+  // Fallback to git-committed JSON database
+  if (databaseJson && (databaseJson as any).properties) {
+    const db = databaseJson as any;
+    return {
+      properties: db.properties || INITIAL_PROPERTIES,
+      units: db.units || INITIAL_UNITS,
+      tenants: db.tenants || INITIAL_TENANTS,
+      leases: db.leases || INITIAL_LEASES,
+      payments: db.payments || INITIAL_PAYMENTS,
+      vendors: db.vendors || INITIAL_VENDORS,
+      maintenance_requests: db.maintenance_requests || INITIAL_MAINTENANCE,
+      bills: db.bills || INITIAL_BILLS,
+      expenses: db.expenses || INITIAL_EXPENSES,
+      notices: db.notices || INITIAL_NOTICES,
+      communications: db.communications || INITIAL_COMMUNICATIONS,
+      automation_rules: db.automation_rules || INITIAL_AUTOMATION_RULES,
+      automation_runs: db.automation_runs || [],
+      automation_logs: db.automation_logs || INITIAL_AUTOMATION_LOGS,
+      tasks: db.tasks || INITIAL_TASKS,
+      applicants: db.applicants || INITIAL_APPLICANTS
+    };
   }
 
   return {
@@ -58,6 +88,7 @@ function loadInitialState(): DatabaseState {
     vendors: INITIAL_VENDORS,
     maintenance_requests: INITIAL_MAINTENANCE,
     bills: INITIAL_BILLS,
+    expenses: INITIAL_EXPENSES,
     notices: INITIAL_NOTICES,
     communications: INITIAL_COMMUNICATIONS,
     automation_rules: INITIAL_AUTOMATION_RULES,
@@ -100,6 +131,7 @@ class StoreManager {
       vendors: INITIAL_VENDORS,
       maintenance_requests: INITIAL_MAINTENANCE,
       bills: INITIAL_BILLS,
+      expenses: INITIAL_EXPENSES,
       notices: INITIAL_NOTICES,
       communications: INITIAL_COMMUNICATIONS,
       automation_rules: INITIAL_AUTOMATION_RULES,
@@ -109,6 +141,45 @@ class StoreManager {
       applicants: INITIAL_APPLICANTS
     };
     this.saveState();
+  }
+
+  exportJsonDatabase(): string {
+    return JSON.stringify({
+      version: '1.0.0',
+      exported_at: new Date().toISOString(),
+      ...this.state
+    }, null, 2);
+  }
+
+  importJsonDatabase(jsonString: string): boolean {
+    try {
+      const parsed = JSON.parse(jsonString);
+      if (parsed.properties && Array.isArray(parsed.properties)) {
+        this.state = {
+          properties: parsed.properties,
+          units: parsed.units || [],
+          tenants: parsed.tenants || [],
+          leases: parsed.leases || [],
+          payments: parsed.payments || [],
+          vendors: parsed.vendors || [],
+          maintenance_requests: parsed.maintenance_requests || [],
+          bills: parsed.bills || [],
+          expenses: parsed.expenses || [],
+          notices: parsed.notices || [],
+          communications: parsed.communications || [],
+          automation_rules: parsed.automation_rules || [],
+          automation_runs: parsed.automation_runs || [],
+          automation_logs: parsed.automation_logs || [],
+          tasks: parsed.tasks || [],
+          applicants: parsed.applicants || []
+        };
+        this.saveState();
+        return true;
+      }
+    } catch (err) {
+      console.error('Failed to import JSON database', err);
+    }
+    return false;
   }
 
   subscribe(listener: () => void) {
@@ -121,6 +192,37 @@ class StoreManager {
   }
 
   // --- ENTITY MUTATORS ---
+  addExpense(expense: Expense) {
+    this.state.expenses.unshift(expense);
+    this.saveState();
+  }
+
+  deleteExpense(expenseId: string) {
+    this.state.expenses = this.state.expenses.filter(e => e.id !== expenseId);
+    this.saveState();
+  }
+
+  addBill(bill: Bill) {
+    this.state.bills.unshift(bill);
+    // Also auto-record as an expense for immediate financial accounting
+    const newExpense: Expense = {
+      id: `exp-${Date.now()}`,
+      property_id: bill.property_id,
+      unit_id: bill.unit_id,
+      scope: bill.unit_id ? 'Unit' : 'Property',
+      vendor_id: bill.vendor_id,
+      category: (bill.category as any) || 'Repairs & Maintenance',
+      description: bill.description,
+      amount: bill.amount,
+      date: bill.created_at.split('T')[0] || new Date().toISOString().split('T')[0],
+      payment_status: bill.status === 'Paid' ? 'Paid' : 'Pending',
+      created_at: bill.created_at,
+      updated_at: bill.updated_at
+    };
+    this.state.expenses.unshift(newExpense);
+    this.saveState();
+  }
+
   addCommunication(comm: Communication) {
     this.state.communications.unshift(comm);
     this.saveState();

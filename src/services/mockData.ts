@@ -1,4 +1,5 @@
 import type {
+  Expense,
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
   AutomationRule, AutomationLog, Task, TenantApplicant
@@ -389,5 +390,128 @@ export const INITIAL_APPLICANTS: TenantApplicant[] = [
     credit_score: 720,
     background_check: 'Pending',
     created_at: '2026-08-21T09:30:00Z'
+  }
+];
+
+export const INITIAL_EXPENSES: Expense[] = [
+  {
+    "id": "exp-1",
+    "property_id": "prop-1",
+    "unit_id": "unit-102",
+    "scope": "Unit",
+    "vendor_id": "ven-1",
+    "category": "Repairs & Maintenance",
+    "description": "Unit 102 kitchen sink drain pipe clearing & P-trap replacement",
+    "amount": 485.5,
+    "date": "2026-08-15",
+    "payment_status": "Paid",
+    "created_at": "2026-08-15T14:00:00Z",
+    "updated_at": "2026-08-15T14:00:00Z"
+  },
+  {
+    "id": "exp-2",
+    "property_id": "prop-1",
+    "unit_id": "unit-101",
+    "scope": "Unit",
+    "vendor_id": "ven-4",
+    "category": "Appliances",
+    "description": "Unit 101 dishwasher diagnostic & intake valve replacement",
+    "amount": 220,
+    "date": "2026-08-10",
+    "payment_status": "Paid",
+    "created_at": "2026-08-10T11:00:00Z",
+    "updated_at": "2026-08-10T11:00:00Z"
+  },
+  {
+    "id": "exp-3",
+    "property_id": "prop-1",
+    "scope": "Property",
+    "vendor_id": "ven-6",
+    "category": "Cleaning",
+    "description": "Maple Heights common corridors carpet steam cleaning & sanitization",
+    "amount": 890,
+    "date": "2026-08-08",
+    "payment_status": "Paid",
+    "created_at": "2026-08-08T09:00:00Z",
+    "updated_at": "2026-08-08T09:00:00Z"
+  },
+  {
+    "id": "exp-4",
+    "property_id": "prop-1",
+    "scope": "Property",
+    "category": "Insurance",
+    "description": "Commercial property liability, equipment breakdown & fire insurance monthly premium",
+    "amount": 1150,
+    "date": "2026-08-01",
+    "payment_status": "Paid",
+    "created_at": "2026-08-01T08:00:00Z",
+    "updated_at": "2026-08-01T08:00:00Z"
+  },
+  {
+    "id": "exp-5",
+    "property_id": "prop-2",
+    "unit_id": "unit-201",
+    "scope": "Unit",
+    "vendor_id": "ven-2",
+    "category": "Repairs & Maintenance",
+    "description": "Unit 201 heat pump seasonal inspection & blower motor capacitor tune-up",
+    "amount": 350,
+    "date": "2026-08-18",
+    "payment_status": "Paid",
+    "created_at": "2026-08-18T10:00:00Z",
+    "updated_at": "2026-08-18T10:00:00Z"
+  },
+  {
+    "id": "exp-6",
+    "property_id": "prop-2",
+    "scope": "Property",
+    "vendor_id": "ven-2",
+    "category": "Utilities",
+    "description": "Harbourview building HVAC central chiller cooling tower seasonal overhaul",
+    "amount": 1450,
+    "date": "2026-08-01",
+    "payment_status": "Paid",
+    "created_at": "2026-08-01T09:00:00Z",
+    "updated_at": "2026-08-01T09:00:00Z"
+  },
+  {
+    "id": "exp-7",
+    "property_id": "prop-3",
+    "unit_id": "unit-301",
+    "scope": "Unit",
+    "vendor_id": "ven-5",
+    "category": "Repairs & Maintenance",
+    "description": "Unit 301 balcony pest prevention barrier & insect nest removal",
+    "amount": 180,
+    "date": "2026-08-12",
+    "payment_status": "Paid",
+    "created_at": "2026-08-12T13:00:00Z",
+    "updated_at": "2026-08-12T13:00:00Z"
+  },
+  {
+    "id": "exp-8",
+    "property_id": "prop-4",
+    "unit_id": "unit-401",
+    "scope": "Unit",
+    "vendor_id": "ven-4",
+    "category": "Repairs & Maintenance",
+    "description": "Unit 401 electrical outlet replacement and breaker panel check",
+    "amount": 275,
+    "date": "2026-08-19",
+    "payment_status": "Paid",
+    "created_at": "2026-08-19T14:00:00Z",
+    "updated_at": "2026-08-19T14:00:00Z"
+  },
+  {
+    "id": "exp-9",
+    "property_id": "prop-3",
+    "scope": "Property",
+    "category": "Property Taxes",
+    "description": "City of Hamilton municipal property tax monthly installment",
+    "amount": 1620,
+    "date": "2026-08-01",
+    "payment_status": "Paid",
+    "created_at": "2026-08-01T00:00:00Z",
+    "updated_at": "2026-08-01T00:00:00Z"
   }
 ];

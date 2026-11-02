@@ -114,6 +114,7 @@ export type BillStatus = 'Pending' | 'Due Soon' | 'Paid' | 'Overdue';
 export interface Bill {
   id: string;
   property_id: string;
+  unit_id?: string;
   vendor_id: string;
   bill_number: string;
   description: string;
@@ -121,6 +122,25 @@ export interface Bill {
   due_date: string;
   payment_date?: string;
   status: BillStatus;
+  category?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type ExpenseCategory = 'Repairs & Maintenance' | 'Utilities' | 'Insurance' | 'Property Taxes' | 'Management' | 'Cleaning' | 'Appliances' | 'Other';
+export type ExpenseScope = 'Unit' | 'Property';
+
+export interface Expense {
+  id: string;
+  property_id: string;
+  unit_id?: string;
+  scope: ExpenseScope;
+  vendor_id?: string;
+  category: ExpenseCategory;
+  description: string;
+  amount: number;
+  date: string;
+  payment_status: 'Paid' | 'Pending';
   created_at: string;
   updated_at: string;
 }
