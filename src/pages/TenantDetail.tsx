@@ -38,7 +38,7 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
 
   // Chronological timeline events
   const timelineEvents = [
-    { title: 'Tenant Profile Created', date: tenant.created_at.split('T')[0], type: 'System', desc: 'Registered in Northstar PM database' },
+    { title: 'Tenant Profile Created', date: tenant.created_at.split('T')[0], type: 'System', desc: 'Registered in PropertyFlow PM database' },
     { title: 'Screening Completed', date: '2025-08-10', type: 'Screening', desc: 'Background & credit verification approved (Score: 765)' },
     { title: 'Lease Agreement Signed', date: lease?.start_date || '2025-09-01', type: 'Lease', desc: `Signed 1-year tenancy for ${property?.name} Unit ${unit?.unit_number}` },
     { title: 'Security Deposit Paid', date: lease?.start_date || '2025-09-01', type: 'Financial', desc: `$${lease?.deposit.toFixed(2)} CAD held in escrow` },

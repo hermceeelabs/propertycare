@@ -62,7 +62,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">
-            <span>Northstar Property Management</span>
+            <span>PropertyFlow Management</span>
             <span>•</span>
             <span>Operations Dashboard</span>
           </div>

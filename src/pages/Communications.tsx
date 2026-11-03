@@ -46,12 +46,12 @@ export const CommunicationsPage: React.FC<CommunicationsProps> = ({
     for (const tenant of targetTenants) {
       const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-          <h2 style="color: #1e3a8a;">Northstar Property Announcement</h2>
+          <h2 style="color: #1e3a8a;">PropertyFlow Property Announcement</h2>
           <p>Dear ${tenant.first_name} ${tenant.last_name},</p>
           <div style="padding: 15px; background-color: #f8fafc; border-left: 4px solid #2563eb; margin: 15px 0;">
             ${body.replace(/\n/g, '<br/>')}
           </div>
-          <p style="font-size: 12px; color: #64748b;">Northstar Property Management Inc. Operations</p>
+          <p style="font-size: 12px; color: #64748b;">PropertyFlow Management Operations</p>
         </div>
       `;
 

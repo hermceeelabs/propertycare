@@ -722,7 +722,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
         {activeTab === 'activity' && (
           <div className="text-xs text-slate-500 space-y-2">
-            <p>• Property created in Northstar Database on {property.created_at.split('T')[0]}</p>
+            <p>• Property created in Central Database on {property.created_at.split('T')[0]}</p>
             <p>• Portfolio audit check completed on {property.updated_at.split('T')[0]}</p>
           </div>
         )}

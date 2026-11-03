@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Demo Indicator */}
         <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full border border-slate-200 text-xs text-slate-700">
           <Shield className="w-3.5 h-3.5 text-brand-600" />
-          <span className="font-medium">Northstar Ops</span>
+          <span className="font-medium">PropertyFlow Ops</span>
         </div>
       </div>
 

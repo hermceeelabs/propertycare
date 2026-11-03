@@ -226,7 +226,7 @@ export const INITIAL_COMMUNICATIONS: Communication[] = [
     template: 'Rent Overdue Reminder (3 Days)',
     content_html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-        <h2 style="color: #1e3a8a;">Northstar Property Management</h2>
+        <h2 style="color: #1e3a8a;">PropertyFlow Management</h2>
         <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;" />
         <p>Dear David Chen,</p>
         <p>Our records indicate that your rent payment of <strong>$2,850.00</strong> for <strong>Maple Heights Apartments, Unit 102</strong> due on <strong>August 1, 2026</strong> is currently overdue.</p>
@@ -234,8 +234,8 @@ export const INITIAL_COMMUNICATIONS: Communication[] = [
           <p style="margin: 0; font-weight: bold;">Amount Overdue: $2,850.00 CAD</p>
           <p style="margin: 5px 0 0 0; font-size: 14px;">Due Date: August 1, 2026</p>
         </div>
-        <p>Please log in to your tenant portal or initiate Interac e-Transfer to <strong>payments@northstarpm.ca</strong> immediately to avoid administrative non-payment procedures.</p>
-        <p style="font-size: 12px; color: #64748b; margin-top: 25px;">Northstar Property Management Inc. | Operations Center Toronto</p>
+        <p>Please log in to your tenant portal or initiate Interac e-Transfer to <strong>payments@propertyflow.app</strong> immediately to avoid administrative non-payment procedures.</p>
+        <p style="font-size: 12px; color: #64748b; margin-top: 25px;">PropertyFlow Management | Operations Center Toronto</p>
       </div>
     `,
     content_text: 'Dear David Chen, Your rent payment of $2,850.00 for Unit 102 due Aug 1, 2026 is overdue. Please submit payment immediately.',
@@ -254,7 +254,7 @@ export const INITIAL_COMMUNICATIONS: Communication[] = [
     template: 'Vendor Maintenance Dispatch',
     content_html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-        <h2 style="color: #1e3a8a;">Northstar Property Operations Dispatch</h2>
+        <h2 style="color: #1e3a8a;">Property Operations Dispatch</h2>
         <p>Hello Great Lakes HVAC Team,</p>
         <p>You have been assigned a new HIGH PRIORITY maintenance work order:</p>
         <ul>

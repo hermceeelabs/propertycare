@@ -164,7 +164,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="p-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between bg-slate-950/40">
         <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Northstar PM Demo
+          Live Demo Mode
         </span>
         <span className="text-[10px] text-slate-400">v2.1</span>
       </div>

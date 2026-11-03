@@ -16,7 +16,7 @@ import {
 import databaseJson from '../data/database.json';
 
 // Supabase client instance (with public demo fallback keys)
-const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || 'https://northstar-demo.supabase.co';
+const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || 'https://demo.propertyflow.app';
 const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo-key';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

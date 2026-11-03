@@ -18,9 +18,9 @@ Dear {{tenant_name}},
 
 This is a reminder that your rent payment of {{rent_amount}} CAD for {{property_name}}, Unit {{unit_number}} due on {{due_date}} is currently overdue.
 
-Please submit Interac e-Transfer to payments@northstarpm.ca immediately.
+Please submit Interac e-Transfer to payments@propertyflow.app immediately.
 
-Northstar Operations Team
+Operations Team
   `.trim());
 
   const handleDownloadJson = () => {
@@ -178,13 +178,13 @@ Northstar Operations Team
         {/* Company Profile Tab */}
         {activeTab === 'company' && (
           <div className="space-y-4 max-w-2xl text-xs">
-            <h3 className="font-bold text-slate-900 text-sm">Northstar Property Management Inc.</h3>
+            <h3 className="font-bold text-slate-900 text-sm">PropertyFlow Management</h3>
             <p className="text-slate-500">Corporate legal identity, operations headquarters & Interac e-Transfer banking endpoints</p>
 
             <div className="grid grid-cols-2 gap-4 pt-2">
               <div>
                 <label className="block text-slate-500 font-semibold mb-1">Company Legal Name</label>
-                <input type="text" readOnly value="Northstar Property Management Inc." className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
+                <input type="text" readOnly value="PropertyFlow Management" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
               </div>
               <div>
                 <label className="block text-slate-500 font-semibold mb-1">Operating Jurisdiction</label>
@@ -192,11 +192,11 @@ Northstar Operations Team
               </div>
               <div>
                 <label className="block text-slate-500 font-semibold mb-1">Primary Operational Email</label>
-                <input type="text" readOnly value="operations@northstarpm.ca" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
+                <input type="text" readOnly value="operations@propertyflow.app" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
               </div>
               <div>
                 <label className="block text-slate-500 font-semibold mb-1">Interac e-Transfer Endpoint</label>
-                <input type="text" readOnly value="payments@northstarpm.ca" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
+                <input type="text" readOnly value="payments@propertyflow.app" className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-medium" />
               </div>
             </div>
           </div>

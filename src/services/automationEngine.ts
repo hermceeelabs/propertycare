@@ -57,15 +57,15 @@ export class AutomationEngine {
         const subject = `OVERDUE RENT REMINDER: Unit ${unit.unit_number} (${property.name})`;
         const html = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #1e3a8a;">Northstar Property Management</h2>
+            <h2 style="color: #1e3a8a;">PropertyFlow Management</h2>
             <p>Dear ${tenant.first_name} ${tenant.last_name},</p>
             <p>Our records indicate an outstanding rent balance of <strong>$${balance.toFixed(2)} CAD</strong> for <strong>Unit ${unit.unit_number} at ${property.name}</strong> (Due Date: ${payment.due_date}).</p>
             <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; margin: 16px 0;">
               <strong>Balance Due: $${balance.toFixed(2)} CAD</strong><br/>
               <span style="font-size: 13px; color: #991b1b;">Account is currently ${diffDays} days past due.</span>
             </div>
-            <p>Please send an Interac e-Transfer to <strong>payments@northstarpm.ca</strong> or contact your property manager immediately.</p>
-            <p style="font-size: 12px; color: #64748b;">Northstar Operations Center | Demo Email Abstraction</p>
+            <p>Please send an Interac e-Transfer to <strong>payments@propertyflow.app</strong> or contact your property manager immediately.</p>
+            <p style="font-size: 12px; color: #64748b;">PropertyFlow Operations Center | Demo Email Abstraction</p>
           </div>
         `;
 
@@ -175,11 +175,11 @@ export class AutomationEngine {
         const subject = `LEASE RENEWAL NOTICE: Unit ${unit.unit_number} (${property.name})`;
         const html = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #1e3a8a;">Northstar Property Management</h2>
+            <h2 style="color: #1e3a8a;">PropertyFlow Management</h2>
             <p>Dear ${tenant.first_name} ${tenant.last_name},</p>
             <p>Your current lease for <strong>Unit ${unit.unit_number} at ${property.name}</strong> will expire on <strong>${lease.end_date}</strong> (${daysRemaining} days remaining).</p>
             <p>We invite you to review lease renewal terms for the upcoming year.</p>
-            <p style="font-size: 12px; color: #64748b;">Northstar Lease Operations Division</p>
+            <p style="font-size: 12px; color: #64748b;">PropertyFlow Lease Operations Division</p>
           </div>
         `;
 
@@ -280,7 +280,7 @@ export class AutomationEngine {
         const vendorSubject = `WORK ORDER DISPATCH: Unit ${unit.unit_number} (${property.name}) [${req.priority.toUpperCase()}]`;
         const vendorHtml = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <h2 style="color: #1e3a8a;">Northstar Vendor Maintenance Dispatch</h2>
+            <h2 style="color: #1e3a8a;">PropertyFlow Vendor Maintenance Dispatch</h2>
             <p>Hello ${matchedVendor.name},</p>
             <p>You have been dispatched to a work order at <strong>${property.name}</strong>:</p>
             <ul>
