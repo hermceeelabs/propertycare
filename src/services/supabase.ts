@@ -293,6 +293,22 @@ class StoreManager {
     this.saveState();
   }
 
+  addProperty(property: Property) {
+    this.state.properties.unshift(property);
+    this.saveState();
+  }
+
+  addUnit(unit: Unit) {
+    this.state.units.unshift(unit);
+    // Also update parent property units_count if present
+    const property = this.state.properties.find(p => p.id === unit.property_id);
+    if (property) {
+      property.units_count = (property.units_count || 0) + 1;
+      property.updated_at = new Date().toISOString();
+    }
+    this.saveState();
+  }
+
   updateUnit(unitId: string, updates: Partial<Unit>) {
     this.state.units = this.state.units.map(u => u.id === unitId ? { ...u, ...updates, updated_at: new Date().toISOString() } : u);
     this.saveState();

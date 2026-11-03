@@ -7,6 +7,7 @@ import {
 import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
+import { AddUnitModal } from '../components/AddUnitModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface PropertyDetailProps {
@@ -23,6 +24,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const [activeTab, setActiveTab] = useState<'financials' | 'asset' | 'overview' | 'units' | 'tenants' | 'leases' | 'payments' | 'maintenance' | 'bills' | 'activity'>('financials');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [isEditAcquisitionOpen, setIsEditAcquisitionOpen] = useState(false);
+  const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
   const { formatMoney, currencyConfig } = useCurrency();
 
@@ -609,7 +611,19 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         )}
 
         {activeTab === 'units' && (
-          <div className="overflow-x-auto">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+                Suites & Inventory ({units.length})
+              </span>
+              <button
+                onClick={() => setIsAddUnitOpen(true)}
+                className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add Suite to Property
+              </button>
+            </div>
+            <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-200 text-slate-400 font-semibold">
@@ -640,7 +654,8 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
               </tbody>
             </table>
           </div>
-        )}
+        </div>
+      )}
 
         {activeTab === 'tenants' && (
           <div className="space-y-3">
@@ -744,6 +759,14 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         isOpen={isEditAcquisitionOpen}
         onClose={() => setIsEditAcquisitionOpen(false)}
         property={property}
+      />
+
+      {/* Add Unit Modal */}
+      <AddUnitModal
+        isOpen={isAddUnitOpen}
+        onClose={() => setIsAddUnitOpen(false)}
+        dbState={dbState}
+        defaultPropertyId={propertyId}
       />
     </div>
   );

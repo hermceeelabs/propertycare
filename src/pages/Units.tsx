@@ -6,6 +6,7 @@ import {
 import { DatabaseState } from '../services/supabase';
 import { UnitStatus, RentalModel } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
+import { AddUnitModal } from '../components/AddUnitModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface UnitsProps {
@@ -17,6 +18,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [search, setSearch] = useState('');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState<{ unitId: string; propertyId: string } | null>(null);
 
   const { formatMoney } = useCurrency();
@@ -123,13 +125,20 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
           />
 
           <button
+            onClick={() => setIsAddUnitOpen(true)}
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" /> Add Suite / Unit
+          </button>
+
+          <button
             onClick={() => {
               setSelectedUnit(null);
               setIsAddExpenseOpen(true);
             }}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+            className="px-4 py-2 bg-cream-200/90 hover:bg-cream-300 text-stone-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 border border-cream-300 cursor-pointer"
           >
-            <Plus className="w-4 h-4" /> Record Suite Cost
+            <Plus className="w-4 h-4 text-stone-600" /> Record Suite Cost
           </button>
         </div>
       </div>
@@ -313,6 +322,12 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
         dbState={dbState}
         defaultPropertyId={selectedUnit?.propertyId}
         defaultUnitId={selectedUnit?.unitId}
+      />
+
+      <AddUnitModal
+        isOpen={isAddUnitOpen}
+        onClose={() => setIsAddUnitOpen(false)}
+        dbState={dbState}
       />
     </div>
   );

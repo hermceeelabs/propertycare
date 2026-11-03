@@ -3,6 +3,7 @@ import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, 
 import { DatabaseState } from '../services/supabase';
 import { Property } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
+import { AddPropertyModal } from '../components/AddPropertyModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface PropertiesProps {
@@ -13,6 +14,7 @@ interface PropertiesProps {
 export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectProperty }) => {
   const [cityFilter, setCityFilter] = useState<string>('All');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(undefined);
   const { formatMoney } = useCurrency();
 
@@ -55,15 +57,24 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
           </select>
         </div>
 
-        <button
-          onClick={() => {
-            setSelectedPropertyId(undefined);
-            setIsAddExpenseOpen(true);
-          }}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
-        >
-          <Plus className="w-4 h-4" /> Record Property Expense
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsAddPropertyOpen(true)}
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" /> Add Property
+          </button>
+
+          <button
+            onClick={() => {
+              setSelectedPropertyId(undefined);
+              setIsAddExpenseOpen(true);
+            }}
+            className="px-4 py-2 bg-cream-200/90 hover:bg-cream-300 text-stone-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 border border-cream-300 cursor-pointer"
+          >
+            <Plus className="w-4 h-4 text-stone-600" /> Record Expense
+          </button>
+        </div>
       </div>
 
       {/* Property Cards Grid */}
@@ -172,6 +183,13 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
         onClose={() => setIsAddExpenseOpen(false)}
         dbState={dbState}
         defaultPropertyId={selectedPropertyId}
+      />
+
+      <AddPropertyModal
+        isOpen={isAddPropertyOpen}
+        onClose={() => setIsAddPropertyOpen(false)}
+        dbState={dbState}
+        onCreated={(id) => onSelectProperty(id)}
       />
     </div>
   );
