@@ -14,7 +14,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(undefined);
 
-  const cities = ['All', 'Toronto', 'Mississauga', 'Hamilton', 'Ottawa'];
+  const availableCities = ['All', ...Array.from(new Set(dbState.properties.map(p => p.city)))];
 
   const filteredProperties = cityFilter === 'All'
     ? dbState.properties
@@ -47,7 +47,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
             onChange={(e) => setCityFilter(e.target.value)}
             className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
           >
-            {cities.map(c => (
+            {availableCities.map(c => (
               <option key={c} value={c}>{c === 'All' ? 'All Cities' : c}</option>
             ))}
           </select>

@@ -22,7 +22,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'e
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v4';
+const STORAGE_KEY = 'propertyflow_db_v5';
 
 export interface DatabaseState {
   properties: Property[];
