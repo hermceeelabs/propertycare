@@ -13,7 +13,17 @@
       "units_count": 48,
       "status": "Active",
       "created_at": "2023-01-15T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "updated_at": "2026-08-01T00:00:00Z",
+      "acquisition": {
+        "acquisition_type": "Outright Purchase",
+        "acquisition_date": "2023-01-15",
+        "total_acquisition_cost": 5400000,
+        "down_payment_or_deposit": 1080000,
+        "amortization_period_years": 25,
+        "annual_depreciation_or_amort": 216000,
+        "interest_rate_percent": 4.85,
+        "notes": "Freehold outright commercial acquisition in Toronto core. Initial equity investment $1.08M CAD with 25-year structural depreciation schedule."
+      }
     },
     {
       "id": "prop-2",
@@ -26,7 +36,18 @@
       "units_count": 64,
       "status": "Active",
       "created_at": "2023-03-20T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "updated_at": "2026-08-01T00:00:00Z",
+      "acquisition": {
+        "acquisition_type": "Long-Term Lease",
+        "acquisition_date": "2023-03-20",
+        "total_acquisition_cost": 3330000,
+        "down_payment_or_deposit": 250000,
+        "lease_term_years": 15,
+        "monthly_lease_cost": 18500,
+        "amortization_period_years": 15,
+        "annual_depreciation_or_amort": 222000,
+        "notes": "15-Year Institutional Master Lease with option to renew. Monthly master lease disbursement of $18,500 CAD to asset owner."
+      }
     },
     {
       "id": "prop-3",
@@ -39,7 +60,17 @@
       "units_count": 34,
       "status": "Active",
       "created_at": "2023-06-10T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "updated_at": "2026-08-01T00:00:00Z",
+      "acquisition": {
+        "acquisition_type": "Outright Purchase",
+        "acquisition_date": "2023-06-10",
+        "total_acquisition_cost": 3200000,
+        "down_payment_or_deposit": 640000,
+        "amortization_period_years": 25,
+        "annual_depreciation_or_amort": 128000,
+        "interest_rate_percent": 4.65,
+        "notes": "Heritage brick-and-beam loft multi-family asset purchased outright. Initial cash equity of $640k CAD."
+      }
     },
     {
       "id": "prop-4",
@@ -52,7 +83,18 @@
       "units_count": 40,
       "status": "Active",
       "created_at": "2023-09-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "updated_at": "2026-08-01T00:00:00Z",
+      "acquisition": {
+        "acquisition_type": "Long-Term Lease",
+        "acquisition_date": "2023-09-01",
+        "total_acquisition_cost": 1500000,
+        "down_payment_or_deposit": 140000,
+        "lease_term_years": 10,
+        "monthly_lease_cost": 12500,
+        "amortization_period_years": 10,
+        "annual_depreciation_or_amort": 150000,
+        "notes": "10-Year Master Lease agreement for Ottawa executive suites. $12,500 CAD monthly ground lease obligations."
+      }
     }
   ],
   "units": [

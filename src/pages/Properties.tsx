@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, DollarSign, Plus } from 'lucide-react';
+import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, DollarSign, Plus, Landmark, Clock } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { Property } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
@@ -24,8 +24,8 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Properties Portfolio & Financial Yield</h1>
-          <p className="text-sm text-slate-500">Manage Canadian residential real estate assets, operational costs & profit margins</p>
+          <h1 className="text-2xl font-bold text-slate-900">Properties Portfolio & Asset Yield</h1>
+          <p className="text-sm text-slate-500">Manage Canadian real estate assets, acquisition structures (outright vs lease) & break-even horizons</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -74,8 +74,19 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
           const propExpenses = (dbState.expenses || []).filter(e => e.property_id === property.id);
           const totalExpenses = propExpenses.reduce((acc, e) => acc + e.amount, 0);
           const monthlyRevenue = propUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + u.monthly_rent, 0);
-          const netOperatingIncome = monthlyRevenue - totalExpenses;
+          
+          const masterLeaseMonthly = property.acquisition?.acquisition_type === 'Long-Term Lease'
+            ? (property.acquisition.monthly_lease_cost || 0)
+            : 0;
+
+          const netOperatingIncome = monthlyRevenue - totalExpenses - masterLeaseMonthly;
           const margin = monthlyRevenue > 0 ? Math.round((netOperatingIncome / monthlyRevenue) * 100) : 0;
+
+          // Break-Even Metrics
+          const acq = property.acquisition;
+          const initialOutlay = acq?.down_payment_or_deposit || 0;
+          const annualNet = netOperatingIncome * 12;
+          const breakEvenYears = annualNet > 0 && initialOutlay > 0 ? (initialOutlay / annualNet).toFixed(1) : null;
 
           return (
             <div
@@ -85,12 +96,18 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-[11px] font-bold text-brand-700 bg-brand-50 border border-brand-200/60 px-2 py-0.5 rounded uppercase">
                       {property.property_type}
                     </span>
+                    {acq && (
+                      <span className="text-[11px] font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded flex items-center gap-1">
+                        {acq.acquisition_type === 'Outright Purchase' ? <Landmark className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                        {acq.acquisition_type}
+                      </span>
+                    )}
                     <span className={`text-[11px] font-extrabold px-2 py-0.5 rounded ${margin >= 50 ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}`}>
-                      {margin}% Profit Margin
+                      {margin}% Margin
                     </span>
                   </div>
                   <h3 className="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
@@ -118,20 +135,24 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
                   <span className="text-sm font-extrabold text-emerald-600">${monthlyRevenue.toLocaleString()}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">Expenses</span>
-                  <span className="text-sm font-extrabold text-rose-600">-${totalExpenses.toFixed(0)}</span>
+                  <span className="text-slate-500 font-medium block">Net NOI / Mo</span>
+                  <span className="text-sm font-extrabold text-brand-700">${netOperatingIncome.toFixed(0)}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">Net NOI</span>
-                  <span className="text-sm font-extrabold text-brand-700">${netOperatingIncome.toFixed(0)}</span>
+                  <span className="text-slate-500 font-medium block">Break-Even</span>
+                  <span className="text-sm font-extrabold text-amber-700">
+                    {breakEvenYears ? `${breakEvenYears} Yrs` : 'N/A'}
+                  </span>
                 </div>
               </div>
 
               <div className="pt-2 flex items-center justify-between text-xs text-slate-500 font-medium border-t border-slate-100">
                 <span className="text-brand-600 font-semibold group-hover:underline flex items-center gap-1">
-                  View Unit Economics & Expenses <ChevronRight className="w-3.5 h-3.5" />
+                  View Amortization & Unit Economics <ChevronRight className="w-3.5 h-3.5" />
                 </span>
-                <span className="text-[11px] text-slate-400">{propExpenses.length} expense entries</span>
+                <span className="text-[11px] text-slate-400">
+                  {acq ? `Initial Cash: $${(acq.down_payment_or_deposit / 1000).toFixed(0)}k CAD` : ''}
+                </span>
               </div>
             </div>
           );

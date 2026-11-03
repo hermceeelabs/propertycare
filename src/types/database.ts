@@ -1,5 +1,19 @@
 export type PropertyType = 'Multi-Family' | 'Condominium' | 'Commercial' | 'Townhome' | 'Single-Family';
 export type PropertyStatus = 'Active' | 'Under Maintenance' | 'Inactive';
+export type AcquisitionType = 'Outright Purchase' | 'Long-Term Lease' | 'Financed / Mortgage';
+
+export interface PropertyAcquisition {
+  acquisition_type: AcquisitionType;
+  acquisition_date: string;
+  total_acquisition_cost: number;
+  down_payment_or_deposit: number;
+  lease_term_years?: number;
+  monthly_lease_cost?: number;
+  amortization_period_years: number;
+  annual_depreciation_or_amort: number;
+  interest_rate_percent?: number;
+  notes?: string;
+}
 
 export interface Property {
   id: string;
@@ -11,6 +25,7 @@ export interface Property {
   property_type: PropertyType;
   units_count: number;
   status: PropertyStatus;
+  acquisition?: PropertyAcquisition;
   created_at: string;
   updated_at: string;
 }

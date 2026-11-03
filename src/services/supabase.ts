@@ -22,7 +22,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'e
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v2';
+const STORAGE_KEY = 'propertyflow_db_v3';
 
 export interface DatabaseState {
   properties: Property[];
@@ -275,6 +275,13 @@ class StoreManager {
 
   addApplicant(applicant: TenantApplicant) {
     this.state.applicants.unshift(applicant);
+    this.saveState();
+  }
+
+  updatePropertyAcquisition(propertyId: string, acquisition: any) {
+    this.state.properties = this.state.properties.map(p => 
+      p.id === propertyId ? { ...p, acquisition, updated_at: new Date().toISOString() } : p
+    );
     this.saveState();
   }
 

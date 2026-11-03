@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Building2, MapPin, Home, Users, FileText, CreditCard, Wrench, Receipt, History, TrendingUp, Plus, Trash2 } from 'lucide-react';
+import {
+  ArrowLeft, Building2, MapPin, Home, Users, FileText,
+  CreditCard, Wrench, Receipt, History, TrendingUp, Plus,
+  Trash2, Landmark, Clock, Calendar, CheckCircle2, AlertCircle, ArrowUpRight, Sliders
+} from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
+import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
 
 interface PropertyDetailProps {
   propertyId: string;
@@ -14,8 +19,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   dbState,
   onBack
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'financials' | 'units' | 'tenants' | 'leases' | 'payments' | 'maintenance' | 'bills' | 'activity'>('financials');
+  const [activeTab, setActiveTab] = useState<'financials' | 'asset' | 'overview' | 'units' | 'tenants' | 'leases' | 'payments' | 'maintenance' | 'bills' | 'activity'>('financials');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const [isEditAcquisitionOpen, setIsEditAcquisitionOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
 
   const property = dbState.properties.find(p => p.id === propertyId);
@@ -41,18 +47,52 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const expenses = (dbState.expenses || []).filter(e => e.property_id === propertyId);
 
   // Financial Calculations for entire property
-  const grossMonthlyRentPotential = units.reduce((acc, u) => acc + u.monthly_rent, 0);
   const occupiedUnits = units.filter(u => u.status === 'Occupied');
   const actualMonthlyRent = occupiedUnits.reduce((acc, u) => acc + u.monthly_rent, 0);
   const totalPropertyExpenses = expenses.reduce((acc, e) => acc + e.amount, 0);
-  const propertyNetOperatingIncome = actualMonthlyRent - totalPropertyExpenses;
+
+  // Master Lease monthly deduction if applicable
+  const monthlyMasterLeaseFee = property.acquisition?.acquisition_type === 'Long-Term Lease'
+    ? (property.acquisition.monthly_lease_cost || 0)
+    : 0;
+
+  const propertyNetOperatingIncome = actualMonthlyRent - totalPropertyExpenses - monthlyMasterLeaseFee;
   const propertyProfitMargin = actualMonthlyRent > 0
     ? Math.round((propertyNetOperatingIncome / actualMonthlyRent) * 100)
     : 0;
 
+  // Asset Management & Break-Even Metrics
+  const acquisition = property.acquisition || {
+    acquisition_type: 'Outright Purchase' as const,
+    acquisition_date: property.created_at.split('T')[0],
+    total_acquisition_cost: 5000000,
+    down_payment_or_deposit: 1000000,
+    amortization_period_years: 25,
+    annual_depreciation_or_amort: 200000,
+    interest_rate_percent: 4.85
+  };
+
+  const initialCashOutlay = acquisition.down_payment_or_deposit;
+  const annualNetCashFlow = propertyNetOperatingIncome * 12;
+  const breakEvenYears = annualNetCashFlow > 0 ? (initialCashOutlay / annualNetCashFlow) : 999;
+  const breakEvenMonths = annualNetCashFlow > 0 ? Math.round(breakEvenYears * 12) : 0;
+
+  // Approximate time elapsed since acquisition
+  const acquisitionYear = new Date(acquisition.acquisition_date).getFullYear();
+  const currentYear = 2026;
+  const yearsElapsed = Math.max(0, currentYear - acquisitionYear);
+  const capitalRecoveredSoFar = Math.min(initialCashOutlay, Math.max(0, annualNetCashFlow * yearsElapsed));
+  const recoveryProgressPercent = initialCashOutlay > 0
+    ? Math.min(100, Math.round((capitalRecoveredSoFar / initialCashOutlay) * 100))
+    : 100;
+
+  // 10-Year Amortization Schedule Projection
+  const annualAmortization = acquisition.annual_depreciation_or_amort;
+  const scheduleYears = Array.from({ length: 10 }, (_, i) => acquisitionYear + i);
+
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Back Button */}
+      {/* Back Button & Action Controls */}
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
@@ -61,23 +101,36 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
           <ArrowLeft className="w-4 h-4" /> Back to Properties
         </button>
 
-        <button
-          onClick={() => {
-            setSelectedUnitForExpense(undefined);
-            setIsAddExpenseOpen(true);
-          }}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
-        >
-          <Plus className="w-4 h-4" /> Record New Expense
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsEditAcquisitionOpen(true)}
+            className="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+          >
+            <Sliders className="w-4 h-4 text-brand-600" /> Edit Asset Terms
+          </button>
+
+          <button
+            onClick={() => {
+              setSelectedUnitForExpense(undefined);
+              setIsAddExpenseOpen(true);
+            }}
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+          >
+            <Plus className="w-4 h-4" /> Record New Expense
+          </button>
+        </div>
       </div>
 
-      {/* Property Title Card */}
+      {/* Property Title Card with Acquisition Metadata */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded border border-brand-200">
               {property.property_type}
+            </span>
+            <span className="text-xs font-bold bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
+              <Landmark className="w-3.5 h-3.5" />
+              {acquisition.acquisition_type}: ${(acquisition.total_acquisition_cost / 1000000).toFixed(2)}M CAD
             </span>
             <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
               {property.status}
@@ -92,7 +145,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
         <div className="flex items-center gap-6 text-center border-t md:border-t-0 md:border-l border-slate-200 pt-4 md:pt-0 md:pl-6">
           <div>
-            <span className="text-xs text-slate-500 block font-medium">Units</span>
+            <span className="text-xs text-slate-500 block font-medium">Suites</span>
             <span className="text-xl font-extrabold text-slate-900">{units.length}</span>
           </div>
           <div>
@@ -102,7 +155,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             </span>
           </div>
           <div>
-            <span className="text-xs text-slate-500 block font-medium">Monthly Revenue</span>
+            <span className="text-xs text-slate-500 block font-medium">Monthly Inflow</span>
             <span className="text-xl font-extrabold text-slate-900">
               ${actualMonthlyRent.toLocaleString()} CAD
             </span>
@@ -120,6 +173,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
       <div className="flex items-center gap-1 border-b border-slate-200 overflow-x-auto pb-px">
         {[
           { id: 'financials', label: 'Unit Economics & Profit', icon: TrendingUp },
+          { id: 'asset', label: 'Asset Management & Amortization', icon: Landmark },
           { id: 'overview', label: 'Overview', icon: Building2 },
           { id: 'units', label: `Units (${units.length})`, icon: Home },
           { id: 'tenants', label: `Tenants (${tenants.length})`, icon: Users },
@@ -149,6 +203,189 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
       {/* Tab Contents */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+        {/* ASSET MANAGEMENT & AMORTIZATION TAB */}
+        {activeTab === 'asset' && (
+          <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Asset Capitalization, Amortization & Break-Even Horizon</h3>
+                <p className="text-xs text-slate-500">Track capital recovery on acquisition equity vs operational cash yields</p>
+              </div>
+
+              <button
+                onClick={() => setIsEditAcquisitionOpen(true)}
+                className="px-3.5 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 self-start sm:self-auto"
+              >
+                <Sliders className="w-3.5 h-3.5" /> Adjust Acquisition Structure
+              </button>
+            </div>
+
+            {/* Top Asset KPI Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <span className="text-xs text-slate-500 font-semibold block uppercase">Acquisition Capital</span>
+                <span className="text-xl font-extrabold text-slate-900">${acquisition.total_acquisition_cost.toLocaleString()} CAD</span>
+                <span className="text-[11px] text-brand-700 font-medium block mt-1">
+                  {acquisition.acquisition_type} • {acquisition.acquisition_date}
+                </span>
+              </div>
+
+              <div className="p-4 bg-purple-50/50 rounded-xl border border-purple-200">
+                <span className="text-xs text-purple-900 font-semibold block uppercase">Initial Cash Outlay</span>
+                <span className="text-xl font-extrabold text-purple-800">${initialCashOutlay.toLocaleString()} CAD</span>
+                <span className="text-[11px] text-purple-600 block mt-1">
+                  {acquisition.acquisition_type === 'Outright Purchase' ? 'Equity Down Payment' : 'Upfront Deposit & Capex'}
+                </span>
+              </div>
+
+              <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
+                <span className="text-xs text-emerald-900 font-semibold block uppercase">Annual Net Cash Flow</span>
+                <span className="text-xl font-extrabold text-emerald-700">${annualNetCashFlow.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD / yr</span>
+                <span className="text-[11px] text-emerald-600 block mt-1">
+                  ${propertyNetOperatingIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD / mo net yield
+                </span>
+              </div>
+
+              <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
+                <span className="text-xs text-amber-900 font-semibold block uppercase">Break-Even Horizon</span>
+                <span className="text-xl font-extrabold text-amber-800">
+                  {annualNetCashFlow > 0 ? `${breakEvenYears.toFixed(1)} Years` : 'N/A (Deficit)'}
+                </span>
+                <span className="text-[11px] text-amber-700 block mt-1">
+                  {annualNetCashFlow > 0 ? `~${breakEvenMonths} operational months` : 'Requires cash flow review'}
+                </span>
+              </div>
+            </div>
+
+            {/* Break-Even Progress Bar */}
+            <div className="p-5 bg-gradient-to-r from-slate-50 to-blue-50/40 rounded-2xl border border-slate-200 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <div>
+                  <span className="font-extrabold text-slate-900 text-sm">Capital Payback & Break-Even Progress</span>
+                  <p className="text-slate-500 text-[11px]">Cumulative operational net income recovered against initial cash investment</p>
+                </div>
+                <div className="text-right">
+                  <span className="font-extrabold text-brand-700 text-sm">{recoveryProgressPercent}% Recovered</span>
+                  <span className="block text-[11px] text-slate-500">
+                    ${capitalRecoveredSoFar.toLocaleString()} of ${initialCashOutlay.toLocaleString()} CAD
+                  </span>
+                </div>
+              </div>
+
+              <div className="w-full bg-slate-200 h-3.5 rounded-full overflow-hidden p-0.5">
+                <div
+                  className="bg-brand-600 h-full rounded-full transition-all duration-500 ease-out flex items-center justify-end pr-1 text-[9px] font-bold text-white"
+                  style={{ width: `${Math.max(5, recoveryProgressPercent)}%` }}
+                >
+                  {recoveryProgressPercent > 15 ? `${recoveryProgressPercent}%` : ''}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+                <span>Acquired: {acquisition.acquisition_date}</span>
+                <span>
+                  Estimated Break-Even Date:{' '}
+                  <strong className="text-slate-800">
+                    {annualNetCashFlow > 0 ? `${Math.round(acquisitionYear + breakEvenYears)} (approx)` : 'Pending positive cash flow'}
+                  </strong>
+                </span>
+                <span>Amortization Term: {acquisition.amortization_period_years} Years</span>
+              </div>
+            </div>
+
+            {/* Year-by-Year Amortization & Cash Flow Table */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider">
+                    Year-by-Year Amortization Schedule & Cumulative Return
+                  </h4>
+                  <p className="text-xs text-slate-500">Straight-line capital depreciation vs projected cash flow yield</p>
+                </div>
+                <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">
+                  Annual Write-Off: ${annualAmortization.toLocaleString()} CAD/yr
+                </span>
+              </div>
+
+              <div className="overflow-x-auto border border-slate-200 rounded-xl">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
+                      <th className="p-3.5">Fiscal Year</th>
+                      <th className="p-3.5">Gross Revenue</th>
+                      <th className="p-3.5">Operating Costs</th>
+                      {acquisition.acquisition_type === 'Long-Term Lease' && (
+                        <th className="p-3.5">Master Lease Fee</th>
+                      )}
+                      <th className="p-3.5">Net Cash Flow</th>
+                      <th className="p-3.5">Annual Amortization</th>
+                      <th className="p-3.5">Remaining Book Value</th>
+                      <th className="p-3.5 text-right">Cumulative Net Return</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {scheduleYears.map((yr, idx) => {
+                      const yearIndex = idx + 1;
+                      const projectedRevenue = actualMonthlyRent * 12;
+                      const projectedExpenses = totalPropertyExpenses * 12;
+                      const masterLeaseAnnual = monthlyMasterLeaseFee * 12;
+                      const netCash = annualNetCashFlow;
+                      const cumulativeNet = netCash * yearIndex;
+                      const remainingBookVal = Math.max(0, acquisition.total_acquisition_cost - (annualAmortization * yearIndex));
+                      const isBreakEvenReached = cumulativeNet >= initialCashOutlay;
+
+                      return (
+                        <tr key={yr} className={`hover:bg-slate-50/80 transition-colors ${yr === currentYear ? 'bg-brand-50/40 font-semibold' : ''}`}>
+                          <td className="p-3.5 font-bold text-slate-900">
+                            Year {yearIndex} ({yr})
+                            {yr === currentYear && (
+                              <span className="ml-2 text-[10px] font-extrabold text-brand-700 bg-brand-100 px-1.5 py-0.5 rounded">
+                                Current
+                              </span>
+                            )}
+                          </td>
+                          <td className="p-3.5 text-slate-800">${projectedRevenue.toLocaleString()} CAD</td>
+                          <td className="p-3.5 text-rose-600">-${projectedExpenses.toLocaleString()} CAD</td>
+                          {acquisition.acquisition_type === 'Long-Term Lease' && (
+                            <td className="p-3.5 text-amber-700 font-medium">-${masterLeaseAnnual.toLocaleString()} CAD</td>
+                          )}
+                          <td className="p-3.5 font-bold text-emerald-600">
+                            +${netCash.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD
+                          </td>
+                          <td className="p-3.5 text-purple-700 font-medium">
+                            ${annualAmortization.toLocaleString()} CAD
+                          </td>
+                          <td className="p-3.5 text-slate-600 font-medium">
+                            ${remainingBookVal.toLocaleString()} CAD
+                          </td>
+                          <td className="p-3.5 text-right font-extrabold">
+                            <span className={cumulativeNet >= initialCashOutlay ? 'text-emerald-700' : 'text-slate-700'}>
+                              ${cumulativeNet.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD
+                            </span>
+                            {isBreakEvenReached && (
+                              <span className="block text-[10px] text-emerald-600 font-bold">
+                                ✓ Capital Recovered
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Contract Terms Details */}
+            {acquisition.notes && (
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+                <span className="font-bold text-slate-700 block">Acquisition & Lease Agreement Details</span>
+                <p className="text-slate-600">{acquisition.notes}</p>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* FINANCIALS & UNIT ECONOMICS TAB */}
         {activeTab === 'financials' && (
           <div className="space-y-6">
@@ -179,9 +416,11 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
               <div className="p-4 bg-rose-50/50 rounded-xl border border-rose-200">
                 <span className="text-xs text-rose-800 font-medium block">Total Operating Outflow</span>
-                <span className="text-xl font-extrabold text-rose-700">${totalPropertyExpenses.toLocaleString(undefined, { minimumFractionDigits: 2 })} CAD</span>
+                <span className="text-xl font-extrabold text-rose-700">
+                  ${(totalPropertyExpenses + monthlyMasterLeaseFee).toLocaleString(undefined, { minimumFractionDigits: 2 })} CAD
+                </span>
                 <span className="text-[11px] text-rose-600 block mt-1">
-                  {expenses.filter(e => e.scope === 'Unit').length} unit + {expenses.filter(e => e.scope === 'Property').length} building expenses
+                  {monthlyMasterLeaseFee > 0 ? `Includes $${monthlyMasterLeaseFee.toLocaleString()} master lease fee` : `${expenses.length} operating expenses logged`}
                 </span>
               </div>
 
@@ -225,7 +464,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     // Property-wide shared costs distributed proportionally across units
                     const propertyWideExpenses = expenses.filter(e => e.scope === 'Property');
                     const sharedPropertyCostPerUnit = units.length > 0
-                      ? propertyWideExpenses.reduce((acc, e) => acc + e.amount, 0) / units.length
+                      ? (propertyWideExpenses.reduce((acc, e) => acc + e.amount, 0) + monthlyMasterLeaseFee) / units.length
                       : 0;
 
                     const totalCostForUnit = unitDirectTotal + sharedPropertyCostPerUnit;
@@ -346,7 +585,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         {activeTab === 'overview' && (
           <div className="space-y-6">
             <h3 className="font-bold text-slate-900 text-sm">Asset Management Summary</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-semibold block">Primary City</span>
                 <span className="text-base font-extrabold text-slate-900">{property.city}, Ontario</span>
@@ -354,6 +593,10 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-semibold block">Property Class</span>
                 <span className="text-base font-extrabold text-slate-900">{property.property_type}</span>
+              </div>
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <span className="text-xs text-slate-500 font-semibold block">Acquisition Type</span>
+                <span className="text-base font-extrabold text-brand-700">{acquisition.acquisition_type}</span>
               </div>
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-semibold block">Created Date</span>
@@ -492,6 +735,13 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         dbState={dbState}
         defaultPropertyId={propertyId}
         defaultUnitId={selectedUnitForExpense}
+      />
+
+      {/* Edit Acquisition Modal */}
+      <EditAcquisitionModal
+        isOpen={isEditAcquisitionOpen}
+        onClose={() => setIsEditAcquisitionOpen(false)}
+        property={property}
       />
     </div>
   );

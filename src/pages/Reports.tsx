@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, TrendingUp, PieChart, Building2, Wrench, ShieldCheck, DollarSign, ArrowUpRight } from 'lucide-react';
+import { BarChart3, TrendingUp, PieChart, Building2, Wrench, ShieldCheck, DollarSign, ArrowUpRight, Landmark, Clock } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart as RePieChart, Pie, Cell } from 'recharts';
 import { DatabaseState } from '../services/supabase';
 
@@ -15,18 +15,33 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   });
   const maintenanceData = Object.entries(maintenanceCatCounts).map(([name, value]) => ({ name, value }));
 
-  // Property Revenue vs Expense vs Net Profit
+  // Property Revenue vs Expense vs Master Lease vs Net Profit
   const propertyProfitData = dbState.properties.map(p => {
     const pUnits = dbState.units.filter(u => u.property_id === p.id);
     const revenue = pUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + u.monthly_rent, 0);
     const pExpenses = (dbState.expenses || []).filter(e => e.property_id === p.id);
-    const expense = pExpenses.reduce((acc, e) => acc + e.amount, 0);
-    const netProfit = revenue - expense;
+    const operatingExpense = pExpenses.reduce((acc, e) => acc + e.amount, 0);
+    const masterLeaseMonthly = p.acquisition?.acquisition_type === 'Long-Term Lease'
+      ? (p.acquisition.monthly_lease_cost || 0)
+      : 0;
+
+    const totalCost = operatingExpense + masterLeaseMonthly;
+    const netProfit = revenue - totalCost;
+
+    // Capital & Break-even calculations
+    const initialOutlay = p.acquisition?.down_payment_or_deposit || 0;
+    const annualNet = netProfit * 12;
+    const breakEvenYears = annualNet > 0 && initialOutlay > 0 ? (initialOutlay / annualNet) : 0;
+
     return {
       name: p.name.split(' ')[0],
+      fullName: p.name,
+      acquisitionType: p.acquisition?.acquisition_type || 'Outright Purchase',
+      initialEquity: initialOutlay,
       Revenue: revenue,
-      Expenses: Math.round(expense),
-      Profit: Math.round(netProfit)
+      Expenses: Math.round(totalCost),
+      Profit: Math.round(netProfit),
+      breakEvenYears: parseFloat(breakEvenYears.toFixed(1))
     };
   });
 
@@ -47,8 +62,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Analytics, Unit Economics & Financial Yields</h1>
-        <p className="text-sm text-slate-500">Portfolio cash flow, gross rent collections, operating expenses, and net profit margins</p>
+        <h1 className="text-2xl font-bold text-slate-900">Portfolio Analytics, Asset Capitalization & Yields</h1>
+        <p className="text-sm text-slate-500">Gross rent inflows, operational expenditure, master lease obligations, and capital break-even horizons</p>
       </div>
 
       {/* Summary Stats */}
@@ -58,7 +73,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
           <span className="text-2xl font-extrabold text-slate-900">${totalRevenue.toLocaleString()} CAD</span>
         </div>
         <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/40 shadow-xs">
-          <span className="text-xs text-rose-800 font-semibold block uppercase">Total Operating Expenses</span>
+          <span className="text-xs text-rose-800 font-semibold block uppercase">Total Operating & Lease Costs</span>
           <span className="text-2xl font-extrabold text-rose-700">-${totalExpenses.toLocaleString()} CAD</span>
         </div>
         <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 shadow-xs">
@@ -71,11 +86,48 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
         </div>
       </div>
 
+      {/* Asset Capitalization & Break-Even Comparison Card */}
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <Landmark className="w-4 h-4 text-purple-600" /> Asset Acquisition Structure & Capital Break-Even Matrix
+          </h3>
+          <span className="text-xs text-slate-400">Comparing Outright Purchases vs Institutional Master Leases</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+          {propertyProfitData.map((p, idx) => (
+            <div key={idx} className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-extrabold text-slate-900 text-sm">{p.fullName}</span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-800">
+                  {p.acquisitionType}
+                </span>
+              </div>
+              <div className="text-xs space-y-1 text-slate-600">
+                <div className="flex justify-between">
+                  <span>Initial Cash Outlay:</span>
+                  <strong className="text-slate-900">${(p.initialEquity / 1000).toFixed(0)}k CAD</strong>
+                </div>
+                <div className="flex justify-between">
+                  <span>Monthly Net Income:</span>
+                  <strong className="text-emerald-600">${p.Profit.toLocaleString()} CAD</strong>
+                </div>
+                <div className="flex justify-between pt-1 border-t border-slate-200">
+                  <span>Est. Break-Even:</span>
+                  <strong className="text-amber-800 font-bold">{p.breakEvenYears} Years</strong>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Chart 1: Revenue vs Expenses vs Profit by Property */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
           <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-brand-600" /> Revenue vs Expenses vs Profit by Property (CAD)
+            <Building2 className="w-4 h-4 text-brand-600" /> Revenue vs Total Costs vs Profit by Property (CAD)
           </h3>
           <div className="h-64 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
@@ -94,8 +146,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             </ResponsiveContainer>
           </div>
           <div className="flex items-center justify-center gap-6 text-xs font-semibold pt-2">
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-blue-600"></span> Gross Revenue</span>
-            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-rose-500"></span> Operating Expenses</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-blue-600"></span> Gross Inflow</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-rose-500"></span> Total Outflow</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500"></span> Net Profit</span>
           </div>
         </div>
