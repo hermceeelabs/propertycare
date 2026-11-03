@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar, NavTab } from './components/Sidebar';
 import { Header } from './components/Header';
 import { EmailPreviewModal } from './components/EmailPreviewModal';
+import { CurrencyProvider } from './context/CurrencyContext';
 
 import { store, DatabaseState } from './services/supabase';
 import { Communication } from './types/database';
@@ -12,7 +13,6 @@ import { PropertyDetailPage } from './pages/PropertyDetail';
 import { UnitsPage } from './pages/Units';
 import { TenantsPage } from './pages/Tenants';
 import { TenantDetailPage } from './pages/TenantDetail';
-import { ScreeningPage } from './pages/Screening';
 import { LeasesPage } from './pages/Leases';
 import { PaymentsPage } from './pages/Payments';
 import { MaintenancePage } from './pages/Maintenance';
@@ -62,144 +62,145 @@ export function App() {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-900 font-sans antialiased overflow-hidden">
-      {/* Persistent Desktop Sidebar */}
-      <Sidebar
-        currentTab={currentTab}
-        onTabChange={handleNavigate}
-        pendingTasksCount={pendingTasksCount}
-      />
-
-      {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Header
-          dbState={dbState}
-          onNavigate={handleNavigate}
+    <CurrencyProvider>
+      <div className="flex h-screen bg-slate-50 text-slate-900 font-sans antialiased overflow-hidden">
+        {/* Persistent Desktop Sidebar */}
+        <Sidebar
+          currentTab={currentTab}
+          onTabChange={handleNavigate}
           pendingTasksCount={pendingTasksCount}
         />
 
-        <main className="flex-1 overflow-y-auto bg-slate-50">
-          {currentTab === 'dashboard' && (
-            <Dashboard
-              dbState={dbState}
-              onNavigate={handleNavigate}
-            />
-          )}
+        {/* Main Workspace Area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          <Header
+            dbState={dbState}
+            onNavigate={handleNavigate}
+            pendingTasksCount={pendingTasksCount}
+          />
 
-          {currentTab === 'properties' && (
-            selectedPropertyId ? (
-              <PropertyDetailPage
-                propertyId={selectedPropertyId}
+          <main className="flex-1 overflow-y-auto bg-slate-50">
+            {currentTab === 'dashboard' && (
+              <Dashboard
                 dbState={dbState}
-                onBack={() => setSelectedPropertyId(null)}
+                onNavigate={handleNavigate}
               />
-            ) : (
-              <PropertiesPage
+            )}
+
+            {currentTab === 'properties' && (
+              selectedPropertyId ? (
+                <PropertyDetailPage
+                  propertyId={selectedPropertyId}
+                  dbState={dbState}
+                  onBack={() => setSelectedPropertyId(null)}
+                />
+              ) : (
+                <PropertiesPage
+                  dbState={dbState}
+                  onSelectProperty={handleSelectProperty}
+                />
+              )
+            )}
+
+            {currentTab === 'units' && (
+              <UnitsPage dbState={dbState} />
+            )}
+
+            {currentTab === 'tenants' && (
+              selectedTenantId ? (
+                <TenantDetailPage
+                  tenantId={selectedTenantId}
+                  dbState={dbState}
+                  onBack={() => setSelectedTenantId(null)}
+                  onPreviewEmail={handlePreviewEmailById}
+                />
+              ) : (
+                <TenantsPage
+                  dbState={dbState}
+                  onSelectTenant={handleSelectTenant}
+                />
+              )
+            )}
+
+            {currentTab === 'leases' && (
+              <LeasesPage
                 dbState={dbState}
-                onSelectProperty={handleSelectProperty}
+                onNavigateToCommunications={() => handleNavigate('communications')}
+                onNavigateToLogs={() => handleNavigate('logs')}
               />
-            )
-          )}
+            )}
 
-          {currentTab === 'units' && (
-            <UnitsPage dbState={dbState} />
-          )}
-
-          {currentTab === 'tenants' && (
-            selectedTenantId ? (
-              <TenantDetailPage
-                tenantId={selectedTenantId}
+            {currentTab === 'payments' && (
+              <PaymentsPage
                 dbState={dbState}
-                onBack={() => setSelectedTenantId(null)}
-                onPreviewEmail={handlePreviewEmailById}
+                onNavigateToCommunications={() => handleNavigate('communications')}
+                onNavigateToLogs={() => handleNavigate('logs')}
               />
-            ) : (
-              <TenantsPage
+            )}
+
+            {currentTab === 'maintenance' && (
+              <MaintenancePage
                 dbState={dbState}
-                onSelectTenant={handleSelectTenant}
+                onNavigateToCommunications={() => handleNavigate('communications')}
+                onNavigateToLogs={() => handleNavigate('logs')}
               />
-            )
-          )}
+            )}
 
-          {currentTab === 'screening' && (
-            <ScreeningPage dbState={dbState} />
-          )}
+            {currentTab === 'vendors' && (
+              <VendorsPage dbState={dbState} />
+            )}
 
-          {currentTab === 'leases' && (
-            <LeasesPage
-              dbState={dbState}
-              onNavigateToCommunications={() => handleNavigate('communications')}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
-          )}
+            {currentTab === 'bills' && (
+              <BillsPage
+                dbState={dbState}
+                onNavigateToLogs={() => handleNavigate('logs')}
+              />
+            )}
 
-          {currentTab === 'payments' && (
-            <PaymentsPage
-              dbState={dbState}
-              onNavigateToCommunications={() => handleNavigate('communications')}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
-          )}
+            {currentTab === 'notices' && (
+              <NoticesPage
+                dbState={dbState}
+                onNavigateToLogs={() => handleNavigate('logs')}
+                onNavigateToCommunications={() => handleNavigate('communications')}
+              />
+            )}
 
-          {currentTab === 'maintenance' && (
-            <MaintenancePage
-              dbState={dbState}
-              onNavigateToCommunications={() => handleNavigate('communications')}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
-          )}
+            {currentTab === 'communications' && (
+              <CommunicationsPage
+                dbState={dbState}
+                onPreviewEmail={setPreviewComm}
+              />
+            )}
 
-          {currentTab === 'vendors' && (
-            <VendorsPage dbState={dbState} />
-          )}
+            {currentTab === 'automations' && (
+              <AutomationsPage
+                dbState={dbState}
+                onNavigateToLogs={() => handleNavigate('logs')}
+              />
+            )}
 
-          {currentTab === 'bills' && (
-            <BillsPage
-              dbState={dbState}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
-          )}
+            {currentTab === 'logs' && (
+              <AutomationLogsPage dbState={dbState} />
+            )}
 
-          {currentTab === 'notices' && (
-            <NoticesPage dbState={dbState} />
-          )}
+            {currentTab === 'reports' && (
+              <ReportsPage dbState={dbState} />
+            )}
 
-          {currentTab === 'communications' && (
-            <CommunicationsPage
-              dbState={dbState}
-              onPreviewEmail={(comm) => setPreviewComm(comm)}
-            />
-          )}
+            {currentTab === 'settings' && (
+              <SettingsPage dbState={dbState} />
+            )}
+          </main>
+        </div>
 
-          {currentTab === 'automations' && (
-            <AutomationsPage
-              dbState={dbState}
-              onNavigateToLogs={() => handleNavigate('logs')}
-              onNavigateToCommunications={() => handleNavigate('communications')}
-            />
-          )}
-
-          {currentTab === 'logs' && (
-            <AutomationLogsPage dbState={dbState} />
-          )}
-
-          {currentTab === 'reports' && (
-            <ReportsPage dbState={dbState} />
-          )}
-
-          {currentTab === 'settings' && (
-            <SettingsPage dbState={dbState} />
-          )}
-        </main>
+        {/* Global Rendered HTML Email Preview Modal */}
+        {previewComm && (
+          <EmailPreviewModal
+            communication={previewComm}
+            onClose={() => setPreviewComm(null)}
+          />
+        )}
       </div>
-
-      {/* Rendered HTML Email Preview Modal */}
-      <EmailPreviewModal
-        communication={previewComm}
-        onClose={() => setPreviewComm(null)}
-      />
-    </div>
+    </CurrencyProvider>
   );
 }
-
-export default App;

@@ -32,6 +32,25 @@ export interface Property {
 
 export type UnitStatus = 'Occupied' | 'Vacant' | 'Notice Given' | 'Maintenance' | 'Reserved';
 
+export type RentalModel = 'Long-Term' | 'Shortlet / STR' | 'Hybrid';
+
+export interface ShortletBooking {
+  id: string;
+  unit_id: string;
+  guest_name: string;
+  guest_email: string;
+  guest_phone: string;
+  check_in: string;
+  check_out: string;
+  nights_count: number;
+  nightly_rate: number;
+  cleaning_fee: number;
+  platform_source: 'Direct' | 'Airbnb' | 'VRBO' | 'Booking.com';
+  total_payout: number;
+  booking_status: 'Confirmed' | 'Checked In' | 'Completed' | 'Cancelled';
+  created_at: string;
+}
+
 export interface Unit {
   id: string;
   property_id: string;
@@ -41,6 +60,11 @@ export interface Unit {
   bathrooms: number;
   monthly_rent: number;
   status: UnitStatus;
+  rental_model?: RentalModel;
+  nightly_rate?: number;
+  cleaning_fee?: number;
+  minimum_stay_nights?: number;
+  current_occupancy_rate?: number;
   created_at: string;
   updated_at: string;
 }

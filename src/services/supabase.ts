@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import type {
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
-  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense
+  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense, ShortletBooking
 } from '../types/database';
 
 import {
@@ -22,7 +22,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'e
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v3';
+const STORAGE_KEY = 'propertyflow_db_v4';
 
 export interface DatabaseState {
   properties: Property[];
@@ -41,6 +41,7 @@ export interface DatabaseState {
   automation_logs: AutomationLog[];
   tasks: Task[];
   applicants: TenantApplicant[];
+  shortlet_bookings: ShortletBooking[];
 }
 
 function loadInitialState(): DatabaseState {
@@ -75,7 +76,8 @@ function loadInitialState(): DatabaseState {
       automation_runs: db.automation_runs || [],
       automation_logs: db.automation_logs || INITIAL_AUTOMATION_LOGS,
       tasks: db.tasks || INITIAL_TASKS,
-      applicants: db.applicants || INITIAL_APPLICANTS
+      applicants: db.applicants || INITIAL_APPLICANTS,
+      shortlet_bookings: db.shortlet_bookings || []
     };
   }
 
@@ -95,7 +97,8 @@ function loadInitialState(): DatabaseState {
     automation_runs: [],
     automation_logs: INITIAL_AUTOMATION_LOGS,
     tasks: INITIAL_TASKS,
-    applicants: INITIAL_APPLICANTS
+    applicants: INITIAL_APPLICANTS,
+    shortlet_bookings: []
   };
 }
 
@@ -138,7 +141,8 @@ class StoreManager {
       automation_runs: [],
       automation_logs: INITIAL_AUTOMATION_LOGS,
       tasks: INITIAL_TASKS,
-      applicants: INITIAL_APPLICANTS
+      applicants: INITIAL_APPLICANTS,
+      shortlet_bookings: []
     };
     this.saveState();
   }
@@ -171,7 +175,8 @@ class StoreManager {
           automation_runs: parsed.automation_runs || [],
           automation_logs: parsed.automation_logs || [],
           tasks: parsed.tasks || [],
-          applicants: parsed.applicants || []
+          applicants: parsed.applicants || [],
+          shortlet_bookings: parsed.shortlet_bookings || []
         };
         this.saveState();
         return true;
@@ -275,6 +280,17 @@ class StoreManager {
 
   addApplicant(applicant: TenantApplicant) {
     this.state.applicants.unshift(applicant);
+    this.saveState();
+  }
+
+  addShortletBooking(booking: ShortletBooking) {
+    if (!this.state.shortlet_bookings) this.state.shortlet_bookings = [];
+    this.state.shortlet_bookings.unshift(booking);
+    this.saveState();
+  }
+
+  updateUnit(unitId: string, updates: Partial<Unit>) {
+    this.state.units = this.state.units.map(u => u.id === unitId ? { ...u, ...updates, updated_at: new Date().toISOString() } : u);
     this.saveState();
   }
 
