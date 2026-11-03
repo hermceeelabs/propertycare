@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Users, Mail, Phone, Calendar, FileText, CreditCard, Wrench, Bell, CheckCircle2, History } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface TenantDetailProps {
   tenantId: string;
@@ -16,6 +17,7 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
   onPreviewEmail
 }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'lease' | 'payments' | 'maintenance' | 'communications' | 'notices' | 'timeline'>('overview');
+  const { formatMoney } = useCurrency();
 
   const tenant = dbState.tenants.find(t => t.id === tenantId);
   if (!tenant) {
@@ -41,9 +43,9 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
     { title: 'Tenant Profile Created', date: tenant.created_at.split('T')[0], type: 'System', desc: 'Registered in PropertyFlow PM database' },
     { title: 'Screening Completed', date: '2025-08-10', type: 'Screening', desc: 'Background & credit verification approved (Score: 765)' },
     { title: 'Lease Agreement Signed', date: lease?.start_date || '2025-09-01', type: 'Lease', desc: `Signed 1-year tenancy for ${property?.name} Unit ${unit?.unit_number}` },
-    { title: 'Security Deposit Paid', date: lease?.start_date || '2025-09-01', type: 'Financial', desc: `$${lease?.deposit.toFixed(2)} CAD held in escrow` },
+    { title: 'Security Deposit Paid', date: lease?.start_date || '2025-09-01', type: 'Financial', desc: `${formatMoney(lease?.deposit || 0)} held in escrow` },
     ...payments.map(p => ({
-      title: `Rent Payment Recorded ($${p.amount_paid.toFixed(2)} CAD)`,
+      title: `Rent Payment Recorded (${formatMoney(p.amount_paid)})`,
       date: p.payment_date || p.due_date,
       type: 'Financial',
       desc: `Status: ${p.status} for period ${p.due_date}`
@@ -137,8 +139,8 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
               <div className="space-y-2 text-xs">
                 <p><span className="text-slate-500 font-medium">Lease Start Date:</span> <strong className="text-slate-900">{lease?.start_date || 'N/A'}</strong></p>
                 <p><span className="text-slate-500 font-medium">Lease Expiration Date:</span> <strong className="text-slate-900">{lease?.end_date || 'N/A'}</strong></p>
-                <p><span className="text-slate-500 font-medium">Monthly Rent Amount:</span> <strong className="text-slate-900">${lease?.monthly_rent.toLocaleString()} CAD</strong></p>
-                <p><span className="text-slate-500 font-medium">Security Deposit:</span> <strong className="text-slate-900">${lease?.deposit.toLocaleString()} CAD</strong></p>
+                <p><span className="text-slate-500 font-medium">Monthly Rent Amount:</span> <strong className="text-slate-900">{formatMoney(lease?.monthly_rent || 0)}</strong></p>
+                <p><span className="text-slate-500 font-medium">Security Deposit:</span> <strong className="text-slate-900">{formatMoney(lease?.deposit || 0)}</strong></p>
               </div>
             </div>
 

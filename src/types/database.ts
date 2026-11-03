@@ -15,6 +15,8 @@ export interface PropertyAcquisition {
   notes?: string;
 }
 
+export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';
+
 export interface Property {
   id: string;
   name: string;

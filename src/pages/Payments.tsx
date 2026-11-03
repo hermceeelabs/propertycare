@@ -3,6 +3,7 @@ import { CreditCard, DollarSign, Play, AlertCircle, CheckCircle2, Search, Filter
 import { DatabaseState } from '../services/supabase';
 import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
 import { AutomationRunModal } from '../components/AutomationRunModal';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface PaymentsProps {
   dbState: DatabaseState;
@@ -18,6 +19,7 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const { formatMoney } = useCurrency();
 
   const totalExpected = dbState.payments.reduce((acc, p) => acc + p.amount_due, 0);
   const totalCollected = dbState.payments.reduce((acc, p) => acc + p.amount_paid, 0);
@@ -100,15 +102,15 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
           <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Expected Rent</span>
-          <span className="text-2xl font-extrabold text-stone-900">${totalExpected.toLocaleString()}</span>
+          <span className="text-2xl font-extrabold text-stone-900">{formatMoney(totalExpected)}</span>
         </div>
         <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
           <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Total Collected</span>
-          <span className="text-2xl font-extrabold text-emerald-700">${totalCollected.toLocaleString()}</span>
+          <span className="text-2xl font-extrabold text-emerald-700">{formatMoney(totalCollected)}</span>
         </div>
         <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
           <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Outstanding Balance</span>
-          <span className="text-2xl font-extrabold text-rose-700">${totalOutstanding.toLocaleString()}</span>
+          <span className="text-2xl font-extrabold text-rose-700">{formatMoney(totalOutstanding)}</span>
         </div>
         <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs">
           <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Overdue Accounts</span>
@@ -145,9 +147,9 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
                     <td className="p-4 font-bold text-slate-900">{tenant?.first_name} {tenant?.last_name}</td>
                     <td className="p-4 text-slate-700 font-medium">{property?.name} (Unit {unit?.unit_number})</td>
                     <td className="p-4 text-slate-600 font-medium">{p.due_date}</td>
-                    <td className="p-4 font-bold text-slate-900">${p.amount_due.toFixed(2)}</td>
-                    <td className="p-4 text-emerald-600 font-bold">${p.amount_paid.toFixed(2)}</td>
-                    <td className="p-4 font-bold text-rose-600">${balance.toFixed(2)}</td>
+                    <td className="p-4 font-bold text-slate-900">{formatMoney(p.amount_due)}</td>
+                    <td className="p-4 text-emerald-600 font-bold">{formatMoney(p.amount_paid)}</td>
+                    <td className="p-4 font-bold text-rose-600">{formatMoney(balance)}</td>
                     <td className="p-4 text-right">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                         p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' :

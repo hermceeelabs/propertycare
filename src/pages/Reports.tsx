@@ -2,12 +2,15 @@ import React from 'react';
 import { BarChart3, TrendingUp, PieChart, Building2, Wrench, ShieldCheck, DollarSign, ArrowUpRight, Landmark, Clock } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart as RePieChart, Pie, Cell } from 'recharts';
 import { DatabaseState } from '../services/supabase';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface ReportsProps {
   dbState: DatabaseState;
 }
 
 export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
+  const { formatMoney, convertFromCAD, currencyConfig } = useCurrency();
+
   // Maintenance by category data
   const maintenanceCatCounts: Record<string, number> = {};
   dbState.maintenance_requests.forEach(m => {
@@ -70,15 +73,15 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-xs text-slate-500 font-semibold block uppercase">Gross Monthly Revenue</span>
-          <span className="text-2xl font-extrabold text-slate-900">${totalRevenue.toLocaleString()} CAD</span>
+          <span className="text-2xl font-extrabold text-slate-900">{formatMoney(totalRevenue)}</span>
         </div>
         <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/40 shadow-xs">
           <span className="text-xs text-rose-800 font-semibold block uppercase">Total Operating & Lease Costs</span>
-          <span className="text-2xl font-extrabold text-rose-700">-${totalExpenses.toLocaleString()} CAD</span>
+          <span className="text-2xl font-extrabold text-rose-700">-{formatMoney(totalExpenses)}</span>
         </div>
         <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 shadow-xs">
           <span className="text-xs text-emerald-800 font-semibold block uppercase">Net Operating Income (NOI)</span>
-          <span className="text-2xl font-extrabold text-emerald-600">${totalNetProfit.toLocaleString()} CAD</span>
+          <span className="text-2xl font-extrabold text-emerald-600">{formatMoney(totalNetProfit)}</span>
         </div>
         <div className="bg-white p-4 rounded-xl border border-brand-200 bg-brand-50/40 shadow-xs">
           <span className="text-xs text-brand-800 font-semibold block uppercase">Portfolio Profit Margin</span>
@@ -107,11 +110,11 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
               <div className="text-xs space-y-1 text-slate-600">
                 <div className="flex justify-between">
                   <span>Initial Cash Outlay:</span>
-                  <strong className="text-slate-900">${(p.initialEquity / 1000).toFixed(0)}k CAD</strong>
+                  <strong className="text-slate-900">{formatMoney(p.initialEquity, { maximumFractionDigits: 0 })}</strong>
                 </div>
                 <div className="flex justify-between">
                   <span>Monthly Net Income:</span>
-                  <strong className="text-emerald-600">${p.Profit.toLocaleString()} CAD</strong>
+                  <strong className="text-emerald-600">{formatMoney(p.Profit, { maximumFractionDigits: 0 })}</strong>
                 </div>
                 <div className="flex justify-between pt-1 border-t border-slate-200">
                   <span>Est. Break-Even:</span>
@@ -127,16 +130,21 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
         {/* Chart 1: Revenue vs Expenses vs Profit by Property */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
           <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-brand-600" /> Revenue vs Total Costs vs Profit by Property (CAD)
+            <Building2 className="w-4 h-4 text-brand-600" /> Revenue vs Total Costs vs Profit by Property ({currencyConfig.code})
           </h3>
           <div className="h-64 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={propertyProfitData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+              <BarChart data={propertyProfitData.map(p => ({
+                name: p.name,
+                Revenue: Math.round(convertFromCAD(p.Revenue)),
+                Expenses: Math.round(convertFromCAD(p.Expenses)),
+                Profit: Math.round(convertFromCAD(p.Profit))
+              }))} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(v) => `$${v / 1000}k`} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(v) => `${currencyConfig.symbol}${v >= 1000000 ? (v / 1000000).toFixed(1) + 'M' : (v / 1000).toFixed(0) + 'k'}`} />
                 <Tooltip
-                  formatter={(value: number, name: string) => [`$${value.toLocaleString()} CAD`, name]}
+                  formatter={(value: number, name: string) => [`${currencyConfig.symbol}${value.toLocaleString()} ${currencyConfig.code}`, name]}
                   contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
                 />
                 <Bar dataKey="Revenue" fill="#2563eb" radius={[4, 4, 0, 0]} />
@@ -155,14 +163,14 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
         {/* Chart 2: Operating Expenses Breakdown */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
           <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-rose-500" /> Operating Expenditure by Category (CAD)
+            <DollarSign className="w-4 h-4 text-rose-500" /> Operating Expenditure by Category ({currencyConfig.code})
           </h3>
           <div className="h-64 w-full flex items-center justify-center">
             {expenseData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <RePieChart>
                   <Pie
-                    data={expenseData}
+                    data={expenseData.map(e => ({ name: e.name, value: convertFromCAD(e.value) }))}
                     cx="50%"
                     cy="50%"
                     innerRadius={50}
@@ -175,7 +183,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number) => [`$${value.toLocaleString()} CAD`, 'Cost']}
+                    formatter={(value: number) => [`${currencyConfig.symbol}${value.toLocaleString()} ${currencyConfig.code}`, 'Cost']}
                     contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
                   />
                 </RePieChart>
@@ -188,7 +196,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             {expenseData.map((d, i) => (
               <span key={d.name} className="flex items-center gap-1.5 text-slate-600">
                 <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }}></span>
-                {d.name}: <strong>${d.value.toLocaleString()} CAD</strong>
+                {d.name}: <strong>{formatMoney(d.value)}</strong>
               </span>
             ))}
           </div>

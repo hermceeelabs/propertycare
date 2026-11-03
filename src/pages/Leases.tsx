@@ -3,6 +3,7 @@ import { FileText, Calendar, Play, AlertCircle, CheckCircle2, ChevronRight } fro
 import { DatabaseState } from '../services/supabase';
 import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
 import { AutomationRunModal } from '../components/AutomationRunModal';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface LeasesProps {
   dbState: DatabaseState;
@@ -18,6 +19,7 @@ export const LeasesPage: React.FC<LeasesProps> = ({
   const [activeTab, setActiveTab] = useState<string>('All');
   const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const { formatMoney } = useCurrency();
 
   const filteredLeases = dbState.leases.filter(lease => {
     if (activeTab === 'All') return true;
@@ -96,7 +98,7 @@ export const LeasesPage: React.FC<LeasesProps> = ({
                     <td className="p-4 text-slate-700 font-medium">{property?.name} (Unit {unit?.unit_number})</td>
                     <td className="p-4 text-slate-600">{lease.start_date}</td>
                     <td className="p-4 font-bold text-slate-900">{lease.end_date}</td>
-                    <td className="p-4 font-bold text-slate-900">${lease.monthly_rent.toLocaleString()} CAD</td>
+                    <td className="p-4 font-bold text-slate-900">{formatMoney(lease.monthly_rent)}</td>
                     <td className="p-4">
                       <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold text-[10px]">
                         {lease.renewal_status}

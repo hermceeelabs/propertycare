@@ -8,6 +8,7 @@ import { DatabaseState } from '../services/supabase';
 import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
 import { AutomationRunModal } from '../components/AutomationRunModal';
 import { NavTab } from '../components/Sidebar';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface DashboardProps {
   dbState: DatabaseState;
@@ -17,6 +18,7 @@ interface DashboardProps {
 export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => {
   const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
+  const { formatMoney, convertFromCAD, currencyConfig } = useCurrency();
 
   // Dynamic KPI Aggregations
   const totalProperties = 24; // Fictional portfolio total
@@ -124,17 +126,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
         </div>
 
         {/* Monthly Rent Collection */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+        <div className="bg-cream-50 p-5 rounded-2xl border border-cream-300 shadow-xs space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Rent Collected</span>
+            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Rent Collected</span>
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
               <DollarSign className="w-5 h-5" />
             </div>
           </div>
           <div>
-            <div className="text-2xl font-extrabold text-slate-900">${rentCollected.toLocaleString()} <span className="text-xs font-normal text-slate-400">CAD</span></div>
-            <p className="text-xs text-slate-500 font-medium mt-0.5">
-              Outstanding: <span className="text-rose-600 font-bold">${outstandingRent.toLocaleString()} CAD</span>
+            <div className="text-2xl font-extrabold text-stone-900">{formatMoney(rentCollected)}</div>
+            <p className="text-xs text-stone-500 font-medium mt-0.5">
+              Outstanding: <span className="text-rose-600 font-bold">{formatMoney(outstandingRent)}</span>
             </p>
           </div>
         </div>
@@ -157,11 +159,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
       {/* Main Grid: Chart & Action Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Rent Collection Chart (2 Columns) */}
-        <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <div className="lg:col-span-2 bg-cream-50 p-6 rounded-2xl border border-cream-300 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-slate-900 text-base">Rent Collection Trend (CAD)</h3>
-              <p className="text-xs text-slate-500">Expected vs Collected vs Overdue Rent History</p>
+              <h3 className="font-bold text-stone-900 text-base">Rent Collection Trend ({currencyConfig.code})</h3>
+              <p className="text-xs text-stone-500">Expected vs Collected vs Overdue Rent History</p>
             </div>
             <button
               onClick={() => onNavigate('payments')}
@@ -173,12 +175,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
 
           <div className="h-64 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={rentChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <BarChart data={rentChartData.map(d => ({
+                month: d.month,
+                Collected: Math.round(convertFromCAD(d.Collected)),
+                Outstanding: Math.round(convertFromCAD(d.Outstanding))
+              }))} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ebe1ce" />
                 <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(v) => `$${v / 1000}k`} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#64748b' }} tickFormatter={(v) => `${currencyConfig.symbol}${v >= 1000000 ? (v / 1000000).toFixed(1) + 'M' : (v / 1000).toFixed(0) + 'k'}`} />
                 <Tooltip
-                  formatter={(value: number) => [`$${value.toLocaleString()} CAD`, '']}
+                  formatter={(value: number) => [`${currencyConfig.symbol}${value.toLocaleString()} ${currencyConfig.code}`, '']}
                   contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
                 />
                 <Bar dataKey="Collected" fill="#2563eb" radius={[4, 4, 0, 0]} />

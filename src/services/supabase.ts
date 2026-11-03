@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import type {
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
-  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense, ShortletBooking
+  AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense, ShortletBooking,
+  CurrencyCode
 } from '../types/database';
 
 import {
@@ -42,6 +43,7 @@ export interface DatabaseState {
   tasks: Task[];
   applicants: TenantApplicant[];
   shortlet_bookings: ShortletBooking[];
+  currency?: CurrencyCode;
 }
 
 function loadInitialState(): DatabaseState {
@@ -77,7 +79,8 @@ function loadInitialState(): DatabaseState {
       automation_logs: db.automation_logs || INITIAL_AUTOMATION_LOGS,
       tasks: db.tasks || INITIAL_TASKS,
       applicants: db.applicants || INITIAL_APPLICANTS,
-      shortlet_bookings: db.shortlet_bookings || []
+      shortlet_bookings: db.shortlet_bookings || [],
+      currency: db.currency || 'CAD'
     };
   }
 
@@ -98,7 +101,8 @@ function loadInitialState(): DatabaseState {
     automation_logs: INITIAL_AUTOMATION_LOGS,
     tasks: INITIAL_TASKS,
     applicants: INITIAL_APPLICANTS,
-    shortlet_bookings: []
+    shortlet_bookings: [],
+    currency: 'CAD'
   };
 }
 
@@ -303,6 +307,11 @@ class StoreManager {
 
   updateRule(id: string, updates: Partial<AutomationRule>) {
     this.state.automation_rules = this.state.automation_rules.map(r => r.id === id ? { ...r, ...updates, updated_at: new Date().toISOString() } : r);
+    this.saveState();
+  }
+
+  setCurrency(currency: CurrencyCode) {
+    this.state.currency = currency;
     this.saveState();
   }
 }

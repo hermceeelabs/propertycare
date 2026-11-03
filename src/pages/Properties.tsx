@@ -3,6 +3,7 @@ import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, 
 import { DatabaseState } from '../services/supabase';
 import { Property } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface PropertiesProps {
   dbState: DatabaseState;
@@ -13,6 +14,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
   const [cityFilter, setCityFilter] = useState<string>('All');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(undefined);
+  const { formatMoney } = useCurrency();
 
   const availableCities = ['All', ...Array.from(new Set(dbState.properties.map(p => p.city)))];
 
@@ -131,33 +133,33 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
               </div>
 
               {/* Stats Bar */}
-              <div className="grid grid-cols-4 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs">
+              <div className="grid grid-cols-4 gap-2 p-3 bg-cream-100/70 rounded-xl border border-cream-200 text-center text-xs">
                 <div>
-                  <span className="text-slate-500 font-medium block">Occupancy</span>
-                  <span className="text-sm font-extrabold text-slate-900">{occupancyRate}%</span>
+                  <span className="text-stone-500 font-medium block">Occupancy</span>
+                  <span className="text-sm font-extrabold text-stone-900">{occupancyRate}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">Monthly Rent</span>
-                  <span className="text-sm font-extrabold text-emerald-600">${monthlyRevenue.toLocaleString()}</span>
+                  <span className="text-stone-500 font-medium block">Monthly Rent</span>
+                  <span className="text-sm font-extrabold text-emerald-600">{formatMoney(monthlyRevenue, { maximumFractionDigits: 0 })}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">Net NOI / Mo</span>
-                  <span className="text-sm font-extrabold text-brand-700">${netOperatingIncome.toFixed(0)}</span>
+                  <span className="text-stone-500 font-medium block">Net NOI / Mo</span>
+                  <span className="text-sm font-extrabold text-brand-700">{formatMoney(netOperatingIncome, { maximumFractionDigits: 0 })}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 font-medium block">Break-Even</span>
+                  <span className="text-stone-500 font-medium block">Break-Even</span>
                   <span className="text-sm font-extrabold text-amber-700">
                     {breakEvenYears ? `${breakEvenYears} Yrs` : 'N/A'}
                   </span>
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center justify-between text-xs text-slate-500 font-medium border-t border-slate-100">
+              <div className="pt-2 flex items-center justify-between text-xs text-stone-500 font-medium border-t border-cream-200">
                 <span className="text-brand-600 font-semibold group-hover:underline flex items-center gap-1">
                   View Amortization & Unit Economics <ChevronRight className="w-3.5 h-3.5" />
                 </span>
-                <span className="text-[11px] text-slate-400">
-                  {acq ? `Initial Cash: $${(acq.down_payment_or_deposit / 1000).toFixed(0)}k CAD` : ''}
+                <span className="text-[11px] text-stone-400">
+                  {acq ? `Initial Cash: ${formatMoney(acq.down_payment_or_deposit, { maximumFractionDigits: 0 })}` : ''}
                 </span>
               </div>
             </div>

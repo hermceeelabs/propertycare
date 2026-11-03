@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { store } from '../services/supabase';
 
 export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';
 
@@ -30,12 +31,35 @@ const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentCurrency, setCurrentCurrency] = useState<CurrencyCode>(() => {
-    return (localStorage.getItem('propertyflow_currency') as CurrencyCode) || 'CAD';
+    // 1. Check database state
+    const dbCurrency = store.getState().currency;
+    if (dbCurrency && CURRENCIES[dbCurrency]) {
+      return dbCurrency;
+    }
+    // 2. Check localStorage
+    const saved = localStorage.getItem('propertyflow_currency') as CurrencyCode;
+    if (saved && CURRENCIES[saved]) {
+      return saved;
+    }
+    return 'CAD';
   });
+
+  // Sync when store state changes externally
+  useEffect(() => {
+    const unsub = store.subscribe(() => {
+      const dbCurr = store.getState().currency;
+      if (dbCurr && CURRENCIES[dbCurr] && dbCurr !== currentCurrency) {
+        setCurrentCurrency(dbCurr);
+      }
+    });
+    return () => unsub();
+  }, [currentCurrency]);
 
   const setCurrency = (code: CurrencyCode) => {
     setCurrentCurrency(code);
     localStorage.setItem('propertyflow_currency', code);
+    // Persist directly on database level
+    store.setCurrency(code);
   };
 
   const currencyConfig = CURRENCIES[currentCurrency] || CURRENCIES.CAD;

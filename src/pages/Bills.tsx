@@ -4,6 +4,7 @@ import { DatabaseState } from '../services/supabase';
 import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
 import { AutomationRunModal } from '../components/AutomationRunModal';
 import { AddExpenseModal } from '../components/AddExpenseModal';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface BillsProps {
   dbState: DatabaseState;
@@ -15,6 +16,7 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
   const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+  const { formatMoney } = useCurrency();
 
   const filteredBills = dbState.bills.filter(b => {
     if (statusFilter === 'All') return true;
@@ -91,19 +93,19 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
           <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Total Billed Invoices</span>
-          <span className="text-2xl font-extrabold text-stone-900">${totalBillsAmount.toFixed(2)}</span>
+          <span className="text-2xl font-extrabold text-stone-900">{formatMoney(totalBillsAmount)}</span>
         </div>
         <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
           <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Total Logged Expenses</span>
-          <span className="text-2xl font-extrabold text-rose-700">${totalOperatingExpenses.toFixed(2)}</span>
+          <span className="text-2xl font-extrabold text-rose-700">{formatMoney(totalOperatingExpenses)}</span>
         </div>
         <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
           <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Invoices Paid</span>
-          <span className="text-2xl font-extrabold text-emerald-700">${paidAmount.toFixed(2)}</span>
+          <span className="text-2xl font-extrabold text-emerald-700">{formatMoney(paidAmount)}</span>
         </div>
         <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs">
           <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Pending Accounts Payable</span>
-          <span className="text-2xl font-extrabold text-amber-800">${pendingAmount.toFixed(2)}</span>
+          <span className="text-2xl font-extrabold text-amber-800">{formatMoney(pendingAmount)}</span>
         </div>
       </div>
 
@@ -146,7 +148,7 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
                       )}
                     </td>
                     <td className="p-4 text-slate-600 max-w-xs">{bill.description}</td>
-                    <td className="p-4 font-extrabold text-slate-900">${bill.amount.toFixed(2)} CAD</td>
+                    <td className="p-4 font-extrabold text-slate-900">{formatMoney(bill.amount)}</td>
                     <td className="p-4 font-medium text-slate-700">{bill.due_date}</td>
                     <td className="p-4 text-right">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${

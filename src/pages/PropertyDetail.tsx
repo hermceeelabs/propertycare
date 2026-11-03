@@ -7,6 +7,7 @@ import {
 import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface PropertyDetailProps {
   propertyId: string;
@@ -23,6 +24,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [isEditAcquisitionOpen, setIsEditAcquisitionOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
+  const { formatMoney, currencyConfig } = useCurrency();
 
   const property = dbState.properties.find(p => p.id === propertyId);
   if (!property) {
@@ -130,7 +132,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             </span>
             <span className="text-xs font-bold bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
               <Landmark className="w-3.5 h-3.5" />
-              {acquisition.acquisition_type}: ${(acquisition.total_acquisition_cost / 1000000).toFixed(2)}M CAD
+              {acquisition.acquisition_type}: {formatMoney(acquisition.total_acquisition_cost, { maximumFractionDigits: 0 })}
             </span>
             <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
               {property.status}
@@ -157,7 +159,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
           <div>
             <span className="text-xs text-slate-500 block font-medium">Monthly Inflow</span>
             <span className="text-xl font-extrabold text-slate-900">
-              ${actualMonthlyRent.toLocaleString()} CAD
+              {formatMoney(actualMonthlyRent)}
             </span>
           </div>
           <div>
@@ -224,7 +226,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-semibold block uppercase">Acquisition Capital</span>
-                <span className="text-xl font-extrabold text-slate-900">${acquisition.total_acquisition_cost.toLocaleString()} CAD</span>
+                <span className="text-xl font-extrabold text-slate-900">{formatMoney(acquisition.total_acquisition_cost, { maximumFractionDigits: 0 })}</span>
                 <span className="text-[11px] text-brand-700 font-medium block mt-1">
                   {acquisition.acquisition_type} • {acquisition.acquisition_date}
                 </span>
@@ -232,7 +234,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
               <div className="p-4 bg-purple-50/50 rounded-xl border border-purple-200">
                 <span className="text-xs text-purple-900 font-semibold block uppercase">Initial Cash Outlay</span>
-                <span className="text-xl font-extrabold text-purple-800">${initialCashOutlay.toLocaleString()} CAD</span>
+                <span className="text-xl font-extrabold text-purple-800">{formatMoney(initialCashOutlay, { maximumFractionDigits: 0 })}</span>
                 <span className="text-[11px] text-purple-600 block mt-1">
                   {acquisition.acquisition_type === 'Outright Purchase' ? 'Equity Down Payment' : 'Upfront Deposit & Capex'}
                 </span>
@@ -240,9 +242,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
               <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
                 <span className="text-xs text-emerald-900 font-semibold block uppercase">Annual Net Cash Flow</span>
-                <span className="text-xl font-extrabold text-emerald-700">${annualNetCashFlow.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD / yr</span>
+                <span className="text-xl font-extrabold text-emerald-700">{formatMoney(annualNetCashFlow, { maximumFractionDigits: 0 })} / yr</span>
                 <span className="text-[11px] text-emerald-600 block mt-1">
-                  ${propertyNetOperatingIncome.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD / mo net yield
+                  {formatMoney(propertyNetOperatingIncome, { maximumFractionDigits: 0 })} / mo net yield
                 </span>
               </div>
 
@@ -267,7 +269,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                 <div className="text-right">
                   <span className="font-extrabold text-brand-700 text-sm">{recoveryProgressPercent}% Recovered</span>
                   <span className="block text-[11px] text-slate-500">
-                    ${capitalRecoveredSoFar.toLocaleString()} of ${initialCashOutlay.toLocaleString()} CAD
+                    {formatMoney(capitalRecoveredSoFar, { maximumFractionDigits: 0 })} of {formatMoney(initialCashOutlay, { maximumFractionDigits: 0 })}
                   </span>
                 </div>
               </div>
@@ -303,7 +305,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <p className="text-xs text-slate-500">Straight-line capital depreciation vs projected cash flow yield</p>
                 </div>
                 <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">
-                  Annual Write-Off: ${annualAmortization.toLocaleString()} CAD/yr
+                  Annual Write-Off: {formatMoney(annualAmortization, { maximumFractionDigits: 0 })}/yr
                 </span>
               </div>
 
@@ -344,23 +346,23 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                               </span>
                             )}
                           </td>
-                          <td className="p-3.5 text-slate-800">${projectedRevenue.toLocaleString()} CAD</td>
-                          <td className="p-3.5 text-rose-600">-${projectedExpenses.toLocaleString()} CAD</td>
+                          <td className="p-3.5 text-slate-800">{formatMoney(projectedRevenue, { maximumFractionDigits: 0 })}</td>
+                          <td className="p-3.5 text-rose-600">-{formatMoney(projectedExpenses, { maximumFractionDigits: 0 })}</td>
                           {acquisition.acquisition_type === 'Long-Term Lease' && (
-                            <td className="p-3.5 text-amber-700 font-medium">-${masterLeaseAnnual.toLocaleString()} CAD</td>
+                            <td className="p-3.5 text-amber-700 font-medium">-{formatMoney(masterLeaseAnnual, { maximumFractionDigits: 0 })}</td>
                           )}
                           <td className="p-3.5 font-bold text-emerald-600">
-                            +${netCash.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD
+                            +{formatMoney(netCash, { maximumFractionDigits: 0 })}
                           </td>
                           <td className="p-3.5 text-purple-700 font-medium">
-                            ${annualAmortization.toLocaleString()} CAD
+                            {formatMoney(annualAmortization, { maximumFractionDigits: 0 })}
                           </td>
                           <td className="p-3.5 text-slate-600 font-medium">
-                            ${remainingBookVal.toLocaleString()} CAD
+                            {formatMoney(remainingBookVal, { maximumFractionDigits: 0 })}
                           </td>
                           <td className="p-3.5 text-right font-extrabold">
                             <span className={cumulativeNet >= initialCashOutlay ? 'text-emerald-700' : 'text-slate-700'}>
-                              ${cumulativeNet.toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD
+                              {formatMoney(cumulativeNet, { maximumFractionDigits: 0 })}
                             </span>
                             {isBreakEvenReached && (
                               <span className="block text-[10px] text-emerald-600 font-bold">
@@ -410,24 +412,24 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-medium block">Total Monthly Inflow</span>
-                <span className="text-xl font-extrabold text-slate-900">${actualMonthlyRent.toLocaleString()} CAD</span>
+                <span className="text-xl font-extrabold text-slate-900">{formatMoney(actualMonthlyRent)}</span>
                 <span className="text-[11px] text-slate-400 block mt-1">From {occupiedUnits.length} active leases</span>
               </div>
 
               <div className="p-4 bg-rose-50/50 rounded-xl border border-rose-200">
                 <span className="text-xs text-rose-800 font-medium block">Total Operating Outflow</span>
                 <span className="text-xl font-extrabold text-rose-700">
-                  ${(totalPropertyExpenses + monthlyMasterLeaseFee).toLocaleString(undefined, { minimumFractionDigits: 2 })} CAD
+                  {formatMoney(totalPropertyExpenses + monthlyMasterLeaseFee)}
                 </span>
                 <span className="text-[11px] text-rose-600 block mt-1">
-                  {monthlyMasterLeaseFee > 0 ? `Includes $${monthlyMasterLeaseFee.toLocaleString()} master lease fee` : `${expenses.length} operating expenses logged`}
+                  {monthlyMasterLeaseFee > 0 ? `Includes ${formatMoney(monthlyMasterLeaseFee)} master lease fee` : `${expenses.length} operating expenses logged`}
                 </span>
               </div>
 
               <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
                 <span className="text-xs text-emerald-800 font-medium block">Net Operating Income (NOI)</span>
                 <span className={`text-xl font-extrabold ${propertyNetOperatingIncome >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-                  ${propertyNetOperatingIncome.toLocaleString(undefined, { minimumFractionDigits: 2 })} CAD
+                  {formatMoney(propertyNetOperatingIncome)}
                 </span>
                 <span className="text-[11px] text-emerald-700 block mt-1">Net property monthly yield</span>
               </div>
@@ -489,21 +491,21 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                           </span>
                         </td>
                         <td className="p-3.5 font-bold text-slate-900">
-                          ${unitIncome.toLocaleString()} CAD
+                          {formatMoney(unitIncome)}
                         </td>
                         <td className="p-3.5 text-rose-600 font-semibold">
-                          ${unitDirectTotal.toFixed(2)} CAD
+                          {formatMoney(unitDirectTotal)}
                           <span className="block text-[10px] text-slate-400 font-normal">
                             {unitDirectExpenses.length} logged
                           </span>
                         </td>
                         <td className="p-3.5 text-slate-500">
-                          ${sharedPropertyCostPerUnit.toFixed(2)} CAD
+                          {formatMoney(sharedPropertyCostPerUnit)}
                           <span className="block text-[10px] text-slate-400">allocated</span>
                         </td>
                         <td className="p-3.5 font-extrabold">
                           <span className={unitProfit >= 0 ? 'text-emerald-600' : 'text-rose-600'}>
-                            ${unitProfit.toFixed(2)} CAD
+                            {formatMoney(unitProfit)}
                           </span>
                         </td>
                         <td className="p-3.5">
@@ -564,7 +566,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                         </div>
 
                         <div className="flex items-center gap-4">
-                          <span className="font-extrabold text-sm text-rose-600">-${exp.amount.toFixed(2)} CAD</span>
+                          <span className="font-extrabold text-sm text-rose-600">-{formatMoney(exp.amount)}</span>
                           <button
                             onClick={() => store.deleteExpense(exp.id)}
                             className="p-1 text-slate-400 hover:text-rose-600 rounded hover:bg-slate-200 transition-colors"
@@ -624,7 +626,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     <td className="py-3 font-bold text-slate-900">Unit {u.unit_number}</td>
                     <td className="py-3 text-slate-600">{u.unit_type}</td>
                     <td className="py-3 text-slate-600">{u.bedrooms} Bed / {u.bathrooms} Bath</td>
-                    <td className="py-3 font-semibold text-slate-900">${u.monthly_rent.toLocaleString()} CAD</td>
+                    <td className="py-3 font-semibold text-slate-900">{formatMoney(u.monthly_rent)}</td>
                     <td className="py-3 text-right">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         u.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800' :
@@ -664,7 +666,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <h4 className="font-bold text-xs text-slate-900">Lease #{l.id}</h4>
                   <p className="text-xs text-slate-500">{l.start_date} to {l.end_date}</p>
                 </div>
-                <span className="font-extrabold text-sm text-slate-900">${l.monthly_rent.toLocaleString()} CAD / mo</span>
+                <span className="font-extrabold text-sm text-slate-900">{formatMoney(l.monthly_rent)} / mo</span>
               </div>
             ))}
           </div>
@@ -676,7 +678,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
               <div key={p.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
                   <h4 className="font-bold text-xs text-slate-900">Payment Due: {p.due_date}</h4>
-                  <p className="text-xs text-slate-500">Paid: ${p.amount_paid} CAD / Due: ${p.amount_due} CAD</p>
+                  <p className="text-xs text-slate-500">Paid: {formatMoney(p.amount_paid)} / Due: {formatMoney(p.amount_due)}</p>
                 </div>
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                   p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
@@ -714,7 +716,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <h4 className="font-bold text-xs text-slate-900">Invoice #{b.bill_number}</h4>
                   <p className="text-xs text-slate-500">{b.description} (Due: {b.due_date})</p>
                 </div>
-                <span className="font-extrabold text-sm text-slate-900">${b.amount.toFixed(2)} CAD</span>
+                <span className="font-extrabold text-sm text-slate-900">{formatMoney(b.amount)}</span>
               </div>
             ))}
           </div>

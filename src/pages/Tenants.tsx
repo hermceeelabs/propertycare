@@ -338,7 +338,7 @@ export const TenantsPage: React.FC<TenantsPageProps> = ({
                   <div className="space-y-2.5 text-xs">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Monthly Income:</span>
-                      <strong className="text-slate-900">{formatMoney(selectedApplicant.income / 12)} CAD / mo</strong>
+                      <strong className="text-slate-900">{formatMoney(selectedApplicant.income / 12)} / mo</strong>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Credit Score:</span>

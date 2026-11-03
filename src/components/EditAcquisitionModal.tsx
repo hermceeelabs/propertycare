@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Building2, DollarSign, Calendar, Clock, Landmark, ShieldCheck } from 'lucide-react';
 import { Property, PropertyAcquisition, AcquisitionType } from '../types/database';
 import { store } from '../services/supabase';
+import { useCurrency } from '../context/CurrencyContext';
 
 interface EditAcquisitionModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
   const [amortYears, setAmortYears] = useState<string>(current.amortization_period_years.toString());
   const [interestRate, setInterestRate] = useState<string>((current.interest_rate_percent || 4.75).toString());
   const [notes, setNotes] = useState<string>(current.notes || '');
+  const { formatMoney } = useCurrency();
 
   if (!isOpen) return null;
 
@@ -180,7 +182,7 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
               />
               <span className="text-[10px] text-slate-400 block mt-0.5">
-                Annual write-off: ${(parseFloat(totalCost) / (parseInt(amortYears, 10) || 1)).toLocaleString(undefined, { maximumFractionDigits: 0 })} CAD/yr
+                Annual write-off: {formatMoney((parseFloat(totalCost) || 0) / (parseInt(amortYears, 10) || 1), { maximumFractionDigits: 0 })}/yr
               </span>
             </div>
           </div>
