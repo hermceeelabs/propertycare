@@ -58,24 +58,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
 
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
-      {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">
-            <span>PropertyFlow Management</span>
-            <span>•</span>
-            <span>Operations Dashboard</span>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-900">Portfolio Executive Overview</h1>
-          <p className="text-sm text-slate-500">Centralized operations, automated tenant communications & audit monitoring</p>
-        </div>
+      {/* Header Banner: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Portfolio Executive Overview</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">Centralized operations, automated tenant communications & audit monitoring</p>
+      </div>
 
-        {/* Safe Quick Automation Actions */}
-        <div className="flex items-center gap-2">
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+          Quick Automated Operations
+        </span>
+
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={() => handleTriggerAutomation('rent')}
             disabled={isRunning}
-            className="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50"
+            className="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
           >
             <Play className="w-3.5 h-3.5 fill-current" /> Run Rent Reminders
           </button>
@@ -83,7 +86,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
           <button
             onClick={() => handleTriggerAutomation('vendor')}
             disabled={isRunning}
-            className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50"
+            className="px-3.5 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
           >
             <Zap className="w-3.5 h-3.5" /> Auto-Assign Vendors
           </button>

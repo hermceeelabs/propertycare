@@ -90,76 +90,100 @@ export const TenantsPage: React.FC<TenantsPageProps> = ({
     store.saveState();
   };
 
+  const tenantStatuses = ['All', 'Active', 'Notice Given', 'Former'];
+  const applicantStatuses = ['All', 'In Review', 'Pending', 'Approved', 'Rejected'];
+
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Page Title & Main Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Tenant Lifecycle & Screening</h1>
-          <p className="text-sm text-slate-500">Manage tenant accounts, applicant screening pipelines & credit validations</p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Tenant Lifecycle & Screening</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">Manage tenant accounts, applicant screening pipelines & credit validations</p>
+      </div>
+
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Filters & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Section View Dropdown */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="tenant-tab-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+              Section:
+            </label>
+            <select
+              id="tenant-tab-select"
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as any)}
+              className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+            >
+              <option value="directory">Active Directory ({dbState.tenants.length})</option>
+              <option value="screening">Applicant Screening ({applicants.filter(a => a.status === 'In Review' || a.status === 'Pending').length})</option>
+            </select>
+          </div>
+
+          {/* Sub-Filter Dropdown for Directory or Screening */}
+          {activeTab === 'directory' ? (
+            <div className="flex items-center gap-2">
+              <label htmlFor="tenant-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+                Status:
+              </label>
+              <select
+                id="tenant-status-select"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+              >
+                {tenantStatuses.map(status => (
+                  <option key={status} value={status}>
+                    {status} ({status === 'All' ? dbState.tenants.length : dbState.tenants.filter(t => t.status === status).length})
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <label htmlFor="screening-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+                Review Status:
+              </label>
+              <select
+                id="screening-status-select"
+                value={screeningFilter}
+                onChange={(e) => setScreeningFilter(e.target.value)}
+                className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+              >
+                {applicantStatuses.map(status => (
+                  <option key={status} value={status}>
+                    {status} ({status === 'All' ? applicants.length : applicants.filter(a => a.status === status).length})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
-        {/* Tab Pills */}
-        <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-xs">
-          <button
-            onClick={() => setActiveTab('directory')}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
-              activeTab === 'directory'
-                ? 'bg-brand-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <Users className="w-4 h-4" /> Active Directory ({dbState.tenants.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('screening')}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
-              activeTab === 'screening'
-                ? 'bg-brand-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4" /> Applicant Screening ({applicants.filter(a => a.status === 'In Review' || a.status === 'Pending').length})
-          </button>
-        </div>
+        {activeTab === 'directory' && (
+          <input
+            type="text"
+            placeholder="Search by name or email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden w-64"
+          />
+        )}
       </div>
 
       {/* DIRECTORY TAB */}
       {activeTab === 'directory' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto">
-              {['All', 'Active', 'Notice Given', 'Former'].map(status => (
-                <button
-                  key={status}
-                  onClick={() => setStatusFilter(status)}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    statusFilter === status
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {status} ({status === 'All' ? dbState.tenants.length : dbState.tenants.filter(t => t.status === status).length})
-                </button>
-              ))}
-            </div>
-
-            <input
-              type="text"
-              placeholder="Search by name or email..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 shadow-xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden w-64"
-            />
-          </div>
-
           {/* Tenants Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className="bg-cream-50 rounded-2xl border border-cream-300 shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+                  <tr className="bg-cream-100/90 border-b border-cream-300 text-stone-600 uppercase tracking-wider font-bold">
                     <th className="p-4">Tenant</th>
                     <th className="p-4">Residence & Unit</th>
                     <th className="p-4">Contact Info</th>

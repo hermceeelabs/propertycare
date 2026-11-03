@@ -63,16 +63,65 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Title & Top Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Suites & Shortlet Inventory</h1>
-          <p className="text-sm text-slate-500">
-            Unified management for Long-Term residential leases and Shortlet / Airbnb vacation rentals
-          </p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Suites & Shortlet Inventory</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">
+          Unified management for Long-Term residential leases and Shortlet / Airbnb vacation rentals
+        </p>
+      </div>
+
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Filters & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Inventory Model Dropdown */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="unit-model-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+              Type:
+            </label>
+            <select
+              id="unit-model-select"
+              value={modelFilter}
+              onChange={(e) => setModelFilter(e.target.value as any)}
+              className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+            >
+              <option value="All">All Units ({dbState.units.length})</option>
+              <option value="Long-Term">Long-Term Leases ({longTermUnits.length})</option>
+              <option value="Shortlet">Shortlets / STR ({shortletUnits.length})</option>
+            </select>
+          </div>
+
+          {/* Occupancy Status Dropdown */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="unit-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+              Status:
+            </label>
+            <select
+              id="unit-status-select"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+            >
+              {statuses.map(s => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
+          <input
+            type="text"
+            placeholder="Search unit # or layout..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+          />
+
           <button
             onClick={() => {
               setSelectedUnit(null);
@@ -82,100 +131,39 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
           >
             <Plus className="w-4 h-4" /> Record Suite Cost
           </button>
-
-          <input
-            type="text"
-            placeholder="Search unit # or layout..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 shadow-xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
-          />
-        </div>
-      </div>
-
-      {/* Model Filter Pills: All vs Long-Term vs Shortlet */}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-3 flex-wrap gap-3">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setModelFilter('All')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              modelFilter === 'All'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-            }`}
-          >
-            All Units ({dbState.units.length})
-          </button>
-          <button
-            onClick={() => setModelFilter('Long-Term')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              modelFilter === 'Long-Term'
-                ? 'bg-brand-600 text-white shadow-xs'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-            }`}
-          >
-            <Building2 className="w-3.5 h-3.5" /> Long-Term Leases ({longTermUnits.length})
-          </button>
-          <button
-            onClick={() => setModelFilter('Shortlet')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              modelFilter === 'Shortlet'
-                ? 'bg-purple-600 text-white shadow-xs'
-                : 'bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100'
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5" /> Shortlets / STR ({shortletUnits.length})
-          </button>
-        </div>
-
-        {/* Occupancy Status Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto">
-          {statuses.map(s => (
-            <button
-              key={s}
-              onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
-                statusFilter === s
-                  ? 'bg-slate-800 text-white shadow-xs'
-                  : 'text-slate-500 hover:bg-slate-100'
-              }`}
-            >
-              {s}
-            </button>
-          ))}
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Long-Term Inflow</span>
-          <span className="text-xl font-extrabold text-slate-900">{formatMoney(totalLongTermRevenue)} / mo</span>
-          <span className="text-[11px] text-slate-400 mt-0.5 block">{longTermUnits.filter(u => u.status === 'Occupied').length} active leases</span>
+        <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
+          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Long-Term Inflow</span>
+          <span className="text-xl font-extrabold text-stone-900">{formatMoney(totalLongTermRevenue)} / mo</span>
+          <span className="text-[11px] text-stone-500 mt-0.5 block">{longTermUnits.filter(u => u.status === 'Occupied').length} active leases</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-purple-200 bg-purple-50/30 shadow-xs">
-          <span className="text-xs font-bold text-purple-800 uppercase tracking-wider block">Shortlet Revenue (Est)</span>
-          <span className="text-xl font-extrabold text-purple-700">{formatMoney(totalShortletRevenue)} / mo</span>
-          <span className="text-[11px] text-purple-600 mt-0.5 block">Avg 80% occupancy yield</span>
+        <div className="bg-purple-50/40 p-4 rounded-xl border border-purple-200 shadow-xs">
+          <span className="text-xs font-bold text-purple-900 uppercase tracking-wider block">Shortlet Revenue (Est)</span>
+          <span className="text-xl font-extrabold text-purple-800">{formatMoney(totalShortletRevenue)} / mo</span>
+          <span className="text-[11px] text-purple-700 mt-0.5 block">Avg 80% occupancy yield</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/30 shadow-xs">
-          <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Direct Suite Costs</span>
-          <span className="text-xl font-extrabold text-rose-700">{formatMoney(totalUnitExpenses)}</span>
-          <span className="text-[11px] text-rose-600 mt-0.5 block">Repairs & turnovers</span>
+        <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
+          <span className="text-xs font-bold text-rose-900 uppercase tracking-wider block">Direct Suite Costs</span>
+          <span className="text-xl font-extrabold text-rose-800">{formatMoney(totalUnitExpenses)}</span>
+          <span className="text-[11px] text-rose-700 mt-0.5 block">Repairs & turnovers</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/30 shadow-xs">
-          <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Gross Suite Operating Yield</span>
-          <span className="text-xl font-extrabold text-emerald-600">{formatMoney(totalMonthlyGross - totalUnitExpenses)}</span>
+        <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
+          <span className="text-xs font-bold text-emerald-900 uppercase tracking-wider block">Gross Suite Operating Yield</span>
+          <span className="text-xl font-extrabold text-emerald-700">{formatMoney(totalMonthlyGross - totalUnitExpenses)}</span>
           <span className="text-[11px] text-emerald-700 mt-0.5 block">Blended net yield</span>
         </div>
       </div>
 
       {/* Units Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-cream-50 rounded-2xl border border-cream-300 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+              <tr className="bg-cream-100/90 border-b border-cream-300 text-stone-600 uppercase tracking-wider font-bold">
                 <th className="p-4">Suite / Unit #</th>
                 <th className="p-4">Property</th>
                 <th className="p-4">Rental Model</th>
@@ -187,7 +175,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-cream-200">
               {filteredUnits.map(unit => {
                 const property = dbState.properties.find(p => p.id === unit.property_id);
                 const isShortlet = unit.rental_model === 'Shortlet / STR';

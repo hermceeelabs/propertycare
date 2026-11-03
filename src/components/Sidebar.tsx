@@ -4,7 +4,6 @@ import {
   Wrench, Truck, Receipt, Bell, Mail,
   Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home
 } from 'lucide-react';
-import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
 
 export type NavTab =
   | 'dashboard'
@@ -44,8 +43,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTabChange,
   pendingTasksCount
 }) => {
-  const { currentCurrency, setCurrency } = useCurrency();
-
   const navSections: NavSection[] = [
     {
       title: 'Core Portfolio',
@@ -97,22 +94,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <p className="text-xs text-slate-400 font-medium">Ops & Shortlet Platform</p>
           </div>
         </div>
-      </div>
-
-      {/* Currency Selector Pill */}
-      <div className="px-4 py-2.5 bg-slate-950/80 border-b border-slate-800/80 flex items-center justify-between text-xs">
-        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Currency</span>
-        <select
-          value={currentCurrency}
-          onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-          className="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded-md border border-slate-700 focus:outline-hidden focus:ring-1 focus:ring-brand-500 cursor-pointer"
-        >
-          {Object.values(CURRENCIES).map(curr => (
-            <option key={curr.code} value={curr.code}>
-              {curr.code} ({curr.symbol.trim()})
-            </option>
-          ))}
-        </select>
       </div>
 
       {/* Grouped Classified Navigation */}

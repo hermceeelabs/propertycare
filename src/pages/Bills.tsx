@@ -34,15 +34,42 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
     setIsRunning(false);
   };
 
+  const billStatuses = ['All', 'Due Soon', 'Pending', 'Overdue', 'Paid'];
+
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Operating Expenses & Vendor Invoices</h1>
-          <p className="text-sm text-slate-500">Track property operating expenditure, contractor bills, unit-specific repairs & automated payment alerts</p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Operating Expenses & Vendor Invoices</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">Track property operating expenditure, contractor bills, unit-specific repairs & automated alerts</p>
+      </div>
+
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Filters & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        {/* Status Dropdown Filter */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="bill-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+            Bill Status:
+          </label>
+          <select
+            id="bill-status-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+          >
+            {billStatuses.map(s => (
+              <option key={s} value={s}>
+                {s} ({s === 'All' ? dbState.bills.length : dbState.bills.filter(b => b.status === s).length})
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={() => setIsAddExpenseOpen(true)}
             className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
@@ -62,47 +89,30 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Total Billed Invoices</span>
-          <span className="text-2xl font-extrabold text-slate-900">${totalBillsAmount.toFixed(2)} CAD</span>
+        <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
+          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Total Billed Invoices</span>
+          <span className="text-2xl font-extrabold text-stone-900">${totalBillsAmount.toFixed(2)}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/40 shadow-xs">
+        <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
           <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Total Logged Expenses</span>
-          <span className="text-2xl font-extrabold text-rose-700">${totalOperatingExpenses.toFixed(2)} CAD</span>
+          <span className="text-2xl font-extrabold text-rose-700">${totalOperatingExpenses.toFixed(2)}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 shadow-xs">
-          <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block">Invoices Paid</span>
-          <span className="text-2xl font-extrabold text-emerald-600">${paidAmount.toFixed(2)} CAD</span>
+        <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
+          <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Invoices Paid</span>
+          <span className="text-2xl font-extrabold text-emerald-700">${paidAmount.toFixed(2)}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/40 shadow-xs">
-          <span className="text-xs font-bold text-amber-800 uppercase tracking-wider block">Pending Accounts Payable</span>
-          <span className="text-2xl font-extrabold text-amber-700">${pendingAmount.toFixed(2)} CAD</span>
+        <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs">
+          <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Pending Accounts Payable</span>
+          <span className="text-2xl font-extrabold text-amber-800">${pendingAmount.toFixed(2)}</span>
         </div>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
-        {['All', 'Due Soon', 'Pending', 'Overdue', 'Paid'].map(s => (
-          <button
-            key={s}
-            onClick={() => setStatusFilter(s)}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              statusFilter === s
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-            }`}
-          >
-            {s} ({s === 'All' ? dbState.bills.length : dbState.bills.filter(b => b.status === s).length})
-          </button>
-        ))}
       </div>
 
       {/* Bills Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-cream-50 rounded-2xl border border-cream-300 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+              <tr className="bg-cream-100/90 border-b border-cream-300 text-stone-600 uppercase tracking-wider font-bold">
                 <th className="p-4">Invoice #</th>
                 <th className="p-4">Vendor</th>
                 <th className="p-4">Target Asset</th>

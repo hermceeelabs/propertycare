@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, Shield, ChevronRight, X, Building2, Users, FileText, Wrench, CreditCard, DollarSign } from 'lucide-react';
+import { Search, Bell, ChevronRight, X, Building2, Users, FileText, Wrench, CreditCard, DollarSign } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { NavTab } from './Sidebar';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
@@ -39,11 +39,11 @@ export const Header: React.FC<HeaderProps> = ({
     : [];
 
   return (
-    <header className="bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+    <header className="bg-cream-50/90 border-b border-cream-200 h-16 px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs backdrop-blur-xs">
       {/* Search trigger */}
       <div className="relative w-72 md:w-96">
         <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Global search (tenants, properties, units, requests)..."
@@ -53,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({
               setIsSearchOpen(true);
             }}
             onFocus={() => setIsSearchOpen(true)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 text-slate-800 rounded-lg text-sm border border-slate-200 focus:outline-hidden focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all"
+            className="w-full pl-9 pr-4 py-2 bg-white/90 hover:bg-white text-stone-800 rounded-xl text-xs border border-cream-300 focus:outline-hidden focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all shadow-xs"
           />
         </div>
 
@@ -114,15 +114,15 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Right Action Icons & Badges */}
       <div className="flex items-center gap-3">
         {/* Multi-Currency Dropdown in Header */}
-        <div className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200/80 px-2.5 py-1.5 rounded-xl border border-slate-200 transition-colors">
-          <span className="text-xs font-bold text-slate-600 flex items-center gap-1">
+        <div className="flex items-center gap-1.5 bg-cream-100 hover:bg-cream-200/90 px-3 py-1.5 rounded-xl border border-cream-300 transition-colors shadow-xs">
+          <span className="text-xs font-bold text-stone-600 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-brand-600"></span>
             {currencyConfig.code}
           </span>
           <select
             value={currentCurrency}
             onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-            className="bg-transparent text-xs font-bold text-slate-800 cursor-pointer focus:outline-hidden"
+            className="bg-transparent text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
             title="Switch Operational Currency"
           >
             {Object.values(CURRENCIES).map(c => (
@@ -136,22 +136,16 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Pending Task / Notice Alert */}
         <button
           onClick={() => setShowTasksModal(true)}
-          className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all"
+          className="relative p-2 text-stone-600 hover:text-stone-900 hover:bg-cream-200/60 rounded-xl transition-all"
           title="Notifications & Tasks"
         >
           <Bell className="w-5 h-5" />
           {pendingTasksCount > 0 && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-amber-500 text-slate-950 font-extrabold text-[10px] rounded-full flex items-center justify-center animate-bounce">
+            <span className="absolute top-1 right-1 w-4 h-4 bg-amber-500 text-stone-950 font-extrabold text-[10px] rounded-full flex items-center justify-center animate-bounce shadow-xs">
               {pendingTasksCount}
             </span>
           )}
         </button>
-
-        {/* Demo Indicator */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full border border-slate-200 text-xs text-slate-700">
-          <Shield className="w-3.5 h-3.5 text-brand-600" />
-          <span className="font-medium">PropertyFlow Ops</span>
-        </div>
       </div>
 
       {/* Pending Tasks Drawer Modal */}

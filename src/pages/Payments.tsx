@@ -43,26 +43,53 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
     setIsRunning(false);
   };
 
+  const paymentStatuses = ['All', 'Paid', 'Pending', 'Partially Paid', 'Overdue'];
+
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Rent & Financial Ledger</h1>
-          <p className="text-sm text-slate-500">Track monthly rent collections, outstanding balances & overdue escalations</p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Rent & Financial Ledger</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">Track monthly rent collections, outstanding balances & overdue escalations</p>
+      </div>
+
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Filters & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        {/* Status Dropdown Filter */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="payment-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+            Payment Status:
+          </label>
+          <select
+            id="payment-status-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+          >
+            {paymentStatuses.map(s => (
+              <option key={s} value={s}>
+                {s} ({s === 'All' ? dbState.payments.length : dbState.payments.filter(p => p.status === s).length})
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             onClick={handleRunRentReminders}
             disabled={isRunning}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50"
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
           >
             <Play className="w-3.5 h-3.5 fill-current" /> Run Rent Reminders
           </button>
           <button
             onClick={handleRunOverdueCheck}
             disabled={isRunning}
-            className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50"
+            className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
           >
             <AlertCircle className="w-3.5 h-3.5" /> Check Overdue Arrears (N4)
           </button>
@@ -71,47 +98,30 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
 
       {/* Summary KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Expected Rent</span>
-          <span className="text-2xl font-extrabold text-slate-900">${totalExpected.toLocaleString()} CAD</span>
+        <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
+          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Expected Rent</span>
+          <span className="text-2xl font-extrabold text-stone-900">${totalExpected.toLocaleString()}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 shadow-xs">
-          <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block">Total Collected</span>
-          <span className="text-2xl font-extrabold text-emerald-600">${totalCollected.toLocaleString()} CAD</span>
+        <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
+          <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Total Collected</span>
+          <span className="text-2xl font-extrabold text-emerald-700">${totalCollected.toLocaleString()}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/40 shadow-xs">
-          <span className="text-xs font-bold text-rose-700 uppercase tracking-wider block">Outstanding Balance</span>
-          <span className="text-2xl font-extrabold text-rose-600">${totalOutstanding.toLocaleString()} CAD</span>
+        <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
+          <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Outstanding Balance</span>
+          <span className="text-2xl font-extrabold text-rose-700">${totalOutstanding.toLocaleString()}</span>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/40 shadow-xs">
-          <span className="text-xs font-bold text-amber-800 uppercase tracking-wider block">Overdue Accounts</span>
-          <span className="text-2xl font-extrabold text-amber-700">{overdueCount} Tenants</span>
+        <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs">
+          <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Overdue Accounts</span>
+          <span className="text-2xl font-extrabold text-amber-800">{overdueCount} Tenants</span>
         </div>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
-        {['All', 'Paid', 'Pending', 'Partially Paid', 'Overdue'].map(status => (
-          <button
-            key={status}
-            onClick={() => setStatusFilter(status)}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              statusFilter === status
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-            }`}
-          >
-            {status} ({status === 'All' ? dbState.payments.length : dbState.payments.filter(p => p.status === status).length})
-          </button>
-        ))}
       </div>
 
       {/* Payments Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-cream-50 rounded-2xl border border-cream-300 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+              <tr className="bg-cream-100/90 border-b border-cream-300 text-stone-600 uppercase tracking-wider font-bold">
                 <th className="p-4">Tenant</th>
                 <th className="p-4">Property & Unit</th>
                 <th className="p-4">Due Date</th>

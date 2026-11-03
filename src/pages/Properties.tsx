@@ -22,40 +22,46 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Properties Portfolio & Asset Yield</h1>
-          <p className="text-sm text-slate-500">Manage Canadian real estate assets, acquisition structures (outright vs lease) & break-even horizons</p>
-        </div>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Properties Portfolio & Asset Yield</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">
+          Manage real estate assets, acquisition structures (outright vs lease) & break-even horizons
+        </p>
+      </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => {
-              setSelectedPropertyId(undefined);
-              setIsAddExpenseOpen(true);
-            }}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
+      {/* Controls Line: Filters & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
+        {/* City Filter Dropdown */}
+        <div className="flex items-center gap-2">
+          <label htmlFor="property-city-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+            City:
+          </label>
+          <select
+            id="property-city-select"
+            value={cityFilter}
+            onChange={(e) => setCityFilter(e.target.value)}
+            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
           >
-            <Plus className="w-4 h-4" /> Record Property Expense
-          </button>
-
-          {/* City Filter Pills */}
-          <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-xs">
-            {cities.map(city => (
-              <button
-                key={city}
-                onClick={() => setCityFilter(city)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  cityFilter === city
-                    ? 'bg-brand-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
-              >
-                {city}
-              </button>
+            {cities.map(c => (
+              <option key={c} value={c}>{c === 'All' ? 'All Cities' : c}</option>
             ))}
-          </div>
+          </select>
         </div>
+
+        <button
+          onClick={() => {
+            setSelectedPropertyId(undefined);
+            setIsAddExpenseOpen(true);
+          }}
+          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+        >
+          <Plus className="w-4 h-4" /> Record Property Expense
+        </button>
       </div>
 
       {/* Property Cards Grid */}
@@ -92,7 +98,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
             <div
               key={property.id}
               onClick={() => onSelectProperty(property.id)}
-              className="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer p-6 space-y-5 group"
+              className="bg-cream-50 rounded-2xl border border-cream-300 shadow-xs hover:shadow-md hover:border-cream-400 transition-all cursor-pointer p-6 space-y-5 group"
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-1">

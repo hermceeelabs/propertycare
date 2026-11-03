@@ -63,7 +63,7 @@ export function App() {
 
   return (
     <CurrencyProvider>
-      <div className="flex h-screen bg-slate-50 text-slate-900 font-sans antialiased overflow-hidden">
+      <div className="flex h-screen bg-cream-100 text-stone-900 font-sans antialiased overflow-hidden">
         {/* Persistent Desktop Sidebar */}
         <Sidebar
           currentTab={currentTab}
@@ -79,7 +79,7 @@ export function App() {
             pendingTasksCount={pendingTasksCount}
           />
 
-          <main className="flex-1 overflow-y-auto bg-slate-50">
+          <main className="flex-1 overflow-y-auto bg-cream-100">
             {currentTab === 'dashboard' && (
               <Dashboard
                 dbState={dbState}
