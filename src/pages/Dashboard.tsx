@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
   Building2, Home, Users, DollarSign, AlertCircle, Wrench,
-  Calendar, Zap, ArrowUpRight, ArrowDownRight, ChevronRight, Play, CheckCircle2, ShieldAlert
+  Calendar, Zap, ArrowUpRight, ArrowDownRight, ChevronRight, CheckCircle2, ShieldAlert
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { DatabaseState } from '../services/supabase';
-import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
-import { AutomationRunModal } from '../components/AutomationRunModal';
 import { NavTab } from '../components/Sidebar';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -16,8 +14,6 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => {
-  const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
   const { formatMoney, convertFromCAD, currencyConfig } = useCurrency();
 
   // Dynamic KPI Aggregations
@@ -42,22 +38,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
     { month: 'Aug', Collected: rentCollected, Outstanding: outstandingRent },
   ];
 
-  const handleTriggerAutomation = async (type: string) => {
-    setIsRunning(true);
-    let res: ExecutionResult;
-
-    if (type === 'rent') {
-      res = await AutomationEngine.runRentReminderAutomation();
-    } else if (type === 'lease') {
-      res = await AutomationEngine.runLeaseExpirationAutomation();
-    } else {
-      res = await AutomationEngine.runMaintenanceVendorAssignment();
-    }
-
-    setRunResult(res);
-    setIsRunning(false);
-  };
-
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
       {/* Header Banner: Line 1 Title and Subtitle with visual divider */}
@@ -69,31 +49,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
 
       {/* Visual Horizontal Separator */}
       <hr className="border-t border-cream-300" />
-
-      {/* Controls Line: Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
-        <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-          Quick Automated Operations
-        </span>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => handleTriggerAutomation('rent')}
-            disabled={isRunning}
-            className="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
-          >
-            <Play className="w-3.5 h-3.5 fill-current" /> Run Rent Reminders
-          </button>
-
-          <button
-            onClick={() => handleTriggerAutomation('vendor')}
-            disabled={isRunning}
-            className="px-3.5 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
-          >
-            <Zap className="w-3.5 h-3.5" /> Auto-Assign Vendors
-          </button>
-        </div>
-      </div>
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -308,14 +263,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
           </div>
         </div>
       </div>
-
-      {/* Automation Run Feedback Modal */}
-      <AutomationRunModal
-        result={runResult}
-        onClose={() => setRunResult(null)}
-        onViewCommunications={() => onNavigate('communications')}
-        onViewLogs={() => onNavigate('logs')}
-      />
     </div>
   );
 };

@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
-import { FileText, Calendar, Play, AlertCircle, CheckCircle2, ChevronRight } from 'lucide-react';
+import { FileText, Calendar, CheckCircle2, ChevronRight } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
-import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
-import { AutomationRunModal } from '../components/AutomationRunModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface LeasesProps {
   dbState: DatabaseState;
-  onNavigateToCommunications?: () => void;
-  onNavigateToLogs?: () => void;
 }
 
-export const LeasesPage: React.FC<LeasesProps> = ({
-  dbState,
-  onNavigateToCommunications,
-  onNavigateToLogs
-}) => {
+export const LeasesPage: React.FC<LeasesProps> = ({ dbState }) => {
   const [activeTab, setActiveTab] = useState<string>('All');
-  const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
   const { formatMoney } = useCurrency();
 
   const filteredLeases = dbState.leases.filter(lease => {
@@ -29,33 +19,20 @@ export const LeasesPage: React.FC<LeasesProps> = ({
     return true;
   });
 
-  const handleRunAutomation = async () => {
-    setIsRunning(true);
-    const res = await AutomationEngine.runLeaseExpirationAutomation();
-    setRunResult(res);
-    setIsRunning(false);
-  };
-
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Lease Management & Renewals</h1>
-          <p className="text-sm text-slate-500">Track 90/60/30-day expiration triggers, renewal notices & tasks</p>
-        </div>
-
-        {/* Executable Automation Button */}
-        <button
-          onClick={handleRunAutomation}
-          disabled={isRunning}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 disabled:opacity-50"
-        >
-          <Play className="w-3.5 h-3.5 fill-current" /> Run Lease Expiration Automation
-        </button>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Lease Management & Renewals</h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">Track 90/60/30-day expiration triggers, renewal notices & tasks</p>
       </div>
 
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+      <div className="flex items-center gap-2 border-b border-cream-200 pb-3">
         {['All', 'Expiring Soon', 'Renewal Pending', 'Ended'].map(tab => (
           <button
             key={tab}
@@ -119,13 +96,6 @@ export const LeasesPage: React.FC<LeasesProps> = ({
           </table>
         </div>
       </div>
-
-      <AutomationRunModal
-        result={runResult}
-        onClose={() => setRunResult(null)}
-        onViewCommunications={onNavigateToCommunications}
-        onViewLogs={onNavigateToLogs}
-      />
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Receipt, DollarSign, Play, AlertCircle, CheckCircle2, Plus, Building2, Home } from 'lucide-react';
+import { Receipt, DollarSign, Plus, Building2, Home } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
-import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
-import { AutomationRunModal } from '../components/AutomationRunModal';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { useCurrency } from '../context/CurrencyContext';
 
@@ -11,10 +9,8 @@ interface BillsProps {
   onNavigateToLogs?: () => void;
 }
 
-export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) => {
+export const BillsPage: React.FC<BillsProps> = ({ dbState }) => {
   const [statusFilter, setStatusFilter] = useState<string>('All');
-  const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const { formatMoney } = useCurrency();
 
@@ -28,13 +24,6 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
   const pendingAmount = totalBillsAmount - paidAmount;
 
   const totalOperatingExpenses = (dbState.expenses || []).reduce((acc, e) => acc + e.amount, 0);
-
-  const handleRunBillReminders = async () => {
-    setIsRunning(true);
-    const res = await AutomationEngine.runBillReminderAutomation();
-    setRunResult(res);
-    setIsRunning(false);
-  };
 
   const billStatuses = ['All', 'Due Soon', 'Pending', 'Overdue', 'Paid'];
 
@@ -74,17 +63,9 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
         <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={() => setIsAddExpenseOpen(true)}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-4 h-4" /> Record Operating Expense
-          </button>
-
-          <button
-            onClick={handleRunBillReminders}
-            disabled={isRunning}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
-          >
-            <Play className="w-3.5 h-3.5 fill-current" /> Run Bill Due Date Check
           </button>
         </div>
       </div>
@@ -173,15 +154,6 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState, onNavigateToLogs }) =
         onClose={() => setIsAddExpenseOpen(false)}
         dbState={dbState}
       />
-
-      {/* Execution Feedback Modal */}
-      {runResult && (
-        <AutomationRunModal
-          result={runResult}
-          onClose={() => setRunResult(null)}
-          onViewLogs={onNavigateToLogs}
-        />
-      )}
     </div>
   );
 };

@@ -1,24 +1,15 @@
 import React, { useState } from 'react';
-import { CreditCard, DollarSign, Play, AlertCircle, CheckCircle2, Search, Filter } from 'lucide-react';
+import { CreditCard, DollarSign, Search, Filter } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
-import { AutomationEngine, ExecutionResult } from '../services/automationEngine';
-import { AutomationRunModal } from '../components/AutomationRunModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface PaymentsProps {
   dbState: DatabaseState;
-  onNavigateToCommunications?: () => void;
-  onNavigateToLogs?: () => void;
 }
 
-export const PaymentsPage: React.FC<PaymentsProps> = ({
-  dbState,
-  onNavigateToCommunications,
-  onNavigateToLogs
-}) => {
+export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
   const [statusFilter, setStatusFilter] = useState<string>('All');
-  const [runResult, setRunResult] = useState<ExecutionResult | null>(null);
-  const [isRunning, setIsRunning] = useState(false);
+  const [search, setSearch] = useState('');
   const { formatMoney } = useCurrency();
 
   const totalExpected = dbState.payments.reduce((acc, p) => acc + p.amount_due, 0);
@@ -27,23 +18,12 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
   const overdueCount = dbState.payments.filter(p => p.status === 'Overdue').length;
 
   const filteredPayments = dbState.payments.filter(p => {
-    if (statusFilter === 'All') return true;
-    return p.status === statusFilter;
+    const tenant = dbState.tenants.find(t => t.id === p.tenant_id);
+    const tenantName = tenant ? `${tenant.first_name} ${tenant.last_name}`.toLowerCase() : '';
+    const matchesSearch = tenantName.includes(search.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || p.status === statusFilter;
+    return matchesStatus && matchesSearch;
   });
-
-  const handleRunRentReminders = async () => {
-    setIsRunning(true);
-    const res = await AutomationEngine.runRentReminderAutomation();
-    setRunResult(res);
-    setIsRunning(false);
-  };
-
-  const handleRunOverdueCheck = async () => {
-    setIsRunning(true);
-    const res = await AutomationEngine.runOverduePaymentCheck();
-    setRunResult(res);
-    setIsRunning(false);
-  };
 
   const paymentStatuses = ['All', 'Paid', 'Pending', 'Partially Paid', 'Overdue'];
 
@@ -80,22 +60,13 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
           </select>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={handleRunRentReminders}
-            disabled={isRunning}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
-          >
-            <Play className="w-3.5 h-3.5 fill-current" /> Run Rent Reminders
-          </button>
-          <button
-            onClick={handleRunOverdueCheck}
-            disabled={isRunning}
-            className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50"
-          >
-            <AlertCircle className="w-3.5 h-3.5" /> Check Overdue Arrears (N4)
-          </button>
-        </div>
+        <input
+          type="text"
+          placeholder="Search tenant..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden w-64"
+        />
       </div>
 
       {/* Summary KPI Grid */}
@@ -166,13 +137,6 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({
           </table>
         </div>
       </div>
-
-      <AutomationRunModal
-        result={runResult}
-        onClose={() => setRunResult(null)}
-        onViewCommunications={onNavigateToCommunications}
-        onViewLogs={onNavigateToLogs}
-      />
     </div>
   );
 };

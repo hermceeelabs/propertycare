@@ -72,32 +72,37 @@ export const AutomationsPage: React.FC<AutomationsProps> = ({
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Automation Control Center</h1>
-          <p className="text-sm text-slate-500">Native background engine executing recurring business rules & audit logging</p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+          <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Automation Control Center</h1>
+          <span className="hidden sm:inline text-cream-400 font-light">|</span>
+          <p className="text-sm text-stone-600">Native background engine executing recurring business rules & audit logging</p>
         </div>
 
         <button
           onClick={onNavigateToLogs}
-          className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+          className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 self-start sm:self-auto shrink-0"
         >
           <Clock className="w-4 h-4" /> View Full Audit Log
         </button>
       </div>
 
+      {/* Visual Horizontal Separator */}
+      <hr className="border-t border-cream-300" />
+
       {/* Visual Workflow Diagram Card */}
-      <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-md space-y-3">
+      <div className="bg-stone-900 text-white p-6 rounded-2xl shadow-sm border border-stone-800 space-y-3">
         <h3 className="font-bold text-sm text-emerald-400 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4" /> Standard Automation Architecture
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-6 gap-2 text-center text-xs font-semibold pt-2">
-          <div className="p-2 bg-slate-800 rounded border border-slate-700">Trigger</div>
-          <div className="p-2 bg-slate-800 rounded border border-slate-700">Find Records</div>
-          <div className="p-2 bg-slate-800 rounded border border-slate-700">Apply Rules</div>
-          <div className="p-2 bg-slate-800 rounded border border-slate-700">Generate Email</div>
-          <div className="p-2 bg-slate-800 rounded border border-slate-700">Mock Provider</div>
-          <div className="p-2 bg-emerald-600 rounded text-slate-950 font-bold">Audit Log</div>
+          <div className="p-2.5 bg-stone-800/80 rounded-xl border border-stone-700/60 text-stone-200">1. Trigger</div>
+          <div className="p-2.5 bg-stone-800/80 rounded-xl border border-stone-700/60 text-stone-200">2. Find Records</div>
+          <div className="p-2.5 bg-stone-800/80 rounded-xl border border-stone-700/60 text-stone-200">3. Apply Rules</div>
+          <div className="p-2.5 bg-stone-800/80 rounded-xl border border-stone-700/60 text-stone-200">4. Draft Notices</div>
+          <div className="p-2.5 bg-stone-800/80 rounded-xl border border-stone-700/60 text-stone-200">5. Email / SMS</div>
+          <div className="p-2.5 bg-emerald-600 rounded-xl text-stone-950 font-bold shadow-xs">6. Audit Log</div>
         </div>
       </div>
 
@@ -108,30 +113,30 @@ export const AutomationsPage: React.FC<AutomationsProps> = ({
           const successCount = ruleLogs.filter(l => l.status === 'Success').length;
 
           return (
-            <div key={rule.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4 flex flex-col justify-between">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-brand-50 text-brand-700 px-2 py-0.5 rounded border border-brand-200">
+            <div key={rule.id} className="bg-cream-50 p-6 rounded-2xl border border-cream-300 shadow-xs space-y-4 flex flex-col justify-between hover:border-cream-400 transition-colors">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-cream-200/60 text-stone-700 px-2.5 py-1 rounded-md border border-cream-300">
                     {rule.trigger}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" /> Active
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100/70 border border-emerald-300 px-2.5 py-0.5 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" /> Active
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-slate-900">{rule.name}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">{rule.desc}</p>
+                <h3 className="text-base font-bold text-stone-900">{rule.name}</h3>
+                <p className="text-xs text-stone-600 leading-relaxed">{rule.desc}</p>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">
-                  Success Runs: <strong className="text-slate-900">{successCount}</strong>
+              <div className="pt-4 border-t border-cream-200 flex items-center justify-between">
+                <span className="text-xs text-stone-500 font-medium">
+                  Logged Executions: <strong className="text-stone-900">{successCount}</strong>
                 </span>
 
                 <button
                   onClick={() => handleRunSingle(rule.type)}
                   disabled={isRunning}
-                  className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-bold shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center gap-1.5 disabled:opacity-50"
                 >
                   <Play className="w-3 h-3 fill-current" /> Run Now
                 </button>
