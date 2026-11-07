@@ -3,13 +3,14 @@ import {
   ArrowLeft, Building2, MapPin, Home, Users, FileText,
   CreditCard, Wrench, Receipt, History, TrendingUp, Plus,
   Trash2, Landmark, Clock, Calendar, CheckCircle2, AlertCircle, ArrowUpRight, Sliders,
-  ArrowRightLeft, HelpCircle, RefreshCw
+  ArrowRightLeft, HelpCircle, RefreshCw, Layers
 } from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
 import { AddUnitModal } from '../components/AddUnitModal';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
+import { getYearlyWeightedExchangeRate, YearFxCalculation } from '../services/exchangeRateApi';
 
 interface PropertyDetailProps {
   propertyId: string;
@@ -82,8 +83,10 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const breakEvenYears = annualNetCashFlow > 0 ? (initialCashOutlay / annualNetCashFlow) : 999;
   const breakEvenMonths = annualNetCashFlow > 0 ? Math.round(breakEvenYears * 12) : 0;
 
-  // Approximate time elapsed since acquisition
-  const acquisitionYear = new Date(acquisition.acquisition_date).getFullYear();
+  // Acquisition date breakdown for partial year proration
+  const acqDateObj = new Date(acquisition.acquisition_date);
+  const acquisitionYear = acqDateObj.getFullYear() || 2024;
+  const acquisitionMonth = (acqDateObj.getMonth() + 1) || 1; // 1-12 (e.g. 6 for June)
   const currentYear = 2026;
   const yearsElapsed = Math.max(0, currentYear - acquisitionYear);
   const capitalRecoveredSoFar = Math.min(initialCashOutlay, Math.max(0, annualNetCashFlow * yearsElapsed));
@@ -96,8 +99,8 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const defaultBaseUsd = acquisition.base_valuation_in_usd || (defaultAcqRate > 0 ? Math.round(acquisition.total_acquisition_cost / defaultAcqRate) : 200000);
   const [currentFxRate, setCurrentFxRate] = useState<number>(defaultAcqRate);
   const [expenseInflationPercent, setExpenseInflationPercent] = useState<number>(0); // e.g. 0% default, adjustable -30% to +50%
+  const [forecastAnnualDriftPercent, setForecastAnnualDriftPercent] = useState<number>(5); // e.g. 5% annual depreciation in forecast years
 
-  // Dynamic Valuation & Dynamic Break-Even Calculations
   // Total valuation at simulated current FX rate:
   const currentAssetValuationInLocal = defaultBaseUsd * currentFxRate;
   const initialEquityInUsd = defaultAcqRate > 0 ? (initialCashOutlay / defaultAcqRate) : 0;
@@ -121,6 +124,59 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   // 10-Year Amortization Schedule Projection
   const annualAmortization = acquisition.annual_depreciation_or_amort;
   const scheduleYears = Array.from({ length: 10 }, (_, i) => acquisitionYear + i);
+
+  // Pre-calculate year-by-year FX calculations with proration for Year 1
+  const yearlyScheduleDetails = (() => {
+    let runningCumulativeLocal = 0;
+    let runningCumulativeUsd = 0;
+
+    return scheduleYears.map((yr, idx) => {
+      const yearIndex = idx + 1;
+      const isYearOne = idx === 0;
+      
+      // Calculate active months & proration for Year 1 (e.g. June = 7 active months)
+      const fxCalc = getYearlyWeightedExchangeRate('NGN', yr, {
+        startMonth: isYearOne ? acquisitionMonth : 1,
+        dealEntryRate: defaultAcqRate,
+        currentLiveRate: Math.round(getLiveRateVsUsd('NGN')),
+        annualForecastDriftPercent: forecastAnnualDriftPercent,
+        currentYear: 2026
+      });
+
+      const activeFactor = fxCalc.prorationFraction;
+      const yrRevenue = actualMonthlyRent * 12 * activeFactor;
+      const yrOperatingCost = adjustedTotalExpenses * 12 * activeFactor;
+      const yrMasterLease = monthlyMasterLeaseFee * 12 * activeFactor;
+      const yrNetCashFlow = dynamicMonthlyNOI * 12 * activeFactor;
+      
+      runningCumulativeLocal += yrNetCashFlow;
+      
+      // Convert year's net cash flow to USD using that year's specific weighted average rate
+      const yrNetCashFlowUsd = fxCalc.rateVsUsd > 0 ? (yrNetCashFlow / fxCalc.rateVsUsd) : 0;
+      runningCumulativeUsd += yrNetCashFlowUsd;
+
+      const remainingBookVal = Math.max(0, acquisition.total_acquisition_cost - (annualAmortization * yearIndex));
+      const isLocalBreakEvenReached = runningCumulativeLocal >= initialCashOutlay;
+      const isUsdBreakEvenReached = runningCumulativeUsd >= initialEquityInUsd;
+
+      return {
+        year: yr,
+        yearIndex,
+        isYearOne,
+        fxCalc,
+        yrRevenue,
+        yrOperatingCost,
+        yrMasterLease,
+        yrNetCashFlow,
+        yrNetCashFlowUsd,
+        cumulativeLocal: runningCumulativeLocal,
+        cumulativeUsd: runningCumulativeUsd,
+        remainingBookVal,
+        isLocalBreakEvenReached,
+        isUsdBreakEvenReached
+      };
+    });
+  })();
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
@@ -450,6 +506,34 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     <span>+60% Cost Inflation (Fuel, Tariffs, Parts)</span>
                   </div>
                 </div>
+
+                {/* Annual FX Depreciation Drift for Multi-Year Forecasting */}
+                <div className="pt-2 border-t border-blue-800/40">
+                  <div className="flex items-center justify-between text-xs font-semibold mb-1">
+                    <span className="text-blue-200 flex items-center gap-1.5">
+                      <TrendingUp className="w-3.5 h-3.5 text-purple-400" />
+                      Future Annual FX Depreciation Drift (2027+): <strong className="text-white text-sm ml-1">+{forecastAnnualDriftPercent}% / year</strong>
+                    </span>
+                    <span className="text-xs text-purple-300 font-mono">
+                      Compounded in Year-by-Year Schedule below
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={25}
+                    step={1}
+                    value={forecastAnnualDriftPercent}
+                    onChange={(e) => setForecastAnnualDriftPercent(parseInt(e.target.value, 10))}
+                    className="w-full accent-purple-400 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none"
+                  />
+                  <div className="flex justify-between text-[10px] text-blue-300/70 font-mono">
+                    <span>0% Stable Currency</span>
+                    <span>+5% Moderate Drift</span>
+                    <span>+15% High Depreciation</span>
+                    <span>+25% Severe Devaluation</span>
+                  </div>
+                </div>
               </div>
 
               {/* Explanatory Context Note & Live FX Attribution */}
@@ -511,76 +595,146 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
             {/* Year-by-Year Amortization & Cash Flow Table */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider">
-                    Year-by-Year Amortization Schedule & Cumulative Return
-                  </h4>
-                  <p className="text-xs text-slate-500">Straight-line capital depreciation vs projected cash flow yield</p>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider">
+                      Year-by-Year Amortization Schedule & Cumulative Return
+                    </h4>
+                    <span className="text-[10px] font-extrabold uppercase bg-brand-50 text-brand-700 px-2 py-0.5 rounded border border-brand-200">
+                      Prorated & FX Weighted
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500">
+                    Accounts for Year 1 partial holding period (from {acqDateObj.toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}) and yearly FX fluctuations
+                  </p>
                 </div>
-                <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">
-                  Annual Write-Off: {formatMoney(annualAmortization, { maximumFractionDigits: 0 })}/yr
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200">
+                    Annual Write-Off: {formatMoney(annualAmortization, { maximumFractionDigits: 0 })}/yr
+                  </span>
+                </div>
               </div>
 
               <div className="overflow-x-auto border border-slate-200 rounded-xl">
                 <table className="w-full text-left text-xs">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider">
-                      <th className="p-3.5">Fiscal Year</th>
+                      <th className="p-3.5">Fiscal Year & Active Duration</th>
+                      <th className="p-3.5">Effective FX Rate</th>
                       <th className="p-3.5">Gross Revenue</th>
                       <th className="p-3.5">Operating Costs</th>
                       {acquisition.acquisition_type === 'Long-Term Lease' && (
                         <th className="p-3.5">Master Lease Fee</th>
                       )}
-                      <th className="p-3.5">Net Cash Flow</th>
-                      <th className="p-3.5">Annual Amortization</th>
+                      <th className="p-3.5">Net Cash Flow (Local)</th>
+                      <th className="p-3.5">USD Converted Return</th>
                       <th className="p-3.5">Remaining Book Value</th>
                       <th className="p-3.5 text-right">Cumulative Net Return</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {scheduleYears.map((yr, idx) => {
-                      const yearIndex = idx + 1;
-                      const projectedRevenue = actualMonthlyRent * 12;
-                      const projectedExpenses = totalPropertyExpenses * 12;
-                      const masterLeaseAnnual = monthlyMasterLeaseFee * 12;
-                      const netCash = annualNetCashFlow;
-                      const cumulativeNet = netCash * yearIndex;
-                      const remainingBookVal = Math.max(0, acquisition.total_acquisition_cost - (annualAmortization * yearIndex));
-                      const isBreakEvenReached = cumulativeNet >= initialCashOutlay;
+                    {yearlyScheduleDetails.map((row) => {
+                      const {
+                        year,
+                        yearIndex,
+                        isYearOne,
+                        fxCalc,
+                        yrRevenue,
+                        yrOperatingCost,
+                        yrMasterLease,
+                        yrNetCashFlow,
+                        yrNetCashFlowUsd,
+                        cumulativeLocal,
+                        cumulativeUsd,
+                        remainingBookVal,
+                        isLocalBreakEvenReached,
+                        isUsdBreakEvenReached
+                      } = row;
+
+                      const isCurrentYr = year === currentYear;
 
                       return (
-                        <tr key={yr} className={`hover:bg-slate-50/80 transition-colors ${yr === currentYear ? 'bg-brand-50/40 font-semibold' : ''}`}>
+                        <tr
+                          key={year}
+                          className={`hover:bg-slate-50/80 transition-colors ${isCurrentYr ? 'bg-brand-50/40 font-semibold' : ''}`}
+                        >
                           <td className="p-3.5 font-bold text-slate-900">
-                            Year {yearIndex} ({yr})
-                            {yr === currentYear && (
-                              <span className="ml-2 text-[10px] font-extrabold text-brand-700 bg-brand-100 px-1.5 py-0.5 rounded">
-                                Current
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span>Year {yearIndex} ({year})</span>
+                              {isCurrentYr && (
+                                <span className="text-[10px] font-extrabold text-brand-700 bg-brand-100 px-1.5 py-0.2 rounded">
+                                  Current
+                                </span>
+                              )}
+                              {isYearOne && fxCalc.isProrated && (
+                                <span className="text-[10px] font-bold text-amber-700 bg-amber-100/80 px-1.5 py-0.2 rounded">
+                                  {fxCalc.monthsActive} of 12 Mos Active
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Effective FX Rate Column */}
+                          <td className="p-3.5">
+                            <div className="space-y-0.5">
+                              <span className="font-extrabold text-slate-800">
+                                {fxCalc.rateVsUsd.toLocaleString()} NGN/$
                               </span>
-                            )}
+                              <span className={`block text-[9px] font-bold uppercase tracking-wider ${
+                                fxCalc.sourceType === 'Live Market API'
+                                  ? 'text-emerald-600'
+                                  : fxCalc.sourceType === 'Historical Monthly Weighted'
+                                  ? 'text-blue-600'
+                                  : fxCalc.sourceType === 'Projected Forecast'
+                                  ? 'text-purple-600'
+                                  : 'text-slate-500'
+                              }`}>
+                                {fxCalc.sourceType}
+                              </span>
+                            </div>
                           </td>
-                          <td className="p-3.5 text-slate-800">{formatMoney(projectedRevenue, { maximumFractionDigits: 0 })}</td>
-                          <td className="p-3.5 text-rose-600">-{formatMoney(projectedExpenses, { maximumFractionDigits: 0 })}</td>
+
+                          <td className="p-3.5 text-slate-800">{formatMoney(yrRevenue, { maximumFractionDigits: 0 })}</td>
+                          <td className="p-3.5 text-rose-600">-{formatMoney(yrOperatingCost, { maximumFractionDigits: 0 })}</td>
                           {acquisition.acquisition_type === 'Long-Term Lease' && (
-                            <td className="p-3.5 text-amber-700 font-medium">-{formatMoney(masterLeaseAnnual, { maximumFractionDigits: 0 })}</td>
+                            <td className="p-3.5 text-amber-700 font-medium">-{formatMoney(yrMasterLease, { maximumFractionDigits: 0 })}</td>
                           )}
+
                           <td className="p-3.5 font-bold text-emerald-600">
-                            +{formatMoney(netCash, { maximumFractionDigits: 0 })}
+                            +{formatMoney(yrNetCashFlow, { maximumFractionDigits: 0 })}
                           </td>
-                          <td className="p-3.5 text-purple-700 font-medium">
-                            {formatMoney(annualAmortization, { maximumFractionDigits: 0 })}
+
+                          {/* Converted USD Return Column */}
+                          <td className="p-3.5 font-bold text-blue-900">
+                            +${Math.round(yrNetCashFlowUsd).toLocaleString()} USD
+                            <span className="block text-[10px] text-slate-400 font-normal">
+                              @ {fxCalc.rateVsUsd.toLocaleString()} rate
+                            </span>
                           </td>
+
                           <td className="p-3.5 text-slate-600 font-medium">
                             {formatMoney(remainingBookVal, { maximumFractionDigits: 0 })}
                           </td>
+
+                          {/* Cumulative Return & Break-Even Badges */}
                           <td className="p-3.5 text-right font-extrabold">
-                            <span className={cumulativeNet >= initialCashOutlay ? 'text-emerald-700' : 'text-slate-700'}>
-                              {formatMoney(cumulativeNet, { maximumFractionDigits: 0 })}
+                            <span className={cumulativeLocal >= initialCashOutlay ? 'text-emerald-700' : 'text-slate-700'}>
+                              {formatMoney(cumulativeLocal, { maximumFractionDigits: 0 })}
                             </span>
-                            {isBreakEvenReached && (
-                              <span className="block text-[10px] text-emerald-600 font-bold">
-                                ✓ Capital Recovered
+                            <span className="block text-[11px] text-blue-800 font-medium">
+                              (${Math.round(cumulativeUsd).toLocaleString()} USD)
+                            </span>
+
+                            {isLocalBreakEvenReached && (
+                              <span className="inline-block mt-0.5 text-[9px] text-emerald-700 bg-emerald-100 font-bold px-1.5 py-0.5 rounded mr-1">
+                                ✓ Local Break-Even
+                              </span>
+                            )}
+
+                            {isUsdBreakEvenReached && (
+                              <span className="inline-block mt-0.5 text-[9px] text-blue-800 bg-blue-100 font-bold px-1.5 py-0.5 rounded">
+                                ✓ USD Equity Recovered
                               </span>
                             )}
                           </td>
