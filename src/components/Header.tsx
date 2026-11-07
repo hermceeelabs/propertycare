@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Search, Bell, ChevronRight, X, Building2, Users, FileText, Wrench, CreditCard, DollarSign } from 'lucide-react';
-import { DatabaseState } from '../services/supabase';
+import React, { useState, useEffect } from 'react';
+import { Search, Bell, ChevronRight, X, Building2, Users, FileText, Wrench, CreditCard, DollarSign, LogIn, LogOut, UserCheck } from 'lucide-react';
+import { DatabaseState, supabase } from '../services/supabase';
 import { NavTab } from './Sidebar';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
 
@@ -8,16 +8,36 @@ interface HeaderProps {
   dbState: DatabaseState;
   onNavigate: (tab: NavTab) => void;
   pendingTasksCount: number;
+  onOpenAuthModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   dbState,
   onNavigate,
-  pendingTasksCount
+  pendingTasksCount,
+  onOpenAuthModal
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showTasksModal, setShowTasksModal] = useState(false);
+  const [authUser, setAuthUser] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthUser(session?.user || null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setAuthUser(null);
+  };
 
   const { currentCurrency, setCurrency, currencyConfig } = useCurrency();
 
@@ -146,6 +166,45 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           )}
         </button>
+
+        {/* Authentication State / Sign In with Google Button */}
+        {authUser ? (
+          <div className="flex items-center gap-2 pl-2 border-l border-cream-300">
+            {authUser.user_metadata?.avatar_url ? (
+              <img
+                src={authUser.user_metadata.avatar_url}
+                alt={authUser.user_metadata.full_name || 'User'}
+                className="w-7 h-7 rounded-full border border-cream-400"
+              />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-stone-900 text-white text-[11px] font-bold flex items-center justify-center">
+                {(authUser.email?.[0] || 'U').toUpperCase()}
+              </div>
+            )}
+            <div className="hidden sm:block text-left text-[11px] leading-tight">
+              <span className="block font-bold text-stone-900 truncate max-w-[110px]">
+                {authUser.user_metadata?.full_name || authUser.email?.split('@')[0]}
+              </span>
+              <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Signed In
+              </span>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="p-1.5 text-stone-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-1"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenAuthModal}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all"
+          >
+            <LogIn className="w-3.5 h-3.5 text-emerald-400" /> Sign In
+          </button>
+        )}
       </div>
 
       {/* Pending Tasks Drawer Modal */}

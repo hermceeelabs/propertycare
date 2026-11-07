@@ -16,9 +16,9 @@ import {
 // Direct import of versioned JSON database stored in repository
 import databaseJson from '../data/database.json';
 
-// Supabase client instance (with public demo fallback keys)
-const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || 'https://demo.propertyflow.app';
-const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.demo-key';
+// Supabase client instance (configured with Vite / Next environment variables)
+const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || (import.meta as any).env?.NEXT_PUBLIC_SUPABASE_URL || 'https://gewcuxamglbbysddmfgu.supabase.co';
+const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || (import.meta as any).env?.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_6cPcqdQIbERtMcLQlMNpYw_Eqw6vs1G';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 

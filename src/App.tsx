@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar, NavTab } from './components/Sidebar';
 import { Header } from './components/Header';
 import { EmailPreviewModal } from './components/EmailPreviewModal';
+import { AuthModal } from './components/AuthModal';
 import { CurrencyProvider } from './context/CurrencyContext';
 
 import { store, DatabaseState } from './services/supabase';
@@ -32,6 +33,7 @@ export function App() {
 
   const [previewComm, setPreviewComm] = useState<Communication | null>(null);
   const [dbState, setDbState] = useState<DatabaseState>(store.getState());
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
@@ -77,6 +79,7 @@ export function App() {
             dbState={dbState}
             onNavigate={handleNavigate}
             pendingTasksCount={pendingTasksCount}
+            onOpenAuthModal={() => setShowAuthModal(true)}
           />
 
           <main className="flex-1 overflow-y-auto bg-cream-100">
@@ -200,6 +203,12 @@ export function App() {
             onClose={() => setPreviewComm(null)}
           />
         )}
+
+        {/* Supabase Google Authentication Modal */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
       </div>
     </CurrencyProvider>
   );
