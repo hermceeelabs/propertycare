@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { X, Building2, MapPin, Landmark, Clock, CheckCircle2 } from 'lucide-react';
+import { X, Building2, MapPin, Landmark, Clock, CheckCircle2, DollarSign, ArrowRightLeft } from 'lucide-react';
 import { store, DatabaseState } from '../services/supabase';
-import { Property, PropertyType, AcquisitionType } from '../types/database';
-import { useCurrency } from '../context/CurrencyContext';
+import { Property, PropertyType, AcquisitionType, CurrencyCode } from '../types/database';
+import { useCurrency, CURRENCIES } from '../context/CurrencyContext';
 
 interface AddPropertyModalProps {
   isOpen: boolean;
@@ -35,6 +35,13 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
   const [monthlyLeaseCost, setMonthlyLeaseCost] = useState('');
   const [notes, setNotes] = useState('');
 
+  // Currency & Exchange Rate at Acquisition
+  const [acquisitionCurrency, setAcquisitionCurrency] = useState<CurrencyCode>(currencyConfig.code);
+  const [exchangeRateAtAcquisition, setExchangeRateAtAcquisition] = useState<string>(
+    currencyConfig.code === 'NGN' ? '1427' : '1.0'
+  );
+  const [baseValuationUsd, setBaseValuationUsd] = useState<string>('');
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,6 +53,8 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
     const downPaymentNum = parseFloat(downPayment) || 0;
     const amortNum = parseInt(amortYears, 10) || 20;
     const annualAmort = amortNum > 0 ? Math.round(costNum / amortNum) : 0;
+    const exchangeRateNum = parseFloat(exchangeRateAtAcquisition) || 1.0;
+    const usdValNum = parseFloat(baseValuationUsd) || (exchangeRateNum > 0 ? costNum / exchangeRateNum : costNum);
 
     const newProperty: Property = {
       id: propertyId,
@@ -68,7 +77,10 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
         annual_depreciation_or_amort: annualAmort,
         lease_term_years: acquisitionType === 'Long-Term Lease' ? parseInt(leaseTermYears, 10) || 10 : undefined,
         monthly_lease_cost: acquisitionType === 'Long-Term Lease' ? parseFloat(monthlyLeaseCost) || 0 : undefined,
-        notes: notes.trim()
+        notes: notes.trim(),
+        acquisition_currency: acquisitionCurrency,
+        exchange_rate_at_acquisition: exchangeRateNum,
+        base_valuation_in_usd: usdValNum
       }
     };
 
@@ -277,6 +289,68 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
                   />
                 </div>
               )}
+
+              {/* Multi-Currency & Valuation Baseline */}
+              <div className="sm:col-span-2 p-3.5 bg-blue-50/60 rounded-xl border border-blue-200/80 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ArrowRightLeft className="w-4 h-4 text-blue-700" />
+                    <span className="font-bold text-blue-900 text-xs">Foreign Valuation & Acquisition Exchange Rate</span>
+                  </div>
+                  <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">
+                    FX Break-Even Tracking
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-slate-700 font-semibold mb-1">Acquisition Currency</label>
+                    <select
+                      value={acquisitionCurrency}
+                      onChange={(e) => setAcquisitionCurrency(e.target.value as CurrencyCode)}
+                      className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+                    >
+                      {Object.values(CURRENCIES).map(c => (
+                        <option key={c.code} value={c.code}>{c.code} ({c.symbol.trim()}) - {c.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-slate-700 font-semibold mb-1">
+                      Exchange Rate at Purchase (vs USD)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      placeholder="e.g. 1427 (NGN/USD)"
+                      value={exchangeRateAtAcquisition}
+                      onChange={(e) => {
+                        setExchangeRateAtAcquisition(e.target.value);
+                        const rate = parseFloat(e.target.value);
+                        const cost = parseFloat(totalCost);
+                        if (rate > 0 && cost > 0) {
+                          setBaseValuationUsd(Math.round(cost / rate).toString());
+                        }
+                      }}
+                      className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+                    />
+                    <span className="text-[10px] text-slate-500 block mt-0.5">FX rate benchmark on deal closure date</span>
+                  </div>
+
+                  <div>
+                    <label className="block text-slate-700 font-semibold mb-1">Base Valuation (USD $)</label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 200000"
+                      value={baseValuationUsd}
+                      onChange={(e) => setBaseValuationUsd(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+                    />
+                    <span className="text-[10px] text-slate-500 block mt-0.5">Underlying USD investment basis</span>
+                  </div>
+                </div>
+              </div>
 
               <div className="sm:col-span-2">
                 <label className="block text-stone-700 font-semibold mb-1">Acquisition Notes & Strategy</label>

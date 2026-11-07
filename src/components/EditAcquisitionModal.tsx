@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { X, Building2, DollarSign, Calendar, Clock, Landmark, ShieldCheck } from 'lucide-react';
-import { Property, PropertyAcquisition, AcquisitionType } from '../types/database';
+import { X, Building2, DollarSign, Calendar, Clock, Landmark, ShieldCheck, ArrowRightLeft } from 'lucide-react';
+import { Property, PropertyAcquisition, AcquisitionType, CurrencyCode } from '../types/database';
 import { store } from '../services/supabase';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CURRENCIES } from '../context/CurrencyContext';
 
 interface EditAcquisitionModalProps {
   isOpen: boolean;
@@ -35,7 +35,18 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
   const [amortYears, setAmortYears] = useState<string>(current.amortization_period_years.toString());
   const [interestRate, setInterestRate] = useState<string>((current.interest_rate_percent || 4.75).toString());
   const [notes, setNotes] = useState<string>(current.notes || '');
-  const { formatMoney } = useCurrency();
+  const { formatMoney, currencyConfig } = useCurrency();
+
+  // Exchange rate & foreign valuation state
+  const [acquisitionCurrency, setAcquisitionCurrency] = useState<CurrencyCode>(
+    current.acquisition_currency || currencyConfig.code
+  );
+  const [exchangeRateAtAcquisition, setExchangeRateAtAcquisition] = useState<string>(
+    (current.exchange_rate_at_acquisition || (currencyConfig.code === 'NGN' ? 1427 : 1.0)).toString()
+  );
+  const [baseValuationUsd, setBaseValuationUsd] = useState<string>(
+    (current.base_valuation_in_usd || (current.total_acquisition_cost / (current.exchange_rate_at_acquisition || 1427))).toFixed(0)
+  );
 
   if (!isOpen) return null;
 
@@ -45,6 +56,8 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
     const costNum = parseFloat(totalCost) || 0;
     const amortNum = parseInt(amortYears, 10) || 25;
     const annualAmort = amortNum > 0 ? Math.round(costNum / amortNum) : 0;
+    const exchangeRateNum = parseFloat(exchangeRateAtAcquisition) || 1.0;
+    const usdValNum = parseFloat(baseValuationUsd) || (exchangeRateNum > 0 ? Math.round(costNum / exchangeRateNum) : costNum);
 
     const updatedAcquisition: PropertyAcquisition = {
       acquisition_type: acquisitionType,
@@ -56,7 +69,10 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
       amortization_period_years: amortNum,
       annual_depreciation_or_amort: annualAmort,
       interest_rate_percent: acquisitionType !== 'Long-Term Lease' ? (parseFloat(interestRate) || undefined) : undefined,
-      notes: notes.trim()
+      notes: notes.trim(),
+      acquisition_currency: acquisitionCurrency,
+      exchange_rate_at_acquisition: exchangeRateNum,
+      base_valuation_in_usd: usdValNum
     };
 
     store.updatePropertyAcquisition(property.id, updatedAcquisition);
@@ -234,6 +250,66 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
               />
             </div>
           )}
+
+          {/* Valuation Baseline & Exchange Rate */}
+          <div className="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200/90 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ArrowRightLeft className="w-4 h-4 text-blue-700" />
+                <span className="font-bold text-blue-900 text-xs">Foreign Exchange Valuation Benchmark</span>
+              </div>
+              <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">
+                FX Break-Even Modeling
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-slate-700 font-semibold mb-1">Acquisition Currency</label>
+                <select
+                  value={acquisitionCurrency}
+                  onChange={(e) => setAcquisitionCurrency(e.target.value as CurrencyCode)}
+                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-blue-500 focus:outline-hidden"
+                >
+                  {Object.values(CURRENCIES).map(c => (
+                    <option key={c.code} value={c.code}>{c.code} ({c.symbol.trim()})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-700 font-semibold mb-1">Exchange Rate (vs USD)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  placeholder="e.g. 1427 (NGN/USD)"
+                  value={exchangeRateAtAcquisition}
+                  onChange={(e) => {
+                    setExchangeRateAtAcquisition(e.target.value);
+                    const rate = parseFloat(e.target.value);
+                    const cost = parseFloat(totalCost);
+                    if (rate > 0 && cost > 0) {
+                      setBaseValuationUsd(Math.round(cost / rate).toString());
+                    }
+                  }}
+                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-slate-800 font-bold"
+                />
+                <span className="text-[10px] text-slate-500 block mt-0.5">At time of investment / lease</span>
+              </div>
+
+              <div>
+                <label className="block text-slate-700 font-semibold mb-1">Base Valuation ($ USD)</label>
+                <input
+                  type="number"
+                  placeholder="e.g. 200000"
+                  value={baseValuationUsd}
+                  onChange={(e) => setBaseValuationUsd(e.target.value)}
+                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-slate-800 font-bold"
+                />
+                <span className="text-[10px] text-slate-500 block mt-0.5">Benchmark USD valuation</span>
+              </div>
+            </div>
+          </div>
 
           {/* Notes */}
           <div>

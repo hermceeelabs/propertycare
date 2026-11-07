@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import {
   ArrowLeft, Building2, MapPin, Home, Users, FileText,
   CreditCard, Wrench, Receipt, History, TrendingUp, Plus,
-  Trash2, Landmark, Clock, Calendar, CheckCircle2, AlertCircle, ArrowUpRight, Sliders
+  Trash2, Landmark, Clock, Calendar, CheckCircle2, AlertCircle, ArrowUpRight, Sliders,
+  ArrowRightLeft, HelpCircle, RefreshCw
 } from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
 import { AddUnitModal } from '../components/AddUnitModal';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
 
 interface PropertyDetailProps {
   propertyId: string;
@@ -89,6 +90,33 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const recoveryProgressPercent = initialCashOutlay > 0
     ? Math.min(100, Math.round((capitalRecoveredSoFar / initialCashOutlay) * 100))
     : 100;
+
+  // FX Valuation & Dynamic Break-Even Sensitivity State
+  const defaultAcqRate = acquisition.exchange_rate_at_acquisition || 1427;
+  const defaultBaseUsd = acquisition.base_valuation_in_usd || (defaultAcqRate > 0 ? Math.round(acquisition.total_acquisition_cost / defaultAcqRate) : 200000);
+  const [currentFxRate, setCurrentFxRate] = useState<number>(defaultAcqRate);
+  const [expenseInflationPercent, setExpenseInflationPercent] = useState<number>(0); // e.g. 0% default, adjustable -30% to +50%
+
+  // Dynamic Valuation & Dynamic Break-Even Calculations
+  // Total valuation at simulated current FX rate:
+  const currentAssetValuationInLocal = defaultBaseUsd * currentFxRate;
+  const initialEquityInUsd = defaultAcqRate > 0 ? (initialCashOutlay / defaultAcqRate) : 0;
+
+  // Adjusted Expenses & Adjusted Annual Cash Flow under FX / expense sensitivity:
+  const adjustedTotalExpenses = totalPropertyExpenses * (1 + (expenseInflationPercent / 100));
+  const dynamicMonthlyNOI = actualMonthlyRent - adjustedTotalExpenses - monthlyMasterLeaseFee;
+  const dynamicAnnualNetCashFlow = dynamicMonthlyNOI * 12;
+
+  // Break-even horizon under simulated conditions:
+  // If we measure recouping initial local outlay:
+  const dynamicBreakEvenYears = dynamicAnnualNetCashFlow > 0 ? (initialCashOutlay / dynamicAnnualNetCashFlow) : 999;
+  
+  // If we measure recouping USD-denominated equity basis using current FX conversion:
+  const annualNetCashFlowInUsd = currentFxRate > 0 ? (dynamicAnnualNetCashFlow / currentFxRate) : 0;
+  const usdBreakEvenYears = annualNetCashFlowInUsd > 0 ? (initialEquityInUsd / annualNetCashFlowInUsd) : 999;
+
+  // FX change percentage relative to deal entry date:
+  const fxChangePercent = defaultAcqRate > 0 ? ((currentFxRate - defaultAcqRate) / defaultAcqRate) * 100 : 0;
 
   // 10-Year Amortization Schedule Projection
   const annualAmortization = acquisition.annual_depreciation_or_amort;
@@ -254,13 +282,166 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
               </div>
 
               <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200">
-                <span className="text-xs text-amber-900 font-semibold block uppercase">Break-Even Horizon</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-amber-900 font-semibold uppercase">Estimated Break-Even</span>
+                  <span className="text-[9px] font-extrabold uppercase bg-amber-200/80 text-amber-900 px-1.5 py-0.5 rounded tracking-wider">
+                    Estimated
+                  </span>
+                </div>
                 <span className="text-xl font-extrabold text-amber-800">
                   {annualNetCashFlow > 0 ? `${breakEvenYears.toFixed(1)} Years` : 'N/A (Deficit)'}
                 </span>
                 <span className="text-[11px] text-amber-700 block mt-1">
                   {annualNetCashFlow > 0 ? `~${breakEvenMonths} operational months` : 'Requires cash flow review'}
                 </span>
+              </div>
+            </div>
+
+            {/* Multi-Currency Valuation & FX Sensitivity Break-Even Simulator */}
+            <div className="p-6 bg-linear-to-br from-slate-900 to-blue-950 text-white rounded-2xl border border-blue-900/60 shadow-xl space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-blue-800/60 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 border border-blue-400/30 flex items-center justify-center">
+                    <ArrowRightLeft className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-extrabold text-white text-base">Exchange Rate & Expense Sensitivity Model</h4>
+                      <span className="text-[10px] font-extrabold uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded tracking-wider">
+                        Estimated Projection
+                      </span>
+                    </div>
+                    <p className="text-xs text-blue-200/80">
+                      Simulate how FX volatility and operating cost shifts shorten or prolong investment payback time
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setCurrentFxRate(defaultAcqRate);
+                    setExpenseInflationPercent(0);
+                  }}
+                  className="px-3 py-1.5 bg-blue-900/40 hover:bg-blue-800/60 text-blue-200 border border-blue-700/50 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" /> Reset to Baseline ({defaultAcqRate})
+                </button>
+              </div>
+
+              {/* Deal Basis vs Current State Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="p-3.5 bg-slate-800/80 rounded-xl border border-blue-800/40 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-blue-300 block">Baseline Valuation (Deal Inception)</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-extrabold text-white">
+                      ${(defaultBaseUsd).toLocaleString()} USD
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-blue-300/80 block">
+                    Fixed rate @ {defaultAcqRate.toLocaleString()} NGN/USD
+                  </span>
+                </div>
+
+                <div className="p-3.5 bg-slate-800/80 rounded-xl border border-blue-800/40 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-blue-300 block">Simulated Asset Valuation</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-extrabold text-blue-200">
+                      {formatMoney(currentAssetValuationInLocal, { maximumFractionDigits: 0 })}
+                    </span>
+                  </div>
+                  <span className={`text-[11px] font-bold block ${fxChangePercent >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {fxChangePercent >= 0 ? `+${fxChangePercent.toFixed(1)}%` : `${fxChangePercent.toFixed(1)}%`} vs deal baseline
+                  </span>
+                </div>
+
+                <div className="p-3.5 bg-slate-800/80 rounded-xl border border-blue-800/40 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-amber-300 block">Simulated Break-Even (Local Currency)</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-extrabold text-amber-300">
+                      {dynamicAnnualNetCashFlow > 0 ? `~${dynamicBreakEvenYears.toFixed(1)} Years` : 'Deficit'}
+                    </span>
+                    <span className="text-[10px] text-amber-200/70 font-semibold uppercase">(Estimated)</span>
+                  </div>
+                  <span className="text-[11px] text-blue-300/80 block">
+                    {dynamicAnnualNetCashFlow > 0 ? `${Math.round(dynamicBreakEvenYears * 12)} months to recoup initial equity` : 'Operating in cash deficit'}
+                  </span>
+                </div>
+
+                <div className="p-3.5 bg-slate-800/80 rounded-xl border border-blue-800/40 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-purple-300 block">USD Real Payback Horizon</span>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-extrabold text-purple-200">
+                      {annualNetCashFlowInUsd > 0 ? `~${usdBreakEvenYears.toFixed(1)} Years` : 'Deficit'}
+                    </span>
+                    <span className="text-[10px] text-purple-300/70 font-semibold uppercase">(Estimated)</span>
+                  </div>
+                  <span className="text-[11px] text-blue-300/80 block">
+                    Under ${(annualNetCashFlowInUsd).toLocaleString(undefined, { maximumFractionDigits: 0 })} USD/yr net yield
+                  </span>
+                </div>
+              </div>
+
+              {/* Interactive Sensitivity Sliders */}
+              <div className="p-4 bg-blue-900/30 rounded-xl border border-blue-800/50 space-y-4">
+                <div className="flex items-center justify-between text-xs font-semibold">
+                  <span className="text-blue-200 flex items-center gap-1.5">
+                    <ArrowRightLeft className="w-3.5 h-3.5 text-blue-400" />
+                    Simulated Exchange Rate: <strong className="text-white text-sm ml-1">{currentFxRate.toLocaleString()} NGN / USD</strong>
+                  </span>
+                  <span className="text-xs text-blue-300">
+                    Baseline Deal Rate: <strong>{defaultAcqRate.toLocaleString()}</strong>
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <input
+                    type="range"
+                    min={Math.round(defaultAcqRate * 0.5)}
+                    max={Math.round(defaultAcqRate * 2.2)}
+                    step={10}
+                    value={currentFxRate}
+                    onChange={(e) => setCurrentFxRate(parseFloat(e.target.value))}
+                    className="w-full accent-blue-400 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none"
+                  />
+                  <div className="flex justify-between text-[10px] text-blue-300/70 font-mono">
+                    <span>Strengthening FX: {Math.round(defaultAcqRate * 0.5).toLocaleString()}</span>
+                    <span>Baseline: {defaultAcqRate.toLocaleString()}</span>
+                    <span>Depreciating FX: {Math.round(defaultAcqRate * 2.2).toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-blue-800/40">
+                  <div className="flex items-center justify-between text-xs font-semibold mb-1">
+                    <span className="text-blue-200">
+                      Operational Expense Fluctuation: <strong className="text-white text-sm ml-1">{expenseInflationPercent > 0 ? `+${expenseInflationPercent}%` : `${expenseInflationPercent}%`}</strong>
+                    </span>
+                    <span className="text-xs text-blue-300">
+                      Adjusted Expenses: <strong>{formatMoney(adjustedTotalExpenses, { maximumFractionDigits: 0 })}/mo</strong>
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={-30}
+                    max={60}
+                    step={5}
+                    value={expenseInflationPercent}
+                    onChange={(e) => setExpenseInflationPercent(parseInt(e.target.value, 10))}
+                    className="w-full accent-amber-400 cursor-pointer h-2 bg-slate-700 rounded-lg appearance-none"
+                  />
+                  <div className="flex justify-between text-[10px] text-blue-300/70 font-mono">
+                    <span>-30% Cost Efficiency</span>
+                    <span>0% Current Baseline</span>
+                    <span>+60% Cost Inflation (Fuel, Tariffs, Parts)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Explanatory Context Note */}
+              <div className="flex items-start gap-2.5 p-3 bg-blue-950/60 rounded-xl border border-blue-800/30 text-xs text-blue-200">
+                <HelpCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <p className="text-[11px] leading-relaxed">
+                  <strong>Estimated Projection Disclaimer:</strong> Break-even horizons represent dynamic mathematical estimates based on current lease inflows, master lease commitments, and projected operating expenditures. In foreign asset purchases (e.g. $200k USD @ 1,427), currency depreciation increases the local currency value required to recover original foreign capital, whereas expense inflation directly compresses net operating margins, extending the investment payback duration.
+                </p>
               </div>
             </div>
 

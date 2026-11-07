@@ -91,6 +91,10 @@ export interface PropertyAcquisition {
   annual_depreciation_or_amort: number;
   interest_rate_percent?: number;
   notes?: string;
+  // Multi-Currency & Valuation Baseline
+  acquisition_currency?: CurrencyCode;
+  exchange_rate_at_acquisition?: number; // e.g. 1427 NGN per USD, or rate to operational currency
+  base_valuation_in_usd?: number; // Original USD valuation if purchased in USD / foreign currency
 }
 
 export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';

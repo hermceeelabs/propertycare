@@ -25,6 +25,7 @@ interface CurrencyContextType {
   formatMoney: (amountInCAD: number, options?: { showCode?: boolean; maximumFractionDigits?: number }) => string;
   convertFromCAD: (amountInCAD: number) => number;
   currencyConfig: CurrencyConfig;
+  getExchangeRate: (from: CurrencyCode, to: CurrencyCode) => number;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -68,6 +69,13 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return amountInCAD * currencyConfig.exchangeRateFromCAD;
   };
 
+  const getExchangeRate = (from: CurrencyCode, to: CurrencyCode): number => {
+    const fromRate = CURRENCIES[from]?.exchangeRateFromCAD || 1.0;
+    const toRate = CURRENCIES[to]?.exchangeRateFromCAD || 1.0;
+    // 1 CAD = fromRate (from), 1 CAD = toRate (to) => 1 from = (toRate / fromRate) to
+    return toRate / fromRate;
+  };
+
   const formatMoney = (
     amountInCAD: number,
     options?: { showCode?: boolean; maximumFractionDigits?: number }
@@ -90,7 +98,8 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setCurrency,
         formatMoney,
         convertFromCAD,
-        currencyConfig
+        currencyConfig,
+        getExchangeRate
       }}
     >
       {children}
