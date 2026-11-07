@@ -6,6 +6,7 @@ import { Header } from './Header';
 import { Dashboard } from '../pages/Dashboard';
 import { PropertiesPage } from '../pages/Properties';
 import { PropertyDetailPage } from '../pages/PropertyDetail';
+import { LandlordsPage } from '../pages/Landlords';
 import { UnitsPage } from '../pages/Units';
 import { TenantsPage } from '../pages/Tenants';
 import { TenantDetailPage } from '../pages/TenantDetail';
@@ -153,6 +154,16 @@ export const AppContent: React.FC<AppContentProps> = ({
                 onSelectProperty={setSelectedPropertyId}
               />
             )
+          )}
+
+          {currentTab === 'landlords' && (
+            <LandlordsPage
+              dbState={dbState}
+              onSelectProperty={(pId) => {
+                setSelectedPropertyId(pId);
+                setCurrentTab('properties');
+              }}
+            />
           )}
 
           {currentTab === 'units' && (

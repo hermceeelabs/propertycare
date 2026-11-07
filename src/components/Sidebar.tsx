@@ -2,7 +2,7 @@ import React from 'react';
 import {
   LayoutDashboard, Building2, Users, FileText, CreditCard,
   Wrench, Truck, Receipt, Bell, Mail,
-  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck, Eye
+  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck, Eye, Landmark
 } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import { usePermissions } from '../context/PermissionsContext';
@@ -10,6 +10,7 @@ import { usePermissions } from '../context/PermissionsContext';
 export type NavTab =
   | 'dashboard'
   | 'properties'
+  | 'landlords'
   | 'units'
   | 'tenants'
   | 'leases'
@@ -66,7 +67,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       title: 'Core Portfolio',
       items: [
         { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
-        ...(can('can_edit_properties') ? [{ id: 'properties' as NavTab, label: 'Properties & Assets', icon: Building2 }] : []),
+        ...(can('can_edit_properties') ? [
+          { id: 'properties' as NavTab, label: 'Properties & Assets', icon: Building2 },
+          { id: 'landlords' as NavTab, label: 'Landlord Clients', icon: Landmark }
+        ] : []),
         { id: 'units', label: 'Suites & Shortlets', icon: Home, badge: 'STR' },
         { id: 'tenants', label: 'Tenants & Screening', icon: Users }
       ]
