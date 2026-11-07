@@ -205,15 +205,30 @@ export type MaintenanceCategory = 'Plumbing' | 'Electrical' | 'HVAC' | 'Applianc
 export type MaintenancePriority = 'Low' | 'Normal' | 'High' | 'Emergency';
 export type MaintenanceStatus = 'New' | 'Assigned' | 'Vendor Accepted' | 'In Progress' | 'Awaiting Parts' | 'Completed' | 'Cancelled';
 
+export interface MaintenanceAttachment {
+  id: string;
+  name: string;
+  url: string; // Base64 data URL or external storage link
+  type: string; // 'image/png' | 'image/jpeg' | 'application/pdf', etc.
+  size?: number;
+  uploaded_at: string;
+}
+
 export interface MaintenanceRequest {
   id: string;
   tenant_id: string;
   unit_id: string;
+  title?: string;
   category: MaintenanceCategory;
   description: string;
   priority: MaintenancePriority;
   status: MaintenanceStatus;
   vendor_id?: string;
+  assigned_vendor_id?: string;
+  attachments?: MaintenanceAttachment[];
+  admin_notes?: string;
+  estimated_cost?: number;
+  scheduled_date?: string;
   created_at: string;
   completed_at?: string;
   updated_at: string;
