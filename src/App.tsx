@@ -28,6 +28,7 @@ import { SettingsPage } from './pages/Settings';
 import { TenantPortal } from './pages/portal/TenantPortal';
 import { LandlordPortal } from './pages/portal/LandlordPortal';
 import { LoginPage } from './pages/LoginPage';
+import { AppContent } from './components/AppContent';
 import { PermissionsProvider } from './context/PermissionsContext';
 
 export function App() {
@@ -105,153 +106,17 @@ export function App() {
   return (
     <CurrencyProvider>
       <PermissionsProvider>
-        <div className="flex h-screen bg-cream-100 text-stone-900 font-sans antialiased overflow-hidden">
-        {/* Persistent Desktop Sidebar */}
-        <Sidebar
-          currentTab={currentTab}
-          onTabChange={handleNavigate}
-          pendingTasksCount={pendingTasksCount}
+        <AppContent
+          dbState={dbState}
           authUser={authUser}
-          onOpenAuthModal={() => setShowAuthModal(true)}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          selectedPropertyId={selectedPropertyId}
+          setSelectedPropertyId={setSelectedPropertyId}
+          selectedTenantId={selectedTenantId}
+          setSelectedTenantId={setSelectedTenantId}
+          setPreviewComm={setPreviewComm}
         />
-
-        {/* Main Workspace Area */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <Header
-            dbState={dbState}
-            onNavigate={handleNavigate}
-            pendingTasksCount={pendingTasksCount}
-            authUser={authUser}
-            onOpenAuthModal={() => setShowAuthModal(true)}
-          />
-
-          <main className="flex-1 overflow-y-auto bg-cream-100">
-            {currentTab === 'dashboard' && (
-              <Dashboard
-                dbState={dbState}
-                onNavigate={handleNavigate}
-              />
-            )}
-
-            {currentTab === 'properties' && (
-              selectedPropertyId ? (
-                <PropertyDetailPage
-                  propertyId={selectedPropertyId}
-                  dbState={dbState}
-                  onBack={() => setSelectedPropertyId(null)}
-                />
-              ) : (
-                <PropertiesPage
-                  dbState={dbState}
-                  onSelectProperty={handleSelectProperty}
-                />
-              )
-            )}
-
-            {currentTab === 'units' && (
-              <UnitsPage dbState={dbState} />
-            )}
-
-            {currentTab === 'tenants' && (
-              selectedTenantId ? (
-                <TenantDetailPage
-                  tenantId={selectedTenantId}
-                  dbState={dbState}
-                  onBack={() => setSelectedTenantId(null)}
-                  onPreviewEmail={handlePreviewEmailById}
-                />
-              ) : (
-                <TenantsPage
-                  dbState={dbState}
-                  onSelectTenant={handleSelectTenant}
-                />
-              )
-            )}
-
-            {currentTab === 'leases' && (
-              <LeasesPage
-                dbState={dbState}
-                onNavigateToCommunications={() => handleNavigate('communications')}
-                onNavigateToLogs={() => handleNavigate('logs')}
-              />
-            )}
-
-            {currentTab === 'payments' && (
-              <PaymentsPage
-                dbState={dbState}
-                onNavigateToCommunications={() => handleNavigate('communications')}
-                onNavigateToLogs={() => handleNavigate('logs')}
-              />
-            )}
-
-            {currentTab === 'maintenance' && (
-              <MaintenancePage
-                dbState={dbState}
-                onNavigateToCommunications={() => handleNavigate('communications')}
-                onNavigateToLogs={() => handleNavigate('logs')}
-              />
-            )}
-
-            {currentTab === 'vendors' && (
-              <VendorsPage dbState={dbState} />
-            )}
-
-            {currentTab === 'bills' && (
-              <BillsPage
-                dbState={dbState}
-                onNavigateToLogs={() => handleNavigate('logs')}
-              />
-            )}
-
-            {currentTab === 'notices' && (
-              <NoticesPage
-                dbState={dbState}
-                onNavigateToLogs={() => handleNavigate('logs')}
-                onNavigateToCommunications={() => handleNavigate('communications')}
-              />
-            )}
-
-            {currentTab === 'communications' && (
-              <CommunicationsPage
-                dbState={dbState}
-                onPreviewEmail={setPreviewComm}
-              />
-            )}
-
-            {currentTab === 'automations' && (
-              <AutomationsPage
-                dbState={dbState}
-                onNavigateToLogs={() => handleNavigate('logs')}
-              />
-            )}
-
-            {currentTab === 'logs' && (
-              <AutomationLogsPage dbState={dbState} />
-            )}
-
-            {currentTab === 'reports' && (
-              <ReportsPage dbState={dbState} />
-            )}
-
-            {currentTab === 'settings' && (
-              <SettingsPage dbState={dbState} />
-            )}
-
-            {currentTab === 'portal-tenant' && (
-              <TenantPortal
-                dbState={dbState}
-                onClosePreview={() => setCurrentTab('dashboard')}
-              />
-            )}
-
-            {currentTab === 'portal-landlord' && (
-              <LandlordPortal
-                dbState={dbState}
-                onClosePreview={() => setCurrentTab('dashboard')}
-              />
-            )}
-          </main>
-        </div>
 
         {/* Global Rendered HTML Email Preview Modal */}
         {previewComm && (
@@ -266,8 +131,7 @@ export function App() {
           isOpen={showAuthModal}
           onClose={() => setShowAuthModal(false)}
         />
-      </div>
-    </PermissionsProvider>
-  </CurrencyProvider>
-);
+      </PermissionsProvider>
+    </CurrencyProvider>
+  );
 }
