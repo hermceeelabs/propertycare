@@ -118,44 +118,55 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 2. Check Landlords table
-      const { data: landlordMatch } = await supabase
+      // 2. Check Landlords table (Primary Landlord OR Authorized Legal Representative)
+      const { data: allLandlords } = await supabase
         .from('landlords')
-        .select('*')
-        .ilike('email', email)
-        .maybeSingle();
+        .select('*');
 
-      if (landlordMatch) {
-        const isStatusActive = (landlordMatch as any).status !== 'Suspended' && (landlordMatch as any).status !== 'Inactive';
+      const matchedLandlord = (allLandlords || []).find(l => {
+        if (l.email?.toLowerCase().trim() === email) return true;
+        const reps = l.authorized_representatives || [];
+        return reps.some((r: any) => r.email?.toLowerCase().trim() === email && r.status === 'Active');
+      });
+
+      if (matchedLandlord) {
+        const isPrimary = matchedLandlord.email?.toLowerCase().trim() === email;
+        const matchedRep = !isPrimary
+          ? (matchedLandlord.authorized_representatives || []).find((r: any) => r.email?.toLowerCase().trim() === email)
+          : null;
+
+        const isStatusActive = (matchedLandlord as any).status !== 'Suspended' && (matchedLandlord as any).status !== 'Inactive';
         if (!isStatusActive) {
           setAuthResult({
             authorized: false,
             stakeholderType: 'landlord',
-            status: (landlordMatch as any).status,
-            profileData: landlordMatch,
+            status: (matchedLandlord as any).status,
+            profileData: matchedLandlord,
             rejectionReason: 'Your landlord investor profile is currently deactivated. Please contact management.'
           });
           return;
         }
 
         const landlordProfile: UserProfile = {
-          id: landlordMatch.id,
-          email: landlordMatch.email,
-          full_name: `${landlordMatch.first_name} ${landlordMatch.last_name}`,
+          id: matchedLandlord.id,
+          email: email,
+          full_name: isPrimary
+            ? `${matchedLandlord.first_name} ${matchedLandlord.last_name}`
+            : `${matchedRep?.name || 'Representative'} (${matchedRep?.relationship || 'Legal Counsel'})`,
           avatar_url: user.user_metadata?.avatar_url,
           is_owner: false,
           user_type: 'landlord',
           permissions: {
-            can_view_financials: true,
+            can_view_financials: matchedRep ? !!matchedRep.can_view_statements : true,
             can_manage_leases: false,
-            can_dispatch_maintenance: false,
+            can_dispatch_maintenance: matchedRep ? !!matchedRep.can_approve_maintenance : false,
             can_issue_notices: false,
             can_edit_properties: false,
             can_trigger_automations: false
           },
           assigned_properties: [],
-          created_at: landlordMatch.created_at,
-          updated_at: landlordMatch.updated_at
+          created_at: matchedLandlord.created_at,
+          updated_at: matchedLandlord.updated_at
         };
 
         setProfile(landlordProfile);
@@ -163,7 +174,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           authorized: true,
           stakeholderType: 'landlord',
           status: 'Active',
-          profileData: landlordMatch
+          profileData: matchedLandlord
         });
         return;
       }

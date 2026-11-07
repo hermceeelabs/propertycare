@@ -23,6 +23,19 @@ export interface UserProfile {
   updated_at: string;
 }
 
+export interface LandlordDelegate {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  relationship: 'Legal Counsel / Lawyer' | 'Asset Manager' | 'Family Representative' | 'Accountant / Auditor' | 'Other';
+  can_view_statements: boolean;
+  can_approve_maintenance: boolean;
+  can_modify_banking: boolean;
+  status: 'Active' | 'Suspended';
+  created_at: string;
+}
+
 export interface Landlord {
   id: string;
   first_name: string;
@@ -35,6 +48,7 @@ export interface Landlord {
   management_fee_percentage: number;
   remittance_frequency: 'Monthly' | 'Quarterly' | 'Bi-Weekly';
   notes?: string;
+  authorized_representatives?: LandlordDelegate[];
   created_at: string;
   updated_at: string;
 }

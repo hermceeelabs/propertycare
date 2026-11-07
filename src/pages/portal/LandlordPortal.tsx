@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { DatabaseState } from '../../services/supabase';
-import { Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2 } from 'lucide-react';
+import { DatabaseState, supabase, store } from '../../services/supabase';
+import { Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2, UserPlus, Users, X, Lock } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
+import { LandlordDelegate } from '../../types/database';
 
 interface LandlordPortalProps {
   dbState: DatabaseState;
@@ -16,13 +17,78 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
 }) => {
   const { formatMoney } = useCurrency();
   const [selectedMonth, setSelectedMonth] = useState('October 2026');
+  const [showDelegateModal, setShowDelegateModal] = useState(false);
+
+  // New Representative Form State
+  const [repName, setRepName] = useState('');
+  const [repEmail, setRepEmail] = useState('');
+  const [repPhone, setRepPhone] = useState('');
+  const [repRelationship, setRepRelationship] = useState<any>('Legal Counsel / Lawyer');
+  const [canViewStatements, setCanViewStatements] = useState(true);
+  const [canApproveMaintenance, setCanApproveMaintenance] = useState(true);
+  const [canModifyBanking, setCanModifyBanking] = useState(false);
 
   const landlord = (dbState.landlords || []).find(l => l.id === landlordId) || dbState.landlords?.[0] || {
     id: 'landlord-1',
     first_name: 'David',
     last_name: 'Adeyemi',
     company_name: 'Adeyemi Asset Holdings Ltd',
-    management_fee_percentage: 10.0
+    management_fee_percentage: 10.0,
+    authorized_representatives: []
+  };
+
+  const representatives: LandlordDelegate[] = landlord.authorized_representatives || [
+    {
+      id: 'rep-1',
+      name: 'Barrister Chidi Okonkwo',
+      email: 'chidi.legal@adeyemiholdings.com',
+      phone: '+234 802 334 5566',
+      relationship: 'Legal Counsel / Lawyer',
+      can_view_statements: true,
+      can_approve_maintenance: true,
+      can_modify_banking: false,
+      status: 'Active',
+      created_at: '2026-08-01T00:00:00Z'
+    }
+  ];
+
+  const handleAddRepresentative = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!repName.trim() || !repEmail.trim()) return;
+
+    const newRep: LandlordDelegate = {
+      id: 'rep-' + Date.now(),
+      name: repName.trim(),
+      email: repEmail.trim().toLowerCase(),
+      phone: repPhone.trim(),
+      relationship: repRelationship,
+      can_view_statements: canViewStatements,
+      can_approve_maintenance: canApproveMaintenance,
+      can_modify_banking: canModifyBanking,
+      status: 'Active',
+      created_at: new Date().toISOString()
+    };
+
+    const updatedReps = [...representatives, newRep];
+
+    // Update in local store
+    landlord.authorized_representatives = updatedReps;
+    store.saveState();
+
+    // Persist to Supabase
+    try {
+      await supabase
+        .from('landlords')
+        .update({ authorized_representatives: updatedReps })
+        .eq('id', landlord.id);
+    } catch (err) {
+      console.warn('Could not sync delegate to Supabase:', err);
+    }
+
+    setShowDelegateModal(false);
+    setRepName('');
+    setRepEmail('');
+    setRepPhone('');
   };
 
   // Find properties belonging to this landlord
@@ -157,6 +223,58 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           </div>
         </div>
 
+        {/* Authorized Representatives & Estate Delegates */}
+        <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-bold text-stone-900 flex items-center gap-2">
+                <Users className="w-4 h-4 text-brand-600" /> Authorized Representatives & Legal Counsel ({representatives.length})
+              </h2>
+              <p className="text-xs text-stone-500">
+                Grant delegated access to your family lawyer, accountant, or business manager to review statements or approve repairs on your behalf.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowDelegateModal(true)}
+              className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+            >
+              <UserPlus className="w-4 h-4 text-emerald-400" /> Add Authorized Delegate
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {representatives.map(rep => (
+              <div key={rep.id} className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-bold text-stone-900 text-xs">{rep.name}</h3>
+                    <span className="text-[11px] text-stone-500 block">{rep.relationship}</span>
+                    <span className="text-[11px] text-stone-400 block font-mono">{rep.email}</span>
+                  </div>
+                  <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">
+                    {rep.status}
+                  </span>
+                </div>
+
+                <div className="pt-2 border-t border-stone-200 text-[11px] space-y-1 text-stone-600">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full ${rep.can_view_statements ? 'bg-emerald-500' : 'bg-stone-300'}`}></span>
+                    <span>Can view financial statements & reports: <strong>{rep.can_view_statements ? 'Yes' : 'No'}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full ${rep.can_approve_maintenance ? 'bg-emerald-500' : 'bg-stone-300'}`}></span>
+                    <span>Can approve contractor repair quotes: <strong>{rep.can_approve_maintenance ? 'Yes' : 'No'}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full ${rep.can_modify_banking ? 'bg-emerald-500' : 'bg-rose-400'}`}></span>
+                    <span>Can modify bank disbursement details: <strong className={rep.can_modify_banking ? 'text-emerald-700' : 'text-rose-600'}>{rep.can_modify_banking ? 'Authorized' : 'Restricted (Protected)'}</strong></span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Recent Deductions & Invoices */}
         <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs space-y-4">
           <h2 className="text-base font-bold text-stone-900">Recent Operating Deductions & Contractor Receipts</h2>
@@ -177,6 +295,126 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           )}
         </div>
       </main>
+
+      {/* Add Representative Modal */}
+      {showDelegateModal && (
+        <div className="fixed inset-0 bg-stone-950/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-lg rounded-3xl border border-stone-200 shadow-2xl p-6 space-y-5">
+            <div className="flex justify-between items-center pb-2 border-b border-stone-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-stone-900 text-white flex items-center justify-center">
+                  <UserPlus className="w-4 h-4 text-emerald-400" />
+                </div>
+                <h3 className="font-bold text-sm text-stone-900">Authorize Representative / Counsel</h3>
+              </div>
+              <button onClick={() => setShowDelegateModal(false)} className="text-stone-400 hover:text-stone-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddRepresentative} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Barrister Tunde Balogun"
+                    value={repName}
+                    onChange={(e) => setRepName(e.target.value)}
+                    className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs font-semibold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">Email (Google Login)</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="tunde.legal@chambers.com"
+                    value={repEmail}
+                    onChange={(e) => setRepEmail(e.target.value)}
+                    className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs font-semibold"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="+234 803 000 0000"
+                    value={repPhone}
+                    onChange={(e) => setRepPhone(e.target.value)}
+                    className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase mb-1">Capacity / Relationship</label>
+                  <select
+                    value={repRelationship}
+                    onChange={(e) => setRepRelationship(e.target.value)}
+                    className="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl text-xs font-semibold"
+                  >
+                    <option value="Legal Counsel / Lawyer">Legal Counsel / Lawyer</option>
+                    <option value="Asset Manager">Asset Manager / Wealth Advisory</option>
+                    <option value="Family Representative">Family Representative / Trustee</option>
+                    <option value="Accountant / Auditor">Accountant / Auditor</option>
+                    <option value="Other">Other Representative</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-stone-100">
+                <span className="block text-[11px] font-bold uppercase text-stone-700 tracking-wider">Delegated Permissions</span>
+                <label className="flex items-center gap-2.5 text-xs text-stone-800 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={canViewStatements}
+                    onChange={(e) => setCanViewStatements(e.target.checked)}
+                    className="w-4 h-4 rounded text-brand-600"
+                  />
+                  <span>Can view monthly revenue, statements, and tax reports</span>
+                </label>
+                <label className="flex items-center gap-2.5 text-xs text-stone-800 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={canApproveMaintenance}
+                    onChange={(e) => setCanApproveMaintenance(e.target.checked)}
+                    className="w-4 h-4 rounded text-brand-600"
+                  />
+                  <span>Can approve contractor repair quotes & capital expenses</span>
+                </label>
+                <label className="flex items-center gap-2.5 text-xs text-stone-800 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={canModifyBanking}
+                    onChange={(e) => setCanModifyBanking(e.target.checked)}
+                    className="w-4 h-4 rounded text-brand-600"
+                  />
+                  <span>Can modify bank account payout details <strong className="text-amber-700">(Caution: Sensitive)</strong></span>
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-stone-100">
+                <button
+                  type="button"
+                  onClick={() => setShowDelegateModal(false)}
+                  className="px-4 py-2 text-xs font-semibold text-stone-600 hover:text-stone-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5"
+                >
+                  Authorize Delegate
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
