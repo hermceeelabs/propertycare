@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
-import { Settings, Building2, Sliders, Mail, Link2, Check, AlertCircle, Info, RefreshCw, Database, Download, Upload, FileCode } from 'lucide-react';
+import { Settings, Building2, Sliders, Mail, Link2, Check, AlertCircle, Info, RefreshCw, Database, Download, Upload, FileCode, ShieldCheck, Users, Lock } from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
+import { usePermissions } from '../context/PermissionsContext';
 
 interface SettingsProps {
   dbState: DatabaseState;
 }
 
 export const SettingsPage: React.FC<SettingsProps> = ({ dbState }) => {
-  const [activeTab, setActiveTab] = useState<'company' | 'rules' | 'templates' | 'database' | 'integrations'>('database');
+  const [activeTab, setActiveTab] = useState<'access' | 'database' | 'company' | 'rules' | 'templates' | 'integrations'>('access');
   const [stessaMsg, setStessaMsg] = useState(false);
   const [importStatus, setImportStatus] = useState<string | null>(null);
+
+  const { profile, isOwner, updatePermissions, setUserType } = usePermissions();
 
   // Template editor state
   const [selectedTemplate, setSelectedTemplate] = useState('Rent Overdue Reminder');
@@ -64,7 +67,8 @@ Operations Team
       {/* Tabs */}
       <div className="flex items-center gap-1 border-b border-slate-200 overflow-x-auto pb-px">
         {[
-          { id: 'database', label: 'JSON Database & Sync', icon: Database },
+          { id: 'access', label: 'Team & Granular Access Control', icon: ShieldCheck },
+          { id: 'database', label: 'Cloud Supabase & Sync', icon: Database },
           { id: 'company', label: 'Company Profile', icon: Building2 },
           { id: 'rules', label: 'Automation Rules & Thresholds', icon: Sliders },
           { id: 'templates', label: 'Notification Templates', icon: Mail },
@@ -90,6 +94,86 @@ Operations Team
 
       {/* Tab Panels */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-6">
+        {/* TEAM & ACCESS CONTROL TAB */}
+        {activeTab === 'access' && (
+          <div className="space-y-6 max-w-4xl">
+            <div>
+              <h3 className="font-bold text-slate-900 text-base">Flexible Permission-Based Access Control (PBAC)</h3>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                Rather than hardcoding rigid roles, configure granular permissions for each team member. The <strong>Owner Account</strong> retains fixed full authority, while team member views adapt dynamically without rebuilding new dashboards.
+              </p>
+            </div>
+
+            {/* Current Active User Card */}
+            <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-stone-900 text-white font-extrabold flex items-center justify-center text-sm shadow-md">
+                  {profile?.full_name?.[0] || 'A'}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <strong className="text-stone-900 text-sm">{profile?.full_name || 'Active Admin'}</strong>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                      {isOwner ? 'Fixed Owner / SuperAdmin' : 'Staff / Custom Permissions'}
+                    </span>
+                  </div>
+                  <span className="text-xs text-stone-500">{profile?.email || 'Corporate Account'}</span>
+                </div>
+              </div>
+
+              {/* Role Toggle for Interactive Demo */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-semibold text-stone-600">Simulate Role:</span>
+                <select
+                  value={profile?.user_type || 'owner'}
+                  onChange={(e) => setUserType(e.target.value as any)}
+                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-xs"
+                >
+                  <option value="owner">Owner (Full Unrestricted)</option>
+                  <option value="staff">Team Member (Custom Permissions)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Granular Permission Toggles */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700">Granular Workspace Capabilities</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { key: 'can_view_financials', label: 'View Financials & P&L Reports', desc: 'Access to Rent Collections, Operating Expenses, Bills & Yield analytics' },
+                  { key: 'can_manage_leases', label: 'Manage Leases & Rent Terms', desc: 'Create, renew, or adjust active tenant lease agreements' },
+                  { key: 'can_dispatch_maintenance', label: 'Dispatch Maintenance & Vendors', desc: 'Triage repair tickets and assign registered trade contractors' },
+                  { key: 'can_issue_notices', label: 'Issue Statutory Legal Notices', desc: 'Draft and approve Ontario Form N1/N4 eviction or increase notices' },
+                  { key: 'can_edit_properties', label: 'Manage Physical Assets & Units', desc: 'Add new property buildings, edit units and shortlet configurations' },
+                  { key: 'can_trigger_automations', label: 'Automations Center & Engine Triggers', desc: 'Execute recurring automation rules and view compliance audit trails' },
+                ].map(item => {
+                  const isChecked = isOwner || !!profile?.permissions[item.key as keyof typeof profile.permissions];
+                  return (
+                    <div key={item.key} className="p-4 bg-white border border-stone-200 rounded-2xl flex items-start justify-between gap-3 shadow-xs">
+                      <div className="space-y-0.5">
+                        <strong className="text-xs text-stone-900 block">{item.label}</strong>
+                        <p className="text-[11px] text-stone-500 leading-snug">{item.desc}</p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        disabled={isOwner}
+                        onChange={(e) => updatePermissions({ [item.key]: e.target.checked })}
+                        className="mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 cursor-pointer disabled:opacity-50"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              {isOwner && (
+                <p className="text-[11px] text-stone-400 italic">
+                  * Note: As the Master Owner account, all capabilities are permanently enabled to prevent accidental lockout.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* JSON DATABASE & GITHUB SYNC TAB */}
         {activeTab === 'database' && (
           <div className="space-y-6 max-w-4xl">

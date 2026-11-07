@@ -2,9 +2,10 @@ import React from 'react';
 import {
   LayoutDashboard, Building2, Users, FileText, CreditCard,
   Wrench, Truck, Receipt, Bell, Mail,
-  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck
+  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck, Eye
 } from 'lucide-react';
 import { supabase } from '../services/supabase';
+import { usePermissions } from '../context/PermissionsContext';
 
 export type NavTab =
   | 'dashboard'
@@ -21,7 +22,9 @@ export type NavTab =
   | 'automations'
   | 'logs'
   | 'reports'
-  | 'settings';
+  | 'settings'
+  | 'portal-tenant'
+  | 'portal-landlord';
 
 interface SidebarProps {
   currentTab: NavTab;
@@ -29,6 +32,8 @@ interface SidebarProps {
   pendingTasksCount: number;
   authUser?: any;
   onOpenAuthModal?: () => void;
+  onOpenTenantPreview?: () => void;
+  onOpenLandlordPreview?: () => void;
 }
 
 interface NavSection {
@@ -46,17 +51,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTabChange,
   pendingTasksCount,
   authUser,
-  onOpenAuthModal
+  onOpenAuthModal,
+  onOpenTenantPreview,
+  onOpenLandlordPreview
 }) => {
+  const { can, isOwner } = usePermissions();
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
   };
+
   const navSections: NavSection[] = [
     {
       title: 'Core Portfolio',
       items: [
         { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
-        { id: 'properties', label: 'Properties & Assets', icon: Building2 },
+        ...(can('can_edit_properties') ? [{ id: 'properties' as NavTab, label: 'Properties & Assets', icon: Building2 }] : []),
         { id: 'units', label: 'Suites & Shortlets', icon: Home, badge: 'STR' },
         { id: 'tenants', label: 'Tenants & Screening', icon: Users }
       ]
@@ -64,27 +74,36 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       title: 'Financials & Operations',
       items: [
-        { id: 'payments', label: 'Rent & Collections', icon: CreditCard },
-        { id: 'bills', label: 'Expenses & Invoices', icon: Receipt },
-        { id: 'leases', label: 'Lease Agreements', icon: FileText },
-        { id: 'maintenance', label: 'Maintenance & Repairs', icon: Wrench },
-        { id: 'vendors', label: 'Trade Contractors', icon: Truck }
+        ...(can('can_view_financials') ? [{ id: 'payments' as NavTab, label: 'Rent & Collections', icon: CreditCard }] : []),
+        ...(can('can_view_financials') ? [{ id: 'bills' as NavTab, label: 'Expenses & Invoices', icon: Receipt }] : []),
+        ...(can('can_manage_leases') ? [{ id: 'leases' as NavTab, label: 'Lease Agreements', icon: FileText }] : []),
+        ...(can('can_dispatch_maintenance') ? [
+          { id: 'maintenance' as NavTab, label: 'Maintenance & Repairs', icon: Wrench },
+          { id: 'vendors' as NavTab, label: 'Trade Contractors', icon: Truck }
+        ] : [])
       ]
     },
     {
       title: 'Automation & Compliance',
       items: [
-        { id: 'notices', label: 'Ontario Notices (N1/N4)', icon: Bell },
+        ...(can('can_issue_notices') ? [{ id: 'notices' as NavTab, label: 'Ontario Notices (N1/N4)', icon: Bell }] : []),
         { id: 'communications', label: 'Tenant Communications', icon: Mail },
-        { id: 'automations', label: 'Automations Center', icon: Zap },
-        { id: 'reports', label: 'Yield & Break-Even Reports', icon: BarChart3 },
+        ...(can('can_trigger_automations') ? [{ id: 'automations' as NavTab, label: 'Automations Center', icon: Zap }] : []),
+        ...(can('can_view_financials') ? [{ id: 'reports' as NavTab, label: 'Yield & Break-Even Reports', icon: BarChart3 }] : []),
         { id: 'logs', label: 'Audit Trail', icon: ShieldAlert }
+      ]
+    },
+    {
+      title: 'External Stakeholder Portals',
+      items: [
+        { id: 'portal-tenant', label: 'Resident Portal View', icon: Eye, badge: 'Portal' },
+        { id: 'portal-landlord', label: 'Landlord Portal View', icon: Eye, badge: 'Owner' }
       ]
     },
     {
       title: 'System',
       items: [
-        { id: 'settings', label: 'Preferences & Sync', icon: Settings }
+        { id: 'settings', label: 'Preferences & Team Access', icon: Settings }
       ]
     }
   ];

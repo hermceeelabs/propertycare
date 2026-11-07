@@ -1,3 +1,44 @@
+export interface UserPermissions {
+  can_view_financials: boolean;
+  can_manage_leases: boolean;
+  can_dispatch_maintenance: boolean;
+  can_issue_notices: boolean;
+  can_edit_properties: boolean;
+  can_trigger_automations: boolean;
+}
+
+export type UserType = 'owner' | 'staff' | 'landlord' | 'tenant';
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  full_name?: string;
+  avatar_url?: string;
+  phone?: string;
+  is_owner: boolean;
+  user_type: UserType;
+  permissions: UserPermissions;
+  assigned_properties: string[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Landlord {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  company_name?: string;
+  bank_name?: string;
+  bank_account_number?: string;
+  management_fee_percentage: number;
+  remittance_frequency: 'Monthly' | 'Quarterly' | 'Bi-Weekly';
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export type PropertyType = 'Multi-Family' | 'Condominium' | 'Commercial' | 'Townhome' | 'Single-Family';
 export type PropertyStatus = 'Active' | 'Under Maintenance' | 'Inactive';
 export type AcquisitionType = 'Outright Purchase' | 'Long-Term Lease' | 'Financed / Mortgage';
@@ -19,6 +60,7 @@ export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';
 
 export interface Property {
   id: string;
+  landlord_id?: string;
   name: string;
   address: string;
   city: string;

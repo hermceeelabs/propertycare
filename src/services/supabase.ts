@@ -3,7 +3,7 @@ import type {
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
   AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense, ShortletBooking,
-  CurrencyCode
+  CurrencyCode, Landlord, UserProfile, UserPermissions
 } from '../types/database';
 
 import {
@@ -26,6 +26,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const STORAGE_KEY = 'propertyflow_db_v5';
 
 export interface DatabaseState {
+  landlords: Landlord[];
   properties: Property[];
   units: Unit[];
   tenants: Tenant[];
@@ -46,13 +47,49 @@ export interface DatabaseState {
   currency?: CurrencyCode;
 }
 
+const INITIAL_LANDLORDS: Landlord[] = [
+  {
+    id: 'landlord-1',
+    first_name: 'David',
+    last_name: 'Adeyemi',
+    email: 'david.adeyemi@northstarholding.com',
+    phone: '+234 803 111 2233',
+    company_name: 'Adeyemi Asset Holdings Ltd',
+    bank_name: 'First Bank Nigeria',
+    bank_account_number: '3029182390',
+    management_fee_percentage: 10.0,
+    remittance_frequency: 'Monthly',
+    notes: 'Primary owner for commercial boutique & Ikoyi residential portfolio.',
+    created_at: '2023-01-01T00:00:00Z',
+    updated_at: '2026-08-01T00:00:00Z'
+  },
+  {
+    id: 'landlord-2',
+    first_name: 'Elena',
+    last_name: 'Vasiliev',
+    email: 'elena.vasiliev@torontocrest.ca',
+    phone: '+1 416 555 0192',
+    company_name: 'Crestwood Real Estate Trust',
+    bank_name: 'TD Canada Trust',
+    bank_account_number: '004-1829102',
+    management_fee_percentage: 8.5,
+    remittance_frequency: 'Monthly',
+    notes: 'Master landlord for Maple Heights and Harbourview multi-family assets.',
+    created_at: '2023-01-01T00:00:00Z',
+    updated_at: '2026-08-01T00:00:00Z'
+  }
+];
+
 function loadInitialState(): DatabaseState {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.expenses && parsed.properties) {
-        return parsed;
+        return {
+          ...parsed,
+          landlords: parsed.landlords || INITIAL_LANDLORDS
+        };
       }
     }
   } catch (e) {
@@ -63,6 +100,7 @@ function loadInitialState(): DatabaseState {
   if (databaseJson && (databaseJson as any).properties) {
     const db = databaseJson as any;
     return {
+      landlords: INITIAL_LANDLORDS,
       properties: db.properties || INITIAL_PROPERTIES,
       units: db.units || INITIAL_UNITS,
       tenants: db.tenants || INITIAL_TENANTS,
@@ -85,6 +123,7 @@ function loadInitialState(): DatabaseState {
   }
 
   return {
+    landlords: INITIAL_LANDLORDS,
     properties: INITIAL_PROPERTIES,
     units: INITIAL_UNITS,
     tenants: INITIAL_TENANTS,
@@ -112,6 +151,50 @@ class StoreManager {
 
   constructor() {
     this.state = loadInitialState();
+    this.syncFromSupabase();
+  }
+
+  async syncFromSupabase() {
+    try {
+      const [
+        { data: props },
+        { data: units },
+        { data: tenants },
+        { data: leases },
+        { data: payments },
+        { data: vendors },
+        { data: maint },
+        { data: bills },
+        { data: expenses },
+        { data: landlords }
+      ] = await Promise.all([
+        supabase.from('properties').select('*'),
+        supabase.from('units').select('*'),
+        supabase.from('tenants').select('*'),
+        supabase.from('leases').select('*'),
+        supabase.from('payments').select('*'),
+        supabase.from('vendors').select('*'),
+        supabase.from('maintenance_requests').select('*'),
+        supabase.from('bills').select('*'),
+        supabase.from('expenses').select('*'),
+        supabase.from('landlords').select('*')
+      ]);
+
+      if (props && props.length > 0) this.state.properties = props as any;
+      if (units && units.length > 0) this.state.units = units as any;
+      if (tenants && tenants.length > 0) this.state.tenants = tenants as any;
+      if (leases && leases.length > 0) this.state.leases = leases as any;
+      if (payments && payments.length > 0) this.state.payments = payments as any;
+      if (vendors && vendors.length > 0) this.state.vendors = vendors as any;
+      if (maint && maint.length > 0) this.state.maintenance_requests = maint as any;
+      if (bills && bills.length > 0) this.state.bills = bills as any;
+      if (expenses && expenses.length > 0) this.state.expenses = expenses as any;
+      if (landlords && landlords.length > 0) this.state.landlords = landlords as any;
+
+      this.saveState();
+    } catch (e) {
+      console.warn('Supabase remote sync fallback to local storage:', e);
+    }
   }
 
   getState(): DatabaseState {
@@ -130,6 +213,7 @@ class StoreManager {
   resetDemoData() {
     localStorage.removeItem(STORAGE_KEY);
     this.state = {
+      landlords: INITIAL_LANDLORDS,
       properties: INITIAL_PROPERTIES,
       units: INITIAL_UNITS,
       tenants: INITIAL_TENANTS,
@@ -164,6 +248,7 @@ class StoreManager {
       const parsed = JSON.parse(jsonString);
       if (parsed.properties && Array.isArray(parsed.properties)) {
         this.state = {
+          landlords: parsed.landlords || INITIAL_LANDLORDS,
           properties: parsed.properties,
           units: parsed.units || [],
           tenants: parsed.tenants || [],

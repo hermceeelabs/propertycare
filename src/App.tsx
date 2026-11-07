@@ -25,6 +25,9 @@ import { AutomationsPage } from './pages/Automations';
 import { AutomationLogsPage } from './pages/AutomationLogs';
 import { ReportsPage } from './pages/Reports';
 import { SettingsPage } from './pages/Settings';
+import { TenantPortal } from './pages/portal/TenantPortal';
+import { LandlordPortal } from './pages/portal/LandlordPortal';
+import { PermissionsProvider } from './context/PermissionsContext';
 
 export function App() {
   const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
@@ -81,7 +84,8 @@ export function App() {
 
   return (
     <CurrencyProvider>
-      <div className="flex h-screen bg-cream-100 text-stone-900 font-sans antialiased overflow-hidden">
+      <PermissionsProvider>
+        <div className="flex h-screen bg-cream-100 text-stone-900 font-sans antialiased overflow-hidden">
         {/* Persistent Desktop Sidebar */}
         <Sidebar
           currentTab={currentTab}
@@ -244,6 +248,20 @@ export function App() {
             {currentTab === 'settings' && (
               <SettingsPage dbState={dbState} />
             )}
+
+            {currentTab === 'portal-tenant' && (
+              <TenantPortal
+                dbState={dbState}
+                onClosePreview={() => setCurrentTab('dashboard')}
+              />
+            )}
+
+            {currentTab === 'portal-landlord' && (
+              <LandlordPortal
+                dbState={dbState}
+                onClosePreview={() => setCurrentTab('dashboard')}
+              />
+            )}
                         </>
             )}
           </main>
@@ -263,6 +281,7 @@ export function App() {
           onClose={() => setShowAuthModal(false)}
         />
       </div>
-    </CurrencyProvider>
-  );
+    </PermissionsProvider>
+  </CurrencyProvider>
+);
 }
