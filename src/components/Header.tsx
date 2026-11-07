@@ -155,8 +155,8 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </button>
 
-        {/* Authentication State / Sign In with Google Button */}
-        {authUser ? (
+        {/* Authentication State (Only visible when authenticated) */}
+        {authUser && (
           <div className="flex items-center gap-2 pl-2 border-l border-cream-300">
             {authUser.user_metadata?.avatar_url ? (
               <img
@@ -185,13 +185,6 @@ export const Header: React.FC<HeaderProps> = ({
               <LogOut className="w-4 h-4" />
             </button>
           </div>
-        ) : (
-          <button
-            onClick={onOpenAuthModal}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all"
-          >
-            <LogIn className="w-3.5 h-3.5 text-emerald-400" /> Sign In
-          </button>
         )}
       </div>
 

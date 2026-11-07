@@ -27,6 +27,7 @@ import { ReportsPage } from './pages/Reports';
 import { SettingsPage } from './pages/Settings';
 import { TenantPortal } from './pages/portal/TenantPortal';
 import { LandlordPortal } from './pages/portal/LandlordPortal';
+import { LoginPage } from './pages/LoginPage';
 import { PermissionsProvider } from './context/PermissionsContext';
 
 export function App() {
@@ -82,6 +83,25 @@ export function App() {
     if (comm) setPreviewComm(comm);
   };
 
+  // If session is checking
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-stone-900 flex flex-col items-center justify-center p-8 text-stone-400 gap-3">
+        <div className="w-9 h-9 border-3 border-stone-700 border-t-emerald-400 rounded-full animate-spin" />
+        <span className="text-xs font-semibold">Validating session...</span>
+      </div>
+    );
+  }
+
+  // Strict Authentication Gate: Zero dashboard or layout visibility until authenticated
+  if (!authUser) {
+    return (
+      <CurrencyProvider>
+        <LoginPage onSuccess={() => setShowAuthModal(false)} />
+      </CurrencyProvider>
+    );
+  }
+
   return (
     <CurrencyProvider>
       <PermissionsProvider>
@@ -106,38 +126,6 @@ export function App() {
           />
 
           <main className="flex-1 overflow-y-auto bg-cream-100">
-            {authLoading ? (
-              <div className="h-full flex items-center justify-center p-8">
-                <div className="flex flex-col items-center gap-3 text-stone-500">
-                  <div className="w-8 h-8 border-3 border-stone-300 border-t-brand-600 rounded-full animate-spin" />
-                  <span className="text-xs font-semibold">Validating session...</span>
-                </div>
-              </div>
-            ) : !authUser ? (
-              <div className="h-full flex items-center justify-center p-6">
-                <div className="max-w-md w-full bg-cream-50 border border-cream-300 rounded-3xl p-8 shadow-xl text-center space-y-6">
-                  <div className="w-14 h-14 rounded-2xl bg-stone-900 text-white mx-auto flex items-center justify-center shadow-md">
-                    <span className="text-xl font-black text-emerald-400">PF</span>
-                  </div>
-                  <div className="space-y-2">
-                    <h2 className="text-xl font-extrabold text-stone-900 tracking-tight">Authentication Required</h2>
-                    <p className="text-xs text-stone-600 leading-relaxed">
-                      You must be signed in with an authorized corporate account to view active portfolio data, tenancy records, financial ledgers, or run automations.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setShowAuthModal(true)}
-                    className="w-full py-3.5 px-4 bg-stone-900 hover:bg-stone-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-2"
-                  >
-                    Sign In with Google
-                  </button>
-                  <p className="text-[10px] text-stone-400">
-                    Protected by Supabase Auth with Google OAuth & Row-Level Security
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <>
             {currentTab === 'dashboard' && (
               <Dashboard
                 dbState={dbState}
@@ -261,8 +249,6 @@ export function App() {
                 dbState={dbState}
                 onClosePreview={() => setCurrentTab('dashboard')}
               />
-            )}
-                        </>
             )}
           </main>
         </div>
