@@ -2,8 +2,9 @@ import React from 'react';
 import {
   LayoutDashboard, Building2, Users, FileText, CreditCard,
   Wrench, Truck, Receipt, Bell, Mail,
-  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home
+  Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck
 } from 'lucide-react';
+import { supabase } from '../services/supabase';
 
 export type NavTab =
   | 'dashboard'
@@ -26,6 +27,8 @@ interface SidebarProps {
   currentTab: NavTab;
   onTabChange: (tab: NavTab) => void;
   pendingTasksCount: number;
+  authUser?: any;
+  onOpenAuthModal?: () => void;
 }
 
 interface NavSection {
@@ -41,8 +44,13 @@ interface NavSection {
 export const Sidebar: React.FC<SidebarProps> = ({
   currentTab,
   onTabChange,
-  pendingTasksCount
+  pendingTasksCount,
+  authUser,
+  onOpenAuthModal
 }) => {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
   const navSections: NavSection[] = [
     {
       title: 'Core Portfolio',
@@ -141,13 +149,47 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ))}
       </nav>
 
-      {/* Footer Demo Indicator */}
-      <div className="p-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between bg-slate-950/40">
-        <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Live Demo Mode
-        </span>
-        <span className="text-[10px] text-slate-400">v2.1</span>
+      {/* User Profile / Authentication Footer */}
+      <div className="p-3 border-t border-slate-800 bg-slate-950/60">
+        {authUser ? (
+          <div className="flex items-center justify-between gap-2 p-1.5 rounded-xl bg-slate-850/80 border border-slate-800">
+            <div className="flex items-center gap-2.5 min-w-0">
+              {authUser.user_metadata?.avatar_url ? (
+                <img
+                  src={authUser.user_metadata.avatar_url}
+                  alt={authUser.user_metadata.full_name || 'User'}
+                  className="w-8 h-8 rounded-full border border-slate-700 object-cover shrink-0"
+                />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-emerald-600 text-slate-950 text-xs font-black flex items-center justify-center shrink-0">
+                  {(authUser.email?.[0] || 'U').toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0">
+                <span className="block text-xs font-bold text-white truncate">
+                  {authUser.user_metadata?.full_name || authUser.email?.split('@')[0]}
+                </span>
+                <span className="text-[10px] text-emerald-400 font-medium flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Verified Access
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-colors shrink-0"
+              title="Sign Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onOpenAuthModal}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-md transition-all"
+          >
+            <LogIn className="w-4 h-4" /> Sign In to Access
+          </button>
+        )}
       </div>
     </aside>
   );

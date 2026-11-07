@@ -8,6 +8,7 @@ interface HeaderProps {
   dbState: DatabaseState;
   onNavigate: (tab: NavTab) => void;
   pendingTasksCount: number;
+  authUser?: any;
   onOpenAuthModal?: () => void;
 }
 
@@ -15,28 +16,15 @@ export const Header: React.FC<HeaderProps> = ({
   dbState,
   onNavigate,
   pendingTasksCount,
+  authUser,
   onOpenAuthModal
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showTasksModal, setShowTasksModal] = useState(false);
-  const [authUser, setAuthUser] = useState<any>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthUser(session?.user || null);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setAuthUser(session?.user || null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    setAuthUser(null);
   };
 
   const { currentCurrency, setCurrency, currencyConfig } = useCurrency();
