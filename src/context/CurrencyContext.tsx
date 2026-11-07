@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { store } from '../services/supabase';
+import { fetchLiveExchangeRates, calculateLiveCrossRate, LiveFxState } from '../services/exchangeRateApi';
 
 export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';
 
@@ -26,11 +27,16 @@ interface CurrencyContextType {
   convertFromCAD: (amountInCAD: number) => number;
   currencyConfig: CurrencyConfig;
   getExchangeRate: (from: CurrencyCode, to: CurrencyCode) => number;
+  liveFx: LiveFxState | null;
+  refreshLiveFx: () => Promise<void>;
+  getLiveRateVsUsd: (code: CurrencyCode) => number;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [liveFx, setLiveFx] = useState<LiveFxState | null>(null);
+
   const [currentCurrency, setCurrentCurrency] = useState<CurrencyCode>(() => {
     // 1. Check database state
     const dbCurrency = store.getState().currency;
@@ -44,6 +50,19 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
     return 'CAD';
   });
+
+  const loadFxRates = async () => {
+    try {
+      const live = await fetchLiveExchangeRates();
+      setLiveFx(live);
+    } catch (e) {
+      console.warn('Could not load live rates:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadFxRates();
+  }, []);
 
   // Sync when store state changes externally
   useEffect(() => {
@@ -70,10 +89,24 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const getExchangeRate = (from: CurrencyCode, to: CurrencyCode): number => {
+    if (liveFx?.rates) {
+      return calculateLiveCrossRate(from, to, liveFx.rates);
+    }
     const fromRate = CURRENCIES[from]?.exchangeRateFromCAD || 1.0;
     const toRate = CURRENCIES[to]?.exchangeRateFromCAD || 1.0;
     // 1 CAD = fromRate (from), 1 CAD = toRate (to) => 1 from = (toRate / fromRate) to
     return toRate / fromRate;
+  };
+
+  const getLiveRateVsUsd = (code: CurrencyCode): number => {
+    if (code === 'USD') return 1.0;
+    if (liveFx?.rates && liveFx.rates[code]) {
+      return liveFx.rates[code];
+    }
+    // Fallback based on CAD base
+    const usdFromCad = CURRENCIES.USD.exchangeRateFromCAD;
+    const targetFromCad = CURRENCIES[code]?.exchangeRateFromCAD || 1.0;
+    return targetFromCad / usdFromCad;
   };
 
   const formatMoney = (
@@ -99,7 +132,10 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         formatMoney,
         convertFromCAD,
         currencyConfig,
-        getExchangeRate
+        getExchangeRate,
+        liveFx,
+        refreshLiveFx: loadFxRates,
+        getLiveRateVsUsd
       }}
     >
       {children}

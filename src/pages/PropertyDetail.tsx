@@ -27,7 +27,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const [isEditAcquisitionOpen, setIsEditAcquisitionOpen] = useState(false);
   const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
-  const { formatMoney, currencyConfig } = useCurrency();
+  const { formatMoney, currencyConfig, liveFx, refreshLiveFx, getLiveRateVsUsd } = useCurrency();
 
   const property = dbState.properties.find(p => p.id === propertyId);
   if (!property) {
@@ -317,15 +317,31 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   </div>
                 </div>
 
-                <button
-                  onClick={() => {
-                    setCurrentFxRate(defaultAcqRate);
-                    setExpenseInflationPercent(0);
-                  }}
-                  className="px-3 py-1.5 bg-blue-900/40 hover:bg-blue-800/60 text-blue-200 border border-blue-700/50 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" /> Reset to Baseline ({defaultAcqRate})
-                </button>
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  {liveFx && (
+                    <button
+                      onClick={() => {
+                        const marketRate = Math.round(getLiveRateVsUsd('NGN'));
+                        if (marketRate > 0) setCurrentFxRate(marketRate);
+                      }}
+                      className="px-3 py-1.5 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                      title="Sync slider with live market exchange rate"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      Apply Live Market Rate (~{Math.round(getLiveRateVsUsd('NGN'))} NGN/USD)
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => {
+                      setCurrentFxRate(defaultAcqRate);
+                      setExpenseInflationPercent(0);
+                    }}
+                    className="px-3 py-1.5 bg-blue-900/40 hover:bg-blue-800/60 text-blue-200 border border-blue-700/50 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" /> Reset to Baseline ({defaultAcqRate})
+                  </button>
+                </div>
               </div>
 
               {/* Deal Basis vs Current State Summary */}
@@ -436,12 +452,24 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                 </div>
               </div>
 
-              {/* Explanatory Context Note */}
-              <div className="flex items-start gap-2.5 p-3 bg-blue-950/60 rounded-xl border border-blue-800/30 text-xs text-blue-200">
-                <HelpCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-[11px] leading-relaxed">
-                  <strong>Estimated Projection Disclaimer:</strong> Break-even horizons represent dynamic mathematical estimates based on current lease inflows, master lease commitments, and projected operating expenditures. In foreign asset purchases (e.g. $200k USD @ 1,427), currency depreciation increases the local currency value required to recover original foreign capital, whereas expense inflation directly compresses net operating margins, extending the investment payback duration.
-                </p>
+              {/* Explanatory Context Note & Live FX Attribution */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-blue-950/60 rounded-xl border border-blue-800/30 text-xs text-blue-200">
+                <div className="flex items-start gap-2.5">
+                  <HelpCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <p className="text-[11px] leading-relaxed">
+                    <strong>Estimated Projection Disclaimer:</strong> Break-even horizons represent dynamic mathematical estimates based on current lease inflows, master lease commitments, and projected operating expenditures. In foreign asset purchases (e.g. $200k USD @ 1,427), currency depreciation increases the local currency value required to recover original foreign capital, whereas expense inflation directly compresses net operating margins, extending the investment payback duration.
+                  </p>
+                </div>
+
+                {liveFx && (
+                  <div className="shrink-0 text-right bg-slate-900/80 px-2.5 py-1.5 rounded-lg border border-blue-800/40 text-[10px]">
+                    <span className="text-emerald-400 font-bold flex items-center justify-end gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                      Live Financial API Feed
+                    </span>
+                    <span className="text-blue-300/80 block">Updated: {new Date(liveFx.lastUpdated).toLocaleDateString()}</span>
+                  </div>
+                )}
               </div>
             </div>
 

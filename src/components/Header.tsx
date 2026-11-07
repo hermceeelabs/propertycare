@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
     await supabase.auth.signOut();
   };
 
-  const { currentCurrency, setCurrency, currencyConfig } = useCurrency();
+  const { currentCurrency, setCurrency, currencyConfig, liveFx } = useCurrency();
 
   // Search indexing
   const filteredProperties = searchQuery.trim()
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Multi-Currency Dropdown in Header */}
         <div className="flex items-center gap-1.5 bg-cream-100 hover:bg-cream-200/90 px-3 py-1.5 rounded-xl border border-cream-300 transition-colors shadow-xs">
           <span className="text-xs font-bold text-stone-600 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-brand-600"></span>
+            <span className={`w-2 h-2 rounded-full ${liveFx?.isLive ? 'bg-emerald-500 animate-pulse' : 'bg-brand-600'}`} title={liveFx?.isLive ? 'Live Exchange Rate Feed Active' : 'Static Feed'}></span>
             {currencyConfig.code}
           </span>
           <select
