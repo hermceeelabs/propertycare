@@ -236,6 +236,9 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
             </button>
           </div>
 
+          {/* Decorative Divider */}
+          <hr className="border-t border-slate-800/80" />
+
           {/* Search bar */}
           <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-xs">
             <Search className="w-4 h-4 text-slate-400 ml-2" />

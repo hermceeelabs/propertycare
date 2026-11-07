@@ -89,7 +89,7 @@ export const AutomationsPage: React.FC<AutomationsProps> = ({
       </div>
 
       {/* Visual Horizontal Separator */}
-      <hr className="border-t border-cream-300" />
+      <hr className="border-t border-slate-800/80" />
 
       {/* Visual Workflow Diagram Card */}
       <div className="bg-stone-900 text-white p-6 rounded-2xl shadow-sm border border-stone-800 space-y-3">

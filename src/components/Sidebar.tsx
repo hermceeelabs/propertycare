@@ -15,14 +15,14 @@ export type NavTab =
   | 'tenants'
   | 'leases'
   | 'payments'
+  | 'bills'
+  | 'reports'
   | 'maintenance'
   | 'vendors'
-  | 'bills'
   | 'notices'
   | 'communications'
   | 'automations'
   | 'logs'
-  | 'reports'
   | 'settings'
   | 'portal-tenant'
   | 'portal-landlord';
@@ -76,25 +76,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ]
     },
     {
-      title: 'Financials & Operations',
+      title: 'Operations Hubs',
       items: [
-        ...(can('can_view_financials') ? [{ id: 'payments' as NavTab, label: 'Rent & Collections', icon: CreditCard }] : []),
-        ...(can('can_view_financials') ? [{ id: 'bills' as NavTab, label: 'Expenses & Invoices', icon: Receipt }] : []),
-        ...(can('can_manage_leases') ? [{ id: 'leases' as NavTab, label: 'Lease Agreements', icon: FileText }] : []),
+        ...(can('can_view_financials') ? [
+          { id: 'payments' as NavTab, label: 'Financial Operations Hub', icon: CreditCard }
+        ] : []),
         ...(can('can_dispatch_maintenance') ? [
-          { id: 'maintenance' as NavTab, label: 'Maintenance & Repairs', icon: Wrench },
-          { id: 'vendors' as NavTab, label: 'Trade Contractors', icon: Truck }
+          { id: 'maintenance' as NavTab, label: 'Work Orders & Field Hub', icon: Wrench }
+        ] : []),
+        ...(can('can_issue_notices') ? [
+          { id: 'notices' as NavTab, label: 'Legal Notices & Comms Hub', icon: Bell }
+        ] : []),
+        ...(can('can_trigger_automations') ? [
+          { id: 'automations' as NavTab, label: 'Automations & Audit Hub', icon: Zap }
         ] : [])
-      ]
-    },
-    {
-      title: 'Automation & Compliance',
-      items: [
-        ...(can('can_issue_notices') ? [{ id: 'notices' as NavTab, label: 'Ontario Notices (N1/N4)', icon: Bell }] : []),
-        { id: 'communications', label: 'Tenant Communications', icon: Mail },
-        ...(can('can_trigger_automations') ? [{ id: 'automations' as NavTab, label: 'Automations Center', icon: Zap }] : []),
-        ...(can('can_view_financials') ? [{ id: 'reports' as NavTab, label: 'Yield & Break-Even Reports', icon: BarChart3 }] : []),
-        { id: 'logs', label: 'Audit Trail', icon: ShieldAlert }
       ]
     },
     {

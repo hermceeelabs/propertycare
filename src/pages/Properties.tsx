@@ -38,7 +38,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
       </div>
 
       {/* Visual Horizontal Separator */}
-      <hr className="border-t border-cream-300" />
+      <hr className="border-t border-slate-800/80" />
 
       {/* Controls Line: Filters & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">

@@ -118,6 +118,9 @@ Operations Team
         <p className="text-sm text-slate-500">Configure company profile, JSON database synchronization, automation rules & integrations</p>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Tabs */}
       <div className="flex items-center gap-1 border-b border-slate-200 overflow-x-auto pb-px">
         {[

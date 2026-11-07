@@ -19,6 +19,10 @@ import { NoticesPage } from '../pages/Notices';
 import { CommunicationsPage } from '../pages/Communications';
 import { AutomationsPage } from '../pages/Automations';
 import { AutomationLogsPage } from '../pages/AutomationLogs';
+import { FinancialsHub } from '../pages/FinancialsHub';
+import { OperationsHub } from '../pages/OperationsHub';
+import { LegalCommsHub } from '../pages/LegalCommsHub';
+import { AutomationsHub } from '../pages/AutomationsHub';
 import { ReportsPage } from '../pages/Reports';
 import { SettingsPage } from '../pages/Settings';
 import { TenantPortal } from '../pages/portal/TenantPortal';
@@ -194,52 +198,53 @@ export const AppContent: React.FC<AppContentProps> = ({
           )}
 
           {currentTab === 'payments' && (
-            <PaymentsPage dbState={dbState} />
-          )}
-
-          {currentTab === 'maintenance' && (
-            <MaintenancePage dbState={dbState} />
-          )}
-
-          {currentTab === 'vendors' && (
-            <VendorsPage dbState={dbState} />
+            <FinancialsHub dbState={dbState} initialTab="payments" />
           )}
 
           {currentTab === 'bills' && (
-            <BillsPage
-              dbState={dbState}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
+            <FinancialsHub dbState={dbState} initialTab="bills" />
+          )}
+
+          {currentTab === 'reports' && (
+            <FinancialsHub dbState={dbState} initialTab="reports" />
+          )}
+
+          {currentTab === 'maintenance' && (
+            <OperationsHub dbState={dbState} initialTab="tickets" />
+          )}
+
+          {currentTab === 'vendors' && (
+            <OperationsHub dbState={dbState} initialTab="vendors" />
           )}
 
           {currentTab === 'notices' && (
-            <NoticesPage
+            <LegalCommsHub
               dbState={dbState}
-              onNavigateToLogs={() => handleNavigate('logs')}
-              onNavigateToCommunications={() => handleNavigate('communications')}
+              initialTab="notices"
+              onPreviewEmail={(id) => {
+                const comm = dbState.communications.find(c => c.id === id);
+                if (comm) setPreviewComm(comm);
+              }}
             />
           )}
 
           {currentTab === 'communications' && (
-            <CommunicationsPage
+            <LegalCommsHub
               dbState={dbState}
-              onPreviewEmail={setPreviewComm}
+              initialTab="communications"
+              onPreviewEmail={(id) => {
+                const comm = dbState.communications.find(c => c.id === id);
+                if (comm) setPreviewComm(comm);
+              }}
             />
           )}
 
           {currentTab === 'automations' && (
-            <AutomationsPage
-              dbState={dbState}
-              onNavigateToLogs={() => handleNavigate('logs')}
-            />
+            <AutomationsHub dbState={dbState} initialTab="rules" />
           )}
 
           {currentTab === 'logs' && (
-            <AutomationLogsPage dbState={dbState} />
-          )}
-
-          {currentTab === 'reports' && (
-            <ReportsPage dbState={dbState} />
+            <AutomationsHub dbState={dbState} initialTab="logs" />
           )}
 
           {currentTab === 'settings' && (

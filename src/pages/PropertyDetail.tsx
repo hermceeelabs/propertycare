@@ -173,6 +173,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         </div>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Detail Tabs */}
       <div className="flex items-center gap-1 border-b border-slate-200 overflow-x-auto pb-px">
         {[

@@ -51,7 +51,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
       </div>
 
       {/* Visual Horizontal Separator */}
-      <hr className="border-t border-cream-300" />
+      <hr className="border-t border-slate-800/80" />
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

@@ -29,7 +29,7 @@ export const LeasesPage: React.FC<LeasesProps> = ({ dbState }) => {
       </div>
 
       {/* Visual Horizontal Separator */}
-      <hr className="border-t border-cream-300" />
+      <hr className="border-t border-slate-800/80" />
 
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 border-b border-cream-200 pb-3">
