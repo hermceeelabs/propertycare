@@ -49,6 +49,9 @@ export interface LandlordDelegate {
   created_at: string;
 }
 
+export type LandlordLeaseType = 'Direct Management' | 'Master Lease (Corporate)' | 'Revenue Share / Guaranteed Yield';
+export type LandlordPaymentStructure = 'Monthly' | 'Quarterly' | 'Bi-Weekly' | 'Semi-Annual (Every 6 Months)' | 'Yearly / Annual Upfront' | '18 Months Upfront' | 'Multi-Year Lump-Sum';
+
 export interface Landlord {
   id: string;
   first_name: string;
@@ -60,6 +63,13 @@ export interface Landlord {
   bank_account_number?: string;
   management_fee_percentage: number;
   remittance_frequency: 'Monthly' | 'Quarterly' | 'Bi-Weekly';
+  // Flexible lease terms & payment structures
+  lease_agreement_type?: LandlordLeaseType;
+  payment_structure?: LandlordPaymentStructure;
+  lease_duration_months?: number; // e.g. 12, 18, 24, 36, 60
+  agreed_payout_amount?: number; // Total agreed payment per cycle or upfront
+  lease_start_date?: string;
+  lease_end_date?: string;
   notes?: string;
   authorized_representatives?: LandlordDelegate[];
   created_at: string;

@@ -25,7 +25,8 @@ export type NavTab =
   | 'logs'
   | 'settings'
   | 'portal-tenant'
-  | 'portal-landlord';
+  | 'portal-landlord'
+  | 'portal-contractor';
 
 interface SidebarProps {
   currentTab: NavTab;
@@ -96,7 +97,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       title: 'External Stakeholder Portals',
       items: [
         { id: 'portal-tenant', label: 'Resident Portal View', icon: Eye, badge: 'Portal' },
-        { id: 'portal-landlord', label: 'Landlord Portal View', icon: Eye, badge: 'Owner' }
+        { id: 'portal-landlord', label: 'Landlord Portal View', icon: Eye, badge: 'Owner' },
+        { id: 'portal-contractor', label: 'Contractor Portal View', icon: Eye, badge: 'Trade' }
       ]
     },
     {

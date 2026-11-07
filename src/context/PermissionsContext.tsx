@@ -4,7 +4,7 @@ import { supabase } from '../services/supabase';
 
 export interface StakeholderAuthResult {
   authorized: boolean;
-  stakeholderType: 'owner' | 'staff' | 'landlord' | 'tenant' | 'vendor' | null;
+  stakeholderType: 'owner' | 'staff' | 'landlord' | 'tenant' | 'vendor' | 'contractor' | null;
   status: 'Active' | 'Suspended' | 'Inactive' | 'Pending' | null;
   profileData: any;
   rejectionReason?: string;
@@ -272,7 +272,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setProfile(vendorProfile);
         setAuthResult({
           authorized: true,
-          stakeholderType: 'vendor',
+          stakeholderType: 'contractor',
           status: 'Active',
           profileData: vendorMatch
         });

@@ -84,18 +84,26 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
             </div>
 
             {/* Quick Financial Summary for Landlord */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
               <div>
                 <span className="text-slate-500 block">Mgmt Fee</span>
                 <strong className="text-slate-900 text-sm font-extrabold">{activeLandlord.management_fee_percentage}%</strong>
               </div>
               <div>
-                <span className="text-slate-500 block">Remittance</span>
-                <strong className="text-slate-900 text-sm font-extrabold">{activeLandlord.remittance_frequency}</strong>
+                <span className="text-slate-500 block">Payment Structure</span>
+                <strong className="text-amber-700 text-sm font-extrabold">{activeLandlord.payment_structure || activeLandlord.remittance_frequency}</strong>
               </div>
-              <div className="col-span-2 sm:col-span-1">
-                <span className="text-slate-500 block">Bank Account</span>
-                <strong className="text-slate-900 text-xs font-bold truncate block">{activeLandlord.bank_name || 'Direct Deposit'}</strong>
+              <div>
+                <span className="text-slate-500 block">Contract Duration</span>
+                <strong className="text-slate-900 text-sm font-extrabold">
+                  {activeLandlord.lease_duration_months ? `${activeLandlord.lease_duration_months} Months` : '12 Months (Annual)'}
+                </strong>
+              </div>
+              <div>
+                <span className="text-slate-500 block">Agreed Cycle Payout</span>
+                <strong className="text-slate-900 text-sm font-extrabold">
+                  {activeLandlord.agreed_payout_amount ? formatMoney(activeLandlord.agreed_payout_amount) : 'Standard Revenue'}
+                </strong>
               </div>
             </div>
           </div>

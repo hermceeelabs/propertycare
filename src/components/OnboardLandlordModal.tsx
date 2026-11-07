@@ -27,6 +27,26 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
   const [remittanceFreq, setRemittanceFreq] = useState<'Monthly' | 'Quarterly' | 'Bi-Weekly'>('Monthly');
   const [notes, setNotes] = useState('');
 
+  // Flexible Lease Structure & Payment Cycle
+  const [leaseAgreementType, setLeaseAgreementType] = useState<string>('Direct Management');
+  const [paymentStructure, setPaymentStructure] = useState<string>('Monthly');
+  const [leaseDurationMonths, setLeaseDurationMonths] = useState('12');
+  const [agreedPayoutAmount, setAgreedPayoutAmount] = useState('');
+  const [leaseStartDate, setLeaseStartDate] = useState(new Date().toISOString().split('T')[0]);
+  const [leaseEndDate, setLeaseEndDate] = useState(
+    new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  );
+
+  // Helper to recalculate end date when duration changes
+  const handleDurationChange = (months: string) => {
+    setLeaseDurationMonths(months);
+    const m = parseFloat(months) || 12;
+    const start = new Date(leaseStartDate);
+    const end = new Date(start);
+    end.setMonth(start.getMonth() + m);
+    setLeaseEndDate(end.toISOString().split('T')[0]);
+  };
+
   // Delegate / Legal counsel
   const [hasDelegate, setHasDelegate] = useState(false);
   const [repName, setRepName] = useState('');
@@ -88,6 +108,12 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
       bank_account_number: bankAccountNumber.trim() || undefined,
       management_fee_percentage: parseFloat(managementFee) || 8.0,
       remittance_frequency: remittanceFreq,
+      lease_agreement_type: leaseAgreementType as any,
+      payment_structure: paymentStructure as any,
+      lease_duration_months: parseFloat(leaseDurationMonths) || 12,
+      agreed_payout_amount: agreedPayoutAmount ? parseFloat(agreedPayoutAmount) : undefined,
+      lease_start_date: leaseStartDate,
+      lease_end_date: leaseEndDate,
       notes: notes.trim() || undefined,
       authorized_representatives: delegates,
       created_at: new Date().toISOString(),
@@ -262,6 +288,97 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
                 />
               </div>
             </div>
+          </div>
+
+          {/* Flexible Lease Duration & Payment Structure */}
+          <div className="p-4 bg-amber-50/50 rounded-2xl border border-amber-200 space-y-3">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-amber-700" />
+              <strong className="text-xs text-amber-950">Contract Terms, Duration & Payment Structure</strong>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Contract / Lease Model</label>
+                <select
+                  value={leaseAgreementType}
+                  onChange={(e) => setLeaseAgreementType(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs font-semibold cursor-pointer"
+                >
+                  <option value="Direct Management">Direct Property Management</option>
+                  <option value="Master Lease (Corporate)">Master Lease (Corporate / STR Guarantee)</option>
+                  <option value="Revenue Share / Guaranteed Yield">Revenue Share / Guaranteed Yield</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Payment Structure Cycle</label>
+                <select
+                  value={paymentStructure}
+                  onChange={(e) => setPaymentStructure(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs font-semibold cursor-pointer"
+                >
+                  <option value="Monthly">Monthly Payouts</option>
+                  <option value="Quarterly">Quarterly Payouts</option>
+                  <option value="Semi-Annual (Every 6 Months)">Semi-Annual (Every 6 Months)</option>
+                  <option value="Yearly / Annual Upfront">1 Year Upfront (Annual)</option>
+                  <option value="18 Months Upfront">1.5 Years Upfront (18 Months)</option>
+                  <option value="Multi-Year Lump-Sum">Multi-Year Upfront (2+ Years)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Duration (Months)</label>
+                <input
+                  type="number"
+                  step="1"
+                  value={leaseDurationMonths}
+                  onChange={(e) => handleDurationChange(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs font-semibold"
+                  placeholder="e.g. 12, 18, 24, 36"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Contract Start Date</label>
+                <input
+                  type="date"
+                  value={leaseStartDate}
+                  onChange={(e) => {
+                    setLeaseStartDate(e.target.value);
+                    const m = parseFloat(leaseDurationMonths) || 12;
+                    const end = new Date(e.target.value);
+                    end.setMonth(end.getMonth() + m);
+                    setLeaseEndDate(end.toISOString().split('T')[0]);
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Contract Expiration Date</label>
+                <input
+                  type="date"
+                  value={leaseEndDate}
+                  onChange={(e) => setLeaseEndDate(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs font-semibold"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-amber-900 block mb-1">Agreed Cycle Payout / Lump-Sum</label>
+                <input
+                  type="number"
+                  placeholder="e.g. 36000"
+                  value={agreedPayoutAmount}
+                  onChange={(e) => setAgreedPayoutAmount(e.target.value)}
+                  className="w-full px-2.5 py-1.5 bg-white border border-amber-200 rounded-lg text-xs"
+                />
+              </div>
+            </div>
+            <p className="text-[10px] text-amber-800 italic">
+              * Supports multi-year, annual upfront, or custom period lease structures (e.g., 18 months, 24 months, 36 months).
+            </p>
           </div>
 
           {/* Assigned Properties */}

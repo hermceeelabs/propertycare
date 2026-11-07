@@ -27,6 +27,7 @@ import { ReportsPage } from '../pages/Reports';
 import { SettingsPage } from '../pages/Settings';
 import { TenantPortal } from '../pages/portal/TenantPortal';
 import { LandlordPortal } from '../pages/portal/LandlordPortal';
+import { ContractorPortal } from '../pages/portal/ContractorPortal';
 import { DatabaseState } from '../services/supabase';
 import { Communication } from '../types/database';
 import { ShieldAlert, LogOut, Lock } from 'lucide-react';
@@ -113,6 +114,16 @@ export const AppContent: React.FC<AppContentProps> = ({
       <LandlordPortal
         dbState={dbState}
         landlordId={authResult.profileData?.id}
+      />
+    );
+  }
+
+  // 4. AUTOMATIC ROUTING FOR CONTRACTORS / TRADES (Direct to Contractor Portal)
+  if (authResult?.stakeholderType === 'contractor') {
+    return (
+      <ContractorPortal
+        dbState={dbState}
+        vendorId={authResult.profileData?.id}
       />
     );
   }
@@ -260,6 +271,13 @@ export const AppContent: React.FC<AppContentProps> = ({
 
           {currentTab === 'portal-landlord' && (
             <LandlordPortal
+              dbState={dbState}
+              onClosePreview={() => setCurrentTab('dashboard')}
+            />
+          )}
+
+          {currentTab === 'portal-contractor' && (
+            <ContractorPortal
               dbState={dbState}
               onClosePreview={() => setCurrentTab('dashboard')}
             />
