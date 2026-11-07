@@ -65,6 +65,9 @@ export const VendorsPage: React.FC<VendorsProps> = ({ dbState }) => {
         </button>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Filter Toolbar */}
       <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 pb-3">
         <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200">

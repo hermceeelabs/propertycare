@@ -103,6 +103,9 @@ export const CommunicationsPage: React.FC<CommunicationsProps> = ({
         </button>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
         {['All', 'Emails', 'Campaigns'].map(tab => (

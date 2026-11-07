@@ -69,6 +69,9 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
         <p className="text-sm text-slate-500">Gross rent inflows, operational expenditure, master lease obligations, and capital break-even horizons</p>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Summary Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">

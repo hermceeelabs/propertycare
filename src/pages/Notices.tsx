@@ -60,6 +60,9 @@ export const NoticesPage: React.FC<NoticesProps> = ({ dbState }) => {
         </button>
       </div>
 
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
       {/* Mandatory Legal Compliance Banner */}
       <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl shadow-xs space-y-1">
         <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">

@@ -158,6 +158,9 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Decorative Divider */}
+        <hr className="border-t border-slate-800/80 mt-4 max-w-6xl mx-auto" />
       </header>
 
       {/* Main Container */}

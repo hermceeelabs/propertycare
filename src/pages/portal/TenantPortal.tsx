@@ -156,6 +156,9 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <span className="hidden sm:inline">{tenant.first_name} {tenant.last_name}</span>
           </div>
         </div>
+
+        {/* Decorative Divider */}
+        <hr className="border-t border-slate-800/80 mt-4 max-w-5xl mx-auto" />
       </header>
 
       {/* Navigation Sub-bar */}

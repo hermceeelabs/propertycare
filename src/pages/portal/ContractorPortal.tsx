@@ -104,6 +104,9 @@ export const ContractorPortal: React.FC<ContractorPortalProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Decorative Divider */}
+        <hr className="border-t border-slate-800/80 mt-4 max-w-6xl mx-auto" />
       </header>
 
       {/* Main Workspace */}
