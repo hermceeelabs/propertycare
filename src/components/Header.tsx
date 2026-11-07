@@ -154,38 +154,6 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           )}
         </button>
-
-        {/* Authentication State (Only visible when authenticated) */}
-        {authUser && (
-          <div className="flex items-center gap-2 pl-2 border-l border-cream-300">
-            {authUser.user_metadata?.avatar_url ? (
-              <img
-                src={authUser.user_metadata.avatar_url}
-                alt={authUser.user_metadata.full_name || 'User'}
-                className="w-7 h-7 rounded-full border border-cream-400"
-              />
-            ) : (
-              <div className="w-7 h-7 rounded-full bg-stone-900 text-white text-[11px] font-bold flex items-center justify-center">
-                {(authUser.email?.[0] || 'U').toUpperCase()}
-              </div>
-            )}
-            <div className="hidden sm:block text-left text-[11px] leading-tight">
-              <span className="block font-bold text-stone-900 truncate max-w-[110px]">
-                {authUser.user_metadata?.full_name || authUser.email?.split('@')[0]}
-              </span>
-              <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Signed In
-              </span>
-            </div>
-            <button
-              onClick={handleSignOut}
-              className="p-1.5 text-stone-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-1"
-              title="Sign Out"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Pending Tasks Drawer Modal */}
