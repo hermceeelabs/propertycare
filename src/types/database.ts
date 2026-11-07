@@ -7,6 +7,16 @@ export interface UserPermissions {
   can_trigger_automations: boolean;
 }
 
+export interface RoleTemplate {
+  id: string;
+  name: string;
+  description: string;
+  permissions: UserPermissions;
+  is_system?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export type UserType = 'owner' | 'staff' | 'landlord' | 'tenant';
 
 export interface UserProfile {
@@ -17,6 +27,9 @@ export interface UserProfile {
   phone?: string;
   is_owner: boolean;
   user_type: UserType;
+  role_title?: string;
+  role_template_id?: string;
+  status?: 'Active' | 'Suspended';
   permissions: UserPermissions;
   assigned_properties: string[];
   created_at: string;

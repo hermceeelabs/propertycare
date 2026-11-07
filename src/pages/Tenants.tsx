@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
   Users, UserCheck, ShieldCheck, Search, Filter,
-  FileText, Clock, AlertCircle, CheckCircle2, ChevronRight, X, Phone, Mail, MapPin, DollarSign, Calendar
+  FileText, Clock, AlertCircle, CheckCircle2, ChevronRight, X, Phone, Mail, MapPin, DollarSign, Calendar, UserPlus
 } from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
 import { useCurrency } from '../context/CurrencyContext';
+import { OnboardTenantModal } from '../components/OnboardTenantModal';
 
 interface TenantsPageProps {
   dbState: DatabaseState;
@@ -20,6 +21,7 @@ export const TenantsPage: React.FC<TenantsPageProps> = ({
   const [activeTab, setActiveTab] = useState<'directory' | 'screening'>(defaultSubTab);
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [search, setSearch] = useState('');
+  const [isOnboardTenantOpen, setIsOnboardTenantOpen] = useState(false);
   const { formatMoney } = useCurrency();
 
   // Screening state
@@ -164,15 +166,24 @@ export const TenantsPage: React.FC<TenantsPageProps> = ({
           )}
         </div>
 
-        {activeTab === 'directory' && (
-          <input
-            type="text"
-            placeholder="Search by name or email..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden w-64"
-          />
-        )}
+        <div className="flex items-center gap-3">
+          {activeTab === 'directory' && (
+            <input
+              type="text"
+              placeholder="Search by name or email..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden w-64"
+            />
+          )}
+
+          <button
+            onClick={() => setIsOnboardTenantOpen(true)}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
+          >
+            <UserPlus className="w-4 h-4" /> Onboard Tenant Client
+          </button>
+        </div>
       </div>
 
       {/* DIRECTORY TAB */}
@@ -380,6 +391,18 @@ export const TenantsPage: React.FC<TenantsPageProps> = ({
           </div>
         </div>
       )}
+      {/* Onboard Tenant Modal */}
+      <OnboardTenantModal
+        isOpen={isOnboardTenantOpen}
+        onClose={() => setIsOnboardTenantOpen(false)}
+        units={dbState.units}
+        properties={dbState.properties}
+        onTenantAdded={(newTenant, lease) => {
+          if (lease) {
+            onSelectTenant(newTenant.id);
+          }
+        }}
+      />
     </div>
   );
 };

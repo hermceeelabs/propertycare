@@ -155,6 +155,157 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
           </div>
         )}
 
+        {activeTab === 'lease' && (
+          <div className="space-y-4">
+            {lease ? (
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+                  <div>
+                    <span className="text-xs font-bold text-brand-700 uppercase tracking-wider">Lease ID: {lease.id}</span>
+                    <h4 className="text-base font-extrabold text-slate-900 mt-0.5">
+                      {property?.name} • Unit {unit?.unit_number}
+                    </h4>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold self-start ${
+                    lease.status === 'Active' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    {lease.status}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                  <div>
+                    <span className="text-slate-500 block">Monthly Rent</span>
+                    <strong className="text-slate-900 text-sm">{formatMoney(lease.monthly_rent)}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block">Security Deposit</span>
+                    <strong className="text-slate-900 text-sm">{formatMoney(lease.deposit)}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block">Term Duration</span>
+                    <strong className="text-slate-900 text-sm">{lease.start_date} to {lease.end_date}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block">Renewal Status</span>
+                    <strong className="text-slate-900 text-sm">{lease.renewal_status || 'Standard'}</strong>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500 py-6 text-center">No active lease agreement linked to this tenant record.</p>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'payments' && (
+          <div className="space-y-3">
+            {payments.length === 0 ? (
+              <p className="text-xs text-slate-500 py-6 text-center">No payment transactions recorded for this tenant.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-200 text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
+                      <th className="pb-3">Reference</th>
+                      <th className="pb-3">Due Date</th>
+                      <th className="pb-3">Payment Date</th>
+                      <th className="pb-3">Amount Due</th>
+                      <th className="pb-3">Amount Paid</th>
+                      <th className="pb-3 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {payments.map(p => (
+                      <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3 font-bold text-slate-900">{p.id}</td>
+                        <td className="py-3 text-slate-600">{p.due_date}</td>
+                        <td className="py-3 text-slate-600">{p.payment_date || '—'}</td>
+                        <td className="py-3 text-slate-600">{formatMoney(p.amount_due)}</td>
+                        <td className="py-3 font-bold text-emerald-700">{formatMoney(p.amount_paid)}</td>
+                        <td className="py-3 text-right">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                            p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' :
+                            p.status === 'Overdue' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'
+                          }`}>
+                            {p.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'maintenance' && (
+          <div className="space-y-3">
+            {maintenance.length === 0 ? (
+              <p className="text-xs text-slate-500 py-6 text-center">No maintenance requests logged for this tenant.</p>
+            ) : (
+              maintenance.map(m => (
+                <div key={m.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold bg-stone-200 text-stone-800 px-2 py-0.5 rounded uppercase">
+                        {m.category}
+                      </span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                        m.priority === 'Emergency' ? 'bg-rose-100 text-rose-800' :
+                        m.priority === 'High' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                      }`}>
+                        {m.priority} Priority
+                      </span>
+                      <strong className="text-xs text-slate-900">Ticket #{m.id.slice(0, 8)}</strong>
+                    </div>
+                    <p className="text-xs text-slate-700">{m.description}</p>
+                    <span className="text-[11px] text-slate-400 block">Filed on {m.created_at.split('T')[0]}</span>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold self-start sm:self-center ${
+                    m.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' :
+                    m.status === 'In Progress' ? 'bg-sky-100 text-sky-800' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    {m.status}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {activeTab === 'notices' && (
+          <div className="space-y-3">
+            {notices.length === 0 ? (
+              <p className="text-xs text-slate-500 py-6 text-center">No statutory legal notices issued to this tenant.</p>
+            ) : (
+              notices.map(n => (
+                <div key={n.id} className="p-4 bg-amber-50/50 border border-amber-200 rounded-xl flex items-center justify-between">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-black bg-amber-200 text-amber-900 px-2 py-0.5 rounded">
+                        Form {n.form_type}
+                      </span>
+                      <strong className="text-xs text-slate-900">{n.reason}</strong>
+                    </div>
+                    <p className="text-xs text-slate-600">
+                      Amount: {formatMoney(n.amount_owing || 0)} • Termination/Due Date: {n.termination_date || 'N/A'}
+                    </p>
+                    <span className="text-[10px] text-slate-400">Issued Date: {n.issue_date}</span>
+                  </div>
+                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                    n.status === 'Served' ? 'bg-purple-100 text-purple-800' :
+                    n.status === 'Approved' ? 'bg-blue-100 text-blue-800' : 'bg-stone-200 text-stone-700'
+                  }`}>
+                    {n.status}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
         {activeTab === 'communications' && (
           <div className="space-y-3">
             {communications.length === 0 ? (

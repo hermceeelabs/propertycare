@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, DollarSign, Plus, Landmark, Clock } from 'lucide-react';
+import { Building2, MapPin, Home, ArrowRight, ChevronRight, Filter, TrendingUp, DollarSign, Plus, Landmark, Clock, UserPlus } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { Property } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { AddPropertyModal } from '../components/AddPropertyModal';
+import { OnboardLandlordModal } from '../components/OnboardLandlordModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface PropertiesProps {
@@ -15,6 +16,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
   const [cityFilter, setCityFilter] = useState<string>('All');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
+  const [isOnboardLandlordOpen, setIsOnboardLandlordOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(undefined);
   const { formatMoney } = useCurrency();
 
@@ -58,6 +60,13 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsOnboardLandlordOpen(true)}
+            className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <UserPlus className="w-4 h-4" /> Onboard Landlord Client
+          </button>
+
           <button
             onClick={() => setIsAddPropertyOpen(true)}
             className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
@@ -190,6 +199,15 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
         onClose={() => setIsAddPropertyOpen(false)}
         dbState={dbState}
         onCreated={(id) => onSelectProperty(id)}
+      />
+
+      <OnboardLandlordModal
+        isOpen={isOnboardLandlordOpen}
+        onClose={() => setIsOnboardLandlordOpen(false)}
+        properties={dbState.properties}
+        onLandlordAdded={(newLandlord) => {
+          // Alert or feedback
+        }}
       />
     </div>
   );

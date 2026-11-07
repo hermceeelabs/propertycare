@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { Settings, Building2, Sliders, Mail, Link2, Check, AlertCircle, Info, RefreshCw, Database, Download, Upload, FileCode, ShieldCheck, Users, Lock } from 'lucide-react';
-import { DatabaseState, store } from '../services/supabase';
+import React, { useState, useEffect } from 'react';
+import { Settings, Building2, Sliders, Mail, Link2, Check, AlertCircle, Info, RefreshCw, Database, Download, Upload, FileCode, ShieldCheck, Users, Lock, Plus, Sparkles, UserPlus, Trash2, Edit3 } from 'lucide-react';
+import { DatabaseState, store, supabase } from '../services/supabase';
 import { usePermissions } from '../context/PermissionsContext';
+import { RoleTemplate, UserProfile, UserPermissions } from '../types/database';
+import { OnboardStaffModal } from '../components/OnboardStaffModal';
+import { RoleTemplateModal } from '../components/RoleTemplateModal';
 
 interface SettingsProps {
   dbState: DatabaseState;
@@ -9,10 +12,61 @@ interface SettingsProps {
 
 export const SettingsPage: React.FC<SettingsProps> = ({ dbState }) => {
   const [activeTab, setActiveTab] = useState<'access' | 'database' | 'company' | 'rules' | 'templates' | 'integrations'>('access');
+  const [accessSubTab, setAccessSubTab] = useState<'team' | 'roles' | 'my_permissions'>('team');
   const [stessaMsg, setStessaMsg] = useState(false);
   const [importStatus, setImportStatus] = useState<string | null>(null);
 
   const { profile, isOwner, updatePermissions, setUserType } = usePermissions();
+
+  // Role templates & staff members
+  const [roleTemplates, setRoleTemplates] = useState<RoleTemplate[]>([]);
+  const [staffProfiles, setStaffProfiles] = useState<UserProfile[]>([]);
+  const [isOnboardStaffOpen, setIsOnboardStaffOpen] = useState(false);
+  const [isRoleTemplateModalOpen, setIsRoleTemplateModalOpen] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState<RoleTemplate | null>(null);
+  const [isLoadingAccess, setIsLoadingAccess] = useState(false);
+
+  // Fetch role templates and staff profiles
+  const fetchAccessData = async () => {
+    setIsLoadingAccess(true);
+    try {
+      const { data: templates } = await supabase
+        .from('role_templates')
+        .select('*')
+        .order('name');
+      if (templates) setRoleTemplates(templates as RoleTemplate[]);
+
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (profiles) setStaffProfiles(profiles as UserProfile[]);
+    } catch (err) {
+      console.error('Error fetching access control data:', err);
+    } finally {
+      setIsLoadingAccess(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAccessData();
+  }, []);
+
+  const handleToggleStaffStatus = async (staff: UserProfile) => {
+    const newStatus = staff.status === 'Active' ? 'Suspended' : 'Active';
+    try {
+      await supabase
+        .from('profiles')
+        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .eq('id', staff.id);
+      
+      setStaffProfiles(prev =>
+        prev.map(p => (p.id === staff.id ? { ...p, status: newStatus } : p))
+      );
+    } catch (err) {
+      console.error('Error toggling staff status:', err);
+    }
+  };
 
   // Template editor state
   const [selectedTemplate, setSelectedTemplate] = useState('Rent Overdue Reminder');
@@ -97,82 +151,263 @@ Operations Team
         {/* TEAM & ACCESS CONTROL TAB */}
         {activeTab === 'access' && (
           <div className="space-y-6 max-w-4xl">
-            <div>
-              <h3 className="font-bold text-slate-900 text-base">Flexible Permission-Based Access Control (PBAC)</h3>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                Rather than hardcoding rigid roles, configure granular permissions for each team member. The <strong>Owner Account</strong> retains fixed full authority, while team member views adapt dynamically without rebuilding new dashboards.
-              </p>
-            </div>
-
-            {/* Current Active User Card */}
-            <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-stone-900 text-white font-extrabold flex items-center justify-center text-sm shadow-md">
-                  {profile?.full_name?.[0] || 'A'}
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <strong className="text-stone-900 text-sm">{profile?.full_name || 'Active Admin'}</strong>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
-                      {isOwner ? 'Fixed Owner / SuperAdmin' : 'Staff / Custom Permissions'}
-                    </span>
-                  </div>
-                  <span className="text-xs text-stone-500">{profile?.email || 'Corporate Account'}</span>
-                </div>
-              </div>
-
-              {/* Role Toggle for Interactive Demo */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-stone-600">Simulate Role:</span>
-                <select
-                  value={profile?.user_type || 'owner'}
-                  onChange={(e) => setUserType(e.target.value as any)}
-                  className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-xs"
-                >
-                  <option value="owner">Owner (Full Unrestricted)</option>
-                  <option value="staff">Team Member (Custom Permissions)</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Granular Permission Toggles */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700">Granular Workspace Capabilities</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {[
-                  { key: 'can_view_financials', label: 'View Financials & P&L Reports', desc: 'Access to Rent Collections, Operating Expenses, Bills & Yield analytics' },
-                  { key: 'can_manage_leases', label: 'Manage Leases & Rent Terms', desc: 'Create, renew, or adjust active tenant lease agreements' },
-                  { key: 'can_dispatch_maintenance', label: 'Dispatch Maintenance & Vendors', desc: 'Triage repair tickets and assign registered trade contractors' },
-                  { key: 'can_issue_notices', label: 'Issue Statutory Legal Notices', desc: 'Draft and approve Ontario Form N1/N4 eviction or increase notices' },
-                  { key: 'can_edit_properties', label: 'Manage Physical Assets & Units', desc: 'Add new property buildings, edit units and shortlet configurations' },
-                  { key: 'can_trigger_automations', label: 'Automations Center & Engine Triggers', desc: 'Execute recurring automation rules and view compliance audit trails' },
-                ].map(item => {
-                  const isChecked = isOwner || !!profile?.permissions[item.key as keyof typeof profile.permissions];
-                  return (
-                    <div key={item.key} className="p-4 bg-white border border-stone-200 rounded-2xl flex items-start justify-between gap-3 shadow-xs">
-                      <div className="space-y-0.5">
-                        <strong className="text-xs text-stone-900 block">{item.label}</strong>
-                        <p className="text-[11px] text-stone-500 leading-snug">{item.desc}</p>
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        disabled={isOwner}
-                        onChange={(e) => updatePermissions({ [item.key]: e.target.checked })}
-                        className="mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 cursor-pointer disabled:opacity-50"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-              {isOwner && (
-                <p className="text-[11px] text-stone-400 italic">
-                  * Note: As the Master Owner account, all capabilities are permanently enabled to prevent accidental lockout.
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Company Staff & Permission-Based Access Control (PBAC)</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Onboard company staff, manage reusable role templates and configure granular permissions. The <strong>Owner Account</strong> retains fixed full authority.
                 </p>
-              )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsRoleTemplateModalOpen(true)}
+                  className="px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <Sparkles className="w-4 h-4" /> New Role Template
+                </button>
+                <button
+                  onClick={() => setIsOnboardStaffOpen(true)}
+                  className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-brand-600/20"
+                >
+                  <UserPlus className="w-4 h-4" /> Onboard Staff
+                </button>
+              </div>
             </div>
+
+            {/* Sub-Tabs for Access Management */}
+            <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-xs font-bold w-fit">
+              <button
+                onClick={() => setAccessSubTab('team')}
+                className={`px-3 py-1.5 rounded-lg transition-all ${
+                  accessSubTab === 'team' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Staff Directory ({staffProfiles.length})
+              </button>
+              <button
+                onClick={() => setAccessSubTab('roles')}
+                className={`px-3 py-1.5 rounded-lg transition-all ${
+                  accessSubTab === 'roles' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Reusable Role Templates ({roleTemplates.length})
+              </button>
+              <button
+                onClick={() => setAccessSubTab('my_permissions')}
+                className={`px-3 py-1.5 rounded-lg transition-all ${
+                  accessSubTab === 'my_permissions' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Active Session Permissions
+              </button>
+            </div>
+
+            {/* SUBTAB 1: STAFF DIRECTORY */}
+            {accessSubTab === 'team' && (
+              <div className="space-y-3">
+                {staffProfiles.length === 0 ? (
+                  <div className="p-8 text-center bg-slate-50 rounded-2xl border border-slate-200">
+                    <p className="text-xs text-slate-500">No staff members onboarded yet.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-3">
+                    {staffProfiles.map(staff => {
+                      const template = roleTemplates.find(t => t.id === staff.role_template_id);
+                      const isCurrentUser = staff.email === profile?.email;
+                      return (
+                        <div key={staff.id} className="p-4 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">
+                              {staff.full_name?.[0] || staff.email[0].toUpperCase()}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <strong className="text-slate-900 text-xs">{staff.full_name || staff.email}</strong>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                  staff.is_owner ? 'bg-purple-100 text-purple-800 border border-purple-200' :
+                                  staff.status === 'Suspended' ? 'bg-rose-100 text-rose-800 border border-rose-200' :
+                                  'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                }`}>
+                                  {staff.is_owner ? 'Fixed SuperAdmin / Owner' : (staff.status || 'Active')}
+                                </span>
+                                {isCurrentUser && (
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600">You</span>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-slate-500 mt-0.5">
+                                {staff.role_title || template?.name || (staff.is_owner ? 'Master Owner' : 'Operations Staff')} • {staff.email}
+                              </p>
+                              {staff.assigned_properties && staff.assigned_properties.length > 0 && (
+                                <span className="text-[10px] text-brand-600 font-semibold block mt-0.5">
+                                  Scoped to {staff.assigned_properties.length} assigned properties
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-start sm:self-center">
+                            {!staff.is_owner && (
+                              <button
+                                onClick={() => handleToggleStaffStatus(staff)}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+                                  staff.status === 'Active'
+                                    ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
+                                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
+                                }`}
+                              >
+                                {staff.status === 'Active' ? 'Suspend Access' : 'Reactivate'}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* SUBTAB 2: REUSABLE ROLE TEMPLATES */}
+            {accessSubTab === 'roles' && (
+              <div className="space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {roleTemplates.map(tpl => {
+                    const activePermCount = Object.values(tpl.permissions || {}).filter(Boolean).length;
+                    return (
+                      <div key={tpl.id} className="p-4 bg-purple-50/40 border border-purple-200 rounded-2xl space-y-2 shadow-xs">
+                        <div className="flex items-center justify-between">
+                          <strong className="text-xs font-extrabold text-purple-950">{tpl.name}</strong>
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800">
+                            {tpl.is_system ? 'Standard Role' : 'Custom Role'}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 leading-snug">{tpl.description}</p>
+                        <div className="pt-2 border-t border-purple-200/60 flex items-center justify-between text-[11px]">
+                          <span className="font-semibold text-purple-900">{activePermCount} permissions enabled</span>
+                          <button
+                            onClick={() => {
+                              setEditingTemplate(tpl);
+                              setIsRoleTemplateModalOpen(true);
+                            }}
+                            className="text-purple-700 hover:text-purple-900 font-bold flex items-center gap-1 cursor-pointer"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" /> Edit Template
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* SUBTAB 3: ACTIVE SESSION & PERMISSION TOGGLES */}
+            {accessSubTab === 'my_permissions' && (
+              <div className="space-y-4">
+                {/* Current Active User Card */}
+                <div className="p-5 bg-stone-50 rounded-2xl border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-stone-900 text-white font-extrabold flex items-center justify-center text-sm shadow-md">
+                      {profile?.full_name?.[0] || 'A'}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <strong className="text-stone-900 text-sm">{profile?.full_name || 'Active Admin'}</strong>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                          {isOwner ? 'Fixed Owner / SuperAdmin' : 'Staff / Custom Permissions'}
+                        </span>
+                      </div>
+                      <span className="text-xs text-stone-500">{profile?.email || 'Corporate Account'}</span>
+                    </div>
+                  </div>
+
+                  {/* Role Toggle for Interactive Demo */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-stone-600">Simulate Role:</span>
+                    <select
+                      value={profile?.user_type || 'owner'}
+                      onChange={(e) => setUserType(e.target.value as any)}
+                      className="px-3 py-1.5 bg-white border border-stone-300 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-xs"
+                    >
+                      <option value="owner">Owner (Full Unrestricted)</option>
+                      <option value="staff">Team Member (Custom Permissions)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Granular Permission Toggles */}
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-stone-700">Granular Workspace Capabilities</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                      { key: 'can_view_financials', label: 'View Financials & P&L Reports', desc: 'Access to Rent Collections, Operating Expenses, Bills & Yield analytics' },
+                      { key: 'can_manage_leases', label: 'Manage Leases & Rent Terms', desc: 'Create, renew, or adjust active tenant lease agreements' },
+                      { key: 'can_dispatch_maintenance', label: 'Dispatch Maintenance & Vendors', desc: 'Triage repair tickets and assign registered trade contractors' },
+                      { key: 'can_issue_notices', label: 'Issue Statutory Legal Notices', desc: 'Draft and approve Ontario Form N1/N4 eviction or increase notices' },
+                      { key: 'can_edit_properties', label: 'Manage Physical Assets & Units', desc: 'Add new property buildings, edit units and shortlet configurations' },
+                      { key: 'can_trigger_automations', label: 'Automations Center & Engine Triggers', desc: 'Execute recurring automation rules and view compliance audit trails' },
+                    ].map(item => {
+                      const isChecked = isOwner || !!profile?.permissions[item.key as keyof typeof profile.permissions];
+                      return (
+                        <div key={item.key} className="p-4 bg-white border border-stone-200 rounded-2xl flex items-start justify-between gap-3 shadow-xs">
+                          <div className="space-y-0.5">
+                            <strong className="text-xs text-stone-900 block">{item.label}</strong>
+                            <p className="text-[11px] text-stone-500 leading-snug">{item.desc}</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            disabled={isOwner}
+                            onChange={(e) => updatePermissions({ [item.key]: e.target.checked })}
+                            className="mt-1 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 cursor-pointer disabled:opacity-50"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {isOwner && (
+                    <p className="text-[11px] text-stone-400 italic">
+                      * Note: As the Master Owner account, all capabilities are permanently enabled to prevent accidental lockout.
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
+
+        {/* Onboard Staff Modal */}
+        <OnboardStaffModal
+          isOpen={isOnboardStaffOpen}
+          onClose={() => setIsOnboardStaffOpen(false)}
+          roleTemplates={roleTemplates}
+          properties={dbState.properties}
+          onStaffAdded={(newStaff) => {
+            setStaffProfiles(prev => [newStaff, ...prev.filter(p => p.id !== newStaff.id)]);
+          }}
+        />
+
+        {/* Role Template Modal */}
+        <RoleTemplateModal
+          isOpen={isRoleTemplateModalOpen}
+          onClose={() => {
+            setIsRoleTemplateModalOpen(false);
+            setEditingTemplate(null);
+          }}
+          editingTemplate={editingTemplate}
+          onSaved={(savedTemplate) => {
+            setRoleTemplates(prev => {
+              const idx = prev.findIndex(t => t.id === savedTemplate.id);
+              if (idx >= 0) {
+                const next = [...prev];
+                next[idx] = savedTemplate;
+                return next;
+              }
+              return [...prev, savedTemplate];
+            });
+          }}
+        />
 
         {/* JSON DATABASE & GITHUB SYNC TAB */}
         {activeTab === 'database' && (
