@@ -16,14 +16,17 @@ interface DashboardProps {
 export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => {
   const { formatMoney, convertFromCAD, currencyConfig } = useCurrency();
 
-  // Dynamic KPI Aggregations
-  const totalProperties = 24; // Fictional portfolio total
-  const totalUnits = 186;
-  const occupiedUnits = 174;
-  const occupancyRate = ((occupiedUnits / totalUnits) * 100).toFixed(1);
+  // Dynamic KPI Aggregations from actual database state
+  const totalProperties = dbState.properties.length;
+  const totalUnits = dbState.units.length;
+  const occupiedUnits = dbState.units.filter(u => u.status === 'Occupied').length;
+  const occupancyRate = totalUnits > 0 ? ((occupiedUnits / totalUnits) * 100).toFixed(1) : '0';
 
-  const rentCollected = 284650;
-  const outstandingRent = 18400;
+  // Live collections from payments
+  const paidPayments = dbState.payments.filter(p => p.status === 'Paid');
+  const rentCollected = paidPayments.reduce((acc, p) => acc + (p.amount_paid || 0), 0);
+  const pendingPayments = dbState.payments.filter(p => p.status === 'Pending' || p.status === 'Overdue' || p.status === 'Late');
+  const outstandingRent = pendingPayments.reduce((acc, p) => acc + (p.amount_due - (p.amount_paid || 0)), 0);
 
   const openMaintenance = dbState.maintenance_requests.filter(m => m.status !== 'Completed' && m.status !== 'Cancelled').length;
   const expiringLeases = dbState.leases.filter(l => l.status === 'Expiring Soon').length;

@@ -91,7 +91,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
         {filteredProperties.map(property => {
           const propUnits = dbState.units.filter(u => u.property_id === property.id);
           const occupiedCount = propUnits.filter(u => u.status === 'Occupied').length;
-          const occupancyRate = propUnits.length > 0 ? Math.round((occupiedCount / propUnits.length) * 100) : 92;
+          const occupancyRate = propUnits.length > 0 ? Math.round((occupiedCount / propUnits.length) * 100) : 0;
 
           const propMaintenance = dbState.maintenance_requests.filter(m => {
             const unit = dbState.units.find(u => u.id === m.unit_id);
