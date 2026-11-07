@@ -85,7 +85,11 @@ async function seed() {
 
   // 8. Maintenance Requests
   console.log('Seeding Maintenance Requests...');
-  const { error: mErr } = await supabase.from('maintenance_requests').upsert(deduplicateById(db.maintenance_requests));
+  const cleanMaint = deduplicateById(db.maintenance_requests).map(({ actual_cost, assigned_vendor_id, estimated_cost, ...rest }) => ({
+    ...rest,
+    vendor_id: assigned_vendor_id || null
+  }));
+  const { error: mErr } = await supabase.from('maintenance_requests').upsert(cleanMaint);
   if (mErr) console.warn('Maintenance notice:', mErr.message);
 
   // 9. Bills
@@ -99,7 +103,19 @@ async function seed() {
 
   // 11. Notices
   console.log('Seeding Notices...');
-  const { error: nErr } = await supabase.from('notices').upsert(deduplicateById(db.notices));
+  const cleanNotices = deduplicateById(db.notices).map(n => ({
+    id: n.id,
+    tenant_id: n.tenant_id,
+    lease_id: n.lease_id || null,
+    notice_type: n.form_type || n.notice_type || 'N1',
+    status: n.status || 'Draft',
+    effective_date: n.termination_date || n.issue_date || new Date().toISOString().split('T')[0],
+    amount: n.amount_owing || n.amount || null,
+    content: n.reason || n.content || null,
+    created_at: n.created_at || new Date().toISOString(),
+    updated_at: n.updated_at || new Date().toISOString()
+  }));
+  const { error: nErr } = await supabase.from('notices').upsert(cleanNotices);
   if (nErr) console.warn('Notices notice:', nErr.message);
 
   // 12. Communications
