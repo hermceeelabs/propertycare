@@ -24,6 +24,8 @@ interface CurrencyContextType {
   currentCurrency: CurrencyCode;
   setCurrency: (code: CurrencyCode) => void;
   formatMoney: (amountInCAD: number, options?: { showCode?: boolean; maximumFractionDigits?: number }) => string;
+  formatNativeMoney: (amount: number, nativeCurrency: CurrencyCode, options?: { showCode?: boolean; maximumFractionDigits?: number }) => string;
+  convertToCAD: (amount: number, fromCurrency: CurrencyCode) => number;
   convertFromCAD: (amountInCAD: number) => number;
   currencyConfig: CurrencyConfig;
   getExchangeRate: (from: CurrencyCode, to: CurrencyCode) => number;
@@ -88,6 +90,21 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return amountInCAD * currencyConfig.exchangeRateFromCAD;
   };
 
+  const convertToCAD = (amount: number, fromCurrency: CurrencyCode): number => {
+    if (fromCurrency === 'CAD') return amount;
+    const rateToFrom = CURRENCIES[fromCurrency]?.exchangeRateFromCAD || 1.0;
+    return rateToFrom !== 0 ? amount / rateToFrom : amount;
+  };
+
+  const formatNativeMoney = (
+    amount: number,
+    nativeCurrency: CurrencyCode,
+    options?: { showCode?: boolean; maximumFractionDigits?: number }
+  ): string => {
+    const cadAmount = convertToCAD(amount, nativeCurrency);
+    return formatMoney(cadAmount, options);
+  };
+
   const getExchangeRate = (from: CurrencyCode, to: CurrencyCode): number => {
     if (liveFx?.rates) {
       return calculateLiveCrossRate(from, to, liveFx.rates);
@@ -130,6 +147,8 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         currentCurrency,
         setCurrency,
         formatMoney,
+        formatNativeMoney,
+        convertToCAD,
         convertFromCAD,
         currencyConfig,
         getExchangeRate,

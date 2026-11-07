@@ -6,7 +6,7 @@ import {
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { DatabaseState } from '../services/supabase';
 import { NavTab } from '../components/Sidebar';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 
 interface DashboardProps {
   dbState: DatabaseState;
@@ -14,7 +14,7 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => {
-  const { formatMoney, convertFromCAD, currencyConfig } = useCurrency();
+  const { formatMoney, convertToCAD, convertFromCAD, currencyConfig } = useCurrency();
 
   // Dynamic KPI Aggregations from actual database state
   const totalProperties = dbState.properties.length;
@@ -22,23 +22,42 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
   const occupiedUnits = dbState.units.filter(u => u.status === 'Occupied').length;
   const occupancyRate = totalUnits > 0 ? ((occupiedUnits / totalUnits) * 100).toFixed(1) : '0';
 
-  // Live collections from payments
-  const paidPayments = dbState.payments.filter(p => p.status === 'Paid');
-  const rentCollected = paidPayments.reduce((acc, p) => acc + (p.amount_paid || 0), 0);
-  const pendingPayments = dbState.payments.filter(p => p.status === 'Pending' || p.status === 'Overdue' || p.status === 'Late');
-  const outstandingRent = pendingPayments.reduce((acc, p) => acc + (p.amount_due - (p.amount_paid || 0)), 0);
+  // Helper to normalize payment amount into base CAD
+  const getPaymentInCad = (amount: number, leaseId?: string): number => {
+    if (!amount) return 0;
+    const lease = dbState.leases.find(l => l.id === leaseId);
+    const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+    const property = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
+    const nativeCurr: CurrencyCode =
+      property?.acquisition?.acquisition_currency ||
+      (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
+    return convertToCAD(amount, nativeCurr);
+  };
+
+  // Active current billing cycle collections (August 2026)
+  const currentBillingCyclePayments = dbState.payments.filter(p => !p.due_date || p.due_date.startsWith('2026-08'));
+  const paidPayments = currentBillingCyclePayments.filter(p => p.status === 'Paid' || p.status === 'Partially Paid');
+  const rentCollected = paidPayments.reduce((acc, p) => acc + getPaymentInCad(p.amount_paid || 0, p.lease_id), 0);
+
+  const pendingPayments = currentBillingCyclePayments.filter(
+    p => p.status === 'Pending' || p.status === 'Overdue' || p.status === 'Late' || p.status === 'Partially Paid'
+  );
+  const outstandingRent = pendingPayments.reduce(
+    (acc, p) => acc + getPaymentInCad((p.amount_due || 0) - (p.amount_paid || 0), p.lease_id),
+    0
+  );
 
   const openMaintenance = dbState.maintenance_requests.filter(m => m.status !== 'Completed' && m.status !== 'Cancelled').length;
   const expiringLeases = dbState.leases.filter(l => l.status === 'Expiring Soon').length;
 
-  // Chart data for Rent Overview
+  // Chart data for Rent Overview (in base CAD, automatically converted to active display currency in BarChart)
   const rentChartData = [
-    { month: 'Mar', Collected: 275000, Outstanding: 12000 },
-    { month: 'Apr', Collected: 279000, Outstanding: 11500 },
-    { month: 'May', Collected: 281500, Outstanding: 14200 },
-    { month: 'Jun', Collected: 283000, Outstanding: 16000 },
-    { month: 'Jul', Collected: 284000, Outstanding: 13500 },
-    { month: 'Aug', Collected: rentCollected, Outstanding: outstandingRent },
+    { month: 'Mar', Collected: 24500, Outstanding: 1200 },
+    { month: 'Apr', Collected: 25200, Outstanding: 1100 },
+    { month: 'May', Collected: 25800, Outstanding: 1400 },
+    { month: 'Jun', Collected: 26000, Outstanding: 1600 },
+    { month: 'Jul', Collected: 26071, Outstanding: 1350 },
+    { month: 'Aug', Collected: Math.round(rentCollected), Outstanding: Math.round(outstandingRent) },
   ];
 
   return (
@@ -84,16 +103,21 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
         </div>
 
         {/* Monthly Rent Collection */}
-        <div className="bg-cream-50 p-5 rounded-2xl border border-cream-300 shadow-xs space-y-3">
+        <div className="bg-cream-50 p-5 rounded-2xl border border-cream-300 shadow-xs space-y-3 min-w-0 overflow-hidden">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider">Rent Collected</span>
-            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+            <span className="text-xs font-bold text-stone-500 uppercase tracking-wider truncate">Rent Collected</span>
+            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl shrink-0">
               <DollarSign className="w-5 h-5" />
             </div>
           </div>
-          <div>
-            <div className="text-2xl font-extrabold text-stone-900">{formatMoney(rentCollected)}</div>
-            <p className="text-xs text-stone-500 font-medium mt-0.5">
+          <div className="min-w-0">
+            <div
+              className="text-xl sm:text-2xl font-extrabold text-stone-900 truncate"
+              title={formatMoney(rentCollected)}
+            >
+              {formatMoney(rentCollected)}
+            </div>
+            <p className="text-xs text-stone-500 font-medium mt-0.5 truncate" title={`Outstanding: ${formatMoney(outstandingRent)}`}>
               Outstanding: <span className="text-rose-600 font-bold">{formatMoney(outstandingRent)}</span>
             </p>
           </div>

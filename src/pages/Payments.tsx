@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CreditCard, DollarSign, Search, Filter } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 
 interface PaymentsProps {
   dbState: DatabaseState;
@@ -10,10 +10,22 @@ interface PaymentsProps {
 export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [search, setSearch] = useState('');
-  const { formatMoney } = useCurrency();
+  const { formatMoney, convertToCAD } = useCurrency();
 
-  const totalExpected = dbState.payments.reduce((acc, p) => acc + p.amount_due, 0);
-  const totalCollected = dbState.payments.reduce((acc, p) => acc + p.amount_paid, 0);
+  // Helper to determine payment's native currency & convert to CAD base for portfolio aggregations
+  const getPaymentInCad = (amount: number, leaseId?: string): number => {
+    if (!amount) return 0;
+    const lease = dbState.leases.find(l => l.id === leaseId);
+    const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+    const property = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
+    const nativeCurr: CurrencyCode =
+      property?.acquisition?.acquisition_currency ||
+      (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
+    return convertToCAD(amount, nativeCurr);
+  };
+
+  const totalExpected = dbState.payments.reduce((acc, p) => acc + getPaymentInCad(p.amount_due, p.lease_id), 0);
+  const totalCollected = dbState.payments.reduce((acc, p) => acc + getPaymentInCad(p.amount_paid || 0, p.lease_id), 0);
   const totalOutstanding = totalExpected - totalCollected;
   const overdueCount = dbState.payments.filter(p => p.status === 'Overdue').length;
 
@@ -71,21 +83,29 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
 
       {/* Summary KPI Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs">
-          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Expected Rent</span>
-          <span className="text-2xl font-extrabold text-stone-900">{formatMoney(totalExpected)}</span>
+        <div className="bg-cream-50 p-4 rounded-xl border border-cream-300 shadow-xs min-w-0 overflow-hidden">
+          <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block truncate">Expected Rent</span>
+          <span className="text-xl sm:text-2xl font-extrabold text-stone-900 truncate block" title={formatMoney(totalExpected)}>
+            {formatMoney(totalExpected)}
+          </span>
         </div>
-        <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs">
-          <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block">Total Collected</span>
-          <span className="text-2xl font-extrabold text-emerald-700">{formatMoney(totalCollected)}</span>
+        <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-200 shadow-xs min-w-0 overflow-hidden">
+          <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider block truncate">Total Collected</span>
+          <span className="text-xl sm:text-2xl font-extrabold text-emerald-700 truncate block" title={formatMoney(totalCollected)}>
+            {formatMoney(totalCollected)}
+          </span>
         </div>
-        <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs">
-          <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block">Outstanding Balance</span>
-          <span className="text-2xl font-extrabold text-rose-700">{formatMoney(totalOutstanding)}</span>
+        <div className="bg-rose-50/40 p-4 rounded-xl border border-rose-200 shadow-xs min-w-0 overflow-hidden">
+          <span className="text-xs font-bold text-rose-800 uppercase tracking-wider block truncate">Outstanding Balance</span>
+          <span className="text-xl sm:text-2xl font-extrabold text-rose-700 truncate block" title={formatMoney(totalOutstanding)}>
+            {formatMoney(totalOutstanding)}
+          </span>
         </div>
-        <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs">
-          <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block">Overdue Accounts</span>
-          <span className="text-2xl font-extrabold text-amber-800">{overdueCount} Tenants</span>
+        <div className="bg-amber-50/40 p-4 rounded-xl border border-amber-200 shadow-xs min-w-0 overflow-hidden">
+          <span className="text-xs font-bold text-amber-900 uppercase tracking-wider block truncate">Overdue Accounts</span>
+          <span className="text-xl sm:text-2xl font-extrabold text-amber-800 truncate block">
+            {overdueCount} Tenants
+          </span>
         </div>
       </div>
 
@@ -110,6 +130,9 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
                 const lease = dbState.leases.find(l => l.id === p.lease_id);
                 const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
                 const property = unit ? dbState.properties.find(prop => prop.id === unit.property_id) : undefined;
+                const nativeCurr: CurrencyCode =
+                  property?.acquisition?.acquisition_currency ||
+                  (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
 
                 const balance = p.amount_due - p.amount_paid;
 
@@ -118,9 +141,9 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
                     <td className="p-4 font-bold text-slate-900">{tenant?.first_name} {tenant?.last_name}</td>
                     <td className="p-4 text-slate-700 font-medium">{property?.name} (Unit {unit?.unit_number})</td>
                     <td className="p-4 text-slate-600 font-medium">{p.due_date}</td>
-                    <td className="p-4 font-bold text-slate-900">{formatMoney(p.amount_due)}</td>
-                    <td className="p-4 text-emerald-600 font-bold">{formatMoney(p.amount_paid)}</td>
-                    <td className="p-4 font-bold text-rose-600">{formatMoney(balance)}</td>
+                    <td className="p-4 font-bold text-slate-900">{formatMoney(convertToCAD(p.amount_due, nativeCurr))}</td>
+                    <td className="p-4 text-emerald-600 font-bold">{formatMoney(convertToCAD(p.amount_paid, nativeCurr))}</td>
+                    <td className="p-4 font-bold text-rose-600">{formatMoney(convertToCAD(balance, nativeCurr))}</td>
                     <td className="p-4 text-right">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                         p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' :

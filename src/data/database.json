@@ -22,7 +22,8 @@
         "amortization_period_years": 25,
         "annual_depreciation_or_amort": 216000,
         "interest_rate_percent": 4.85,
-        "notes": "Freehold outright commercial acquisition in Toronto core. Initial equity investment $1.08M CAD with 25-year structural depreciation schedule."
+        "notes": "Freehold outright commercial acquisition in Toronto core. Initial equity investment $1.08M CAD with 25-year structural depreciation schedule.",
+        "acquisition_currency": "CAD"
       }
     },
     {
@@ -46,7 +47,8 @@
         "monthly_lease_cost": 18500,
         "amortization_period_years": 15,
         "annual_depreciation_or_amort": 222000,
-        "notes": "15-Year Institutional Master Lease with option to renew. Monthly master lease disbursement of $18,500 CAD to asset owner."
+        "notes": "15-Year Institutional Master Lease with option to renew. Monthly master lease disbursement of $18,500 CAD to asset owner.",
+        "acquisition_currency": "CAD"
       }
     },
     {
@@ -69,7 +71,8 @@
         "amortization_period_years": 25,
         "annual_depreciation_or_amort": 128000,
         "interest_rate_percent": 4.65,
-        "notes": "Heritage brick-and-beam loft multi-family asset purchased outright. Initial cash equity of $640k CAD."
+        "notes": "Heritage brick-and-beam loft multi-family asset purchased outright. Initial cash equity of $640k CAD.",
+        "acquisition_currency": "CAD"
       }
     },
     {
@@ -93,7 +96,8 @@
         "monthly_lease_cost": 12500,
         "amortization_period_years": 10,
         "annual_depreciation_or_amort": 150000,
-        "notes": "10-Year Master Lease agreement for Ottawa executive suites. $12,500 CAD monthly ground lease obligations."
+        "notes": "10-Year Master Lease agreement for Ottawa executive suites. $12,500 CAD monthly ground lease obligations.",
+        "acquisition_currency": "CAD"
       }
     },
     {
@@ -116,7 +120,8 @@
         "amortization_period_years": 20,
         "annual_depreciation_or_amort": 92500000,
         "interest_rate_percent": 14.5,
-        "notes": "Prime waterfront luxury high-rise in Lagos with 24/7 industrial dual-backup power and ocean panorama. Outright acquisition yielding high-margin shortlet and executive expatriate leases."
+        "notes": "Prime waterfront luxury high-rise in Lagos with 24/7 industrial dual-backup power and ocean panorama. Outright acquisition yielding high-margin shortlet and executive expatriate leases.",
+        "acquisition_currency": "NGN"
       }
     },
     {
@@ -140,7 +145,8 @@
         "monthly_lease_cost": 5000000,
         "amortization_period_years": 12,
         "annual_depreciation_or_amort": 60000000,
-        "notes": "12-Year master lease on a serviced boutique apartment development in Ikoyi. Monthly ground lease payable to primary landlord."
+        "notes": "12-Year master lease on a serviced boutique apartment development in Ikoyi. Monthly ground lease payable to primary landlord.",
+        "acquisition_currency": "NGN"
       }
     },
     {
@@ -163,7 +169,8 @@
         "amortization_period_years": 25,
         "annual_depreciation_or_amort": 58000000,
         "interest_rate_percent": 13,
-        "notes": "Fully secured embassy-grade residential compound in Maitama with bulletproof access control, continuous fiber internet, and executive serviced shortlet lofts."
+        "notes": "Fully secured embassy-grade residential compound in Maitama with bulletproof access control, continuous fiber internet, and executive serviced shortlet lofts.",
+        "acquisition_currency": "NGN"
       }
     },
     {
@@ -187,7 +194,8 @@
         "monthly_lease_cost": 4500000,
         "amortization_period_years": 10,
         "annual_depreciation_or_amort": 54000000,
-        "notes": "10-Year institutional master lease in Wuse II commercial hub tailored for government contract delegations and short-stay business suites."
+        "notes": "10-Year institutional master lease in Wuse II commercial hub tailored for government contract delegations and short-stay business suites.",
+        "acquisition_currency": "NGN"
       }
     }
   ],
@@ -384,7 +392,7 @@
       "current_occupancy_rate": 75
     },
     {
-      "id": "unit-501",
+      "id": "unit-ea-101",
       "property_id": "prop-5",
       "unit_number": "EA-101",
       "unit_type": "2-Bedroom",
@@ -401,7 +409,7 @@
       "current_occupancy_rate": 85
     },
     {
-      "id": "unit-502",
+      "id": "unit-ea-204",
       "property_id": "prop-5",
       "unit_number": "EA-204",
       "unit_type": "3-Bedroom Penthouse",
@@ -418,7 +426,7 @@
       "current_occupancy_rate": 78
     },
     {
-      "id": "unit-503",
+      "id": "unit-ea-302",
       "property_id": "prop-5",
       "unit_number": "EA-302",
       "unit_type": "1-Bedroom",
@@ -739,7 +747,7 @@
     {
       "id": "lease-9",
       "tenant_id": "ten-9",
-      "unit_id": "unit-503",
+      "unit_id": "unit-ea-302",
       "start_date": "2025-03-01",
       "end_date": "2027-02-28",
       "monthly_rent": 3200000,
@@ -1607,7 +1615,7 @@
     },
     {
       "id": "req-509",
-      "unit_id": "unit-503",
+      "unit_id": "unit-ea-302",
       "tenant_id": "ten-9",
       "category": "Plumbing",
       "priority": "Medium",
@@ -2431,8 +2439,8 @@
       "created_at": "2026-08-15T18:00:00Z"
     },
     {
-      "id": "book-3",
-      "unit_id": "unit-501",
+      "id": "book-3b",
+      "unit_id": "unit-ea-101",
       "guest_name": "Dr. Chidi & Nkechi Okafor",
       "guest_email": "chidi.okafor@chevron.com",
       "guest_phone": "+234 812 344 9901",
@@ -2448,7 +2456,7 @@
     },
     {
       "id": "book-4",
-      "unit_id": "unit-502",
+      "unit_id": "unit-ea-204",
       "guest_name": "Marcus Sterling (Goldman Sachs)",
       "guest_email": "msterling@gs.com",
       "guest_phone": "+44 7911 123456",
