@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DatabaseState, supabase, store } from '../../services/supabase';
-import { Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2, UserPlus, Users, X, Lock } from 'lucide-react';
+import { Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2, UserPlus, Users, X, Lock, LogOut } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
 import { LandlordDelegate } from '../../types/database';
 
@@ -146,15 +146,25 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+              className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Printer className="w-4 h-4" /> Print Statement
             </button>
             <button
               onClick={() => alert('Downloading official monthly financial statement PDF...')}
-              className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5"
+              className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Download className="w-4 h-4" /> Download PDF
+            </button>
+            <button
+              onClick={async () => {
+                await supabase.auth.signOut();
+                window.location.reload();
+              }}
+              className="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border border-rose-200 cursor-pointer"
+              title="Sign Out of Landlord Portal"
+            >
+              <LogOut className="w-4 h-4" /> Sign Out
             </button>
           </div>
         </div>

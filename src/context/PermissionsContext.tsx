@@ -18,6 +18,8 @@ interface PermissionsContextType {
   updatePermissions: (newPermissions: Partial<UserPermissions>) => void;
   setUserType: (type: UserType) => void;
   authResult: StakeholderAuthResult | null;
+  isVerifying: boolean;
+  switchStakeholderRole: (role: 'owner' | 'landlord' | 'tenant' | 'contractor', email?: string) => void;
 }
 
 const DEFAULT_OWNER_PERMISSIONS: UserPermissions = {
@@ -43,11 +45,14 @@ const PermissionsContext = createContext<PermissionsContextType | undefined>(und
 export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [authResult, setAuthResult] = useState<StakeholderAuthResult | null>(null);
+  const [isVerifying, setIsVerifying] = useState<boolean>(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         verifyStakeholder(session.user);
+      } else {
+        setIsVerifying(false);
       }
     });
 
@@ -57,6 +62,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
       } else {
         setProfile(null);
         setAuthResult(null);
+        setIsVerifying(false);
       }
     });
 
@@ -71,6 +77,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
    * 4. Vendors (Trade Contractors)
    */
   const verifyStakeholder = async (user: any) => {
+    setIsVerifying(true);
     const email = (user.email || '').toLowerCase().trim();
 
     try {
@@ -81,7 +88,10 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         .eq('email', email)
         .maybeSingle();
 
-      if (profileMatch) {
+      // If profile is explicitly a landlord, route them directly to landlord portal
+      if (profileMatch && profileMatch.user_type === 'landlord' && !profileMatch.is_owner) {
+        // Fall through to Landlord resolution below
+      } else if (profileMatch) {
         const isStatusActive = (profileMatch as any).status !== 'Suspended' && (profileMatch as any).status !== 'Inactive';
         if (!isStatusActive) {
           setAuthResult({
@@ -91,6 +101,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
             profileData: profileMatch,
             rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
           });
+          setIsVerifying(false);
           return;
         }
 
@@ -115,6 +126,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           status: 'Active',
           profileData: userProfile
         });
+        setIsVerifying(false);
         return;
       }
 
@@ -152,6 +164,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
             profileData: matchedLandlord,
             rejectionReason: 'Your landlord investor profile is currently deactivated. Please contact management.'
           });
+          setIsVerifying(false);
           return;
         }
 
@@ -184,15 +197,25 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           status: 'Active',
           profileData: matchedLandlord
         });
+        setIsVerifying(false);
         return;
       }
 
       // 3. Check Tenants table
-      const { data: tenantMatch } = await supabase
-        .from('tenants')
-        .select('*')
-        .ilike('email', email)
-        .maybeSingle();
+      let tenantMatch = null;
+      try {
+        const { data: dbTenant } = await supabase
+          .from('tenants')
+          .select('*')
+          .ilike('email', email)
+          .maybeSingle();
+        tenantMatch = dbTenant;
+      } catch (e) {
+        // fallback to store
+      }
+      if (!tenantMatch) {
+        tenantMatch = (store.getState().tenants || []).find(t => t.email?.toLowerCase().trim() === email);
+      }
 
       if (tenantMatch) {
         const isStatusActive = tenantMatch.status === 'Active';
@@ -204,6 +227,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
             profileData: tenantMatch,
             rejectionReason: `Your tenant residency account is currently marked as "${tenantMatch.status}". Please contact the leasing office.`
           });
+          setIsVerifying(false);
           return;
         }
 
@@ -234,15 +258,25 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           status: 'Active',
           profileData: tenantMatch
         });
+        setIsVerifying(false);
         return;
       }
 
       // 4. Check Vendors table
-      const { data: vendorMatch } = await supabase
-        .from('vendors')
-        .select('*')
-        .ilike('email', email)
-        .maybeSingle();
+      let vendorMatch = null;
+      try {
+        const { data: dbVendor } = await supabase
+          .from('vendors')
+          .select('*')
+          .ilike('email', email)
+          .maybeSingle();
+        vendorMatch = dbVendor;
+      } catch (e) {
+        // fallback
+      }
+      if (!vendorMatch) {
+        vendorMatch = (store.getState().vendors || []).find(v => v.email?.toLowerCase().trim() === email);
+      }
 
       if (vendorMatch) {
         const isStatusActive = vendorMatch.status === 'Active';
@@ -254,6 +288,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
             profileData: vendorMatch,
             rejectionReason: 'Your trade contractor account is currently suspended.'
           });
+          setIsVerifying(false);
           return;
         }
 
@@ -284,6 +319,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           status: 'Active',
           profileData: vendorMatch
         });
+        setIsVerifying(false);
         return;
       }
 
@@ -305,7 +341,121 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         profileData: null,
         rejectionReason: 'An error occurred while verifying your corporate account credentials.'
       });
+    } finally {
+      setIsVerifying(false);
     }
+  };
+
+  /**
+   * Fast In-App Stakeholder Switcher (For local testing & client demonstrations)
+   */
+  const switchStakeholderRole = (role: 'owner' | 'landlord' | 'tenant' | 'contractor', targetEmail?: string) => {
+    setIsVerifying(true);
+    if (role === 'owner') {
+      const ownerProfile: UserProfile = {
+        id: 'mock-owner',
+        email: targetEmail || 'admin@propertyflow.com',
+        full_name: 'Executive Portfolio Admin',
+        is_owner: true,
+        user_type: 'owner',
+        permissions: DEFAULT_OWNER_PERMISSIONS,
+        assigned_properties: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      setProfile(ownerProfile);
+      setAuthResult({
+        authorized: true,
+        stakeholderType: 'owner',
+        status: 'Active',
+        profileData: ownerProfile
+      });
+    } else if (role === 'landlord') {
+      const landlords = store.getState().landlords || [];
+      const target = landlords.find(l => targetEmail && l.email?.toLowerCase() === targetEmail.toLowerCase()) || landlords[0];
+      const landlordProfile: UserProfile = {
+        id: target?.id || 'landlord-1',
+        email: target?.email || 'david.adeyemi@northstarholding.com',
+        full_name: target ? `${target.first_name} ${target.last_name}` : 'David Adeyemi',
+        is_owner: false,
+        user_type: 'landlord',
+        permissions: {
+          can_view_financials: true,
+          can_manage_leases: false,
+          can_dispatch_maintenance: false,
+          can_issue_notices: false,
+          can_edit_properties: false,
+          can_trigger_automations: false
+        },
+        assigned_properties: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      setProfile(landlordProfile);
+      setAuthResult({
+        authorized: true,
+        stakeholderType: 'landlord',
+        status: 'Active',
+        profileData: target || landlordProfile
+      });
+    } else if (role === 'tenant') {
+      const tenants = store.getState().tenants || [];
+      const target = tenants[0];
+      const tenantProfile: UserProfile = {
+        id: target?.id || 'tenant-1',
+        email: target?.email || 'sarah.jenkins@gmail.com',
+        full_name: target ? `${target.first_name} ${target.last_name}` : 'Sarah Jenkins',
+        is_owner: false,
+        user_type: 'tenant',
+        permissions: {
+          can_view_financials: false,
+          can_manage_leases: false,
+          can_dispatch_maintenance: true,
+          can_issue_notices: false,
+          can_edit_properties: false,
+          can_trigger_automations: false
+        },
+        assigned_properties: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      setProfile(tenantProfile);
+      setAuthResult({
+        authorized: true,
+        stakeholderType: 'tenant',
+        status: 'Active',
+        profileData: target || tenantProfile
+      });
+    } else if (role === 'contractor') {
+      const vendors = store.getState().vendors || [];
+      const target = vendors[0];
+      const vendorProfile: UserProfile = {
+        id: target?.id || 'vendor-1',
+        email: target?.email || 'service@apexplumbing.com',
+        full_name: target?.name || 'Apex Mechanical & Plumbing Ltd',
+        is_owner: false,
+        user_type: 'staff',
+        permissions: {
+          can_view_financials: false,
+          can_manage_leases: false,
+          can_dispatch_maintenance: true,
+          can_issue_notices: false,
+          can_edit_properties: false,
+          can_trigger_automations: false
+        },
+        assigned_properties: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      setProfile(vendorProfile);
+      setAuthResult({
+        authorized: true,
+        stakeholderType: 'contractor',
+        status: 'Active',
+        profileData: target || vendorProfile
+      });
+    }
+    setIsVerifying(false);
   };
 
   const isOwner = profile?.is_owner ?? false;
@@ -353,7 +503,9 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         hasPropertyScope,
         updatePermissions,
         setUserType,
-        authResult
+        authResult,
+        isVerifying,
+        switchStakeholderRole
       }}
     >
       {children}
