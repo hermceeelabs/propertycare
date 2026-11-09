@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {
   Landmark, UserPlus, Search, Building2, Phone, Mail, ShieldCheck,
-  ChevronRight, ArrowLeft, ExternalLink, DollarSign, Home, Users, CheckCircle2, AlertCircle
+  ChevronRight, ArrowLeft, ExternalLink, DollarSign, Home, Users, CheckCircle2, AlertCircle, Edit3
 } from 'lucide-react';
 import { DatabaseState, store } from '../services/supabase';
 import { Landlord, Property, Unit } from '../types/database';
 import { useCurrency } from '../context/CurrencyContext';
 import { OnboardLandlordModal } from '../components/OnboardLandlordModal';
+import { EditLandlordModal } from '../components/EditLandlordModal';
 
 interface LandlordsPageProps {
   dbState: DatabaseState;
@@ -21,6 +22,7 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
   const [search, setSearch] = useState('');
   const [selectedLandlordId, setSelectedLandlordId] = useState<string | null>(null);
   const [isOnboardModalOpen, setIsOnboardModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // List of landlords from dbState or demo
   const landlords = dbState.landlords || [];
@@ -68,6 +70,12 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300">
                     Asset Owner
                   </span>
+                  <button
+                    onClick={() => setIsEditModalOpen(true)}
+                    className="ml-2 px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-amber-600" /> Edit Landlord
+                  </button>
                 </div>
                 {activeLandlord.company_name && (
                   <p className="text-xs font-bold text-slate-700 mt-0.5">
@@ -337,6 +345,19 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
           // Handled
         }}
       />
+
+      {/* Edit Landlord Modal */}
+      {activeLandlord && (
+        <EditLandlordModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          landlord={activeLandlord}
+          dbState={dbState}
+          onLandlordUpdated={(updated) => {
+            // Updated in store and state
+          }}
+        />
+      )}
     </div>
   );
 };

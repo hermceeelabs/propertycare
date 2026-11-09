@@ -426,6 +426,20 @@ class StoreManager {
     this.saveState();
   }
 
+  addLandlord(landlord: Landlord) {
+    if (!this.state.landlords) this.state.landlords = [];
+    this.state.landlords.unshift(landlord);
+    this.saveState();
+  }
+
+  updateLandlord(id: string, updates: Partial<Landlord>) {
+    if (!this.state.landlords) this.state.landlords = [];
+    this.state.landlords = this.state.landlords.map(l => 
+      l.id === id ? { ...l, ...updates, updated_at: new Date().toISOString() } : l
+    );
+    this.saveState();
+  }
+
   setCurrency(currency: CurrencyCode) {
     this.state.currency = currency;
     this.saveState();
