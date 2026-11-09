@@ -24,7 +24,8 @@
         "interest_rate_percent": 4.85,
         "notes": "Freehold outright commercial acquisition in Toronto core. Initial equity investment $1.08M CAD with 25-year structural depreciation schedule.",
         "acquisition_currency": "CAD"
-      }
+      },
+      "landlord_id": "landlord-2"
     },
     {
       "id": "prop-2",
@@ -49,7 +50,8 @@
         "annual_depreciation_or_amort": 222000,
         "notes": "15-Year Institutional Master Lease with option to renew. Monthly master lease disbursement of $18,500 CAD to asset owner.",
         "acquisition_currency": "CAD"
-      }
+      },
+      "landlord_id": "landlord-2"
     },
     {
       "id": "prop-3",
@@ -73,7 +75,8 @@
         "interest_rate_percent": 4.65,
         "notes": "Heritage brick-and-beam loft multi-family asset purchased outright. Initial cash equity of $640k CAD.",
         "acquisition_currency": "CAD"
-      }
+      },
+      "landlord_id": "landlord-2"
     },
     {
       "id": "prop-4",
@@ -98,7 +101,8 @@
         "annual_depreciation_or_amort": 150000,
         "notes": "10-Year Master Lease agreement for Ottawa executive suites. $12,500 CAD monthly ground lease obligations.",
         "acquisition_currency": "CAD"
-      }
+      },
+      "landlord_id": "landlord-2"
     },
     {
       "id": "prop-5",
@@ -122,7 +126,8 @@
         "interest_rate_percent": 14.5,
         "notes": "Prime waterfront luxury high-rise in Lagos with 24/7 industrial dual-backup power and ocean panorama. Outright acquisition yielding high-margin shortlet and executive expatriate leases.",
         "acquisition_currency": "NGN"
-      }
+      },
+      "landlord_id": "landlord-1"
     },
     {
       "id": "prop-6",
@@ -147,7 +152,8 @@
         "annual_depreciation_or_amort": 60000000,
         "notes": "12-Year master lease on a serviced boutique apartment development in Ikoyi. Monthly ground lease payable to primary landlord.",
         "acquisition_currency": "NGN"
-      }
+      },
+      "landlord_id": "landlord-1"
     },
     {
       "id": "prop-7",
@@ -171,7 +177,8 @@
         "interest_rate_percent": 13,
         "notes": "Fully secured embassy-grade residential compound in Maitama with bulletproof access control, continuous fiber internet, and executive serviced shortlet lofts.",
         "acquisition_currency": "NGN"
-      }
+      },
+      "landlord_id": "landlord-1"
     },
     {
       "id": "prop-8",
@@ -196,7 +203,8 @@
         "annual_depreciation_or_amort": 54000000,
         "notes": "10-Year institutional master lease in Wuse II commercial hub tailored for government contract delegations and short-stay business suites.",
         "acquisition_currency": "NGN"
-      }
+      },
+      "landlord_id": "landlord-1"
     }
   ],
   "units": [
@@ -2663,6 +2671,65 @@
       "attachments": [],
       "created_at": "2026-08-18T10:00:00Z",
       "updated_at": "2026-08-18T10:00:00Z"
+    }
+  ],
+  "landlords": [
+    {
+      "id": "landlord-1",
+      "first_name": "David",
+      "last_name": "Adeyemi",
+      "email": "david.adeyemi@northstarholding.com",
+      "phone": "+234 803 111 2233",
+      "company_name": "Adeyemi Asset Holdings Ltd",
+      "bank_name": "First Bank Nigeria",
+      "bank_account_number": "3029182390",
+      "management_fee_percentage": 10,
+      "remittance_frequency": "Monthly",
+      "payment_structure": "Yearly / Annual Upfront",
+      "lease_duration_months": 12,
+      "lease_agreement_type": "Direct Management",
+      "agreed_payout_amount": 15200000,
+      "lease_start_date": "2026-01-01",
+      "lease_end_date": "2026-12-31",
+      "notes": "Primary owner for Eko Atlantic waterfront & Lagos luxury portfolio.",
+      "authorized_representatives": [
+        {
+          "id": "rep-1",
+          "name": "Barrister Chidi Okonkwo",
+          "email": "chidi.legal@adeyemiholdings.com",
+          "phone": "+234 802 334 5566",
+          "relationship": "Legal Counsel / Lawyer",
+          "can_view_statements": true,
+          "can_approve_maintenance": true,
+          "can_modify_banking": false,
+          "status": "Active",
+          "created_at": "2024-01-15T00:00:00Z"
+        }
+      ],
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2026-08-01T00:00:00Z"
+    },
+    {
+      "id": "landlord-2",
+      "first_name": "Elena",
+      "last_name": "Vasiliev",
+      "email": "elena.vasiliev@torontocrest.ca",
+      "phone": "+1 416 555 0192",
+      "company_name": "Crestwood Real Estate Trust",
+      "bank_name": "TD Canada Trust",
+      "bank_account_number": "004-1829102",
+      "management_fee_percentage": 8.5,
+      "remittance_frequency": "Monthly",
+      "payment_structure": "Monthly",
+      "lease_duration_months": 24,
+      "lease_agreement_type": "Master Lease (Corporate)",
+      "agreed_payout_amount": 18500,
+      "lease_start_date": "2025-06-01",
+      "lease_end_date": "2027-05-31",
+      "notes": "Master landlord for Maple Heights and Harbourview multi-family assets.",
+      "authorized_representatives": [],
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2026-08-01T00:00:00Z"
     }
   ]
 }

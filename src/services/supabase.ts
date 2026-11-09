@@ -101,7 +101,7 @@ function loadInitialState(): DatabaseState {
   if (databaseJson && (databaseJson as any).properties) {
     const db = databaseJson as any;
     return {
-      landlords: INITIAL_LANDLORDS,
+      landlords: db.landlords || INITIAL_LANDLORDS,
       properties: db.properties || INITIAL_PROPERTIES,
       units: db.units || INITIAL_UNITS,
       tenants: db.tenants || INITIAL_TENANTS,
