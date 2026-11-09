@@ -3,7 +3,7 @@ import type {
   Property, Unit, Tenant, Lease, Payment, Vendor,
   MaintenanceRequest, Bill, Notice, Communication,
   AutomationRule, AutomationRun, AutomationLog, Task, TenantApplicant, Expense, ShortletBooking,
-  CurrencyCode, Landlord, UserProfile, UserPermissions
+  CurrencyCode, Landlord, UserProfile, UserPermissions, PropertyInspection
 } from '../types/database';
 
 import {
@@ -44,6 +44,7 @@ export interface DatabaseState {
   tasks: Task[];
   applicants: TenantApplicant[];
   shortlet_bookings: ShortletBooking[];
+  inspections?: PropertyInspection[];
   currency?: CurrencyCode;
 }
 
@@ -118,6 +119,7 @@ function loadInitialState(): DatabaseState {
       tasks: db.tasks || INITIAL_TASKS,
       applicants: db.applicants || INITIAL_APPLICANTS,
       shortlet_bookings: db.shortlet_bookings || [],
+      inspections: db.inspections || [],
       currency: db.currency || 'CAD'
     };
   }
@@ -141,6 +143,7 @@ function loadInitialState(): DatabaseState {
     tasks: INITIAL_TASKS,
     applicants: INITIAL_APPLICANTS,
     shortlet_bookings: [],
+    inspections: [],
     currency: 'CAD'
   };
 }
@@ -375,6 +378,18 @@ class StoreManager {
   addShortletBooking(booking: ShortletBooking) {
     if (!this.state.shortlet_bookings) this.state.shortlet_bookings = [];
     this.state.shortlet_bookings.unshift(booking);
+    this.saveState();
+  }
+
+  addInspection(inspection: PropertyInspection) {
+    if (!this.state.inspections) this.state.inspections = [];
+    this.state.inspections.unshift(inspection);
+    this.saveState();
+  }
+
+  updateInspection(id: string, updates: Partial<PropertyInspection>) {
+    if (!this.state.inspections) this.state.inspections = [];
+    this.state.inspections = this.state.inspections.map(i => i.id === id ? { ...i, ...updates, updated_at: new Date().toISOString() } : i);
     this.saveState();
   }
 

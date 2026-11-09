@@ -2518,5 +2518,151 @@
       "booking_status": "Checked In",
       "created_at": "2026-08-16T15:20:00Z"
     }
+  ],
+  "inspections": [
+    {
+      "id": "insp-101",
+      "property_id": "prop-1",
+      "unit_id": "unit-101",
+      "title": "Q3 Structural & Safety Inspection - Suite 101",
+      "scheduled_date": "2026-08-20",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Unit in good operational state. Smoke alarms tested functional. Minor sink drainage slow in kitchen, resolved on-site.",
+      "findings": [
+        {
+          "area": "Kitchen",
+          "rating": "Good",
+          "remarks": "Under-sink plumbing dry, minor P-trap cleaning conducted."
+        },
+        {
+          "area": "HVAC / Breakers",
+          "rating": "Excellent",
+          "remarks": "Panel switches healthy, air filter replaced."
+        },
+        {
+          "area": "Living / Bedroom",
+          "rating": "Good",
+          "remarks": "No wall damage, window latches secure."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-1",
+          "file_name": "smoke_detector_test.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+          "caption": "Smoke detector circuit operational test",
+          "recorded_at": "2026-08-20T10:25:00Z"
+        }
+      ],
+      "incurred_cost": 0,
+      "team_lead_signed_at": "2026-08-20T11:45:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-08-15T09:00:00Z",
+      "updated_at": "2026-08-20T11:45:00Z"
+    },
+    {
+      "id": "insp-102",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "title": "Shortlet Turnover & Inventory Audit - Suite EA-101",
+      "scheduled_date": "2026-08-21",
+      "scheduled_time": "02:00 PM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Shortlet turnover audit verified. Premium linen replaced, AC units cooling, smart lock passcodes refreshed for incoming guest Dr. Okafor.",
+      "findings": [
+        {
+          "area": "Master Bedroom",
+          "rating": "Excellent",
+          "remarks": "Bedding sanitized, safe operational."
+        },
+        {
+          "area": "Balcony / Glass",
+          "rating": "Excellent",
+          "remarks": "Ocean view panoramic glazing cleaned."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2",
+          "file_name": "balcony_panoramic_check.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
+          "caption": "Balcony glass verification & terrace clean",
+          "recorded_at": "2026-08-21T14:30:00Z"
+        }
+      ],
+      "incurred_cost": 45000,
+      "team_lead_signed_at": "2026-08-21T15:10:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-08-16T11:00:00Z",
+      "updated_at": "2026-08-21T15:10:00Z"
+    },
+    {
+      "id": "insp-103",
+      "property_id": "prop-2",
+      "unit_id": "unit-201",
+      "title": "Bi-Monthly Facility & Mechanical Inspection - Unit 201",
+      "scheduled_date": "2026-08-22",
+      "scheduled_time": "11:30 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-4",
+          "staff_name": "Jean-Luc Tremblay",
+          "staff_role": "HVAC Inspector",
+          "attended": true
+        }
+      ],
+      "status": "Scheduled",
+      "overall_condition": "Good",
+      "general_remarks": "Upcoming routine heat pump and balcony seal inspection scheduled.",
+      "findings": [],
+      "attachments": [],
+      "created_at": "2026-08-18T10:00:00Z",
+      "updated_at": "2026-08-18T10:00:00Z"
+    }
   ]
 }

@@ -7,6 +7,7 @@ import { DatabaseState } from '../services/supabase';
 import { UnitStatus, RentalModel } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { AddUnitModal } from '../components/AddUnitModal';
+import { AddBookingModal } from '../components/AddBookingModal';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface UnitsProps {
@@ -19,7 +20,9 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const [search, setSearch] = useState('');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
   const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
+  const [isAddBookingOpen, setIsAddBookingOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState<{ unitId: string; propertyId: string } | null>(null);
+  const [activeBookingUnitId, setActiveBookingUnitId] = useState<string | undefined>(undefined);
 
   const { formatMoney } = useCurrency();
 
@@ -123,6 +126,16 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
             onChange={(e) => setSearch(e.target.value)}
             className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
           />
+
+          <button
+            onClick={() => {
+              setActiveBookingUnitId(undefined);
+              setIsAddBookingOpen(true);
+            }}
+            className="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Sparkles className="w-4 h-4" /> Record Shortlet Booking
+          </button>
 
           <button
             onClick={() => setIsAddUnitOpen(true)}
@@ -298,15 +311,29 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                     </td>
 
                     <td className="p-4 text-right">
-                      <button
-                        onClick={() => {
-                          setSelectedUnit({ unitId: unit.id, propertyId: unit.property_id });
-                          setIsAddExpenseOpen(true);
-                        }}
-                        className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1"
-                      >
-                        <Plus className="w-3 h-3" /> Log Cost
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        {isShortlet && (
+                          <button
+                            onClick={() => {
+                              setActiveBookingUnitId(unit.id);
+                              setIsAddBookingOpen(true);
+                            }}
+                            className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-[11px] rounded-lg border border-purple-200 transition-colors inline-flex items-center gap-1"
+                            title="Add booking for this suite"
+                          >
+                            <Calendar className="w-3 h-3" /> Book
+                          </button>
+                        )}
+                        <button
+                          onClick={() => {
+                            setSelectedUnit({ unitId: unit.id, propertyId: unit.property_id });
+                            setIsAddExpenseOpen(true);
+                          }}
+                          className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1"
+                        >
+                          <Plus className="w-3 h-3" /> Log Cost
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -328,6 +355,13 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
         isOpen={isAddUnitOpen}
         onClose={() => setIsAddUnitOpen(false)}
         dbState={dbState}
+      />
+
+      <AddBookingModal
+        isOpen={isAddBookingOpen}
+        onClose={() => setIsAddBookingOpen(false)}
+        dbState={dbState}
+        preselectedUnitId={activeBookingUnitId}
       />
     </div>
   );

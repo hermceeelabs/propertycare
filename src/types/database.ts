@@ -398,3 +398,59 @@ export interface TenantApplicant {
   background_check?: 'Passed' | 'Pending' | 'Flagged';
   created_at: string;
 }
+
+// -------------------------------------------------------------
+// FIELD AUDITS & PROPERTY INSPECTION TIMETABLE
+// -------------------------------------------------------------
+export type InspectionFrequency = 'Weekly' | 'Bi-Weekly' | 'Monthly' | 'Quarterly' | 'Semi-Annually' | 'Annually';
+export type InspectionStatus = 'Scheduled' | 'In Progress' | 'Pending Review' | 'Approved / Completed' | 'Cancelled' | 'Missed';
+export type ConditionRating = 'Excellent' | 'Good' | 'Fair' | 'Requires Attention' | 'Critical Hazard';
+
+export interface InspectionAttachment {
+  id: string;
+  file_name: string;
+  file_type: 'photo' | 'video' | 'audio' | 'document';
+  file_url: string;
+  file_size?: number;
+  caption?: string;
+  recorded_at: string;
+  recorded_by?: string;
+}
+
+export interface InspectionAttendee {
+  staff_id: string;
+  staff_name: string;
+  staff_role: string;
+  attended: boolean;
+  notes?: string;
+}
+
+export interface InspectionItemFinding {
+  area: string; // e.g. "Kitchen", "Living Room", "HVAC / Breaker Panel", "Exterior"
+  rating: ConditionRating;
+  remarks: string;
+  action_needed?: boolean;
+}
+
+export interface PropertyInspection {
+  id: string;
+  property_id: string;
+  unit_id?: string; // Optional if inspecting common areas or entire building
+  title: string;
+  scheduled_date: string;
+  scheduled_time?: string;
+  team_lead_id: string;
+  team_lead_name: string;
+  assigned_attendees: InspectionAttendee[];
+  status: InspectionStatus;
+  overall_condition?: ConditionRating;
+  general_remarks?: string;
+  findings?: InspectionItemFinding[];
+  attachments?: InspectionAttachment[];
+  incurred_expense_id?: string;
+  incurred_cost?: number;
+  team_lead_signed_at?: string;
+  team_lead_signed_by?: string;
+  created_at: string;
+  updated_at: string;
+}
