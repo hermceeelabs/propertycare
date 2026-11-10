@@ -80,66 +80,68 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
       {/* Visual Horizontal Separator */}
       <hr className="border-t border-slate-800/80" />
 
-      {/* Controls Line: Filters & Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
-        <div className="flex items-center gap-3 flex-wrap">
-          {/* Inventory Model Dropdown */}
-          <div className="flex items-center gap-2">
-            <label htmlFor="unit-model-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-              Type:
-            </label>
-            <select
-              id="unit-model-select"
-              value={modelFilter}
-              onChange={(e) => setModelFilter(e.target.value as any)}
-              className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
-            >
-              <option value="All">All Units ({dbState.units.length})</option>
-              <option value="Long-Term">Long-Term Leases ({longTermUnits.length})</option>
-              <option value="Shortlet">Shortlets / STR ({shortletUnits.length})</option>
-            </select>
-          </div>
-
-          {/* Occupancy Status Dropdown */}
-          <div className="flex items-center gap-2">
-            <label htmlFor="unit-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-              Status:
-            </label>
-            <select
-              id="unit-status-select"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
-            >
-              {statuses.map(s => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
+      {/* Controls Line: Filters & Actions (All on a single horizontal line) */}
+      <div className="flex items-center gap-3 overflow-x-auto bg-cream-50 p-3 rounded-2xl border border-cream-300 shadow-xs no-scrollbar">
+        {/* Inventory Model Dropdown */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <label htmlFor="unit-model-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+            TYPE:
+          </label>
+          <select
+            id="unit-model-select"
+            value={modelFilter}
+            onChange={(e) => setModelFilter(e.target.value as any)}
+            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+          >
+            <option value="All">All Units ({dbState.units.length})</option>
+            <option value="Long-Term">Long-Term Leases ({longTermUnits.length})</option>
+            <option value="Shortlet">Shortlets / STR ({shortletUnits.length})</option>
+          </select>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
+        {/* Occupancy Status Dropdown */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <label htmlFor="unit-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
+            STATUS:
+          </label>
+          <select
+            id="unit-status-select"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+          >
+            {statuses.map(s => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Search Input */}
+        <div className="shrink-0 min-w-[170px] max-w-[220px]">
           <input
             type="text"
             placeholder="Search unit # or layout..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+            className="w-full px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-xs text-stone-800 placeholder-stone-400 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
           />
+        </div>
 
+        {/* Action Buttons Spacer & Buttons */}
+        <div className="flex items-center gap-2.5 ml-auto shrink-0">
           <button
             onClick={() => {
               setActiveBookingUnitId(undefined);
               setIsAddBookingOpen(true);
             }}
-            className="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap"
           >
             <Sparkles className="w-4 h-4" /> Record Shortlet Booking
           </button>
 
           <button
             onClick={() => setIsAddUnitOpen(true)}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap"
           >
             <Plus className="w-4 h-4" /> Add Suite / Unit
           </button>
@@ -149,7 +151,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
               setSelectedUnit(null);
               setIsAddExpenseOpen(true);
             }}
-            className="px-4 py-2 bg-cream-200/90 hover:bg-cream-300 text-stone-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 border border-cream-300 cursor-pointer"
+            className="px-3.5 py-2 bg-cream-200/90 hover:bg-cream-300 text-stone-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 border border-cream-300 cursor-pointer shrink-0 whitespace-nowrap"
           >
             <Plus className="w-4 h-4 text-stone-600" /> Record Suite Cost
           </button>
