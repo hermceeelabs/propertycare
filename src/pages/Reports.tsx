@@ -135,20 +135,20 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
       {/* Header Banner: Title & Description */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Executive Intelligence & Daily Audit Reports</h1>
-            <span className="hidden sm:inline text-cream-400 font-light">|</span>
-            <p className="text-sm text-stone-600">Automated daily operational journal, landlord remittances & asset break-even</p>
-          </div>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Executive Intelligence & Daily Audit Reports</h1>
+        <p className="text-sm text-stone-600 mt-1">Automated daily operational journal, landlord remittances & asset break-even</p>
+      </div>
 
-        {/* View Switcher Tabs */}
-        <div className="flex items-center bg-cream-100 p-1 rounded-2xl border border-cream-300 self-start sm:self-auto">
+      {/* Decorative Divider */}
+      <hr className="border-t border-slate-800/80" />
+
+      {/* View Switcher Tabs Bar */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center bg-cream-100 p-1 rounded-2xl border border-cream-300">
           <button
             onClick={() => setReportView('daily')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               reportView === 'daily'
                 ? 'bg-slate-900 text-white shadow-xs'
                 : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
@@ -158,7 +158,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
           </button>
           <button
             onClick={() => setReportView('landlords')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               reportView === 'landlords'
                 ? 'bg-slate-900 text-white shadow-xs'
                 : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
@@ -168,7 +168,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
           </button>
           <button
             onClick={() => setReportView('capital')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               reportView === 'capital'
                 ? 'bg-slate-900 text-white shadow-xs'
                 : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
