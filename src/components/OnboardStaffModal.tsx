@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, ShieldCheck, Mail, Phone, User, CheckCircle2, Building, Sparkles } from 'lucide-react';
 import { UserPermissions, RoleTemplate, UserProfile } from '../types/database';
 import { supabase } from '../services/supabase';
+import { checkEmailConflict } from '../services/stakeholderValidator';
 
 interface OnboardStaffModalProps {
   isOpen: boolean;
@@ -69,6 +70,14 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
 
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    // Cross-role validation check
+    const conflict = await checkEmailConflict(email);
+    if (conflict.hasConflict) {
+      setErrorMsg(conflict.errorMessage || 'This email is already in use by another role.');
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const newProfile: Partial<UserProfile> = {

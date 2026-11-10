@@ -3,6 +3,7 @@ import { X, Landmark, Building2, ShieldCheck, CheckCircle2, User, Phone, Mail, D
 import { store, supabase, DatabaseState } from '../services/supabase';
 import { Landlord, LandlordLeaseType, LandlordPaymentStructure, LandlordDelegate } from '../types/database';
 import { useCurrency } from '../context/CurrencyContext';
+import { checkEmailConflict } from '../services/stakeholderValidator';
 
 interface EditLandlordModalProps {
   isOpen: boolean;
@@ -90,6 +91,14 @@ export const EditLandlordModal: React.FC<EditLandlordModalProps> = ({
 
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    // Cross-role validation check (ignoring current landlord id)
+    const conflict = await checkEmailConflict(email, landlord.id);
+    if (conflict.hasConflict) {
+      setErrorMsg(conflict.errorMessage || 'This email is already in use by another stakeholder.');
+      setIsSubmitting(false);
+      return;
+    }
 
     const updates: Partial<Landlord> = {
       first_name: firstName.trim(),

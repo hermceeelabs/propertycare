@@ -3,6 +3,7 @@ import { X, UserCheck, Mail, Phone, Calendar, DollarSign, Home, CheckCircle2 } f
 import { Tenant, Lease, Unit } from '../types/database';
 import { supabase, store } from '../services/supabase';
 import { useCurrency } from '../context/CurrencyContext';
+import { checkEmailConflict } from '../services/stakeholderValidator';
 
 interface OnboardTenantModalProps {
   isOpen: boolean;
@@ -64,6 +65,14 @@ export const OnboardTenantModal: React.FC<OnboardTenantModalProps> = ({
 
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    // Cross-role validation check
+    const conflict = await checkEmailConflict(email);
+    if (conflict.hasConflict) {
+      setErrorMsg(conflict.errorMessage || 'This email is already registered to another stakeholder role.');
+      setIsSubmitting(false);
+      return;
+    }
 
     const tenantId = `ten-${Date.now()}`;
     const newTenant: Tenant = {

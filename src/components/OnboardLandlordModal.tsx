@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Building, User, Mail, Phone, Landmark, DollarSign, Calendar, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Landlord, LandlordDelegate, Property } from '../types/database';
 import { supabase, store } from '../services/supabase';
+import { checkEmailConflict } from '../services/stakeholderValidator';
 
 interface OnboardLandlordModalProps {
   isOpen: boolean;
@@ -78,6 +79,24 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
 
     setIsSubmitting(true);
     setErrorMsg(null);
+
+    // Cross-role validation check for primary landlord email
+    const conflict = await checkEmailConflict(email);
+    if (conflict.hasConflict) {
+      setErrorMsg(conflict.errorMessage || 'This email is already in use by another stakeholder.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Also check delegate email if provided
+    if (hasDelegate && repEmail.trim()) {
+      const repConflict = await checkEmailConflict(repEmail.trim());
+      if (repConflict.hasConflict) {
+        setErrorMsg(`Representative Email Conflict: ${repConflict.errorMessage}`);
+        setIsSubmitting(false);
+        return;
+      }
+    }
 
     const landlordId = `landlord-${Date.now()}`;
     const delegates: LandlordDelegate[] = [];
