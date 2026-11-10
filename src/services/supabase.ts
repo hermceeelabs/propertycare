@@ -191,8 +191,26 @@ class StoreManager {
       if (vendors && vendors.length > 0) this.state.vendors = vendors as any;
       if (maint && maint.length > 0) this.state.maintenance_requests = maint as any;
       if (bills && bills.length > 0) this.state.bills = bills as any;
-      if (expenses && expenses.length > 0) this.state.expenses = expenses as any;
+      if (expenses && expenses.length > 0) {
+        // Merge Supabase remote rows with enriched local JSON fields (proofs, invoices, receipts)
+        const jsonExpenses: any[] = (databaseJson as any)?.expenses || [];
+        this.state.expenses = (expenses as any[]).map(remoteExp => {
+          const match = jsonExpenses.find(j => j.id === remoteExp.id);
+          return {
+            ...remoteExp,
+            proofs: match?.proofs || remoteExp.proofs || [],
+            invoice_number: match?.invoice_number || remoteExp.invoice_number,
+            receipt_url: match?.receipt_url || remoteExp.receipt_url,
+            share_with_landlord: match?.share_with_landlord ?? true
+          };
+        });
+      }
       if (landlords && landlords.length > 0) this.state.landlords = landlords as any;
+
+      // Ensure inspections are populated from versioned dataset if remote table is not configured
+      if (!this.state.inspections || this.state.inspections.length === 0) {
+        this.state.inspections = (databaseJson as any)?.inspections || [];
+      }
 
       this.saveState();
     } catch (e) {

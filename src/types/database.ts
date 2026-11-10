@@ -269,6 +269,16 @@ export interface Bill {
 export type ExpenseCategory = 'Repairs & Maintenance' | 'Utilities' | 'Insurance' | 'Property Taxes' | 'Management' | 'Cleaning' | 'Appliances' | 'Other';
 export type ExpenseScope = 'Unit' | 'Property';
 
+export interface ExpenseProof {
+  id: string;
+  file_name: string;
+  file_type: 'invoice' | 'receipt' | 'photo' | 'document';
+  file_url: string;
+  file_size?: number;
+  caption?: string;
+  uploaded_at: string;
+}
+
 export interface Expense {
   id: string;
   property_id: string;
@@ -280,6 +290,10 @@ export interface Expense {
   amount: number;
   date: string;
   payment_status: 'Paid' | 'Pending';
+  receipt_url?: string;
+  invoice_number?: string;
+  share_with_landlord?: boolean;
+  proofs?: ExpenseProof[];
   created_at: string;
   updated_at: string;
 }
@@ -413,6 +427,7 @@ export interface InspectionAttachment {
   file_url: string;
   file_size?: number;
   caption?: string;
+  share_with_landlord?: boolean;
   recorded_at: string;
   recorded_by?: string;
 }

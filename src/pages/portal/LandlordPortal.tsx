@@ -8,8 +8,9 @@ import {
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
+import { LandlordReportView } from '../../components/LandlordReportView';
 
-export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'maintenance' | 'delegates';
+export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'reports' | 'maintenance' | 'delegates';
 
 interface LandlordPortalProps {
   dbState: DatabaseState;
@@ -155,6 +156,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
         { id: 'overview' as LandlordNavTab, label: 'Portfolio Overview', icon: LayoutDashboard },
         { id: 'properties' as LandlordNavTab, label: 'Owned Assets & Units', icon: Building2, badge: `${ownedProperties.length}` },
         { id: 'financials' as LandlordNavTab, label: 'Yield & Remittances', icon: CreditCard },
+        { id: 'reports' as LandlordNavTab, label: 'Reports & Audits', icon: FileText },
       ]
     },
     {
@@ -806,6 +808,17 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 ))}
               </div>
             </div>
+          )}
+
+          {/* =========================================================================
+              VIEW 6: REPORTS & FIELD AUDITS
+              ========================================================================= */}
+          {currentTab === 'reports' && (
+            <LandlordReportView
+              dbState={dbState}
+              landlord={landlord}
+              ownedPropertyIds={ownedPropertyIds}
+            />
           )}
         </main>
       </div>

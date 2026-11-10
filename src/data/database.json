@@ -1450,6 +1450,24 @@
       "status": "Active",
       "created_at": "2023-06-01Z",
       "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ven-ng-1",
+      "name": "Oasis Mechanical HVAC Nigeria Ltd",
+      "phone": "+234 802 334 1122",
+      "email": "service@oasishvac.ng"
+    },
+    {
+      "id": "ven-ng-2",
+      "name": "SparklePro Facility Cleaners",
+      "phone": "+234 803 445 6677",
+      "email": "contact@sparklepro.ng"
+    },
+    {
+      "id": "ven-ng-3",
+      "name": "Fortress Access Systems & Locks",
+      "phone": "+234 809 112 3344",
+      "email": "support@fortressaccess.ng"
     }
   ],
   "maintenance_requests": [
@@ -1713,7 +1731,19 @@
       "date": "2026-08-15",
       "payment_status": "Paid",
       "created_at": "2026-08-15T14:00:00Z",
-      "updated_at": "2026-08-15T14:00:00Z"
+      "updated_at": "2026-08-15T14:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7701",
+      "proofs": [
+        {
+          "id": "prf-exp-1",
+          "file_name": "repairs___maintenance_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Unit 102 kitchen sink drain pipe clearing & P-trap replacement",
+          "uploaded_at": "2026-08-15T14:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-2",
@@ -1727,7 +1757,19 @@
       "date": "2026-08-10",
       "payment_status": "Paid",
       "created_at": "2026-08-10T11:00:00Z",
-      "updated_at": "2026-08-10T11:00:00Z"
+      "updated_at": "2026-08-10T11:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7702",
+      "proofs": [
+        {
+          "id": "prf-exp-2",
+          "file_name": "appliances_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Unit 101 dishwasher diagnostic & intake valve replacement",
+          "uploaded_at": "2026-08-10T11:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-3",
@@ -1740,7 +1782,19 @@
       "date": "2026-08-08",
       "payment_status": "Paid",
       "created_at": "2026-08-08T09:00:00Z",
-      "updated_at": "2026-08-08T09:00:00Z"
+      "updated_at": "2026-08-08T09:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7703",
+      "proofs": [
+        {
+          "id": "prf-exp-3",
+          "file_name": "cleaning_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Maple Heights common corridors carpet steam cleaning & sanitization",
+          "uploaded_at": "2026-08-08T09:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-4",
@@ -1752,7 +1806,19 @@
       "date": "2026-08-01",
       "payment_status": "Paid",
       "created_at": "2026-08-01T08:00:00Z",
-      "updated_at": "2026-08-01T08:00:00Z"
+      "updated_at": "2026-08-01T08:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7704",
+      "proofs": [
+        {
+          "id": "prf-exp-4",
+          "file_name": "insurance_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Commercial property liability, equipment breakdown & fire insurance monthly premium",
+          "uploaded_at": "2026-08-01T08:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-5",
@@ -1766,7 +1832,19 @@
       "date": "2026-08-18",
       "payment_status": "Paid",
       "created_at": "2026-08-18T10:00:00Z",
-      "updated_at": "2026-08-18T10:00:00Z"
+      "updated_at": "2026-08-18T10:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7705",
+      "proofs": [
+        {
+          "id": "prf-exp-5",
+          "file_name": "repairs___maintenance_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Unit 201 heat pump seasonal inspection & blower motor capacitor tune-up",
+          "uploaded_at": "2026-08-18T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-6",
@@ -1779,7 +1857,19 @@
       "date": "2026-08-01",
       "payment_status": "Paid",
       "created_at": "2026-08-01T09:00:00Z",
-      "updated_at": "2026-08-01T09:00:00Z"
+      "updated_at": "2026-08-01T09:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7706",
+      "proofs": [
+        {
+          "id": "prf-exp-6",
+          "file_name": "utilities_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Harbourview building HVAC central chiller cooling tower seasonal overhaul",
+          "uploaded_at": "2026-08-01T09:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-7",
@@ -1793,7 +1883,19 @@
       "date": "2026-08-12",
       "payment_status": "Paid",
       "created_at": "2026-08-12T13:00:00Z",
-      "updated_at": "2026-08-12T13:00:00Z"
+      "updated_at": "2026-08-12T13:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7707",
+      "proofs": [
+        {
+          "id": "prf-exp-7",
+          "file_name": "repairs___maintenance_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Unit 301 balcony pest prevention barrier & insect nest removal",
+          "uploaded_at": "2026-08-12T13:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-8",
@@ -1807,7 +1909,19 @@
       "date": "2026-08-19",
       "payment_status": "Paid",
       "created_at": "2026-08-19T14:00:00Z",
-      "updated_at": "2026-08-19T14:00:00Z"
+      "updated_at": "2026-08-19T14:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7708",
+      "proofs": [
+        {
+          "id": "prf-exp-8",
+          "file_name": "repairs___maintenance_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Unit 401 electrical outlet replacement and breaker panel check",
+          "uploaded_at": "2026-08-19T14:00:00Z"
+        }
+      ]
     },
     {
       "id": "exp-9",
@@ -1819,7 +1933,100 @@
       "date": "2026-08-01",
       "payment_status": "Paid",
       "created_at": "2026-08-01T00:00:00Z",
-      "updated_at": "2026-08-01T00:00:00Z"
+      "updated_at": "2026-08-01T00:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-7709",
+      "proofs": [
+        {
+          "id": "prf-exp-9",
+          "file_name": "property_taxes_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "City of Hamilton municipal property tax monthly installment",
+          "uploaded_at": "2026-08-01T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-ng-101",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Repairs & Maintenance",
+      "description": "Master suite inverter AC deep servicing and freon gas recharge prior to guest arrival",
+      "amount": 125000,
+      "date": "2026-08-20",
+      "payment_status": "Paid",
+      "invoice_number": "INV-EKO-8821",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-101",
+          "file_name": "ac_service_invoice_8821.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Oasis Mechanical HVAC official receipt & maintenance invoice",
+          "uploaded_at": "2026-08-20T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-08-20T15:30:00Z",
+      "updated_at": "2026-08-20T16:00:00Z"
+    },
+    {
+      "id": "exp-ng-102",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-2",
+      "category": "Cleaning",
+      "description": "Post-turnover deep sanitization, marble floor polishing & balcony glass pressure wash",
+      "amount": 45000,
+      "date": "2026-08-21",
+      "payment_status": "Paid",
+      "invoice_number": "REC-CLEAN-402",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-102",
+          "file_name": "sanitization_receipt_402.jpg",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "SparklePro Cleaning invoice & proof of completion",
+          "uploaded_at": "2026-08-21T14:45:00Z"
+        }
+      ],
+      "created_at": "2026-08-21T14:30:00Z",
+      "updated_at": "2026-08-21T14:45:00Z"
+    },
+    {
+      "id": "exp-ng-103",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-3",
+      "category": "Repairs & Maintenance",
+      "description": "Smart security lock biometric panel firmware update and battery backup installation",
+      "amount": 85000,
+      "date": "2026-08-22",
+      "payment_status": "Paid",
+      "invoice_number": "INV-SEC-901",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-103",
+          "file_name": "smart_lock_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Fortress Access Systems - official parts & labor receipt",
+          "uploaded_at": "2026-08-22T11:00:00Z"
+        }
+      ],
+      "created_at": "2026-08-22T10:00:00Z",
+      "updated_at": "2026-08-22T11:00:00Z"
     }
   ],
   "notices": [
@@ -2573,11 +2780,22 @@
       ],
       "attachments": [
         {
-          "id": "att-1",
+          "id": "att-101-1",
+          "file_name": "safety_inspection_summary.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video of breaker panel and heat pump runtime test",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-20T10:15:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-101-2",
           "file_name": "smoke_detector_test.jpg",
           "file_type": "photo",
           "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
           "caption": "Smoke detector circuit operational test",
+          "share_with_landlord": true,
           "recorded_at": "2026-08-20T10:25:00Z"
         }
       ],
@@ -2627,12 +2845,34 @@
       ],
       "attachments": [
         {
-          "id": "att-2",
+          "id": "att-102-1",
+          "file_name": "master_bedroom_walkthrough.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Full 360-degree walkthrough of master bedroom, en-suite & ocean-facing balcony",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-21T14:15:00Z",
+          "recorded_by": "Marcus Vance (Operations Lead)"
+        },
+        {
+          "id": "att-102-2",
+          "file_name": "lead_auditor_voice_note.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voice Memo: Marcus Vance detailing HVAC freon levels, backup diesel generator sync test & guest turnover readiness",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-21T14:35:00Z",
+          "recorded_by": "Marcus Vance (Operations Lead)"
+        },
+        {
+          "id": "att-102-3",
           "file_name": "balcony_panoramic_check.jpg",
           "file_type": "photo",
-          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
-          "caption": "Balcony glass verification & terrace clean",
-          "recorded_at": "2026-08-21T14:30:00Z"
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "High-res verification of ocean view panoramic glass and terrace cleanliness",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-21T14:30:00Z",
+          "recorded_by": "Marcus Vance"
         }
       ],
       "incurred_cost": 45000,
@@ -2671,6 +2911,66 @@
       "attachments": [],
       "created_at": "2026-08-18T10:00:00Z",
       "updated_at": "2026-08-18T10:00:00Z"
+    },
+    {
+      "id": "insp-104",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "title": "Bi-Monthly Facility & Security Audit - Suite IK-02",
+      "scheduled_date": "2026-08-22",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Routine pre-leasing audit. All fixtures verified. Smart security door lock battery replaced and tested.",
+      "findings": [
+        {
+          "area": "Main Entrance",
+          "rating": "Excellent",
+          "remarks": "Smart lock keypad calibrated and verified."
+        },
+        {
+          "area": "Living Room",
+          "rating": "Good",
+          "remarks": "Paint and lighting in pristine condition."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-104-1",
+          "file_name": "smart_lock_video_test.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video verification of keyless entry and deadbolt latch mechanism",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-22T11:20:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-104-2",
+          "file_name": "auditor_audio_briefing.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Audio Voicenote: Amara Okafor confirming utility meter readings and key handover",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-22T11:40:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 85000,
+      "team_lead_signed_at": "2026-08-22T12:00:00Z",
+      "team_lead_signed_by": "Amara Okafor",
+      "created_at": "2026-08-18T09:00:00Z",
+      "updated_at": "2026-08-22T12:00:00Z"
     }
   ],
   "landlords": [
