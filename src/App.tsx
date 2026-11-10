@@ -32,7 +32,10 @@ import { AppContent } from './components/AppContent';
 import { PermissionsProvider } from './context/PermissionsContext';
 
 export function App() {
-  const [currentTab, setCurrentTab] = useState<NavTab>('dashboard');
+  const [currentTab, setCurrentTab] = useState<NavTab>(() => {
+    const saved = localStorage.getItem('propertyflow_active_tab') as NavTab;
+    return saved || 'dashboard';
+  });
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
   const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null);
 
@@ -41,6 +44,11 @@ export function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authUser, setAuthUser] = useState<any>(null);
   const [authLoading, setAuthLoading] = useState(true);
+
+  const handleTabChange = (tab: NavTab) => {
+    setCurrentTab(tab);
+    localStorage.setItem('propertyflow_active_tab', tab);
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -66,7 +74,7 @@ export function App() {
   const pendingTasksCount = dbState.tasks.filter(t => t.status === 'Pending').length;
 
   const handleNavigate = (tab: NavTab) => {
-    setCurrentTab(tab);
+    handleTabChange(tab);
     if (tab !== 'properties') setSelectedPropertyId(null);
     if (tab !== 'tenants') setSelectedTenantId(null);
   };
@@ -110,7 +118,7 @@ export function App() {
           dbState={dbState}
           authUser={authUser}
           currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
+          setCurrentTab={handleTabChange}
           selectedPropertyId={selectedPropertyId}
           setSelectedPropertyId={setSelectedPropertyId}
           selectedTenantId={selectedTenantId}

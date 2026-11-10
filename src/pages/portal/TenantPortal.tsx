@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { DatabaseState, store, supabase } from '../../services/supabase';
 import {
   Home, CreditCard, Wrench, FileText, CheckCircle2, Clock, AlertTriangle,
-  ArrowRight, ShieldCheck, Upload, Image, X, Eye, Paperclip
+  ArrowRight, ShieldCheck, Upload, Image, X, Eye, Paperclip, LogOut
 } from 'lucide-react';
-import { useCurrency } from '../../context/CurrencyContext';
+import { useCurrency, CurrencyCode } from '../../context/CurrencyContext';
 import { MaintenanceAttachment, MaintenanceRequest, MaintenancePriority } from '../../types/database';
+import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 
 interface TenantPortalProps {
   dbState: DatabaseState;
@@ -39,6 +40,9 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   const tenantRequests = dbState.maintenance_requests.filter(m => m.tenant_id === tenant?.id);
 
   const pendingAmount = tenantPayments.filter(p => p.status !== 'Paid').reduce((acc, p) => acc + (p.amount_due || 0), 0);
+  const nativeCurr: CurrencyCode =
+    property?.acquisition?.acquisition_currency ||
+    (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -194,7 +198,12 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               <div className="space-y-1">
                 <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">Account Balance</span>
                 <div className="text-3xl font-black text-stone-900">
-                  {formatMoney(pendingAmount)}
+                  <DualCurrencyDisplay
+                    amount={pendingAmount}
+                    nativeCurrency={nativeCurr}
+                    primaryClassName="text-3xl font-black text-stone-900"
+                    secondaryClassName="text-xs text-stone-500 font-medium ml-2"
+                  />
                 </div>
                 <p className="text-xs text-stone-500">
                   {pendingAmount > 0
@@ -297,8 +306,13 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     <span className="text-stone-400 text-[11px]">{p.payment_date ? `Paid on ${p.payment_date}` : 'Awaiting payment'}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-extrabold text-stone-900 block">{formatMoney(p.amount_due)}</span>
-                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
+                    <DualCurrencyDisplay
+                      amount={p.amount_due}
+                      nativeCurrency={nativeCurr}
+                      primaryClassName="font-extrabold text-stone-900 block"
+                      secondaryClassName="text-[10px] text-stone-400 block"
+                    />
+                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${
                       p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
                     }`}>
                       {p.status}

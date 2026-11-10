@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Receipt, DollarSign, Plus, Building2, Home } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
+import { DualCurrencyDisplay } from '../components/DualCurrencyDisplay';
 
 interface BillsProps {
   dbState: DatabaseState;
@@ -110,6 +111,9 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState }) => {
                 const vendor = dbState.vendors.find(v => v.id === bill.vendor_id);
                 const property = dbState.properties.find(p => p.id === bill.property_id);
                 const unit = bill.unit_id ? dbState.units.find(u => u.id === bill.unit_id) : undefined;
+                const nativeCurr: CurrencyCode =
+                  property?.acquisition?.acquisition_currency ||
+                  (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
 
                 return (
                   <tr key={bill.id} className="hover:bg-slate-50/80 transition-colors">
@@ -129,7 +133,14 @@ export const BillsPage: React.FC<BillsProps> = ({ dbState }) => {
                       )}
                     </td>
                     <td className="p-4 text-slate-600 max-w-xs">{bill.description}</td>
-                    <td className="p-4 font-extrabold text-slate-900">{formatMoney(bill.amount)}</td>
+                    <td className="p-4 font-extrabold text-slate-900">
+                      <DualCurrencyDisplay
+                        amount={bill.amount}
+                        nativeCurrency={nativeCurr}
+                        primaryClassName="font-extrabold text-slate-900"
+                        secondaryClassName="text-[10px] text-stone-400 block"
+                      />
+                    </td>
                     <td className="p-4 font-medium text-slate-700">{bill.due_date}</td>
                     <td className="p-4 text-right">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${

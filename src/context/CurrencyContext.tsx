@@ -27,6 +27,9 @@ interface CurrencyContextType {
   formatNativeMoney: (amount: number, nativeCurrency: CurrencyCode, options?: { showCode?: boolean; maximumFractionDigits?: number }) => string;
   convertToCAD: (amount: number, fromCurrency: CurrencyCode) => number;
   convertFromCAD: (amountInCAD: number) => number;
+  convertAmount: (amount: number, fromCurrency: CurrencyCode, toCurrency: CurrencyCode) => number;
+  formatAmountInTarget: (amount: number, fromCurrency: CurrencyCode, options?: { showCode?: boolean; maximumFractionDigits?: number }) => string;
+  formatDualCurrency: (amount: number, nativeCurrency: CurrencyCode) => { primary: string; secondary?: string; isConverted: boolean };
   currencyConfig: CurrencyConfig;
   getExchangeRate: (from: CurrencyCode, to: CurrencyCode) => number;
   liveFx: LiveFxState | null;
@@ -86,14 +89,30 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const currencyConfig = CURRENCIES[currentCurrency] || CURRENCIES.CAD;
 
+  const getExchangeRate = (from: CurrencyCode, to: CurrencyCode): number => {
+    if (from === to) return 1.0;
+    if (liveFx?.rates) {
+      return calculateLiveCrossRate(from, to, liveFx.rates);
+    }
+    const fromRate = CURRENCIES[from]?.exchangeRateFromCAD || 1.0;
+    const toRate = CURRENCIES[to]?.exchangeRateFromCAD || 1.0;
+    // 1 CAD = fromRate (from), 1 CAD = toRate (to) => 1 from = (toRate / fromRate) to
+    return toRate / fromRate;
+  };
+
+  const convertAmount = (amount: number, fromCurrency: CurrencyCode, toCurrency: CurrencyCode): number => {
+    if (!amount) return 0;
+    if (fromCurrency === toCurrency) return amount;
+    const rate = getExchangeRate(fromCurrency, toCurrency);
+    return amount * rate;
+  };
+
   const convertFromCAD = (amountInCAD: number): number => {
-    return amountInCAD * currencyConfig.exchangeRateFromCAD;
+    return convertAmount(amountInCAD, 'CAD', currentCurrency);
   };
 
   const convertToCAD = (amount: number, fromCurrency: CurrencyCode): number => {
-    if (fromCurrency === 'CAD') return amount;
-    const rateToFrom = CURRENCIES[fromCurrency]?.exchangeRateFromCAD || 1.0;
-    return rateToFrom !== 0 ? amount / rateToFrom : amount;
+    return convertAmount(amount, fromCurrency, 'CAD');
   };
 
   const formatNativeMoney = (
@@ -105,14 +124,46 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return formatMoney(cadAmount, options);
   };
 
-  const getExchangeRate = (from: CurrencyCode, to: CurrencyCode): number => {
-    if (liveFx?.rates) {
-      return calculateLiveCrossRate(from, to, liveFx.rates);
+  const formatAmountInTarget = (
+    amount: number,
+    fromCurrency: CurrencyCode,
+    options?: { showCode?: boolean; maximumFractionDigits?: number }
+  ): string => {
+    const converted = convertAmount(amount, fromCurrency, currentCurrency);
+    const maxDigits = options?.maximumFractionDigits !== undefined ? options.maximumFractionDigits : 2;
+    const formatted = converted.toLocaleString(undefined, {
+      minimumFractionDigits: maxDigits > 0 ? 2 : 0,
+      maximumFractionDigits: maxDigits
+    });
+    const codeSuffix = options?.showCode ? ` ${currencyConfig.code}` : '';
+    return `${currencyConfig.symbol}${formatted}${codeSuffix}`;
+  };
+
+  /**
+   * Returns primary display string (in current active currency)
+   * and if nativeCurrency != currentCurrency, also returns secondary native string
+   */
+  const formatDualCurrency = (
+    amount: number,
+    nativeCurrency: CurrencyCode
+  ): { primary: string; secondary?: string; isConverted: boolean } => {
+    if (!amount) {
+      return { primary: `${currencyConfig.symbol}0`, isConverted: false };
     }
-    const fromRate = CURRENCIES[from]?.exchangeRateFromCAD || 1.0;
-    const toRate = CURRENCIES[to]?.exchangeRateFromCAD || 1.0;
-    // 1 CAD = fromRate (from), 1 CAD = toRate (to) => 1 from = (toRate / fromRate) to
-    return toRate / fromRate;
+    const primary = formatAmountInTarget(amount, nativeCurrency);
+    if (nativeCurrency === currentCurrency) {
+      return { primary, isConverted: false };
+    }
+    const nativeCfg = CURRENCIES[nativeCurrency] || CURRENCIES.CAD;
+    const formattedNative = amount.toLocaleString(undefined, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    });
+    return {
+      primary,
+      secondary: `(Orig: ${nativeCfg.symbol}${formattedNative} ${nativeCfg.code})`,
+      isConverted: true
+    };
   };
 
   const getLiveRateVsUsd = (code: CurrencyCode): number => {
@@ -150,6 +201,9 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         formatNativeMoney,
         convertToCAD,
         convertFromCAD,
+        convertAmount,
+        formatAmountInTarget,
+        formatDualCurrency,
         currencyConfig,
         getExchangeRate,
         liveFx,

@@ -51,15 +51,17 @@ export const VendorsPage: React.FC<VendorsProps> = ({ dbState }) => {
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Contractor & Vendor Directory</h1>
-          <p className="text-sm text-slate-500">Approved trade contractors, service areas & maintenance dispatch records</p>
+      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+          <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Contractor & Vendor Directory</h1>
+          <span className="hidden sm:inline text-cream-400 font-light">|</span>
+          <p className="text-sm text-stone-600">Approved trade contractors, service areas & maintenance dispatch records</p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+          className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4" /> Add Trade Vendor
         </button>

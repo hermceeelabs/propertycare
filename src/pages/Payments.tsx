@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CreditCard, DollarSign, Search, Filter } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
+import { DualCurrencyDisplay } from '../components/DualCurrencyDisplay';
 
 interface PaymentsProps {
   dbState: DatabaseState;
@@ -141,9 +142,30 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
                     <td className="p-4 font-bold text-slate-900">{tenant?.first_name} {tenant?.last_name}</td>
                     <td className="p-4 text-slate-700 font-medium">{property?.name} (Unit {unit?.unit_number})</td>
                     <td className="p-4 text-slate-600 font-medium">{p.due_date}</td>
-                    <td className="p-4 font-bold text-slate-900">{formatMoney(convertToCAD(p.amount_due, nativeCurr))}</td>
-                    <td className="p-4 text-emerald-600 font-bold">{formatMoney(convertToCAD(p.amount_paid, nativeCurr))}</td>
-                    <td className="p-4 font-bold text-rose-600">{formatMoney(convertToCAD(balance, nativeCurr))}</td>
+                    <td className="p-4 font-bold text-slate-900">
+                      <DualCurrencyDisplay
+                        amount={p.amount_due}
+                        nativeCurrency={nativeCurr}
+                        primaryClassName="font-bold text-slate-900"
+                        secondaryClassName="text-[10px] text-stone-400 block"
+                      />
+                    </td>
+                    <td className="p-4 text-emerald-600 font-bold">
+                      <DualCurrencyDisplay
+                        amount={p.amount_paid}
+                        nativeCurrency={nativeCurr}
+                        primaryClassName="font-bold text-emerald-600"
+                        secondaryClassName="text-[10px] text-stone-400 block"
+                      />
+                    </td>
+                    <td className="p-4 font-bold text-rose-600">
+                      <DualCurrencyDisplay
+                        amount={balance}
+                        nativeCurrency={nativeCurr}
+                        primaryClassName="font-bold text-rose-600"
+                        secondaryClassName="text-[10px] text-stone-400 block"
+                      />
+                    </td>
                     <td className="p-4 text-right">
                       <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                         p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' :

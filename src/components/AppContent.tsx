@@ -56,12 +56,24 @@ export const AppContent: React.FC<AppContentProps> = ({
   setPreviewComm
 }) => {
   const { authResult, profile, isOwner, isVerifying, switchStakeholderRole } = usePermissions();
+  const mainScrollRef = React.useRef<HTMLElement>(null);
 
   const handleNavigate = (tab: NavTab) => {
     setCurrentTab(tab);
     if (tab !== 'properties') setSelectedPropertyId(null);
     if (tab !== 'tenants') setSelectedTenantId(null);
+    // Scroll to top of page when changing tabs
+    if (mainScrollRef.current) {
+      mainScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
+
+  // Scroll to top whenever tab or selected property/tenant changes
+  React.useEffect(() => {
+    if (mainScrollRef.current) {
+      mainScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentTab, selectedPropertyId, selectedTenantId]);
 
   const pendingTasksCount = dbState.tasks.filter(t => t.status === 'Pending').length;
 
@@ -161,7 +173,7 @@ export const AppContent: React.FC<AppContentProps> = ({
           authUser={authUser}
         />
 
-        <main className="flex-1 overflow-y-auto bg-cream-100">
+        <main ref={mainScrollRef} className="flex-1 overflow-y-auto bg-cream-100">
           {currentTab === 'dashboard' && (
             <Dashboard
               dbState={dbState}
