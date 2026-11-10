@@ -555,7 +555,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               </div>
 
               {/* Properties List with Grouped Horizontal Cards */}
-              <div className="space-y-5">
+              <div className="space-y-6">
                 {(selectedPropertyId ? ownedProperties.filter(p => p.id === selectedPropertyId) : ownedProperties).map(prop => {
                   const propUnits = ownedUnits.filter(u => u.property_id === prop.id);
                   const propOccupiedUnits = propUnits.filter(u => u.status === 'Occupied');
@@ -574,80 +574,95 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                   return (
                     <div
                       key={prop.id}
-                      className="bg-white rounded-2xl border border-stone-200/90 shadow-xs hover:shadow-sm transition-all overflow-hidden"
+                      className="bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:shadow-md transition-all overflow-hidden"
                     >
-                      {/* Top Property Strip: Compact, Clean and Balanced */}
-                      <div className="p-5 bg-stone-50/70 border-b border-stone-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        {/* Left: Identity and Tags */}
-                        <div className="space-y-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <h2 className="text-base font-extrabold text-stone-900 tracking-tight">{prop.name}</h2>
-                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-stone-200/80 text-stone-700">
+                      {/* Top Property Header: Premium Card Layout */}
+                      <div className="p-6 bg-gradient-to-r from-stone-50/80 via-white to-stone-50/40 border-b border-stone-200/80 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+                        {/* Left: Building Identity & Badges */}
+                        <div className="space-y-3 min-w-0 max-w-2xl">
+                          <div className="flex items-center gap-2.5 flex-wrap">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 font-black flex items-center justify-center shrink-0 border border-amber-200 shadow-2xs">
+                              <Building2 className="w-5 h-5 text-amber-700" />
+                            </div>
+                            <div className="min-w-0">
+                              <h2 className="text-xl font-black text-stone-900 tracking-tight leading-tight">{prop.name}</h2>
+                              <p className="text-xs text-stone-500 mt-0.5">
+                                {prop.address}, {prop.postal_code}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-wrap text-xs">
+                            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-stone-100 text-stone-700 border border-stone-200/80">
                               {prop.property_type}
                             </span>
-                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
+                            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200/80">
                               {prop.city}, {prop.province}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                            <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold ${
                               propOccupancyRate >= 75
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                                : 'bg-amber-50 text-amber-700 border border-amber-200/60'
+                                ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                                : 'bg-amber-50 text-amber-800 border border-amber-200'
                             }`}>
-                              {propOccupancyRate}% Occupied ({propOccupiedUnits.length}/{propUnits.length})
+                              {propOccupancyRate}% Occupied ({propOccupiedUnits.length} of {propUnits.length} Units)
+                            </span>
+                            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-stone-100 text-stone-600 border border-stone-200/80">
+                              {prop.acquisition?.acquisition_type || 'Direct Asset'}
                             </span>
                           </div>
-                          <p className="text-xs text-stone-500 truncate">
-                            {prop.address}, {prop.postal_code} • <span className="font-medium text-stone-600">{prop.acquisition?.acquisition_type || 'Direct Asset'}</span>
-                          </p>
                         </div>
 
-                        {/* Right: Financial Badges and Action Button */}
-                        <div className="flex items-center gap-3 shrink-0 flex-wrap">
-                          <div className="px-3.5 py-1.5 bg-white rounded-xl border border-stone-200 text-right">
-                            <span className="text-[9px] font-bold text-stone-400 uppercase tracking-wider block">Monthly Gross</span>
+                        {/* Right: Key Financials & Details Button */}
+                        <div className="flex items-stretch gap-3 shrink-0 flex-wrap sm:flex-nowrap">
+                          {/* Monthly Yield */}
+                          <div className="px-4 py-3 bg-stone-50 rounded-2xl border border-stone-200/90 text-right min-w-[140px] flex flex-col justify-center">
+                            <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">Monthly Gross</span>
                             <DualCurrencyDisplay
                               amount={propGrossMonthly}
                               nativeCurrency={nativeCurr}
-                              primaryClassName="text-xs font-black text-stone-900"
-                              secondaryClassName="text-[9px] text-stone-400 block font-normal"
+                              primaryClassName="text-base font-black text-stone-900 leading-snug"
+                              secondaryClassName="text-[10px] text-stone-400 block font-normal"
                             />
                           </div>
 
-                          <div className="px-3.5 py-1.5 bg-white rounded-xl border border-stone-200 text-right">
-                            <span className="text-[9px] font-bold text-rose-500 uppercase tracking-wider block">Logged Costs</span>
+                          {/* Logged Costs */}
+                          <div className="px-4 py-3 bg-rose-50/50 rounded-2xl border border-rose-200/80 text-right min-w-[140px] flex flex-col justify-center">
+                            <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">Logged Costs</span>
                             <DualCurrencyDisplay
                               amount={propTotalExpenses}
                               nativeCurrency={nativeCurr}
-                              primaryClassName="text-xs font-black text-rose-700"
-                              secondaryClassName="text-[9px] text-rose-500/80 block font-normal"
+                              primaryClassName="text-base font-black text-rose-700 leading-snug"
+                              secondaryClassName="text-[10px] text-rose-500/80 block font-normal"
                             />
                           </div>
 
+                          {/* Action Button */}
                           <button
                             onClick={() => setSelectedPropertyDetail(prop)}
-                            className="px-3.5 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                            className="px-4 py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-2xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 shadow-xs hover:shadow-md"
                           >
-                            <Building2 className="w-3.5 h-3.5" /> Property Details
+                            <Building2 className="w-4 h-4 text-amber-400" />
+                            <span>Property Card</span>
                           </button>
                         </div>
                       </div>
 
-                      {/* Bottom Units Grid */}
-                      <div className="p-5 bg-white space-y-3">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-stone-500 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                            <Home className="w-3.5 h-3.5 text-stone-400" />
-                            Inventory & Units ({propUnits.length})
-                          </span>
-                          <span className="text-[11px] text-stone-400">Click a suite for lease & expense history</span>
+                      {/* Bottom Units Grid Section */}
+                      <div className="p-6 bg-white space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-xs font-extrabold text-stone-700 uppercase tracking-wider flex items-center gap-2">
+                            <Home className="w-4 h-4 text-stone-400" />
+                            Portfolio Units & Resident Ledger ({propUnits.length})
+                          </h3>
+                          <span className="text-[11px] text-stone-400">Click any suite for full tenant, lease, and expense history</span>
                         </div>
 
                         {propUnits.length === 0 ? (
-                          <div className="p-5 text-center text-xs text-stone-400 italic bg-stone-50/60 rounded-xl border border-dashed border-stone-200">
+                          <div className="p-6 text-center text-xs text-stone-400 italic bg-stone-50 rounded-2xl border border-dashed border-stone-200">
                             No units registered for this building.
                           </div>
                         ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                             {propUnits.map(unit => {
                               const activeLease = (dbState.leases || []).find(l => l.unit_id === unit.id && l.status === 'Active');
                               const tenant = activeLease ? (dbState.tenants || []).find(t => t.id === activeLease.tenant_id) : null;
@@ -659,58 +674,58 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                                 <div
                                   key={unit.id}
                                   onClick={() => setSelectedUnitDetail(unit)}
-                                  className="group p-3.5 bg-stone-50/60 hover:bg-white border border-stone-200 hover:border-brand-500 rounded-xl transition-all cursor-pointer flex flex-col justify-between space-y-2.5 hover:shadow-sm"
+                                  className="group p-4 bg-stone-50/70 hover:bg-white border border-stone-200 hover:border-brand-500 rounded-2xl transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-2xs hover:shadow-md"
                                 >
-                                  {/* Unit Header */}
-                                  <div className="flex items-start justify-between gap-1.5">
-                                    <div className="min-w-0">
+                                  {/* Top Unit Badges */}
+                                  <div className="flex items-start justify-between gap-2">
+                                    <div>
                                       <div className="flex items-center gap-1.5 flex-wrap">
-                                        <span className="font-extrabold text-xs text-stone-900 group-hover:text-brand-600 transition-colors">
+                                        <span className="font-extrabold text-sm text-stone-900 group-hover:text-brand-600 transition-colors">
                                           Unit {unit.unit_number}
                                         </span>
                                         {isShortlet ? (
-                                          <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-purple-100 text-purple-800">
+                                          <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-purple-100 text-purple-800 border border-purple-200/80">
                                             Shortlet
                                           </span>
                                         ) : (
-                                          <span className="px-1.5 py-0.2 rounded text-[9px] font-medium bg-stone-200/70 text-stone-600">
-                                            {unit.unit_type || 'Apt'}
+                                          <span className="px-2 py-0.5 rounded-md text-[9px] font-semibold bg-stone-200/80 text-stone-700">
+                                            {unit.unit_type || 'Apartment'}
                                           </span>
                                         )}
                                       </div>
-                                      <span className="text-[10px] text-stone-400 block mt-0.5">
+                                      <span className="text-[11px] text-stone-500 block mt-1 font-medium">
                                         {unit.bedrooms} Bed • {unit.bathrooms} Bath • {unit.square_feet || 950} sqft
                                       </span>
                                     </div>
 
-                                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold shrink-0 ${
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
                                       unit.status === 'Occupied'
-                                        ? 'bg-emerald-100 text-emerald-800'
-                                        : 'bg-amber-100 text-amber-800'
+                                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                        : 'bg-amber-100 text-amber-800 border border-amber-200'
                                     }`}>
                                       {unit.status}
                                     </span>
                                   </div>
 
-                                  {/* Unit Tenant & Financials */}
-                                  <div className="pt-2 border-t border-stone-200/60 space-y-1 text-xs">
+                                  {/* Bottom Tenant & Rent Info */}
+                                  <div className="pt-2.5 border-t border-stone-200/70 space-y-1.5 text-xs">
                                     <div className="flex justify-between items-center text-[11px]">
-                                      <span className="text-stone-400">Resident:</span>
-                                      <span className="font-semibold text-stone-800 truncate max-w-[110px]">
+                                      <span className="text-stone-400 font-medium">Resident:</span>
+                                      <span className="font-bold text-stone-800 truncate max-w-[120px]">
                                         {tenant ? `${tenant.first_name} ${tenant.last_name}` : <span className="text-stone-400 font-normal italic">Vacant</span>}
                                       </span>
                                     </div>
 
                                     <div className="flex justify-between items-center text-[11px]">
-                                      <span className="text-stone-400">Rent:</span>
+                                      <span className="text-stone-400 font-medium">Contracted:</span>
                                       <span className="font-black text-stone-900">
                                         {formatMoney(convertAmount(unit.monthly_rent || 0, nativeCurr, currentCurrency))}
                                       </span>
                                     </div>
 
                                     {unitExpenseTotal > 0 && (
-                                      <div className="flex justify-between items-center text-[10px] pt-1 border-t border-stone-100">
-                                        <span className="text-rose-500">Unit Costs:</span>
+                                      <div className="flex justify-between items-center text-[10px] pt-1.5 border-t border-stone-200/40">
+                                        <span className="text-rose-500 font-medium">Unit Costs:</span>
                                         <span className="font-bold text-rose-700">
                                           {formatMoney(convertAmount(unitExpenseTotal, nativeCurr, currentCurrency))}
                                         </span>
