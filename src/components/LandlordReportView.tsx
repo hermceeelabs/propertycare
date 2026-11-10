@@ -265,31 +265,31 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
         </div>
       </div>
 
-      {/* Printable Report Header (visible on screen and in print) */}
-      <div className="bg-stone-900 text-white rounded-2xl p-6 shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      {/* Printable Report Header / Cover Banner */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print:border print:border-stone-800 print:text-black print:bg-white print:p-4">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-emerald-400 print:text-emerald-700 text-xs font-bold uppercase tracking-wider mb-1">
             <Landmark className="w-4 h-4" />
-            <span>Official Investor Portfolio Report</span>
+            <span>Official Investor Portfolio Audit Report</span>
           </div>
-          <h2 className="text-xl font-black tracking-tight text-white">
+          <h2 className="text-xl font-black tracking-tight text-white print:text-stone-900">
             {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
           </h2>
-          <p className="text-xs text-stone-300 mt-0.5">
-            Covered timeframe: <span className="font-bold text-white">{startDate}</span> to <span className="font-bold text-white">{endDate}</span> • Currency: {currencyConfig.code} ({currencyConfig.symbol})
+          <p className="text-xs text-stone-300 print:text-stone-600 mt-0.5">
+            Covered timeframe: <strong className="text-white print:text-stone-900">{startDate}</strong> to <strong className="text-white print:text-stone-900">{endDate}</strong> • Base Currency: {currencyConfig.code} ({currencyConfig.symbol}) • Generated: {new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
           </p>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 print:gap-4">
           <div className="text-right">
-            <span className="text-[10px] text-stone-400 uppercase font-bold block">Inflow Collections</span>
-            <span className="text-lg font-black text-emerald-400">
+            <span className="text-[10px] text-stone-400 print:text-stone-500 uppercase font-bold block">Inflow Collections</span>
+            <span className="text-lg font-black text-emerald-400 print:text-emerald-700">
               {currencyConfig.symbol}{totalRevenueInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </span>
           </div>
-          <div className="text-right border-l border-stone-800 pl-6">
-            <span className="text-[10px] text-stone-400 uppercase font-bold block">Total Incurred Expenses</span>
-            <span className="text-lg font-black text-rose-400">
+          <div className="text-right border-l border-stone-800 print:border-stone-300 pl-6 print:pl-4">
+            <span className="text-[10px] text-stone-400 print:text-stone-500 uppercase font-bold block">Total Incurred Expenses</span>
+            <span className="text-lg font-black text-rose-400 print:text-rose-700">
               {currencyConfig.symbol}{totalExpenseInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </span>
           </div>
@@ -400,10 +400,26 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                       {sharedAttachments.length > 0 && (
                         <div className="pt-2 border-t border-stone-200 space-y-2">
                           <span className="text-[11px] uppercase tracking-wider font-bold text-stone-400 block">
-                            Attached Media Proofs ({sharedAttachments.length})
+                            Field Media Verification ({sharedAttachments.length} item{sharedAttachments.length !== 1 ? 's' : ''})
                           </span>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {/* Print Mode: Clean text audit summary of multimedia records */}
+                          <div className="hidden print:block space-y-1 text-xs text-stone-700 bg-white p-3 rounded-lg border border-stone-200">
+                            {sharedAttachments.map((att, attIdx) => (
+                              <div key={att.id || attIdx} className="flex items-baseline justify-between text-[11px]">
+                                <span>
+                                  <strong>[{att.file_type.toUpperCase()}] {att.file_name}</strong>
+                                  {att.caption ? ` — ${att.caption}` : ''}
+                                </span>
+                                <span className="text-stone-500 font-mono text-[10px]">
+                                  Recorded by {att.recorded_by || insp.team_lead_name}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Screen Mode: Interactive player and preview cards */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 print:hidden">
                             {sharedAttachments.map(att => (
                               <div
                                 key={att.id}
@@ -539,25 +555,33 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                           <td className="p-3 text-center whitespace-nowrap">
                             {allProofs.length > 0 ? (
                               <div className="flex items-center justify-center gap-1.5">
-                                {allProofs.map((p, pIdx) => (
-                                  <button
-                                    key={p.id || pIdx}
-                                    type="button"
-                                    onClick={() => setActiveMediaModal({
-                                      type: 'document',
-                                      url: p.file_url,
-                                      title: p.file_name,
-                                      caption: p.caption || `Invoice: ${exp.invoice_number || exp.description}`
-                                    })}
-                                    className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-md font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors border border-stone-200"
-                                  >
-                                    <Paperclip className="w-3 h-3 text-stone-500" />
-                                    <span>Proof {pIdx + 1}</span>
-                                  </button>
-                                ))}
+                                {/* Print Mode: Clear text proof reference */}
+                                <div className="hidden print:block text-[10px] text-stone-600 font-mono">
+                                  {allProofs.map(p => p.file_name).join(', ')}
+                                </div>
+
+                                {/* Screen Mode: Interactive view button */}
+                                <div className="flex items-center justify-center gap-1.5 print:hidden">
+                                  {allProofs.map((p, pIdx) => (
+                                    <button
+                                      key={p.id || pIdx}
+                                      type="button"
+                                      onClick={() => setActiveMediaModal({
+                                        type: 'document',
+                                        url: p.file_url,
+                                        title: p.file_name,
+                                        caption: p.caption || `Invoice: ${exp.invoice_number || exp.description}`
+                                      })}
+                                      className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-md font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors border border-stone-200"
+                                    >
+                                      <Paperclip className="w-3 h-3 text-stone-500" />
+                                      <span>Proof {pIdx + 1}</span>
+                                    </button>
+                                  ))}
+                                </div>
                               </div>
                             ) : (
-                              <span className="text-[11px] text-stone-400 italic">Direct Debit</span>
+                              <span className="text-[11px] text-stone-400 italic">Direct Settlement</span>
                             )}
                           </td>
                         </tr>

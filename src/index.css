@@ -8,7 +8,66 @@
   }
 }
 
-/* Custom scrollbars */
+/* Print Styles: Clean Document Export */
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 12mm 15mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt;
+  }
+
+  /* Hide navigation, sidebars, headers, action buttons, modals and backgrounds */
+  aside,
+  header,
+  footer,
+  nav,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset layout constraints so report document flows naturally across pages */
+  html, body, #root, .flex, .overflow-hidden, .overflow-y-auto {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    position: static !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  /* Card and Table Print Styling */
+  .bg-white, .bg-stone-50, .bg-cream-50, .bg-cream-100 {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .border, .border-stone-200, .border-stone-100 {
+    border-color: #e5e7eb !important;
+  }
+
+  /* Page break rules */
+  .break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
