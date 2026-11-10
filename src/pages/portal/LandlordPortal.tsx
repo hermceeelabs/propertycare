@@ -296,13 +296,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               <div className="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-xs">PF</div>
               <span className="font-bold text-xs text-stone-900">Landlord Portal</span>
             </div>
-
-            <div className="hidden md:flex items-center gap-2 text-xs text-stone-500">
-              <Landmark className="w-4 h-4 text-brand-600" />
-              <span>Investor Directory</span>
-              <ChevronRight className="w-3.5 h-3.5 text-stone-300" />
-              <span className="font-bold text-stone-900">{landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}</span>
-            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -325,23 +318,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 ))}
               </select>
             </div>
-
-            {/* Quick Actions */}
-            <button
-              onClick={() => window.print()}
-              className="px-3.5 py-1.5 bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
-            >
-              <Printer className="w-3.5 h-3.5 text-stone-600" />
-              <span className="hidden sm:inline">Print Statement</span>
-            </button>
-
-            <button
-              onClick={() => alert(`Generating official statement for ${landlord.company_name || landlord.first_name}...`)}
-              className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Download PDF</span>
-            </button>
           </div>
         </header>
 
