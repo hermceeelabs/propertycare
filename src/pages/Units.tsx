@@ -15,7 +15,7 @@ interface UnitsProps {
 }
 
 export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
-  const [modelFilter, setModelFilter] = useState<'All' | 'Long-Term' | 'Shortlet'>('All');
+  const [activeTab, setActiveTab] = useState<'All' | 'Long-Term' | 'Shortlet'>('All');
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [search, setSearch] = useState('');
   const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
@@ -31,9 +31,9 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const filteredUnits = dbState.units.filter(unit => {
     const isShortlet = unit.rental_model === 'Shortlet / STR';
     const matchesModel =
-      modelFilter === 'All'
+      activeTab === 'All'
         ? true
-        : modelFilter === 'Shortlet'
+        : activeTab === 'Shortlet'
         ? isShortlet
         : !isShortlet;
 
@@ -68,37 +68,55 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Suites & Shortlet Inventory</h1>
-        <span className="hidden sm:inline text-cream-400 font-light">|</span>
-        <p className="text-sm text-stone-600">
-          Unified management for Long-Term residential leases and Shortlet / Airbnb vacation rentals
+      {/* Page Header: Clean Title & Subtitle */}
+      <div>
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Suites & Residential Inventory</h1>
+        <p className="text-sm text-stone-600 mt-1">
+          Unified portfolio management for long-term residential leases, apartment suites, and shortlet vacation rentals
         </p>
       </div>
 
       {/* Visual Horizontal Separator */}
       <hr className="border-t border-slate-800/80" />
 
-      {/* Controls Line: Filters & Actions (All on a single horizontal line) */}
-      <div className="flex items-center gap-3 overflow-x-auto bg-cream-50 p-3 rounded-2xl border border-cream-300 shadow-xs no-scrollbar">
-        {/* Inventory Model Dropdown */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <label htmlFor="unit-model-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-            TYPE:
-          </label>
-          <select
-            id="unit-model-select"
-            value={modelFilter}
-            onChange={(e) => setModelFilter(e.target.value as any)}
-            className="bg-white text-stone-800 text-xs font-semibold px-3 py-2 rounded-xl border border-cream-300 shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden cursor-pointer"
+      {/* Segmentation Tabs Bar */}
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-center bg-cream-100 p-1 rounded-2xl border border-cream-300">
+          <button
+            onClick={() => setActiveTab('All')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+              activeTab === 'All'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+            }`}
           >
-            <option value="All">All Units ({dbState.units.length})</option>
-            <option value="Long-Term">Long-Term Leases ({longTermUnits.length})</option>
-            <option value="Shortlet">Shortlets / STR ({shortletUnits.length})</option>
-          </select>
+            <Home className="w-3.5 h-3.5" /> All Units ({dbState.units.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('Long-Term')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+              activeTab === 'Long-Term'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+            }`}
+          >
+            <Building2 className="w-3.5 h-3.5" /> Apartments / Long-Term ({longTermUnits.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('Shortlet')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+              activeTab === 'Shortlet'
+                ? 'bg-purple-800 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-300" /> Shortlets / Vacation Rentals ({shortletUnits.length})
+          </button>
         </div>
+      </div>
 
+      {/* Controls Line: Status, Search & Action Buttons on a single horizontal line */}
+      <div className="flex items-center gap-3 overflow-x-auto bg-cream-50 p-3 rounded-2xl border border-cream-300 shadow-xs no-scrollbar">
         {/* Occupancy Status Dropdown */}
         <div className="flex items-center gap-1.5 shrink-0">
           <label htmlFor="unit-status-select" className="text-xs font-bold text-stone-600 uppercase tracking-wider">
@@ -117,7 +135,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
         </div>
 
         {/* Search Input */}
-        <div className="shrink-0 min-w-[170px] max-w-[220px]">
+        <div className="shrink-0 min-w-[200px] max-w-[280px]">
           <input
             type="text"
             placeholder="Search unit # or layout..."
@@ -129,15 +147,17 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
 
         {/* Action Buttons Spacer & Buttons */}
         <div className="flex items-center gap-2.5 ml-auto shrink-0">
-          <button
-            onClick={() => {
-              setActiveBookingUnitId(undefined);
-              setIsAddBookingOpen(true);
-            }}
-            className="px-3.5 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap"
-          >
-            <Sparkles className="w-4 h-4" /> Record Shortlet Booking
-          </button>
+          {(activeTab === 'All' || activeTab === 'Shortlet') && (
+            <button
+              onClick={() => {
+                setActiveBookingUnitId(undefined);
+                setIsAddBookingOpen(true);
+              }}
+              className="px-3.5 py-2 bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap"
+            >
+              <Sparkles className="w-4 h-4" /> Record Shortlet Booking
+            </button>
+          )}
 
           <button
             onClick={() => setIsAddUnitOpen(true)}

@@ -72,7 +72,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           { id: 'properties' as NavTab, label: 'Properties & Assets', icon: Building2 },
           { id: 'landlords' as NavTab, label: 'Landlord Clients', icon: Landmark }
         ] : []),
-        { id: 'units', label: 'Suites & Shortlets', icon: Home, badge: 'STR' },
+        { id: 'units', label: 'Suites & Units', icon: Home },
         { id: 'tenants', label: 'Tenants & Screening', icon: Users }
       ]
     },
