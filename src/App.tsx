@@ -56,7 +56,11 @@ export function App() {
       setAuthLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Ignore background TOKEN_REFRESHED events to avoid triggering unnecessary full dashboard re-renders
+      if (event === 'TOKEN_REFRESHED') {
+        return;
+      }
       setAuthUser(session?.user || null);
       setAuthLoading(false);
     });

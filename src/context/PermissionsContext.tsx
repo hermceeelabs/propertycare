@@ -46,6 +46,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [authResult, setAuthResult] = useState<StakeholderAuthResult | null>(null);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
+  const verifiedUserIdRef = React.useRef<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -56,10 +57,19 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Ignore background TOKEN_REFRESHED events to prevent full dashboard unmount/refresh when switching tabs
+      if (event === 'TOKEN_REFRESHED') {
+        return;
+      }
+
       if (session?.user) {
-        verifyStakeholder(session.user);
+        // Only run full stakeholder verification if user has changed or not yet verified
+        if (verifiedUserIdRef.current !== session.user.id) {
+          verifyStakeholder(session.user);
+        }
       } else {
+        verifiedUserIdRef.current = null;
         setProfile(null);
         setAuthResult(null);
         setIsVerifying(false);
@@ -143,6 +153,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           updated_at: matchedLandlord.updated_at
         };
 
+        verifiedUserIdRef.current = user.id;
         setProfile(landlordProfile);
         setAuthResult({
           authorized: true,
@@ -204,6 +215,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           updated_at: tenantMatch.updated_at
         };
 
+        verifiedUserIdRef.current = user.id;
         setProfile(tenantProfile);
         setAuthResult({
           authorized: true,
@@ -265,6 +277,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           updated_at: vendorMatch.updated_at
         };
 
+        verifiedUserIdRef.current = user.id;
         setProfile(vendorProfile);
         setAuthResult({
           authorized: true,
@@ -311,6 +324,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           updated_at: profileMatch.updated_at
         };
 
+        verifiedUserIdRef.current = user.id;
         setProfile(userProfile);
         setAuthResult({
           authorized: true,
@@ -323,6 +337,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
 
       // 5. Account Not Found in ANY System Directory -> Deny Access
+      verifiedUserIdRef.current = user.id;
       setAuthResult({
         authorized: false,
         stakeholderType: null,
@@ -333,6 +348,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
       setProfile(null);
     } catch (err: any) {
       console.error('Stakeholder verification failed:', err);
+      verifiedUserIdRef.current = null;
       setAuthResult({
         authorized: false,
         stakeholderType: null,
