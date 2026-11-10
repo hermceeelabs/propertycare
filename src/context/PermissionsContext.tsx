@@ -70,67 +70,20 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, []);
 
   /**
-   * VERIFIES USER AGAINST ALL SYSTEM TABLES:
-   * 1. Staff / Profiles (Admin, Owner, Manager)
-   * 2. Landlords (Property Owners)
-   * 3. Tenants (Active Residents)
-   * 4. Vendors (Trade Contractors)
+   * VERIFIES USER AGAINST SYSTEM DIRECTORIES:
+   * STRICT HIERARCHY:
+   * 1. Landlords (Property Owners & Authorized Representatives) -> Direct to Landlord Portal
+   * 2. Tenants (Active Residents) -> Direct to Tenant Portal
+   * 3. Vendors (Trade Contractors) -> Direct to Contractor Portal
+   * 4. Profiles (STRICTLY Company Staff & Executives) -> Operations Admin Workspace
+   * 5. Unregistered Identity -> Access Denied
    */
   const verifyStakeholder = async (user: any) => {
     setIsVerifying(true);
     const email = (user.email || '').toLowerCase().trim();
 
     try {
-      // 1. Check Profiles table (Staff & Owner)
-      const { data: profileMatch } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('email', email)
-        .maybeSingle();
-
-      // If profile is explicitly a landlord, route them directly to landlord portal
-      if (profileMatch && profileMatch.user_type === 'landlord' && !profileMatch.is_owner) {
-        // Fall through to Landlord resolution below
-      } else if (profileMatch) {
-        const isStatusActive = (profileMatch as any).status !== 'Suspended' && (profileMatch as any).status !== 'Inactive';
-        if (!isStatusActive) {
-          setAuthResult({
-            authorized: false,
-            stakeholderType: profileMatch.user_type as any,
-            status: (profileMatch as any).status,
-            profileData: profileMatch,
-            rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
-          });
-          setIsVerifying(false);
-          return;
-        }
-
-        const userProfile: UserProfile = {
-          id: profileMatch.id,
-          email: profileMatch.email,
-          full_name: profileMatch.full_name || user.user_metadata?.full_name,
-          avatar_url: profileMatch.avatar_url || user.user_metadata?.avatar_url,
-          phone: profileMatch.phone,
-          is_owner: !!profileMatch.is_owner,
-          user_type: profileMatch.user_type as UserType,
-          permissions: profileMatch.is_owner ? DEFAULT_OWNER_PERMISSIONS : (profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS),
-          assigned_properties: profileMatch.assigned_properties || [],
-          created_at: profileMatch.created_at,
-          updated_at: profileMatch.updated_at
-        };
-
-        setProfile(userProfile);
-        setAuthResult({
-          authorized: true,
-          stakeholderType: profileMatch.is_owner ? 'owner' : 'staff',
-          status: 'Active',
-          profileData: userProfile
-        });
-        setIsVerifying(false);
-        return;
-      }
-
-      // 2. Check Landlords table (Primary Landlord OR Authorized Legal Representative)
+      // 1. CHECK LANDLORDS TABLE FIRST (Primary Owner OR Authorized Legal Representative)
       let allLandlords = store.getState().landlords || [];
       try {
         const { data: dbLandlords } = await supabase
@@ -201,7 +154,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 3. Check Tenants table
+      // 2. CHECK TENANTS TABLE
       let tenantMatch = null;
       try {
         const { data: dbTenant } = await supabase
@@ -262,7 +215,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 4. Check Vendors table
+      // 3. CHECK VENDORS TABLE (Trade Contractors)
       let vendorMatch = null;
       try {
         const { data: dbVendor } = await supabase
@@ -318,6 +271,52 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           stakeholderType: 'contractor',
           status: 'Active',
           profileData: vendorMatch
+        });
+        setIsVerifying(false);
+        return;
+      }
+
+      // 4. CHECK PROFILES TABLE (STRICTLY Internal Company Staff & Master Owner)
+      const { data: profileMatch } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('email', email)
+        .maybeSingle();
+
+      if (profileMatch) {
+        const isStatusActive = (profileMatch as any).status !== 'Suspended' && (profileMatch as any).status !== 'Inactive';
+        if (!isStatusActive) {
+          setAuthResult({
+            authorized: false,
+            stakeholderType: profileMatch.user_type as any,
+            status: (profileMatch as any).status,
+            profileData: profileMatch,
+            rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
+          });
+          setIsVerifying(false);
+          return;
+        }
+
+        const userProfile: UserProfile = {
+          id: profileMatch.id,
+          email: profileMatch.email,
+          full_name: profileMatch.full_name || user.user_metadata?.full_name,
+          avatar_url: profileMatch.avatar_url || user.user_metadata?.avatar_url,
+          phone: profileMatch.phone,
+          is_owner: !!profileMatch.is_owner,
+          user_type: profileMatch.user_type as UserType,
+          permissions: profileMatch.is_owner ? DEFAULT_OWNER_PERMISSIONS : (profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS),
+          assigned_properties: profileMatch.assigned_properties || [],
+          created_at: profileMatch.created_at,
+          updated_at: profileMatch.updated_at
+        };
+
+        setProfile(userProfile);
+        setAuthResult({
+          authorized: true,
+          stakeholderType: profileMatch.is_owner ? 'owner' : 'staff',
+          status: 'Active',
+          profileData: userProfile
         });
         setIsVerifying(false);
         return;
