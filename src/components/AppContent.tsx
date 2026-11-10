@@ -77,14 +77,14 @@ export const AppContent: React.FC<AppContentProps> = ({
 
   const pendingTasksCount = dbState.tasks.filter(t => t.status === 'Pending').length;
 
-  // 0. VERIFYING SPINNER (Prevents flashing or defaulting to Admin Workspace while query runs)
+  // 0. VERIFYING SPINNER (Clean, branded loading state without technical directory text)
   if (isVerifying || !authResult) {
     return (
       <div className="min-h-screen bg-stone-900 flex flex-col items-center justify-center p-8 text-stone-300 gap-4">
         <div className="w-10 h-10 border-3 border-stone-700 border-t-brand-500 rounded-full animate-spin" />
         <div className="text-center space-y-1">
-          <p className="text-sm font-bold text-white tracking-wide">Resolving Stakeholder Directory...</p>
-          <p className="text-xs text-stone-500">Checking Landlords, Leases, Staff & Contractor permissions</p>
+          <p className="text-sm font-bold text-white tracking-wide">Loading PropertyFlow...</p>
+          <p className="text-xs text-stone-500">Preparing your personalized dashboard workspace</p>
         </div>
       </div>
     );
