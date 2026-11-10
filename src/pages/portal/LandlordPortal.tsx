@@ -520,20 +520,23 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'properties' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                  <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Owned Assets & Unit Registry</h1>
-                  <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                  <p className="text-sm text-stone-600">
-                    Comprehensive tenant occupancy and live dual-currency rental yield breakdown across your {ownedProperties.length} properties
-                  </p>
-                </div>
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Owned Assets & Unit Registry</h1>
+                <span className="hidden sm:inline text-cream-400 font-light">|</span>
+                <p className="text-sm text-stone-600">
+                  Comprehensive tenant occupancy and live dual-currency rental yield breakdown across your {ownedProperties.length} properties
+                </p>
+              </div>
 
-                {/* Property Filter Dropdown */}
+              {/* Visual Horizontal Separator */}
+              <hr className="border-t border-slate-800/80" />
+
+              {/* Property Filter Dropdown */}
+              <div className="flex justify-end">
                 <select
                   value={selectedPropertyId || 'All'}
                   onChange={(e) => setSelectedPropertyId(e.target.value === 'All' ? null : e.target.value)}
-                  className="px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs self-start sm:self-auto"
+                  className="px-4 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs"
                 >
                   <option value="All">All Owned Properties ({ownedProperties.length})</option>
                   {ownedProperties.map(p => (
@@ -541,9 +544,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                   ))}
                 </select>
               </div>
-
-              {/* Visual Horizontal Separator */}
-              <hr className="border-t border-slate-800/80" />
 
               {/* Property Units Table */}
               <div className="bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden">
@@ -757,24 +757,26 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'delegates' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                  <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Legal Delegates & Representative Access</h1>
-                  <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                  <p className="text-sm text-stone-600">
-                    Manage attorney, accountant, and family representative sub-permissions for your portfolio
-                  </p>
-                </div>
-                <button
-                  onClick={() => setShowDelegateModal(true)}
-                  className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer shadow-xs"
-                >
-                  <UserPlus className="w-4 h-4 text-emerald-400" /> Add Authorized Delegate
-                </button>
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Legal Delegates & Representative Access</h1>
+                <span className="hidden sm:inline text-cream-400 font-light">|</span>
+                <p className="text-sm text-stone-600">
+                  Manage attorney, accountant, and family representative sub-permissions for your portfolio
+                </p>
               </div>
 
               {/* Visual Horizontal Separator */}
               <hr className="border-t border-slate-800/80" />
+
+              {/* Action Button Row */}
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setShowDelegateModal(true)}
+                  className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <UserPlus className="w-4 h-4 text-emerald-400" /> Add Authorized Delegate
+                </button>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {representatives.map(rep => (

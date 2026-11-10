@@ -137,40 +137,38 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Adopted Title and Subtitle Section Design with Divider */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
-        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-          <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
-            Portfolio Operational & Financial Audit
-          </h1>
-          <span className="hidden sm:inline text-cream-400 font-light">|</span>
-          <p className="text-sm text-stone-600">
-            Daily timeline, verified field inspections with media proofs & itemized expense invoices
-          </p>
-        </div>
-
-        {/* Export / Print Actions */}
-        <div className="flex items-center gap-2 print:hidden">
-          <button
-            onClick={handlePrint}
-            className="px-3.5 py-1.5 bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
-            title="Print or Save as PDF"
-          >
-            <Printer className="w-3.5 h-3.5 text-stone-600" />
-            <span>Print Report</span>
-          </button>
-          <button
-            onClick={handlePrint}
-            className="px-3.5 py-1.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
-            title="Export as Document"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export Document (PDF)</span>
-          </button>
-        </div>
+      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">
+          Portfolio Operational & Financial Audit
+        </h1>
+        <span className="hidden sm:inline text-cream-400 font-light">|</span>
+        <p className="text-sm text-stone-600">
+          Daily timeline, verified field inspections with media proofs & itemized expense invoices
+        </p>
       </div>
 
       {/* Visual Divider */}
       <hr className="border-t border-slate-800/80" />
+
+      {/* Export / Print Actions Row */}
+      <div className="flex justify-end gap-2 print:hidden">
+        <button
+          onClick={handlePrint}
+          className="px-3.5 py-1.5 bg-white hover:bg-stone-50 text-stone-800 border border-stone-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+          title="Print or Save as PDF"
+        >
+          <Printer className="w-3.5 h-3.5 text-stone-600" />
+          <span>Print Report</span>
+        </button>
+        <button
+          onClick={handlePrint}
+          className="px-3.5 py-1.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+          title="Export as Document"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span>Export Document (PDF)</span>
+        </button>
+      </div>
 
       {/* Interactive Date Range & Scope Controls */}
       <div className="bg-white rounded-2xl p-5 border border-stone-200 shadow-xs space-y-4 print:hidden">
