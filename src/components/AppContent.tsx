@@ -242,7 +242,7 @@ export const AppContent: React.FC<AppContentProps> = ({
           )}
 
           {currentTab === 'reports' && (
-            <FinancialsHub dbState={dbState} initialTab="reports" />
+            <ReportsPage dbState={dbState} />
           )}
 
           {currentTab === 'maintenance' && (

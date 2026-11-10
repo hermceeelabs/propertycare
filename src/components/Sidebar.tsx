@@ -80,7 +80,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       title: 'Operations Hubs',
       items: [
         ...(can('can_view_financials') ? [
-          { id: 'payments' as NavTab, label: 'Financial Operations Hub', icon: CreditCard }
+          { id: 'payments' as NavTab, label: 'Financial Operations Hub', icon: CreditCard },
+          { id: 'reports' as NavTab, label: 'Reports & Audits', icon: FileText }
         ] : []),
         ...(can('can_dispatch_maintenance') ? [
           { id: 'maintenance' as NavTab, label: 'Work Orders & Field Hub', icon: Wrench }
