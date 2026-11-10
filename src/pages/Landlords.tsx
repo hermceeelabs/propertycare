@@ -236,35 +236,35 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
         /* Landlords Directory View */
         <div className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Landlord Clients & Asset Owners</h1>
-              <p className="text-sm text-slate-500 mt-1">
-                Manage property owner accounts, remitted asset yields, management contracts & appointed legal delegates
-              </p>
-            </div>
-
-            <button
-              onClick={() => setIsOnboardModalOpen(true)}
-              className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-600/20 transition-all flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
-            >
-              <UserPlus className="w-4 h-4" /> Onboard Landlord Client
-            </button>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Landlord Clients & Asset Owners</h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Manage property owner accounts, remitted asset yields, management contracts & appointed legal delegates
+            </p>
           </div>
 
           {/* Decorative Divider */}
           <hr className="border-t border-slate-800/80" />
 
-          {/* Search bar */}
-          <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-xs">
-            <Search className="w-4 h-4 text-slate-400 ml-2" />
-            <input
-              type="text"
-              placeholder="Search landlords by name, holding company or email..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-hidden"
-            />
+          {/* Controls: Search bar & Onboard button on the same line */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-xs">
+              <Search className="w-4 h-4 text-slate-400 ml-2 shrink-0" />
+              <input
+                type="text"
+                placeholder="Search landlords by name, holding company or email..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-hidden"
+              />
+            </div>
+
+            <button
+              onClick={() => setIsOnboardModalOpen(true)}
+              className="px-4 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-2xl shadow-md shadow-amber-600/20 transition-all flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap"
+            >
+              <UserPlus className="w-4 h-4" /> Onboard Landlord Client
+            </button>
           </div>
 
           {/* Landlords Grid */}
