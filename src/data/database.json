@@ -1577,7 +1577,8 @@
       "status": "Assigned",
       "vendor_id": "ven-1",
       "created_at": "2026-08-20T14:30:00Z",
-      "updated_at": "2026-08-20T15:00:00Z"
+      "updated_at": "2026-08-20T15:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "maint-2",
@@ -1589,7 +1590,8 @@
       "status": "Vendor Accepted",
       "vendor_id": "ven-2",
       "created_at": "2026-08-19T09:15:00Z",
-      "updated_at": "2026-08-19T10:30:00Z"
+      "updated_at": "2026-08-19T10:30:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "maint-3",
@@ -1601,7 +1603,8 @@
       "status": "In Progress",
       "vendor_id": "ven-4",
       "created_at": "2026-08-18T11:00:00Z",
-      "updated_at": "2026-08-18T16:00:00Z"
+      "updated_at": "2026-08-18T16:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "maint-4",
@@ -1613,7 +1616,8 @@
       "status": "Assigned",
       "vendor_id": "ven-5",
       "created_at": "2026-08-21T08:45:00Z",
-      "updated_at": "2026-08-21T09:00:00Z"
+      "updated_at": "2026-08-21T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "maint-5",
@@ -1624,7 +1628,8 @@
       "priority": "Normal",
       "status": "New",
       "created_at": "2026-08-21T10:00:00Z",
-      "updated_at": "2026-08-21T10:00:00Z"
+      "updated_at": "2026-08-21T10:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "req-501",
@@ -1637,7 +1642,8 @@
       "assigned_vendor_id": "ven-1",
       "estimated_cost": 180,
       "created_at": "2026-06-10T10:00:00Z",
-      "updated_at": "2026-06-12T14:30:00Z"
+      "updated_at": "2026-06-12T14:30:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "req-502",
@@ -1651,7 +1657,8 @@
       "estimated_cost": 320,
       "actual_cost": 320,
       "created_at": "2026-06-11T10:00:00Z",
-      "updated_at": "2026-06-13T14:30:00Z"
+      "updated_at": "2026-06-13T14:30:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "req-503",
@@ -1665,7 +1672,8 @@
       "estimated_cost": 150,
       "actual_cost": 150,
       "created_at": "2026-06-12T10:00:00Z",
-      "updated_at": "2026-06-14T14:30:00Z"
+      "updated_at": "2026-06-14T14:30:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "req-504",
@@ -1678,7 +1686,8 @@
       "assigned_vendor_id": "ven-1",
       "estimated_cost": 120,
       "created_at": "2026-06-13T10:00:00Z",
-      "updated_at": "2026-06-15T14:30:00Z"
+      "updated_at": "2026-06-15T14:30:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "req-505",
@@ -1692,7 +1701,8 @@
       "estimated_cost": 210,
       "actual_cost": 210,
       "created_at": "2026-06-14T10:00:00Z",
-      "updated_at": "2026-06-16T14:30:00Z"
+      "updated_at": "2026-06-16T14:30:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "req-506",
@@ -1706,7 +1716,8 @@
       "estimated_cost": 95,
       "actual_cost": 95,
       "created_at": "2026-06-15T10:00:00Z",
-      "updated_at": "2026-06-17T14:30:00Z"
+      "updated_at": "2026-06-17T14:30:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "req-507",
@@ -1719,7 +1730,8 @@
       "assigned_vendor_id": "ven-3",
       "estimated_cost": 85,
       "created_at": "2026-06-16T10:00:00Z",
-      "updated_at": "2026-06-18T14:30:00Z"
+      "updated_at": "2026-06-18T14:30:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "req-508",
@@ -1733,7 +1745,8 @@
       "estimated_cost": 110,
       "actual_cost": 110,
       "created_at": "2026-06-17T10:00:00Z",
-      "updated_at": "2026-06-19T14:30:00Z"
+      "updated_at": "2026-06-19T14:30:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "req-509",
@@ -1747,7 +1760,8 @@
       "estimated_cost": 180,
       "actual_cost": 180,
       "created_at": "2026-06-18T10:00:00Z",
-      "updated_at": "2026-06-20T14:30:00Z"
+      "updated_at": "2026-06-20T14:30:00Z",
+      "property_id": "prop-5"
     },
     {
       "id": "req-510",
@@ -1760,7 +1774,8 @@
       "assigned_vendor_id": "ven-3",
       "estimated_cost": 320,
       "created_at": "2026-06-19T10:00:00Z",
-      "updated_at": "2026-06-21T14:30:00Z"
+      "updated_at": "2026-06-21T14:30:00Z",
+      "property_id": "prop-7"
     },
     {
       "id": "maint-gen-1",
