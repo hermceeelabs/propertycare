@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CreditCard, Receipt, BarChart3 } from 'lucide-react';
+import { CreditCard, Receipt, FileText } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { PaymentsPage } from './Payments';
 import { BillsPage } from './Bills';
@@ -23,7 +23,7 @@ export const FinancialsHub: React.FC<FinancialsHubProps> = ({
         <div className="flex items-center gap-2 bg-slate-900/5 p-1 rounded-2xl w-fit border border-slate-200">
           <button
             onClick={() => setActiveTab('payments')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'payments'
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
@@ -33,7 +33,7 @@ export const FinancialsHub: React.FC<FinancialsHubProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('bills')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'bills'
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
@@ -43,13 +43,13 @@ export const FinancialsHub: React.FC<FinancialsHubProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('reports')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'reports'
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
             }`}
           >
-            <BarChart3 className="w-4 h-4" /> Yield Analytics & P&L
+            <FileText className="w-4 h-4" /> Reports & Audits
           </button>
         </div>
 
