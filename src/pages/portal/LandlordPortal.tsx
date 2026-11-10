@@ -3,7 +3,7 @@ import { DatabaseState, supabase, store } from '../../services/supabase';
 import {
   Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2,
   UserPlus, Users, X, Lock, LogOut, LayoutDashboard, Home, FileText, CreditCard, Bell,
-  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag
+  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt
 } from 'lucide-react';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
@@ -28,6 +28,9 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     return (localStorage.getItem('propertyflow_landlord_tab') as LandlordNavTab) || 'overview';
   });
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);
+  const [activePropertyViewId, setActivePropertyViewId] = useState<string | null>(null);
+  const [unitFilterType, setUnitFilterType] = useState<'All' | 'Occupied' | 'Vacant' | 'Shortlet'>('All');
+  const [activeUnitTabId, setActiveUnitTabId] = useState<string | null>(null);
   const [selectedUnitDetail, setSelectedUnitDetail] = useState<Unit | null>(null);
   const [selectedPropertyDetail, setSelectedPropertyDetail] = useState<Property | null>(null);
   const [showDelegateModal, setShowDelegateModal] = useState(false);
@@ -522,7 +525,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           )}
 
           {/* =========================================================================
-              VIEW 2: OWNED ASSETS & UNITS (STRUCTURED HORIZONTAL PROPERTY CARDS & UNITS)
+              VIEW 2: OWNED ASSETS & UNITS (COMPACT CARD DIRECTORY & INLINE UNIFIED 360 HUB)
               ========================================================================= */}
           {currentTab === 'properties' && (
             <div className="space-y-6">
@@ -531,222 +534,426 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Owned Assets & Unit Registry</h1>
                 <span className="hidden sm:inline text-cream-400 font-light">|</span>
                 <p className="text-sm text-stone-600">
-                  Interactive real estate holdings with embedded unit layouts, live occupancy & property expense breakdown
+                  Select any building to view its unified financial ledger, maintenance records, and unit-by-unit resident breakdown
                 </p>
               </div>
 
               {/* Visual Horizontal Separator */}
               <hr className="border-t border-slate-800/80" />
 
-              {/* Property Filter and Search Bar */}
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
-                  <select
-                    value={selectedPropertyId || 'All'}
-                    onChange={(e) => setSelectedPropertyId(e.target.value === 'All' ? null : e.target.value)}
-                    className="px-3.5 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
-                  >
-                    <option value="All">All Holdings ({ownedProperties.length} Properties)</option>
-                    {ownedProperties.map(p => (
-                      <option key={p.id} value={p.id}>{p.name}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* If a property is selected for Unified Deep-Dive */}
+              {activePropertyViewId ? (() => {
+                const activeProp = ownedProperties.find(p => p.id === activePropertyViewId) || ownedProperties[0];
+                const propUnits = ownedUnits.filter(u => u.property_id === activeProp.id);
+                const propOccupiedUnits = propUnits.filter(u => u.status === 'Occupied');
+                const propOccupancyRate = propUnits.length > 0 ? Math.round((propOccupiedUnits.length / propUnits.length) * 100) : 0;
+                const nativeCurr = getPropNativeCurrency(activeProp.id);
+                const propExpenses = (dbState.expenses || []).filter(e => e.property_id === activeProp.id);
+                const propTotalExpenses = propExpenses.reduce((acc, e) => acc + (e.amount || 0), 0);
+                const propMaintenance = (dbState.maintenance_requests || []).filter(m => {
+                  const pId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
+                  return pId === activeProp.id;
+                });
+                const propInspections = (dbState.inspections || []).filter(i => i.property_id === activeProp.id);
 
-                <div className="text-xs text-stone-500 font-medium">
-                  Showing <span className="font-bold text-stone-900">{selectedPropertyId ? 1 : ownedProperties.length}</span> properties • <span className="font-bold text-stone-900">{selectedPropertyId ? ownedUnits.filter(u => u.property_id === selectedPropertyId).length : ownedUnits.length}</span> total suites
-                </div>
-              </div>
+                // Filtered units based on quick pill filter
+                const filteredPropUnits = propUnits.filter(u => {
+                  if (unitFilterType === 'Occupied') return u.status === 'Occupied';
+                  if (unitFilterType === 'Vacant') return u.status === 'Vacant';
+                  if (unitFilterType === 'Shortlet') return u.rental_model === 'Shortlet / STR';
+                  return true;
+                });
 
-              {/* Properties List with Grouped Horizontal Cards */}
-              <div className="space-y-6">
-                {(selectedPropertyId ? ownedProperties.filter(p => p.id === selectedPropertyId) : ownedProperties).map(prop => {
-                  const propUnits = ownedUnits.filter(u => u.property_id === prop.id);
-                  const propOccupiedUnits = propUnits.filter(u => u.status === 'Occupied');
-                  const propOccupancyRate = propUnits.length > 0 ? Math.round((propOccupiedUnits.length / propUnits.length) * 100) : 0;
-                  const nativeCurr = getPropNativeCurrency(prop.id);
+                const activeUnit = propUnits.find(u => u.id === activeUnitTabId) || propUnits[0];
+                const activeLease = activeUnit ? (dbState.leases || []).find(l => l.unit_id === activeUnit.id && l.status === 'Active') : null;
+                const activeTenant = activeLease ? (dbState.tenants || []).find(t => t.id === activeLease.tenant_id) : null;
+                const activeUnitExpenses = activeUnit ? (dbState.expenses || []).filter(e => e.unit_id === activeUnit.id) : [];
+                const activeUnitExpTotal = activeUnitExpenses.reduce((acc, e) => acc + e.amount, 0);
 
-                  // Calculate gross monthly revenue for this property
-                  const propGrossMonthly = propOccupiedUnits.reduce((acc, u) => {
-                    return acc + (u.monthly_rent || 0);
-                  }, 0);
+                return (
+                  <div className="space-y-6">
+                    {/* Top Return Navigation Bar */}
+                    <div className="flex items-center justify-between">
+                      <button
+                        onClick={() => {
+                          setActivePropertyViewId(null);
+                          setActiveUnitTabId(null);
+                        }}
+                        className="flex items-center gap-2 text-xs font-bold text-stone-600 hover:text-stone-900 bg-white px-3.5 py-2 rounded-xl border border-stone-200 shadow-2xs cursor-pointer transition-all hover:bg-stone-50"
+                      >
+                        <ChevronRight className="w-4 h-4 rotate-180" />
+                        <span>Back to All Holdings ({ownedProperties.length})</span>
+                      </button>
 
-                  // Property-specific expenses (both property scope & unit expenses)
-                  const propExpenses = (dbState.expenses || []).filter(e => e.property_id === prop.id);
-                  const propTotalExpenses = propExpenses.reduce((acc, e) => acc + (e.amount || 0), 0);
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-stone-500 font-medium">Switch Building:</span>
+                        <select
+                          value={activeProp.id}
+                          onChange={(e) => {
+                            setActivePropertyViewId(e.target.value);
+                            setActiveUnitTabId(null);
+                          }}
+                          className="px-3 py-1.5 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs"
+                        >
+                          {ownedProperties.map(p => (
+                            <option key={p.id} value={p.id}>{p.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-                  return (
-                    <div
-                      key={prop.id}
-                      className="bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:shadow-md transition-all overflow-hidden"
-                    >
-                      {/* Top Property Header: Premium Card Layout */}
-                      <div className="p-6 bg-gradient-to-r from-stone-50/80 via-white to-stone-50/40 border-b border-stone-200/80 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
-                        {/* Left: Building Identity & Badges */}
-                        <div className="space-y-3 min-w-0 max-w-2xl">
+                    {/* Unified Property Header Banner */}
+                    <div className="bg-white rounded-3xl border border-stone-200/90 shadow-sm p-6 space-y-5">
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-stone-100 pb-5">
+                        <div className="space-y-2">
                           <div className="flex items-center gap-2.5 flex-wrap">
-                            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 font-black flex items-center justify-center shrink-0 border border-amber-200 shadow-2xs">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-black border border-amber-200 shadow-2xs">
                               <Building2 className="w-5 h-5 text-amber-700" />
                             </div>
-                            <div className="min-w-0">
-                              <h2 className="text-xl font-black text-stone-900 tracking-tight leading-tight">{prop.name}</h2>
-                              <p className="text-xs text-stone-500 mt-0.5">
-                                {prop.address}, {prop.postal_code}
-                              </p>
+                            <div>
+                              <h2 className="text-xl font-black text-stone-900">{activeProp.name}</h2>
+                              <p className="text-xs text-stone-500 mt-0.5">{activeProp.address}, {activeProp.city}, {activeProp.province}</p>
                             </div>
                           </div>
 
                           <div className="flex items-center gap-2 flex-wrap text-xs">
-                            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-stone-100 text-stone-700 border border-stone-200/80">
-                              {prop.property_type}
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-stone-100 text-stone-700">
+                              {activeProp.property_type}
                             </span>
-                            <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200/80">
-                              {prop.city}, {prop.province}
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
+                              {activeProp.city}
                             </span>
-                            <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold ${
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                               propOccupancyRate >= 75
                                 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                                 : 'bg-amber-50 text-amber-800 border border-amber-200'
                             }`}>
-                              {propOccupancyRate}% Occupied ({propOccupiedUnits.length} of {propUnits.length} Units)
+                              {propOccupancyRate}% Occupied ({propOccupiedUnits.length}/{propUnits.length} Units)
                             </span>
-                            <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-stone-100 text-stone-600 border border-stone-200/80">
-                              {prop.acquisition?.acquisition_type || 'Direct Asset'}
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-600">
+                              {activeProp.acquisition?.acquisition_type || 'Outright Asset'}
                             </span>
                           </div>
                         </div>
 
-                        {/* Right: Key Financials & Details Button */}
-                        <div className="flex items-stretch gap-3 shrink-0 flex-wrap sm:flex-nowrap">
-                          {/* Monthly Yield */}
-                          <div className="px-4 py-3 bg-stone-50 rounded-2xl border border-stone-200/90 text-right min-w-[140px] flex flex-col justify-center">
-                            <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">Monthly Gross</span>
+                        {/* Top Financial KPI Strip */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 shrink-0">
+                          <div className="px-4 py-2.5 bg-stone-50 rounded-2xl border border-stone-200/80 text-right">
+                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Monthly Gross</span>
                             <DualCurrencyDisplay
-                              amount={propGrossMonthly}
+                              amount={propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0)}
                               nativeCurrency={nativeCurr}
-                              primaryClassName="text-base font-black text-stone-900 leading-snug"
-                              secondaryClassName="text-[10px] text-stone-400 block font-normal"
+                              primaryClassName="text-sm font-black text-stone-900"
+                              secondaryClassName="text-[10px] text-stone-400 block"
                             />
                           </div>
 
-                          {/* Logged Costs */}
-                          <div className="px-4 py-3 bg-rose-50/50 rounded-2xl border border-rose-200/80 text-right min-w-[140px] flex flex-col justify-center">
-                            <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">Logged Costs</span>
+                          <div className="px-4 py-2.5 bg-rose-50/60 rounded-2xl border border-rose-200/80 text-right">
+                            <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">Total Costs</span>
                             <DualCurrencyDisplay
                               amount={propTotalExpenses}
                               nativeCurrency={nativeCurr}
-                              primaryClassName="text-base font-black text-rose-700 leading-snug"
-                              secondaryClassName="text-[10px] text-rose-500/80 block font-normal"
+                              primaryClassName="text-sm font-black text-rose-700"
+                              secondaryClassName="text-[10px] text-rose-500/80 block"
                             />
                           </div>
 
-                          {/* Action Button */}
-                          <button
-                            onClick={() => setSelectedPropertyDetail(prop)}
-                            className="px-4 py-3 bg-stone-900 hover:bg-stone-800 text-white rounded-2xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 shadow-xs hover:shadow-md"
-                          >
-                            <Building2 className="w-4 h-4 text-amber-400" />
-                            <span>Property Card</span>
-                          </button>
+                          <div className="px-4 py-2.5 bg-emerald-50/60 rounded-2xl border border-emerald-200/80 text-right col-span-2 sm:col-span-1">
+                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Net Remitted</span>
+                            <DualCurrencyDisplay
+                              amount={Math.max(0, propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0) - propTotalExpenses)}
+                              nativeCurrency={nativeCurr}
+                              primaryClassName="text-sm font-black text-emerald-800"
+                              secondaryClassName="text-[10px] text-emerald-600/80 block"
+                            />
+                          </div>
                         </div>
                       </div>
 
-                      {/* Bottom Units Grid Section */}
-                      <div className="p-6 bg-white space-y-4">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-xs font-extrabold text-stone-700 uppercase tracking-wider flex items-center gap-2">
-                            <Home className="w-4 h-4 text-stone-400" />
-                            Portfolio Units & Resident Ledger ({propUnits.length})
+                      {/* Unified Property Intelligence & Unit Filter Toolbar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                        <div>
+                          <h3 className="text-xs font-bold text-stone-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <Home className="w-3.5 h-3.5 text-stone-500" />
+                            Individual Unit Explorer ({propUnits.length} Total Suites)
                           </h3>
-                          <span className="text-[11px] text-stone-400">Click any suite for full tenant, lease, and expense history</span>
+                          <p className="text-[11px] text-stone-400">Select any suite tab below to inspect tenant lease, contracted rent, and unit-level invoices</p>
                         </div>
 
-                        {propUnits.length === 0 ? (
-                          <div className="p-6 text-center text-xs text-stone-400 italic bg-stone-50 rounded-2xl border border-dashed border-stone-200">
-                            No units registered for this building.
+                        {/* Quick Filter Pills */}
+                        <div className="flex items-center gap-1.5 bg-stone-100 p-1 rounded-xl w-fit">
+                          {(['All', 'Occupied', 'Vacant', 'Shortlet'] as const).map(type => (
+                            <button
+                              key={type}
+                              onClick={() => setUnitFilterType(type)}
+                              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                unitFilterType === type
+                                  ? 'bg-stone-900 text-white shadow-2xs'
+                                  : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+                              }`}
+                            >
+                              {type}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Horizontal Unit Selector Pills / Tabs */}
+                      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+                        {filteredPropUnits.map(u => {
+                          const isSelected = activeUnit?.id === u.id;
+                          const isShortlet = u.rental_model === 'Shortlet / STR';
+                          return (
+                            <button
+                              key={u.id}
+                              onClick={() => setActiveUnitTabId(u.id)}
+                              className={`px-4 py-2.5 rounded-2xl border text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                                isSelected
+                                  ? 'bg-stone-900 text-white border-stone-900 shadow-sm'
+                                  : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                              }`}
+                            >
+                              <span>Unit {u.unit_number}</span>
+                              <span className={`w-2 h-2 rounded-full ${u.status === 'Occupied' ? 'bg-emerald-500' : 'bg-amber-400'}`}></span>
+                              {isShortlet && (
+                                <span className={`text-[9px] px-1.5 py-0.2 rounded font-semibold ${isSelected ? 'bg-purple-900 text-purple-200' : 'bg-purple-100 text-purple-800'}`}>
+                                  STR
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Active Unit Drill-Down Card (Inline, no modal required) */}
+                      {activeUnit && (
+                        <div className="bg-stone-50/80 rounded-2xl border border-stone-200 p-5 space-y-4 animate-in fade-in">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200/60 pb-3">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-black text-stone-900 text-base">Unit {activeUnit.unit_number}</span>
+                              <span className="text-xs text-stone-500">• {activeUnit.unit_type}</span>
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                activeUnit.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                              }`}>
+                                {activeUnit.status}
+                              </span>
+                              {activeUnit.rental_model === 'Shortlet / STR' && (
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-800">
+                                  Shortlet / Airbnb Model
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="text-xs font-bold text-stone-600">
+                              {activeUnit.bedrooms} Bed • {activeUnit.bathrooms} Bath • {activeUnit.square_feet || 950} sqft
+                            </div>
                           </div>
-                        ) : (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {propUnits.map(unit => {
-                              const activeLease = (dbState.leases || []).find(l => l.unit_id === unit.id && l.status === 'Active');
-                              const tenant = activeLease ? (dbState.tenants || []).find(t => t.id === activeLease.tenant_id) : null;
-                              const isShortlet = unit.rental_model === 'Shortlet / STR';
-                              const unitExpenses = (dbState.expenses || []).filter(e => e.unit_id === unit.id);
-                              const unitExpenseTotal = unitExpenses.reduce((sum, e) => sum + e.amount, 0);
 
-                              return (
-                                <div
-                                  key={unit.id}
-                                  onClick={() => setSelectedUnitDetail(unit)}
-                                  className="group p-4 bg-stone-50/70 hover:bg-white border border-stone-200 hover:border-brand-500 rounded-2xl transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-2xs hover:shadow-md"
-                                >
-                                  {/* Top Unit Badges */}
-                                  <div className="flex items-start justify-between gap-2">
-                                    <div>
-                                      <div className="flex items-center gap-1.5 flex-wrap">
-                                        <span className="font-extrabold text-sm text-stone-900 group-hover:text-brand-600 transition-colors">
-                                          Unit {unit.unit_number}
-                                        </span>
-                                        {isShortlet ? (
-                                          <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-purple-100 text-purple-800 border border-purple-200/80">
-                                            Shortlet
-                                          </span>
-                                        ) : (
-                                          <span className="px-2 py-0.5 rounded-md text-[9px] font-semibold bg-stone-200/80 text-stone-700">
-                                            {unit.unit_type || 'Apartment'}
-                                          </span>
-                                        )}
-                                      </div>
-                                      <span className="text-[11px] text-stone-500 block mt-1 font-medium">
-                                        {unit.bedrooms} Bed • {unit.bathrooms} Bath • {unit.square_feet || 950} sqft
-                                      </span>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* Resident Details */}
+                            <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
+                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Resident & Lease Agreement</span>
+                              {activeTenant ? (
+                                <div className="space-y-1 text-xs">
+                                  <p className="font-extrabold text-stone-900">{activeTenant.first_name} {activeTenant.last_name}</p>
+                                  <p className="text-stone-500 text-[11px]">{activeTenant.email}</p>
+                                  <p className="text-stone-500 text-[11px]">{activeTenant.phone}</p>
+                                  {activeLease && (
+                                    <div className="pt-2 border-t border-stone-100 text-[11px] text-stone-600">
+                                      Lease Period: <strong className="text-stone-800">{activeLease.start_date}</strong> to <strong className="text-stone-800">{activeLease.end_date}</strong>
                                     </div>
-
-                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
-                                      unit.status === 'Occupied'
-                                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                        : 'bg-amber-100 text-amber-800 border border-amber-200'
-                                    }`}>
-                                      {unit.status}
-                                    </span>
-                                  </div>
-
-                                  {/* Bottom Tenant & Rent Info */}
-                                  <div className="pt-2.5 border-t border-stone-200/70 space-y-1.5 text-xs">
-                                    <div className="flex justify-between items-center text-[11px]">
-                                      <span className="text-stone-400 font-medium">Resident:</span>
-                                      <span className="font-bold text-stone-800 truncate max-w-[120px]">
-                                        {tenant ? `${tenant.first_name} ${tenant.last_name}` : <span className="text-stone-400 font-normal italic">Vacant</span>}
-                                      </span>
-                                    </div>
-
-                                    <div className="flex justify-between items-center text-[11px]">
-                                      <span className="text-stone-400 font-medium">Contracted:</span>
-                                      <span className="font-black text-stone-900">
-                                        {formatMoney(convertAmount(unit.monthly_rent || 0, nativeCurr, currentCurrency))}
-                                      </span>
-                                    </div>
-
-                                    {unitExpenseTotal > 0 && (
-                                      <div className="flex justify-between items-center text-[10px] pt-1.5 border-t border-stone-200/40">
-                                        <span className="text-rose-500 font-medium">Unit Costs:</span>
-                                        <span className="font-bold text-rose-700">
-                                          {formatMoney(convertAmount(unitExpenseTotal, nativeCurr, currentCurrency))}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
+                                  )}
                                 </div>
-                              );
-                            })}
+                              ) : (
+                                <div className="py-2 text-xs text-stone-400 italic">
+                                  Unit is currently vacant. Active marketing in progress.
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Rent Yield */}
+                            <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
+                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Rent & Yield</span>
+                              <div className="space-y-1">
+                                <span className="text-lg font-black text-stone-900 block">
+                                  {formatMoney(convertAmount(activeUnit.monthly_rent || 0, nativeCurr, currentCurrency))}
+                                </span>
+                                <span className="text-[11px] text-stone-500 block">per calendar month</span>
+                                <span className="text-[10px] text-stone-400 block pt-1">
+                                  Orig: {nativeCurr} {Number(activeUnit.monthly_rent || 0).toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Direct Costs */}
+                            <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
+                              <span className="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Direct Suite Costs</span>
+                              <div className="space-y-1">
+                                <span className="text-lg font-black text-rose-700 block">
+                                  {formatMoney(convertAmount(activeUnitExpTotal, nativeCurr, currentCurrency))}
+                                </span>
+                                <span className="text-[11px] text-stone-500 block">{activeUnitExpenses.length} logged invoices/receipts</span>
+                                {activeUnitExpenses.length > 0 && (
+                                  <span className="text-[10px] text-stone-400 block truncate">
+                                    Latest: {activeUnitExpenses[0].description}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        )}
+                        </div>
+                      )}
+
+                      {/* Property Wide Operations & Cost Ledger */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-3">
+                        {/* Recorded Invoices & Expenses */}
+                        <div className="p-4 bg-white rounded-2xl border border-stone-200 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5">
+                              <Receipt className="w-3.5 h-3.5 text-stone-500" />
+                              Operating Expenses & Vendor Invoices ({propExpenses.length})
+                            </h4>
+                            <span className="text-xs font-extrabold text-rose-700">
+                              {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
+                            </span>
+                          </div>
+
+                          {propExpenses.length === 0 ? (
+                            <p className="text-xs text-stone-400 italic p-3 text-center">No expenses logged for this building.</p>
+                          ) : (
+                            <div className="space-y-2 max-h-48 overflow-y-auto divide-y divide-stone-100">
+                              {propExpenses.map(exp => (
+                                <div key={exp.id} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
+                                  <div>
+                                    <span className="font-bold text-stone-800 block">{exp.description}</span>
+                                    <span className="text-[10px] text-stone-400">{exp.date} • {exp.category}</span>
+                                  </div>
+                                  <span className="font-black text-rose-700">
+                                    {formatMoney(convertAmount(exp.amount, nativeCurr, currentCurrency))}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Recent Maintenance & Inspections */}
+                        <div className="p-4 bg-white rounded-2xl border border-stone-200 space-y-3">
+                          <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5">
+                            <Wrench className="w-3.5 h-3.5 text-stone-500" />
+                            Maintenance Tickets & Audits ({propMaintenance.length})
+                          </h4>
+
+                          {propMaintenance.length === 0 ? (
+                            <p className="text-xs text-stone-400 italic p-3 text-center">All systems operational. No work orders.</p>
+                          ) : (
+                            <div className="space-y-2 max-h-48 overflow-y-auto divide-y divide-stone-100">
+                              {propMaintenance.map(m => (
+                                <div key={m.id} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
+                                  <div>
+                                    <div className="flex items-center gap-2">
+                                      <span className="font-bold text-stone-800">{m.title || m.category}</span>
+                                      <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
+                                        m.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                                      }`}>
+                                        {m.status}
+                                      </span>
+                                    </div>
+                                    <span className="text-[10px] text-stone-400">{m.description}</span>
+                                  </div>
+                                  {m.estimated_cost && (
+                                    <span className="font-bold text-stone-900 shrink-0">
+                                      {formatMoney(convertAmount(m.estimated_cost, nativeCurr, currentCurrency))}
+                                    </span>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })() : (
+                /* Compact Property Overview Cards (No wasted vertical whitespace) */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {ownedProperties.map(prop => {
+                    const propUnits = ownedUnits.filter(u => u.property_id === prop.id);
+                    const propOccupiedUnits = propUnits.filter(u => u.status === 'Occupied');
+                    const propOccupancyRate = propUnits.length > 0 ? Math.round((propOccupiedUnits.length / propUnits.length) * 100) : 0;
+                    const nativeCurr = getPropNativeCurrency(prop.id);
+                    const propGrossMonthly = propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0);
+                    const propExpenses = (dbState.expenses || []).filter(e => e.property_id === prop.id);
+                    const propTotalExpenses = propExpenses.reduce((acc, e) => acc + (e.amount || 0), 0);
+
+                    return (
+                      <div
+                        key={prop.id}
+                        onClick={() => {
+                          setActivePropertyViewId(prop.id);
+                          setActiveUnitTabId(propUnits[0]?.id || null);
+                        }}
+                        className="group bg-white rounded-2xl border border-stone-200/90 shadow-2xs hover:shadow-md hover:border-brand-500 transition-all p-5 cursor-pointer space-y-4"
+                      >
+                        {/* Compact Top Header */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="space-y-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h3 className="font-black text-base text-stone-900 group-hover:text-brand-600 transition-colors">
+                                {prop.name}
+                              </h3>
+                              <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-stone-100 text-stone-700">
+                                {prop.property_type}
+                              </span>
+                            </div>
+                            <p className="text-xs text-stone-500 truncate">{prop.address}, {prop.city}</p>
+                          </div>
+
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold shrink-0 ${
+                            propOccupancyRate >= 75
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : 'bg-amber-50 text-amber-800 border border-amber-200'
+                          }`}>
+                            {propOccupancyRate}% Occupied
+                          </span>
+                        </div>
+
+                        {/* Compact Financial Strip */}
+                        <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-stone-100">
+                          <div className="p-2.5 bg-stone-50/80 rounded-xl">
+                            <span className="text-[10px] text-stone-400 block font-bold uppercase">Monthly Gross</span>
+                            <span className="text-sm font-black text-stone-900 block">
+                              {formatMoney(convertAmount(propGrossMonthly, nativeCurr, currentCurrency))}
+                            </span>
+                            <span className="text-[9px] text-stone-400 block font-mono">
+                              {propOccupiedUnits.length} of {propUnits.length} units leased
+                            </span>
+                          </div>
+
+                          <div className="p-2.5 bg-rose-50/50 rounded-xl">
+                            <span className="text-[10px] text-rose-500 block font-bold uppercase">Operating Costs</span>
+                            <span className="text-sm font-black text-rose-700 block">
+                              {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
+                            </span>
+                            <span className="text-[9px] text-rose-400 block font-mono">
+                              {propExpenses.length} recorded items
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Action Footer */}
+                        <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
+                          <span className="font-semibold text-stone-700">{propUnits.length} Suites Registered</span>
+                          <span className="text-brand-600 font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+                            Open Property 360 Hub <ChevronRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 
