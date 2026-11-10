@@ -94,14 +94,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ]
     },
     {
-      title: 'External Stakeholder Portals',
-      items: [
-        { id: 'portal-tenant', label: 'Resident Portal View', icon: Eye, badge: 'Portal' },
-        { id: 'portal-landlord', label: 'Landlord Portal View', icon: Eye, badge: 'Owner' },
-        { id: 'portal-contractor', label: 'Contractor Portal View', icon: Eye, badge: 'Trade' }
-      ]
-    },
-    {
       title: 'System',
       items: [
         { id: 'settings', label: 'Preferences & Team Access', icon: Settings }
