@@ -645,6 +645,30 @@
       "status": "Active",
       "created_at": "2024-06-05Z",
       "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ten-2026-1",
+      "first_name": "Ngozi",
+      "last_name": "Eze",
+      "email": "ngozi.eze@zenithenergy.ng",
+      "phone": "+234 803 999 1122",
+      "status": "Active",
+      "employment": "VP Risk Management, Zenith Energy",
+      "income": 45000000,
+      "created_at": "2026-03-01T00:00:00Z",
+      "updated_at": "2026-08-01T00:00:00Z"
+    },
+    {
+      "id": "ten-2026-2",
+      "first_name": "Sebastian",
+      "last_name": "Tremblay",
+      "email": "sebastian.tremblay@ottawacivic.ca",
+      "phone": "(613) 555-7733",
+      "status": "Active",
+      "employment": "Senior Bioinformatician, Ottawa Hospital",
+      "income": 145000,
+      "created_at": "2026-06-01T00:00:00Z",
+      "updated_at": "2026-08-01T00:00:00Z"
     }
   ],
   "leases": [
@@ -1455,19 +1479,91 @@
       "id": "ven-ng-1",
       "name": "Oasis Mechanical HVAC Nigeria Ltd",
       "phone": "+234 802 334 1122",
-      "email": "service@oasishvac.ng"
+      "email": "service@oasishvac.ng",
+      "company": "Oasis Mechanical HVAC Nigeria Ltd",
+      "category": "HVAC",
+      "service_area": "Lagos",
+      "status": "Active"
     },
     {
       "id": "ven-ng-2",
       "name": "SparklePro Facility Cleaners",
       "phone": "+234 803 445 6677",
-      "email": "contact@sparklepro.ng"
+      "email": "contact@sparklepro.ng",
+      "company": "SparklePro Facility Cleaners",
+      "category": "Cleaning",
+      "service_area": "Lagos",
+      "status": "Active"
     },
     {
       "id": "ven-ng-3",
       "name": "Fortress Access Systems & Locks",
       "phone": "+234 809 112 3344",
-      "email": "support@fortressaccess.ng"
+      "email": "support@fortressaccess.ng",
+      "company": "Fortress Access Systems & Locks",
+      "category": "Security",
+      "service_area": "Lagos",
+      "status": "Active"
+    },
+    {
+      "id": "ven-ng-4",
+      "name": "Lekki Master Painters & Decor",
+      "company": "Lekki Architectural Finishes Ltd",
+      "email": "info@lekkipainters.ng",
+      "phone": "+234 803 777 9900",
+      "category": "Painting",
+      "service_area": "Lagos",
+      "status": "Active",
+      "created_at": "2024-01-10Z",
+      "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ven-ng-5",
+      "name": "Maitama Power & Solar Solutions",
+      "company": "Maitama Renewable & Backup Power Ltd",
+      "email": "support@maitamapower.ng",
+      "phone": "+234 809 333 4455",
+      "category": "Electrical",
+      "service_area": "Abuja",
+      "status": "Active",
+      "created_at": "2024-01-15Z",
+      "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ven-ng-6",
+      "name": "Abuja Prime Facility Management",
+      "company": "Abuja Prime Janitorial Services",
+      "email": "service@abujaprime.ng",
+      "phone": "+234 802 111 8899",
+      "category": "Cleaning",
+      "service_area": "Abuja",
+      "status": "Active",
+      "created_at": "2024-02-01Z",
+      "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ven-7",
+      "name": "Ontario Pro Painters & Finishes",
+      "company": "Ontario Pro Painting Ltd",
+      "email": "bids@ontariopropainters.ca",
+      "phone": "(416) 555-6677",
+      "category": "Painting",
+      "service_area": "Toronto",
+      "status": "Active",
+      "created_at": "2023-04-01Z",
+      "updated_at": "2026-08-01Z"
+    },
+    {
+      "id": "ven-8",
+      "name": "Ottawa Appliance Masters",
+      "company": "Ottawa Appliance Repair Specialists Inc",
+      "email": "service@ottawaappliance.ca",
+      "phone": "(613) 555-9988",
+      "category": "Appliances",
+      "service_area": "Ottawa",
+      "status": "Active",
+      "created_at": "2023-05-15Z",
+      "updated_at": "2026-08-01Z"
     }
   ],
   "maintenance_requests": [
@@ -2027,6 +2123,492 @@
       ],
       "created_at": "2026-08-22T10:00:00Z",
       "updated_at": "2026-08-22T11:00:00Z"
+    },
+    {
+      "id": "exp-2026-01",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Repairs & Maintenance",
+      "description": "Penthouse Jacuzzi filtration pump rebuild & replacement of high-pressure silicone hose",
+      "amount": 180000,
+      "date": "2026-01-16",
+      "payment_status": "Paid",
+      "invoice_number": "INV-OASIS-2026-018",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-01",
+          "file_name": "jacuzzi_pump_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Oasis Mechanical official stamped receipt for Jacuzzi pump rebuild",
+          "uploaded_at": "2026-01-16T15:00:00Z"
+        }
+      ],
+      "created_at": "2026-01-16T14:00:00Z",
+      "updated_at": "2026-01-16T15:00:00Z"
+    },
+    {
+      "id": "exp-2026-02",
+      "property_id": "prop-1",
+      "unit_id": "unit-101",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Emergency hot water tank thermal relief valve replacement and pipe descaling",
+      "amount": 385,
+      "date": "2026-01-22",
+      "payment_status": "Paid",
+      "invoice_number": "INV-MLP-8921",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-02",
+          "file_name": "water_tank_valve_receipt.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Maple Leaf Plumbing official receipt and work signoff",
+          "uploaded_at": "2026-01-22T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-01-22T15:00:00Z",
+      "updated_at": "2026-01-22T16:30:00Z"
+    },
+    {
+      "id": "exp-2026-03",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-5",
+      "category": "Repairs & Maintenance",
+      "description": "Borehole deep well submersible pump capacitor replacement & water filtration resin reload",
+      "amount": 95000,
+      "date": "2026-02-19",
+      "payment_status": "Paid",
+      "invoice_number": "INV-MAIT-402",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-03",
+          "file_name": "water_filtration_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Maitama Power & Water official receipt",
+          "uploaded_at": "2026-02-19T13:00:00Z"
+        }
+      ],
+      "created_at": "2026-02-19T11:00:00Z",
+      "updated_at": "2026-02-19T13:00:00Z"
+    },
+    {
+      "id": "exp-2026-04",
+      "property_id": "prop-2",
+      "unit_id": "unit-302",
+      "scope": "Unit",
+      "vendor_id": "ven-2",
+      "category": "Appliances",
+      "description": "Whirlpool stackable washer drum bearing kit replacement & vibration damping pad installation",
+      "amount": 420,
+      "date": "2026-02-26",
+      "payment_status": "Paid",
+      "invoice_number": "INV-GLH-339",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-04",
+          "file_name": "washer_bearing_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Great Lakes HVAC & Appliance repair receipt",
+          "uploaded_at": "2026-02-26T17:00:00Z"
+        }
+      ],
+      "created_at": "2026-02-26T15:00:00Z",
+      "updated_at": "2026-02-26T17:00:00Z"
+    },
+    {
+      "id": "exp-2026-05",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-4",
+      "category": "Repairs & Maintenance",
+      "description": "Turnover preparation: Full interior repainting in Benjamin Moore eggshell white & trim repair",
+      "amount": 160000,
+      "date": "2026-03-25",
+      "payment_status": "Paid",
+      "invoice_number": "INV-LEKKI-091",
+      "receipt_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-05",
+          "file_name": "loft_painting_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Lekki Master Painters invoice & materials breakdown",
+          "uploaded_at": "2026-03-25T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-03-25T14:00:00Z",
+      "updated_at": "2026-03-25T16:00:00Z"
+    },
+    {
+      "id": "exp-2026-06",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "scope": "Unit",
+      "vendor_id": "ven-8",
+      "category": "Appliances",
+      "description": "Bosch quiet series dishwasher control board replacement and drain solenoid test",
+      "amount": 340,
+      "date": "2026-03-30",
+      "payment_status": "Paid",
+      "invoice_number": "INV-OAM-511",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-06",
+          "file_name": "dishwasher_board_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Ottawa Appliance Masters warranty receipt",
+          "uploaded_at": "2026-03-30T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-03-30T14:00:00Z",
+      "updated_at": "2026-03-30T16:30:00Z"
+    },
+    {
+      "id": "exp-2026-07",
+      "property_id": "prop-1",
+      "unit_id": "unit-102",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Kitchen undermount dual sink brass collar replacement, P-trap cleaning & aerator tune-up",
+      "amount": 175,
+      "date": "2026-04-15",
+      "payment_status": "Paid",
+      "invoice_number": "INV-MLP-9044",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-07",
+          "file_name": "plumbing_maintenance_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Maple Leaf Plumbing receipt & itemized parts",
+          "uploaded_at": "2026-04-15T12:00:00Z"
+        }
+      ],
+      "created_at": "2026-04-15T11:00:00Z",
+      "updated_at": "2026-04-15T12:00:00Z"
+    },
+    {
+      "id": "exp-2026-08",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-2",
+      "category": "Cleaning",
+      "description": "Ikoyi Luxury Suites monthly communal foyer polishing, brass handrail buffing & disinfectant steam wash",
+      "amount": 60000,
+      "date": "2026-04-28",
+      "payment_status": "Paid",
+      "invoice_number": "REC-SPARKLE-229",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-08",
+          "file_name": "janitorial_monthly_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "SparklePro Cleaning verified monthly statement",
+          "uploaded_at": "2026-04-28T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-04-28T15:00:00Z",
+      "updated_at": "2026-04-28T16:00:00Z"
+    },
+    {
+      "id": "exp-2026-09",
+      "property_id": "prop-2",
+      "unit_id": "unit-303",
+      "scope": "Unit",
+      "vendor_id": "ven-4",
+      "category": "Repairs & Maintenance",
+      "description": "Balcony exterior masonry restoration & high-traffic polyurethane waterproofing barrier",
+      "amount": 650,
+      "date": "2026-05-21",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CCM-1092",
+      "receipt_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-09",
+          "file_name": "waterproofing_warranty_receipt.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Capital City Maintenance 5-year membrane warranty & invoice",
+          "uploaded_at": "2026-05-21T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-05-21T14:00:00Z",
+      "updated_at": "2026-05-21T16:00:00Z"
+    },
+    {
+      "id": "exp-2026-10",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-2",
+      "category": "Cleaning",
+      "description": "Eko Atlantic Executive Suite turnover: High-thread linen wash, balcony glass degreasing & room ozone deodorization",
+      "amount": 45000,
+      "date": "2026-05-29",
+      "payment_status": "Paid",
+      "invoice_number": "INV-SPK-380",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-10",
+          "file_name": "shortlet_sanitization_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Turnover cleaning receipt for incoming Airbnb guest booking",
+          "uploaded_at": "2026-05-29T15:00:00Z"
+        }
+      ],
+      "created_at": "2026-05-29T13:00:00Z",
+      "updated_at": "2026-05-29T15:00:00Z"
+    },
+    {
+      "id": "exp-2026-11",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "scope": "Unit",
+      "vendor_id": "ven-3",
+      "category": "Repairs & Maintenance",
+      "description": "Loft annual fire damper electrical testing, emergency exit battery check & certification certificate",
+      "amount": 120,
+      "date": "2026-06-19",
+      "payment_status": "Paid",
+      "invoice_number": "INV-GTA-441",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-11",
+          "file_name": "fire_compliance_certificate.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "GTA Electrical Services fire compliance certification invoice",
+          "uploaded_at": "2026-06-19T13:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-19T11:00:00Z",
+      "updated_at": "2026-06-19T13:00:00Z"
+    },
+    {
+      "id": "exp-2026-12",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-6",
+      "category": "Cleaning",
+      "description": "Maitama Diplomatic Residence general grounds cleaning, landscaping prune & pest barrier treatment",
+      "amount": 75000,
+      "date": "2026-06-25",
+      "payment_status": "Paid",
+      "invoice_number": "INV-APFM-812",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-12",
+          "file_name": "grounds_landscaping_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Abuja Prime Janitorial seasonal maintenance invoice",
+          "uploaded_at": "2026-06-25T15:00:00Z"
+        }
+      ],
+      "created_at": "2026-06-25T12:00:00Z",
+      "updated_at": "2026-06-25T15:00:00Z"
+    },
+    {
+      "id": "exp-2026-13",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-5",
+      "category": "Repairs & Maintenance",
+      "description": "Booster pump multi-stage pressure switch replacement & check valve servicing",
+      "amount": 110000,
+      "date": "2026-07-17",
+      "payment_status": "Paid",
+      "invoice_number": "INV-MAIT-889",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-13",
+          "file_name": "water_pump_switch_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Maitama Power & Mechanical official receipt",
+          "uploaded_at": "2026-07-17T14:00:00Z"
+        }
+      ],
+      "created_at": "2026-07-17T12:00:00Z",
+      "updated_at": "2026-07-17T14:00:00Z"
+    },
+    {
+      "id": "exp-2026-14",
+      "property_id": "prop-1",
+      "unit_id": "unit-103",
+      "scope": "Unit",
+      "vendor_id": "ven-6",
+      "category": "Cleaning",
+      "description": "Shortlet turnover between guest arrivals: deep sanitization and kitchen restock",
+      "amount": 140,
+      "date": "2026-07-28",
+      "payment_status": "Paid",
+      "invoice_number": "INV-TRI-892",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-14",
+          "file_name": "trillium_turnover_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Trillium Cleaning Services proof receipt",
+          "uploaded_at": "2026-07-28T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-07-28T14:00:00Z",
+      "updated_at": "2026-07-28T16:00:00Z"
+    },
+    {
+      "id": "exp-2026-15",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "scope": "Unit",
+      "vendor_id": "ven-4",
+      "category": "Repairs & Maintenance",
+      "description": "Smart keyless lock batteries, re-indexing deadbolt motor and firmware upgrade",
+      "amount": 160,
+      "date": "2026-08-06",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CCM-1301",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-15",
+          "file_name": "smart_lock_parts_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Capital Maintenance parts and installation invoice",
+          "uploaded_at": "2026-08-06T14:00:00Z"
+        }
+      ],
+      "created_at": "2026-08-06T12:00:00Z",
+      "updated_at": "2026-08-06T14:00:00Z"
+    },
+    {
+      "id": "exp-2026-16",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Repairs & Maintenance",
+      "description": "Coastal air conditioning condenser chemical descaling and marine anti-corrosive spray application",
+      "amount": 140000,
+      "date": "2026-10-13",
+      "payment_status": "Paid",
+      "invoice_number": "INV-OASIS-2026-778",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-16",
+          "file_name": "marine_coating_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Oasis Mechanical marine chemical protection receipt",
+          "uploaded_at": "2026-10-13T15:00:00Z"
+        }
+      ],
+      "created_at": "2026-10-13T13:00:00Z",
+      "updated_at": "2026-10-13T15:00:00Z"
+    },
+    {
+      "id": "exp-2026-17",
+      "property_id": "prop-1",
+      "unit_id": "unit-104",
+      "scope": "Unit",
+      "vendor_id": "ven-2",
+      "category": "Repairs & Maintenance",
+      "description": "Pre-winter central hydronic radiator valve flushing, bleed cycle and infrared heat balancing",
+      "amount": 210,
+      "date": "2026-11-05",
+      "payment_status": "Paid",
+      "invoice_number": "INV-GLH-918",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-17",
+          "file_name": "hydronic_radiator_receipt.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Great Lakes HVAC heating balancing certification",
+          "uploaded_at": "2026-11-05T14:00:00Z"
+        }
+      ],
+      "created_at": "2026-11-05T11:00:00Z",
+      "updated_at": "2026-11-05T14:00:00Z"
+    },
+    {
+      "id": "exp-2026-18",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-6",
+      "category": "Cleaning",
+      "description": "Year-end deep holiday turnover & ozone odor removal for executive shortlet guest check-in",
+      "amount": 55000,
+      "date": "2026-12-18",
+      "payment_status": "Paid",
+      "invoice_number": "INV-APFM-994",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-2026-18",
+          "file_name": "holiday_turnover_receipt.pdf",
+          "file_type": "receipt",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Abuja Prime janitorial holiday turnover receipt",
+          "uploaded_at": "2026-12-18T16:00:00Z"
+        }
+      ],
+      "created_at": "2026-12-18T14:00:00Z",
+      "updated_at": "2026-12-18T16:00:00Z"
     }
   ],
   "notices": [
@@ -2971,6 +3553,619 @@
       "team_lead_signed_by": "Amara Okafor",
       "created_at": "2026-08-18T09:00:00Z",
       "updated_at": "2026-08-22T12:00:00Z"
+    },
+    {
+      "id": "insp-2026-01",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "title": "Penthouse Pre-Tenancy Turnover & Luxury Audit",
+      "scheduled_date": "2026-01-15",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Move-out audit complete for previous diplomatic tenant. Jacuzzi pump tested, marble floors buffed, private rooftop pool filtration verified.",
+      "findings": [
+        {
+          "area": "Rooftop Terrace",
+          "rating": "Excellent",
+          "remarks": "Pergola integrity strong, exterior lighting working."
+        },
+        {
+          "area": "Master Bath & Spa",
+          "rating": "Good",
+          "remarks": "Replaced showerhead gasket, water pressure tested at 55 PSI."
+        },
+        {
+          "area": "Smart Automation Panel",
+          "rating": "Excellent",
+          "remarks": "Lutron dimmers and climate controls reset."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-01-1",
+          "file_name": "penthouse_rooftop_walkthrough.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Full 360-degree video inspection of private rooftop terrace and ocean panorama",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-15T11:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-2026-01-2",
+          "file_name": "jacuzzi_filtration_memo.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Lead Auditor Voicenote: Marcus Vance detailing pool heating cycles & zero leak confirmation",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-15T11:45:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-2026-01-3",
+          "file_name": "marble_living_room_buff.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "High-res verification of living room Italian marble polishing",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-15T11:20:00Z"
+        }
+      ],
+      "incurred_cost": 180000,
+      "team_lead_signed_at": "2026-01-15T13:00:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-01-10T09:00:00Z",
+      "updated_at": "2026-01-15T13:00:00Z"
+    },
+    {
+      "id": "insp-2026-02",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "title": "Diplomatic Residence Annual Structural & HVAC Certification",
+      "scheduled_date": "2026-02-18",
+      "scheduled_time": "10:30 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Central chiller unit checked. Minor sealant degradation around guest bathroom window repaired. Water borehole pump working efficiently.",
+      "findings": [
+        {
+          "area": "Central HVAC / Plant",
+          "rating": "Good",
+          "remarks": "Refrigerant pressure steady, air duct filters swapped."
+        },
+        {
+          "area": "Perimeter Wall & Electric Fence",
+          "rating": "Excellent",
+          "remarks": "Energizer alarm and backup battery voltage verified."
+        },
+        {
+          "area": "Guest Suite Bath",
+          "rating": "Fair",
+          "remarks": "Re-caulked shower tray joint to prevent seepage."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-02-1",
+          "file_name": "chiller_plant_runtime_test.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video verification of 10-ton central chiller start sequence & acoustic check",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-18T11:00:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-2026-02-2",
+          "file_name": "amara_borehole_briefing.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Audio Memo: Amara Okafor confirming borehole water purity test & generator fuel level",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-18T11:25:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-2026-02-3",
+          "file_name": "shower_reseal_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Sanitary silicone sealant replacement proof photo",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-18T10:50:00Z"
+        }
+      ],
+      "incurred_cost": 95000,
+      "team_lead_signed_at": "2026-02-18T12:30:00Z",
+      "team_lead_signed_by": "Amara Okafor",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-18T12:30:00Z"
+    },
+    {
+      "id": "insp-2026-03",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Pre-Marketing Readiness & Interior Renovation Audit",
+      "scheduled_date": "2026-03-24",
+      "scheduled_time": "02:00 PM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Complete interior repainting in neutral off-white completed. LED spotlights replaced. Unit listed for executive shortlet leases.",
+      "findings": [
+        {
+          "area": "Living / Kitchenette",
+          "rating": "Excellent",
+          "remarks": "Freshly painted, quartz countertop sealed."
+        },
+        {
+          "area": "Balcony",
+          "rating": "Good",
+          "remarks": "Drain cleared, tiles power-washed."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-03-1",
+          "file_name": "fresh_paint_loft_walkthrough.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Walkthrough showcasing completed repainting and staging readiness",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-24T14:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-2026-03-2",
+          "file_name": "loft_interior_overview.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Executive loft natural light & paint inspection photograph",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-24T14:15:00Z"
+        }
+      ],
+      "incurred_cost": 160000,
+      "team_lead_signed_at": "2026-03-24T15:45:00Z",
+      "team_lead_signed_by": "Amara Okafor",
+      "created_at": "2026-03-20T10:00:00Z",
+      "updated_at": "2026-03-24T15:45:00Z"
+    },
+    {
+      "id": "insp-2026-04",
+      "property_id": "prop-1",
+      "unit_id": "unit-102",
+      "title": "Spring Mechanical & Plumbing Safety Inspection",
+      "scheduled_date": "2026-04-14",
+      "scheduled_time": "09:30 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant reported slight kitchen faucet wobble. Tightened under-mount brass collar and replaced aerator screen.",
+      "findings": [
+        {
+          "area": "Kitchen Plumbing",
+          "rating": "Good",
+          "remarks": "Faucet fixed, supply valves tested shut-off successfully."
+        },
+        {
+          "area": "Bathroom Exhaust",
+          "rating": "Excellent",
+          "remarks": "CFM airflow measured within Ontario building code."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-04-1",
+          "file_name": "faucet_collar_tightened.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Close-up photo of tightened brass mount under kitchen sink",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-14T10:00:00Z"
+        },
+        {
+          "id": "att-2026-04-2",
+          "file_name": "marcus_spring_audit_note.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Audio Memo: Marcus Vance reporting suite 102 tenant satisfaction and zero water damage",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-14T10:15:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 175,
+      "team_lead_signed_at": "2026-04-14T11:00:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-04-10T11:00:00Z",
+      "updated_at": "2026-04-14T11:00:00Z"
+    },
+    {
+      "id": "insp-2026-05",
+      "property_id": "prop-2",
+      "unit_id": "unit-303",
+      "title": "Post-Remediation & Balcony Waterproofing Membrane Audit",
+      "scheduled_date": "2026-05-20",
+      "scheduled_time": "01:30 PM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Balcony flashing remediation successfully inspected after masonry contractor finished. 24-hour water ponding test passed with zero moisture ingress.",
+      "findings": [
+        {
+          "area": "Balcony Membrane",
+          "rating": "Excellent",
+          "remarks": "Polyurethane elastomeric coating intact, drainage scuppers free."
+        },
+        {
+          "area": "Threshold Seal",
+          "rating": "Good",
+          "remarks": "Thermal break weatherstripping reinstalled."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-05-1",
+          "file_name": "balcony_ponding_test_video.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video demonstrating zero moisture leakage during active water test",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-20T14:00:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-2026-05-2",
+          "file_name": "elastomeric_membrane_finish.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Detailed snapshot of sealed perimeter expansion joints",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-20T13:45:00Z"
+        }
+      ],
+      "incurred_cost": 650,
+      "team_lead_signed_at": "2026-05-20T15:00:00Z",
+      "team_lead_signed_by": "Marcus Vance",
+      "created_at": "2026-05-15T09:00:00Z",
+      "updated_at": "2026-05-20T15:00:00Z"
+    },
+    {
+      "id": "insp-2026-06",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Mid-Year Loft Brickwork & Fire Safety Compliance Check",
+      "scheduled_date": "2026-06-18",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Exposed brick surfaces dusted and treated. Smoke and CO detectors certified with fresh 10-year lithium cells.",
+      "findings": [
+        {
+          "area": "Exposed Brick & Beams",
+          "rating": "Excellent",
+          "remarks": "Timber joists structurally sound, no pest activity."
+        },
+        {
+          "area": "Fire Extinguisher & Alarms",
+          "rating": "Excellent",
+          "remarks": "Pressure gauge green, annual tags punched."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-06-1",
+          "file_name": "fire_safety_tag_verification.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Inspection tag with certified safety technician stamp",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-18T11:30:00Z"
+        }
+      ],
+      "incurred_cost": 120,
+      "team_lead_signed_at": "2026-06-18T12:00:00Z",
+      "team_lead_signed_by": "Marcus Vance",
+      "created_at": "2026-06-12T10:00:00Z",
+      "updated_at": "2026-06-18T12:00:00Z"
+    },
+    {
+      "id": "insp-2026-07",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "title": "Ikoyi Executive Suite Mid-Year Mechanical & Water Pressure Audit",
+      "scheduled_date": "2026-07-16",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Booster water pump tested. Pressure relief valves operational. Dual backup generator changeover switch tested smoothly.",
+      "findings": [
+        {
+          "area": "Water Pumping Station",
+          "rating": "Good",
+          "remarks": "Pressure holding constant at 4.2 bar."
+        },
+        {
+          "area": "Backup Generator Sync",
+          "rating": "Excellent",
+          "remarks": "Automatic transfer switch triggered in 8.4 seconds."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-07-1",
+          "file_name": "generator_switch_test_video.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video proof of automatic power transfer switch cycle",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-16T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-2026-07-2",
+          "file_name": "water_pressure_gauge_reading.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Calibrated gauge reading verifying steady water pressure",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-16T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 110000,
+      "team_lead_signed_at": "2026-07-16T11:45:00Z",
+      "team_lead_signed_by": "Amara Okafor",
+      "created_at": "2026-07-10T09:00:00Z",
+      "updated_at": "2026-07-16T11:45:00Z"
+    },
+    {
+      "id": "insp-2026-08",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "title": "Shortlet Turnover & Smart Lock Firmware Audit",
+      "scheduled_date": "2026-08-05",
+      "scheduled_time": "01:00 PM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Unit turnover complete. Linens sanitized, Nest thermostat schedules optimized, Yale smart lock batteries replaced.",
+      "findings": [
+        {
+          "area": "Keyless Entry Lock",
+          "rating": "Excellent",
+          "remarks": "Firmware updated, deadbolt motor calibrated."
+        },
+        {
+          "area": "Kitchen Appliances",
+          "rating": "Excellent",
+          "remarks": "Oven and dishwasher run on sanitize cycle."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-08-1",
+          "file_name": "smart_lock_deadbolt_test.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Keyless entry automated lock/unlock test sequence",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-05T13:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-2026-08-2",
+          "file_name": "turnover_cleanliness_check.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Living room presentation for incoming executive guest",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-05T13:15:00Z"
+        }
+      ],
+      "incurred_cost": 160,
+      "team_lead_signed_at": "2026-08-05T14:00:00Z",
+      "team_lead_signed_by": "Marcus Vance",
+      "created_at": "2026-08-01T10:00:00Z",
+      "updated_at": "2026-08-05T14:00:00Z"
+    },
+    {
+      "id": "insp-2026-09",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "title": "Autumn Annual Pre-Dry Season AC & Glazing Audit",
+      "scheduled_date": "2026-10-12",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Annual pre-harmattan maintenance completed. AC outdoor condenser coils pressure washed, ocean salt deposits removed from balcony anodized frames.",
+      "findings": [
+        {
+          "area": "Balcony Anodized Frames",
+          "rating": "Good",
+          "remarks": "Salt crust treated with protective marine wax."
+        },
+        {
+          "area": "HVAC Condenser",
+          "rating": "Excellent",
+          "remarks": "Cooling coils free of debris, amperage draw optimal."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-09-1",
+          "file_name": "condenser_cleaning_proof.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "High-pressure wash video verification of ocean-facing HVAC coils",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-12T11:40:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-2026-09-2",
+          "file_name": "amara_coastal_maintenance_memo.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor on coastal salt protection & tenant satisfaction",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-12T11:55:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 140000,
+      "team_lead_signed_at": "2026-10-12T12:30:00Z",
+      "team_lead_signed_by": "Amara Okafor",
+      "created_at": "2026-10-08T09:00:00Z",
+      "updated_at": "2026-10-12T12:30:00Z"
+    },
+    {
+      "id": "insp-2026-10",
+      "property_id": "prop-1",
+      "unit_id": "unit-104",
+      "title": "Pre-Winter Radiator & Heat Exchanger Seasonal Inspection",
+      "scheduled_date": "2026-11-04",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Heating system bled of air pockets. Thermostatic radiator valves checked on all bedroom units. Zero steam hammering.",
+      "findings": [
+        {
+          "area": "Hydronic Radiators",
+          "rating": "Good",
+          "remarks": "Bleed valves purged, hot water circulating freely."
+        },
+        {
+          "area": "Window Weatherstripping",
+          "rating": "Excellent",
+          "remarks": "Draft seals tight, no heat loss detected via thermal camera."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-2026-10-1",
+          "file_name": "thermal_camera_heat_loss_check.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "FLIR infrared scan confirming zero thermal draft around window mullions",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-04T10:30:00Z"
+        }
+      ],
+      "incurred_cost": 210,
+      "team_lead_signed_at": "2026-11-04T11:15:00Z",
+      "team_lead_signed_by": "Marcus Vance",
+      "created_at": "2026-10-30T10:00:00Z",
+      "updated_at": "2026-11-04T11:15:00Z"
     }
   ],
   "landlords": [
