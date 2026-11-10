@@ -1761,6 +1761,405 @@
       "estimated_cost": 320,
       "created_at": "2026-06-19T10:00:00Z",
       "updated_at": "2026-06-21T14:30:00Z"
+    },
+    {
+      "id": "maint-gen-1",
+      "tenant_id": "ten-1",
+      "unit_id": "unit-101",
+      "property_id": "prop-1",
+      "category": "Plumbing",
+      "title": "Dual sink drainage backup & P-trap seal replacement",
+      "description": "Tenant reported kitchen sink standing water. Pipe cleared and sanitary gasket replaced.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-1",
+      "assigned_vendor_id": "ven-1",
+      "estimated_cost": 260,
+      "actual_cost": 260,
+      "scheduled_date": "2026-01-12",
+      "completed_at": "2026-01-12T16:00:00Z",
+      "created_at": "2026-01-12T09:00:00Z",
+      "updated_at": "2026-01-12T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-2",
+      "tenant_id": "ten-2",
+      "unit_id": "unit-302",
+      "property_id": "prop-2",
+      "category": "Appliances",
+      "title": "Refrigerator inverter compressor relay starter failure",
+      "description": "Fridge failing to cycle cool. Technician swapped compressor capacitor and PTC relay.",
+      "priority": "Emergency",
+      "status": "Completed",
+      "vendor_id": "ven-8",
+      "assigned_vendor_id": "ven-8",
+      "estimated_cost": 340,
+      "actual_cost": 340,
+      "scheduled_date": "2026-01-28",
+      "completed_at": "2026-01-28T16:00:00Z",
+      "created_at": "2026-01-28T09:00:00Z",
+      "updated_at": "2026-01-28T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-3",
+      "tenant_id": "ten-3",
+      "unit_id": "unit-401",
+      "property_id": "prop-3",
+      "category": "Electrical",
+      "title": "Breaker arc-fault trip & microwave dedicated circuit rewire",
+      "description": "AFCI breaker tripping under load. Replaced faulty 20A breaker and tested continuity.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-3",
+      "assigned_vendor_id": "ven-3",
+      "estimated_cost": 220,
+      "actual_cost": 220,
+      "scheduled_date": "2026-02-14",
+      "completed_at": "2026-02-14T16:00:00Z",
+      "created_at": "2026-02-14T09:00:00Z",
+      "updated_at": "2026-02-14T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-4",
+      "tenant_id": "ten-4",
+      "unit_id": "unit-502",
+      "property_id": "prop-4",
+      "category": "HVAC",
+      "title": "Air conditioning condensate pump clog & ceiling moisture protection",
+      "description": "Condensate safety float switch triggered. Cleared drain pan algae and bleached drain line.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-2",
+      "assigned_vendor_id": "ven-2",
+      "estimated_cost": 195,
+      "actual_cost": 195,
+      "scheduled_date": "2026-02-23",
+      "completed_at": "2026-02-23T16:00:00Z",
+      "created_at": "2026-02-23T09:00:00Z",
+      "updated_at": "2026-02-23T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-5",
+      "tenant_id": "ten-5",
+      "unit_id": "unit-ea-204",
+      "property_id": "prop-5",
+      "category": "Repairs & Maintenance",
+      "title": "Entry door deadbolt latch alignment & heavy brass strike plate adjustment",
+      "description": "Deadbolt jamming in winter expansion. Mortise pocket deepened and lubricated.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-ng-3",
+      "assigned_vendor_id": "ven-ng-3",
+      "estimated_cost": 40000,
+      "actual_cost": 40000,
+      "scheduled_date": "2026-03-08",
+      "completed_at": "2026-03-08T16:00:00Z",
+      "created_at": "2026-03-08T09:00:00Z",
+      "updated_at": "2026-03-08T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-6",
+      "tenant_id": "ten-6",
+      "unit_id": "unit-602",
+      "property_id": "prop-6",
+      "category": "Plumbing",
+      "title": "Bathroom toilet flapper leak & silent fill valve replacement",
+      "description": "Toilet constantly running, increasing water utility. Replaced Fluidmaster 400A assembly.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-ng-1",
+      "assigned_vendor_id": "ven-ng-1",
+      "estimated_cost": 35000,
+      "actual_cost": 35000,
+      "scheduled_date": "2026-03-17",
+      "completed_at": "2026-03-17T16:00:00Z",
+      "created_at": "2026-03-17T09:00:00Z",
+      "updated_at": "2026-03-17T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-7",
+      "tenant_id": "ten-7",
+      "unit_id": "unit-701",
+      "property_id": "prop-7",
+      "category": "Painting",
+      "title": "Post-leak ceiling plaster repair, stain block primer & ceiling coat",
+      "description": "Previous moisture ring sealed with Zinsser oil-based stain blocker and matched flat white.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-ng-4",
+      "assigned_vendor_id": "ven-ng-4",
+      "estimated_cost": 85000,
+      "actual_cost": 85000,
+      "scheduled_date": "2026-04-05",
+      "completed_at": "2026-04-05T16:00:00Z",
+      "created_at": "2026-04-05T09:00:00Z",
+      "updated_at": "2026-04-05T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-8",
+      "tenant_id": "ten-8",
+      "unit_id": "unit-802",
+      "property_id": "prop-8",
+      "category": "Appliances",
+      "title": "Dishwasher spray arm cracking & detergent dispenser door latch rebuild",
+      "description": "Lower spray arm cracked causing water hammer. Replaced with OEM parts and tested.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-ng-1",
+      "assigned_vendor_id": "ven-ng-1",
+      "estimated_cost": 50000,
+      "actual_cost": 50000,
+      "scheduled_date": "2026-04-22",
+      "completed_at": "2026-04-22T16:00:00Z",
+      "created_at": "2026-04-22T09:00:00Z",
+      "updated_at": "2026-04-22T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-9",
+      "tenant_id": "ten-9",
+      "unit_id": "unit-102",
+      "property_id": "prop-1",
+      "category": "Electrical",
+      "title": "Kitchen island pendant LED driver flicker & dimmer module replacement",
+      "description": "Flickering 40W constant current driver replaced with Lutron electronic low-voltage driver.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-3",
+      "assigned_vendor_id": "ven-3",
+      "estimated_cost": 160,
+      "actual_cost": 160,
+      "scheduled_date": "2026-05-11",
+      "completed_at": "2026-05-11T16:00:00Z",
+      "created_at": "2026-05-11T09:00:00Z",
+      "updated_at": "2026-05-11T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-10",
+      "tenant_id": "ten-10",
+      "unit_id": "unit-301",
+      "property_id": "prop-2",
+      "category": "Pest Control",
+      "title": "Seasonal preventive perimeter pest exclusion & bait station service",
+      "description": "Foundation weep holes screened with brass wire mesh, non-toxic monitoring stations placed.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-5",
+      "assigned_vendor_id": "ven-5",
+      "estimated_cost": 210,
+      "actual_cost": 210,
+      "scheduled_date": "2026-05-25",
+      "completed_at": "2026-05-25T16:00:00Z",
+      "created_at": "2026-05-25T09:00:00Z",
+      "updated_at": "2026-05-25T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-11",
+      "tenant_id": "ten-2026-1",
+      "unit_id": "unit-401",
+      "property_id": "prop-3",
+      "category": "HVAC",
+      "title": "Heat pump seasonal refrigerant top-up & capacitor test",
+      "description": "Unit blowing ambient air. Added 1.2 lbs R410A refrigerant and verified 18-degree delta T.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-2",
+      "assigned_vendor_id": "ven-2",
+      "estimated_cost": 320,
+      "actual_cost": 320,
+      "scheduled_date": "2026-06-08",
+      "completed_at": "2026-06-08T16:00:00Z",
+      "created_at": "2026-06-08T09:00:00Z",
+      "updated_at": "2026-06-08T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-12",
+      "tenant_id": "ten-2026-2",
+      "unit_id": "unit-502",
+      "property_id": "prop-4",
+      "category": "Cleaning",
+      "title": "Turnover deep tile grout steam extraction & balcony power washing",
+      "description": "Full unit restorative clean. Bathroom tiles steam-extracted and sealed against mold.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-6",
+      "assigned_vendor_id": "ven-6",
+      "estimated_cost": 250,
+      "actual_cost": 250,
+      "scheduled_date": "2026-06-20",
+      "completed_at": "2026-06-20T16:00:00Z",
+      "created_at": "2026-06-20T09:00:00Z",
+      "updated_at": "2026-06-20T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-13",
+      "tenant_id": "ten-1",
+      "unit_id": "unit-ea-101",
+      "property_id": "prop-5",
+      "category": "Plumbing",
+      "title": "Shower thermostatic cartridge seized & pressure balancing spool replaced",
+      "description": "Shower fluctuating hot/cold. Replaced Moen 1222 cartridge and cleaned limestone deposits.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-ng-1",
+      "assigned_vendor_id": "ven-ng-1",
+      "estimated_cost": 75000,
+      "actual_cost": 75000,
+      "scheduled_date": "2026-07-07",
+      "completed_at": "2026-07-07T16:00:00Z",
+      "created_at": "2026-07-07T09:00:00Z",
+      "updated_at": "2026-07-07T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-14",
+      "tenant_id": "ten-2",
+      "unit_id": "unit-602",
+      "property_id": "prop-6",
+      "category": "Appliances",
+      "title": "Clothes dryer thermal fuse blown & exhaust lint duct mechanical vacuuming",
+      "description": "Dryer tumbling with zero heat. Replaced safety thermal cut-off and vacuumed 15-foot duct line.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-ng-1",
+      "assigned_vendor_id": "ven-ng-1",
+      "estimated_cost": 80000,
+      "actual_cost": 80000,
+      "scheduled_date": "2026-07-24",
+      "completed_at": "2026-07-24T16:00:00Z",
+      "created_at": "2026-07-24T09:00:00Z",
+      "updated_at": "2026-07-24T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-15",
+      "tenant_id": "ten-3",
+      "unit_id": "unit-701",
+      "property_id": "prop-7",
+      "category": "Repairs & Maintenance",
+      "title": "Balcony sliding screen door track re-alignment and heavy-duty nylon rollers",
+      "description": "Screen door derailed during windstorm. Installed stainless steel spring-loaded tandem wheels.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-ng-3",
+      "assigned_vendor_id": "ven-ng-3",
+      "estimated_cost": 40000,
+      "actual_cost": 40000,
+      "scheduled_date": "2026-08-14",
+      "completed_at": "2026-08-14T16:00:00Z",
+      "created_at": "2026-08-14T09:00:00Z",
+      "updated_at": "2026-08-14T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-16",
+      "tenant_id": "ten-4",
+      "unit_id": "unit-802",
+      "property_id": "prop-8",
+      "category": "Painting",
+      "title": "Living room scuff touch-ups & baseboard gloss repainting after tenant move-in",
+      "description": "Furniture move-in scrapes prepped, caulked at corner joints and touched up seamlessly.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-ng-4",
+      "assigned_vendor_id": "ven-ng-4",
+      "estimated_cost": 50000,
+      "actual_cost": 50000,
+      "scheduled_date": "2026-08-29",
+      "completed_at": "2026-08-29T16:00:00Z",
+      "created_at": "2026-08-29T09:00:00Z",
+      "updated_at": "2026-08-29T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-17",
+      "tenant_id": "ten-5",
+      "unit_id": "unit-103",
+      "property_id": "prop-1",
+      "category": "Electrical",
+      "title": "Main balcony weatherproof outlet enclosure replacement & GFCI safety ground test",
+      "description": "Cracked weatherproof bubble cover replaced with in-use metallic cover for code compliance.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-3",
+      "assigned_vendor_id": "ven-3",
+      "estimated_cost": 165,
+      "actual_cost": 165,
+      "scheduled_date": "2026-09-15",
+      "completed_at": "2026-09-15T16:00:00Z",
+      "created_at": "2026-09-15T09:00:00Z",
+      "updated_at": "2026-09-15T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-18",
+      "tenant_id": "ten-6",
+      "unit_id": "unit-303",
+      "property_id": "prop-2",
+      "category": "HVAC",
+      "title": "Pre-winter central boiler inspection & zone control motorized actuator replacement",
+      "description": "Zone 2 actuator motor unresponsive. Swapped with Honeywell 24V synchronous motorized head.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-2",
+      "assigned_vendor_id": "ven-2",
+      "estimated_cost": 360,
+      "actual_cost": 360,
+      "scheduled_date": "2026-10-18",
+      "completed_at": "2026-10-18T16:00:00Z",
+      "created_at": "2026-10-18T09:00:00Z",
+      "updated_at": "2026-10-18T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-19",
+      "tenant_id": "ten-7",
+      "unit_id": "unit-401",
+      "property_id": "prop-3",
+      "category": "Plumbing",
+      "title": "Under-sink water filtration RO membrane change & sanitized pressure tank repressurization",
+      "description": "Slow drinking water flow. Swapped 50 GPD membrane and sediment carbon pre-filters.",
+      "priority": "Low",
+      "status": "Completed",
+      "vendor_id": "ven-1",
+      "assigned_vendor_id": "ven-1",
+      "estimated_cost": 180,
+      "actual_cost": 180,
+      "scheduled_date": "2026-11-12",
+      "completed_at": "2026-11-12T16:00:00Z",
+      "created_at": "2026-11-12T09:00:00Z",
+      "updated_at": "2026-11-12T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-20",
+      "tenant_id": "ten-8",
+      "unit_id": "unit-502",
+      "property_id": "prop-4",
+      "category": "Cleaning",
+      "title": "Year-end lobby and common corridor deep carpet shampoo and odor neutralization",
+      "description": "Commercial hot-water extraction performed on 3 floors of corridor carpet runner.",
+      "priority": "Medium",
+      "status": "Completed",
+      "vendor_id": "ven-6",
+      "assigned_vendor_id": "ven-6",
+      "estimated_cost": 320,
+      "actual_cost": 320,
+      "scheduled_date": "2026-12-05",
+      "completed_at": "2026-12-05T16:00:00Z",
+      "created_at": "2026-12-05T09:00:00Z",
+      "updated_at": "2026-12-05T16:00:00Z"
+    },
+    {
+      "id": "maint-gen-21",
+      "tenant_id": "ten-9",
+      "unit_id": "unit-ea-302",
+      "property_id": "prop-5",
+      "category": "Repairs & Maintenance",
+      "title": "Underground garage security gate optical sensor re-calibration & chain lubrication",
+      "description": "Safety reversal eye obstructed by road salt dust. Cleaned, aligned beams and greased rollers.",
+      "priority": "High",
+      "status": "Completed",
+      "vendor_id": "ven-ng-3",
+      "assigned_vendor_id": "ven-ng-3",
+      "estimated_cost": 75000,
+      "actual_cost": 75000,
+      "scheduled_date": "2026-12-20",
+      "completed_at": "2026-12-20T16:00:00Z",
+      "created_at": "2026-12-20T09:00:00Z",
+      "updated_at": "2026-12-20T16:00:00Z"
     }
   ],
   "bills": [
@@ -2609,6 +3008,573 @@
       ],
       "created_at": "2026-12-18T14:00:00Z",
       "updated_at": "2026-12-18T16:00:00Z"
+    },
+    {
+      "id": "exp-maint-1",
+      "property_id": "prop-1",
+      "unit_id": "unit-101",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Dual sink drainage backup & P-trap seal replacement — Tenant reported kitchen sink standing water. Pipe cleared and sanitary gasket replaced.",
+      "amount": 260,
+      "date": "2026-01-12",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-100",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-1",
+          "file_name": "dual_sink_drainage_backup___p__invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Maple Heights Apartments (Suite 101)",
+          "uploaded_at": "2026-01-12T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-01-12T16:00:00Z",
+      "updated_at": "2026-01-12T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-2",
+      "property_id": "prop-2",
+      "unit_id": "unit-302",
+      "scope": "Unit",
+      "vendor_id": "ven-8",
+      "category": "Appliances",
+      "description": "Refrigerator inverter compressor relay starter failure — Fridge failing to cycle cool. Technician swapped compressor capacitor and PTC relay.",
+      "amount": 340,
+      "date": "2026-01-28",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-101",
+      "receipt_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-2",
+          "file_name": "refrigerator_inverter_compress_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Harbourview Residences (Suite 302)",
+          "uploaded_at": "2026-01-28T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-01-28T16:00:00Z",
+      "updated_at": "2026-01-28T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-3",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "scope": "Unit",
+      "vendor_id": "ven-3",
+      "category": "Repairs & Maintenance",
+      "description": "Breaker arc-fault trip & microwave dedicated circuit rewire — AFCI breaker tripping under load. Replaced faulty 20A breaker and tested continuity.",
+      "amount": 220,
+      "date": "2026-02-14",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-102",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-3",
+          "file_name": "breaker_arc_fault_trip___micro_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for King Street Lofts (Suite 1A)",
+          "uploaded_at": "2026-02-14T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-02-14T16:00:00Z",
+      "updated_at": "2026-02-14T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-4",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "scope": "Unit",
+      "vendor_id": "ven-2",
+      "category": "Repairs & Maintenance",
+      "description": "Air conditioning condensate pump clog & ceiling moisture protection — Condensate safety float switch triggered. Cleared drain pan algae and bleached drain line.",
+      "amount": 195,
+      "date": "2026-02-23",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-103",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-4",
+          "file_name": "air_conditioning_condensate_pu_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Capital View Residences (Suite 502)",
+          "uploaded_at": "2026-02-23T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-02-23T16:00:00Z",
+      "updated_at": "2026-02-23T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-5",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-3",
+      "category": "Repairs & Maintenance",
+      "description": "Entry door deadbolt latch alignment & heavy brass strike plate adjustment — Deadbolt jamming in winter expansion. Mortise pocket deepened and lubricated.",
+      "amount": 40000,
+      "date": "2026-03-08",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-104",
+      "receipt_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-5",
+          "file_name": "entry_door_deadbolt_latch_alig_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Eko Atlantic Waterfront Towers (Suite EA-204)",
+          "uploaded_at": "2026-03-08T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-03-08T16:00:00Z",
+      "updated_at": "2026-03-08T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-6",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Repairs & Maintenance",
+      "description": "Bathroom toilet flapper leak & silent fill valve replacement — Toilet constantly running, increasing water utility. Replaced Fluidmaster 400A assembly.",
+      "amount": 35000,
+      "date": "2026-03-17",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-105",
+      "receipt_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-6",
+          "file_name": "bathroom_toilet_flapper_leak___invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Ikoyi Luxury Heights & Suites (Suite IK-05)",
+          "uploaded_at": "2026-03-17T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-03-17T16:00:00Z",
+      "updated_at": "2026-03-17T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-7",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-4",
+      "category": "Repairs & Maintenance",
+      "description": "Post-leak ceiling plaster repair, stain block primer & ceiling coat — Previous moisture ring sealed with Zinsser oil-based stain blocker and matched flat white.",
+      "amount": 85000,
+      "date": "2026-04-05",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-106",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-7",
+          "file_name": "post_leak_ceiling_plaster_repa_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Maitama Diplomatic Residences (Suite MT-12)",
+          "uploaded_at": "2026-04-05T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-04-05T16:00:00Z",
+      "updated_at": "2026-04-05T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-8",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Appliances",
+      "description": "Dishwasher spray arm cracking & detergent dispenser door latch rebuild — Lower spray arm cracked causing water hammer. Replaced with OEM parts and tested.",
+      "amount": 50000,
+      "date": "2026-04-22",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-107",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-8",
+          "file_name": "dishwasher_spray_arm_cracking__invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Wuse II Executive Lofts (Suite W2-10)",
+          "uploaded_at": "2026-04-22T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-04-22T16:00:00Z",
+      "updated_at": "2026-04-22T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-9",
+      "property_id": "prop-1",
+      "unit_id": "unit-102",
+      "scope": "Unit",
+      "vendor_id": "ven-3",
+      "category": "Repairs & Maintenance",
+      "description": "Kitchen island pendant LED driver flicker & dimmer module replacement — Flickering 40W constant current driver replaced with Lutron electronic low-voltage driver.",
+      "amount": 160,
+      "date": "2026-05-11",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-108",
+      "receipt_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-9",
+          "file_name": "kitchen_island_pendant_led_dri_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Maple Heights Apartments (Suite 102)",
+          "uploaded_at": "2026-05-11T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-05-11T16:00:00Z",
+      "updated_at": "2026-05-11T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-10",
+      "property_id": "prop-2",
+      "unit_id": "unit-301",
+      "scope": "Unit",
+      "vendor_id": "ven-5",
+      "category": "Pest Control",
+      "description": "Seasonal preventive perimeter pest exclusion & bait station service — Foundation weep holes screened with brass wire mesh, non-toxic monitoring stations placed.",
+      "amount": 210,
+      "date": "2026-05-25",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-109",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-10",
+          "file_name": "seasonal_preventive_perimeter__invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Harbourview Residences (Suite 301)",
+          "uploaded_at": "2026-05-25T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-05-25T16:00:00Z",
+      "updated_at": "2026-05-25T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-11",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "scope": "Unit",
+      "vendor_id": "ven-2",
+      "category": "Repairs & Maintenance",
+      "description": "Heat pump seasonal refrigerant top-up & capacitor test — Unit blowing ambient air. Added 1.2 lbs R410A refrigerant and verified 18-degree delta T.",
+      "amount": 320,
+      "date": "2026-06-08",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-110",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-11",
+          "file_name": "heat_pump_seasonal_refrigerant_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for King Street Lofts (Suite 1A)",
+          "uploaded_at": "2026-06-08T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-06-08T16:00:00Z",
+      "updated_at": "2026-06-08T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-12",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "scope": "Unit",
+      "vendor_id": "ven-6",
+      "category": "Cleaning",
+      "description": "Turnover deep tile grout steam extraction & balcony power washing — Full unit restorative clean. Bathroom tiles steam-extracted and sealed against mold.",
+      "amount": 250,
+      "date": "2026-06-20",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-111",
+      "receipt_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-12",
+          "file_name": "turnover_deep_tile_grout_steam_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Capital View Residences (Suite 502)",
+          "uploaded_at": "2026-06-20T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-06-20T16:00:00Z",
+      "updated_at": "2026-06-20T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-13",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Repairs & Maintenance",
+      "description": "Shower thermostatic cartridge seized & pressure balancing spool replaced — Shower fluctuating hot/cold. Replaced Moen 1222 cartridge and cleaned limestone deposits.",
+      "amount": 75000,
+      "date": "2026-07-07",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-112",
+      "receipt_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-13",
+          "file_name": "shower_thermostatic_cartridge__invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Eko Atlantic Waterfront Towers (Suite EA-101)",
+          "uploaded_at": "2026-07-07T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-07-07T16:00:00Z",
+      "updated_at": "2026-07-07T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-14",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-1",
+      "category": "Appliances",
+      "description": "Clothes dryer thermal fuse blown & exhaust lint duct mechanical vacuuming — Dryer tumbling with zero heat. Replaced safety thermal cut-off and vacuumed 15-foot duct line.",
+      "amount": 80000,
+      "date": "2026-07-24",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-113",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-14",
+          "file_name": "clothes_dryer_thermal_fuse_blo_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Ikoyi Luxury Heights & Suites (Suite IK-05)",
+          "uploaded_at": "2026-07-24T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-07-24T16:00:00Z",
+      "updated_at": "2026-07-24T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-15",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-3",
+      "category": "Repairs & Maintenance",
+      "description": "Balcony sliding screen door track re-alignment and heavy-duty nylon rollers — Screen door derailed during windstorm. Installed stainless steel spring-loaded tandem wheels.",
+      "amount": 40000,
+      "date": "2026-08-14",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-114",
+      "receipt_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-15",
+          "file_name": "balcony_sliding_screen_door_tr_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Maitama Diplomatic Residences (Suite MT-12)",
+          "uploaded_at": "2026-08-14T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-08-14T16:00:00Z",
+      "updated_at": "2026-08-14T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-16",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-4",
+      "category": "Repairs & Maintenance",
+      "description": "Living room scuff touch-ups & baseboard gloss repainting after tenant move-in — Furniture move-in scrapes prepped, caulked at corner joints and touched up seamlessly.",
+      "amount": 50000,
+      "date": "2026-08-29",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-115",
+      "receipt_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-16",
+          "file_name": "living_room_scuff_touch_ups____invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Wuse II Executive Lofts (Suite W2-10)",
+          "uploaded_at": "2026-08-29T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-08-29T16:00:00Z",
+      "updated_at": "2026-08-29T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-17",
+      "property_id": "prop-1",
+      "unit_id": "unit-103",
+      "scope": "Unit",
+      "vendor_id": "ven-3",
+      "category": "Repairs & Maintenance",
+      "description": "Main balcony weatherproof outlet enclosure replacement & GFCI safety ground test — Cracked weatherproof bubble cover replaced with in-use metallic cover for code compliance.",
+      "amount": 165,
+      "date": "2026-09-15",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-116",
+      "receipt_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-17",
+          "file_name": "main_balcony_weatherproof_outl_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Maple Heights Apartments (Suite 103)",
+          "uploaded_at": "2026-09-15T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-09-15T16:00:00Z",
+      "updated_at": "2026-09-15T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-18",
+      "property_id": "prop-2",
+      "unit_id": "unit-303",
+      "scope": "Unit",
+      "vendor_id": "ven-2",
+      "category": "Repairs & Maintenance",
+      "description": "Pre-winter central boiler inspection & zone control motorized actuator replacement — Zone 2 actuator motor unresponsive. Swapped with Honeywell 24V synchronous motorized head.",
+      "amount": 360,
+      "date": "2026-10-18",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-117",
+      "receipt_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-18",
+          "file_name": "pre_winter_central_boiler_insp_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Harbourview Residences (Suite 303)",
+          "uploaded_at": "2026-10-18T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-10-18T16:00:00Z",
+      "updated_at": "2026-10-18T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-19",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Under-sink water filtration RO membrane change & sanitized pressure tank repressurization — Slow drinking water flow. Swapped 50 GPD membrane and sediment carbon pre-filters.",
+      "amount": 180,
+      "date": "2026-11-12",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-118",
+      "receipt_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-19",
+          "file_name": "under_sink_water_filtration_ro_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for King Street Lofts (Suite 1A)",
+          "uploaded_at": "2026-11-12T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-11-12T16:00:00Z",
+      "updated_at": "2026-11-12T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-20",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "scope": "Unit",
+      "vendor_id": "ven-6",
+      "category": "Cleaning",
+      "description": "Year-end lobby and common corridor deep carpet shampoo and odor neutralization — Commercial hot-water extraction performed on 3 floors of corridor carpet runner.",
+      "amount": 320,
+      "date": "2026-12-05",
+      "payment_status": "Paid",
+      "invoice_number": "INV-CA-2026-119",
+      "receipt_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-20",
+          "file_name": "year_end_lobby_and_common_corr_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Capital View Residences (Suite 502)",
+          "uploaded_at": "2026-12-05T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-12-05T16:00:00Z",
+      "updated_at": "2026-12-05T16:30:00Z"
+    },
+    {
+      "id": "exp-maint-21",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "scope": "Unit",
+      "vendor_id": "ven-ng-3",
+      "category": "Repairs & Maintenance",
+      "description": "Underground garage security gate optical sensor re-calibration & chain lubrication — Safety reversal eye obstructed by road salt dust. Cleaned, aligned beams and greased rollers.",
+      "amount": 75000,
+      "date": "2026-12-20",
+      "payment_status": "Paid",
+      "invoice_number": "INV-NG-2026-120",
+      "receipt_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+      "share_with_landlord": true,
+      "proofs": [
+        {
+          "id": "prf-exp-maint-21",
+          "file_name": "underground_garage_security_ga_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Official vendor tax receipt & completed work order for Eko Atlantic Waterfront Towers (Suite EA-302)",
+          "uploaded_at": "2026-12-20T16:30:00Z"
+        }
+      ],
+      "created_at": "2026-12-20T16:00:00Z",
+      "updated_at": "2026-12-20T16:30:00Z"
     }
   ],
   "notices": [
@@ -4166,6 +5132,3840 @@
       "team_lead_signed_by": "Marcus Vance",
       "created_at": "2026-10-30T10:00:00Z",
       "updated_at": "2026-11-04T11:15:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-1",
+      "property_id": "prop-1",
+      "unit_id": "unit-101",
+      "title": "Move-In Condition & Key Handover Audit - Suite 101",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 101",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-1-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-1-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 85,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-2",
+      "property_id": "prop-1",
+      "unit_id": "unit-102",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite 102",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 102",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 110,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-3",
+      "property_id": "prop-1",
+      "unit_id": "unit-103",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite 103",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 103",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-1-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 135,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-4",
+      "property_id": "prop-1",
+      "unit_id": "unit-104",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite 104",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 104",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-1-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 160,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-5",
+      "property_id": "prop-1",
+      "unit_id": "unit-105",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite 105",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 105",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-1-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 185,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-6",
+      "property_id": "prop-1",
+      "unit_id": "unit-201",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite 201",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 201",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 210,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-1-7",
+      "property_id": "prop-1",
+      "unit_id": "unit-204",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite 204",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-1-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 204",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-1-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-1-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 235,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-1",
+      "property_id": "prop-2",
+      "unit_id": "unit-301",
+      "title": "Move-In Condition & Key Handover Audit - Suite 301",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 301",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-2-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-2-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 85,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-2",
+      "property_id": "prop-2",
+      "unit_id": "unit-302",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite 302",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 302",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 110,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-3",
+      "property_id": "prop-2",
+      "unit_id": "unit-303",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite 303",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 303",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-2-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 135,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-4",
+      "property_id": "prop-2",
+      "unit_id": "unit-301",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite 301",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 301",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-2-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 160,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-5",
+      "property_id": "prop-2",
+      "unit_id": "unit-302",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite 302",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 302",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-2-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 185,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-6",
+      "property_id": "prop-2",
+      "unit_id": "unit-303",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite 303",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 303",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 210,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-7",
+      "property_id": "prop-2",
+      "unit_id": "unit-301",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite 301",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 301",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-2-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-2-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 235,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-2-8",
+      "property_id": "prop-2",
+      "unit_id": "unit-302",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite 302",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-2-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 302",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 260,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-1",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Move-In Condition & Key Handover Audit - Suite 1A",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 1A",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-3-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 85,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-2",
+      "property_id": "prop-3",
+      "unit_id": "unit-402",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite 2B",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 2B",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 110,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-3",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite 1A",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 1A",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 135,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-4",
+      "property_id": "prop-3",
+      "unit_id": "unit-402",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite 2B",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 2B",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 160,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-5",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite 1A",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 1A",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 185,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-6",
+      "property_id": "prop-3",
+      "unit_id": "unit-402",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite 2B",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 2B",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 210,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-7",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite 1A",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 1A",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-3-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 235,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-8",
+      "property_id": "prop-3",
+      "unit_id": "unit-402",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite 2B",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 2B",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 260,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-3-9",
+      "property_id": "prop-3",
+      "unit_id": "unit-401",
+      "title": "Smart Lock Keypad & Biometric Access Firmware Audit - Suite 1A",
+      "scheduled_date": "2026-09-26",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Yale/August deadbolt motor torque calibrated. Gateway Wi-Fi bridge signal strength verified at 94%.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-3-9-photo",
+          "file_name": "smart_lock_keypad___biome_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 1A",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-3-9-video",
+          "file_name": "walkthrough_2026-09-26.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 285,
+      "team_lead_signed_at": "2026-09-26T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-09-26T08:00:00Z",
+      "updated_at": "2026-09-26T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-1",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "title": "Move-In Condition & Key Handover Audit - Suite 501",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 501",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-4-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 85,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-2",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite 502",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 502",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 110,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-3",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite 501",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 501",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 135,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-4",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite 502",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 502",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 160,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-5",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite 501",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 501",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 185,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-6",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite 502",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 502",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 210,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-7",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite 501",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 501",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "att-insp-gen-prop-4-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Marcus Vance summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 235,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-8",
+      "property_id": "prop-4",
+      "unit_id": "unit-502",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite 502",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 502",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 260,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-4-9",
+      "property_id": "prop-4",
+      "unit_id": "unit-501",
+      "title": "Smart Lock Keypad & Biometric Access Firmware Audit - Suite 501",
+      "scheduled_date": "2026-09-26",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Yale/August deadbolt motor torque calibrated. Gateway Wi-Fi bridge signal strength verified at 94%.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-4-9-photo",
+          "file_name": "smart_lock_keypad___biome_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite 501",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-4-9-video",
+          "file_name": "walkthrough_2026-09-26.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "incurred_cost": 285,
+      "team_lead_signed_at": "2026-09-26T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-09-26T08:00:00Z",
+      "updated_at": "2026-09-26T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "title": "Move-In Condition & Key Handover Audit - Suite EA-101",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-101",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-5-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-5-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 45000,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-2",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite EA-204",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-204",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 55000,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-3",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite EA-302",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-302",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-5-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 65000,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-4",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite EA-101",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-101",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-5-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: David Adeleke summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "David Adeleke"
+        }
+      ],
+      "incurred_cost": 75000,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-5",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite EA-204",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-204",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-5-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 85000,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-6",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite EA-302",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-302",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 95000,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-5-7",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite EA-101",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-5-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite EA-101",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-5-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-5-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 105000,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-1",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "title": "Move-In Condition & Key Handover Audit - Suite IK-02",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-02",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-6-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-6-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 45000,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-2",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite IK-05",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-05",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 55000,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-3",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite IK-02",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-02",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-6-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 65000,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-4",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite IK-05",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-05",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-6-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: David Adeleke summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "David Adeleke"
+        }
+      ],
+      "incurred_cost": 75000,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-5",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite IK-02",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-02",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-6-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 85000,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-6",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite IK-05",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-05",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 95000,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-7",
+      "property_id": "prop-6",
+      "unit_id": "unit-601",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite IK-02",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-02",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-6-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-6-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 105000,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-6-8",
+      "property_id": "prop-6",
+      "unit_id": "unit-602",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite IK-05",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-6-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite IK-05",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 115000,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-1",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "title": "Move-In Condition & Key Handover Audit - Suite MT-12",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-12",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-7-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 45000,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-2",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite MT-15",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-15",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 55000,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-3",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite MT-12",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-12",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 65000,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-4",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite MT-15",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-15",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: David Adeleke summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "David Adeleke"
+        }
+      ],
+      "incurred_cost": 75000,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-5",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite MT-12",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-12",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 85000,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-6",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite MT-15",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-15",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 95000,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-7",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite MT-12",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-12",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-7-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 105000,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-8",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite MT-15",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-15",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 115000,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-7-9",
+      "property_id": "prop-7",
+      "unit_id": "unit-701",
+      "title": "Smart Lock Keypad & Biometric Access Firmware Audit - Suite MT-12",
+      "scheduled_date": "2026-09-26",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Yale/August deadbolt motor torque calibrated. Gateway Wi-Fi bridge signal strength verified at 94%.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-7-9-photo",
+          "file_name": "smart_lock_keypad___biome_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite MT-12",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-7-9-video",
+          "file_name": "walkthrough_2026-09-26.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 125000,
+      "team_lead_signed_at": "2026-09-26T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-09-26T08:00:00Z",
+      "updated_at": "2026-09-26T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-1",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Move-In Condition & Key Handover Audit - Suite W2-08",
+      "scheduled_date": "2026-01-10",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Complete inventory check, utility meter baseline logged, passcodes provided to incoming occupant.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-1-photo",
+          "file_name": "move_in_condition___key_h_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-08",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-1-video",
+          "file_name": "walkthrough_2026-01-10.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-8-1-audio",
+          "file_name": "auditor_briefing_2026-01-10.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-01-10T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 45000,
+      "team_lead_signed_at": "2026-01-10T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-2",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "title": "Quarterly Safety & Smoke Alarm Compliance Check - Suite W2-10",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Lithium battery voltage verified, egress windows clear, extinguisher gauges in green zone.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-2-photo",
+          "file_name": "quarterly_safety___smoke__proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-10",
+          "share_with_landlord": true,
+          "recorded_at": "2026-02-12T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 55000,
+      "team_lead_signed_at": "2026-02-12T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-02-12T08:00:00Z",
+      "updated_at": "2026-02-12T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-3",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Pre-Turnover Sanitary & Deep Cleaning Audit - Suite W2-08",
+      "scheduled_date": "2026-03-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Turnover cleaning certified. High-touch surfaces disinfected, linens replaced, oven and fridge degreased.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-3-photo",
+          "file_name": "pre_turnover_sanitary___d_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-08",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-3-video",
+          "file_name": "walkthrough_2026-03-14.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-03-14T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 65000,
+      "team_lead_signed_at": "2026-03-14T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-03-14T08:00:00Z",
+      "updated_at": "2026-03-14T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-4",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "title": "HVAC Airflow Balancing & Seasonal Filter Replacement - Suite W2-10",
+      "scheduled_date": "2026-04-16",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Static duct pressure measured, MERV-13 filters installed, condenser amperage draw steady.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-4-photo",
+          "file_name": "hvac_airflow_balancing____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-10",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-4-audio",
+          "file_name": "auditor_briefing_2026-04-16.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: David Adeleke summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-04-16T10:45:00Z",
+          "recorded_by": "David Adeleke"
+        }
+      ],
+      "incurred_cost": 75000,
+      "team_lead_signed_at": "2026-04-16T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-04-16T08:00:00Z",
+      "updated_at": "2026-04-16T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-5",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Balcony Membrane & Exterior Threshold Waterproofing Inspection - Suite W2-08",
+      "scheduled_date": "2026-05-18",
+      "scheduled_time": "13:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Drain scuppers cleared, expansion caulking flexible, sliding door roller tracks lubricated.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-5-photo",
+          "file_name": "balcony_membrane___exteri_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-08",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-5-video",
+          "file_name": "walkthrough_2026-05-18.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-05-18T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 85000,
+      "team_lead_signed_at": "2026-05-18T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-05-18T08:00:00Z",
+      "updated_at": "2026-05-18T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-6",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "title": "Plumbing Moisture Scan & Pressure Regulator Verification - Suite W2-10",
+      "scheduled_date": "2026-06-20",
+      "scheduled_time": "9:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Infrared moisture scan behind kitchen and vanity walls negative for dampness. Supply valves shut smoothly.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-6-photo",
+          "file_name": "plumbing_moisture_scan____proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-10",
+          "share_with_landlord": true,
+          "recorded_at": "2026-06-20T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 95000,
+      "team_lead_signed_at": "2026-06-20T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-06-20T08:00:00Z",
+      "updated_at": "2026-06-20T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-7",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Electrical Panel & GFCI Receptacle Safety Test - Suite W2-08",
+      "scheduled_date": "2026-07-22",
+      "scheduled_time": "10:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "All wet-area GFCI breakers tripped and reset within 25ms. Thermal scan of panel busbars healthy.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Excellent",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-7-photo",
+          "file_name": "electrical_panel___gfci_r_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-08",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-7-video",
+          "file_name": "walkthrough_2026-07-22.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "att-insp-gen-prop-8-7-audio",
+          "file_name": "auditor_briefing_2026-07-22.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Voicenote: Amara Okafor summarizing key findings and maintenance recommendations",
+          "share_with_landlord": true,
+          "recorded_at": "2026-07-22T10:45:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 105000,
+      "team_lead_signed_at": "2026-07-22T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-07-22T08:00:00Z",
+      "updated_at": "2026-07-22T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-8",
+      "property_id": "prop-8",
+      "unit_id": "unit-802",
+      "title": "Mid-Lease Routine Condition & Maintenance Walkthrough - Suite W2-10",
+      "scheduled_date": "2026-08-24",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-3",
+      "team_lead_name": "David Adeleke",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-3",
+          "staff_name": "David Adeleke",
+          "staff_role": "Turnover Specialist",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant in good standing. No unapproved alterations. Minor scuff buffed from hallway wall.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-8-photo",
+          "file_name": "mid_lease_routine_conditi_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-10",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-24T10:15:00Z"
+        }
+      ],
+      "incurred_cost": 115000,
+      "team_lead_signed_at": "2026-08-24T11:30:00Z",
+      "team_lead_signed_by": "David Adeleke (Lead)",
+      "created_at": "2026-08-24T08:00:00Z",
+      "updated_at": "2026-08-24T11:30:00Z"
+    },
+    {
+      "id": "insp-gen-prop-8-9",
+      "property_id": "prop-8",
+      "unit_id": "unit-801",
+      "title": "Smart Lock Keypad & Biometric Access Firmware Audit - Suite W2-08",
+      "scheduled_date": "2026-09-26",
+      "scheduled_time": "12:00 AM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Yale/August deadbolt motor torque calibrated. Gateway Wi-Fi bridge signal strength verified at 94%.",
+      "findings": [
+        {
+          "area": "Living Area",
+          "rating": "Good",
+          "remarks": "Flooring, trim and light fixtures intact."
+        },
+        {
+          "area": "Kitchen / Bath",
+          "rating": "Good",
+          "remarks": "Plumbing seals dry, appliances operating normally."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-insp-gen-prop-8-9-photo",
+          "file_name": "smart_lock_keypad___biome_proof.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Auditor photo verification for Suite W2-08",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:15:00Z"
+        },
+        {
+          "id": "att-insp-gen-prop-8-9-video",
+          "file_name": "walkthrough_2026-09-26.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Video walkthrough documenting interior condition and operating fixtures",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-26T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
+      "incurred_cost": 125000,
+      "team_lead_signed_at": "2026-09-26T11:30:00Z",
+      "team_lead_signed_by": "Amara Okafor (Lead)",
+      "created_at": "2026-09-26T08:00:00Z",
+      "updated_at": "2026-09-26T11:30:00Z"
     }
   ],
   "landlords": [
