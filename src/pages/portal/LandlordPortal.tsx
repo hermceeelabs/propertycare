@@ -620,8 +620,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                             }`}>
                               {propOccupancyRate}% Occupied ({propOccupiedUnits.length}/{propUnits.length} Units)
                             </span>
-                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-600">
-                              {activeProp.business_model || activeProp.acquisition?.acquisition_type || 'Direct Management'}
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-700 border border-stone-200">
+                              {activeProp.business_model === 'Corporate Master Lease'
+                                ? 'Corporate Master Lease (Guaranteed Remittance)'
+                                : activeProp.business_model === 'Revenue Share'
+                                ? 'Turnkey Shortlet (STR Revenue Share)'
+                                : 'Direct Management Contract (10% Fee)'}
                             </span>
                           </div>
                         </div>
@@ -894,7 +898,13 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
 
                         {/* Action Footer */}
                         <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
-                          <span className="font-semibold text-stone-700">{prop.business_model || prop.acquisition?.acquisition_type || 'Direct Management'}</span>
+                          <span className="font-semibold text-stone-700">
+                            {prop.business_model === 'Corporate Master Lease'
+                              ? 'Corporate Master Lease'
+                              : prop.business_model === 'Revenue Share'
+                              ? 'Turnkey Shortlet (STR Share)'
+                              : 'Direct Management'}
+                          </span>
                           <span className="text-brand-600 font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
                             Explore Suites & Tenancies <ChevronRight className="w-3.5 h-3.5" />
                           </span>
@@ -1182,28 +1192,63 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                     </div>
                   </div>
 
-                  {/* Acquisition Details */}
-                  {selectedPropertyDetail.acquisition && (
-                    <div className="p-4 bg-stone-50/80 rounded-2xl border border-stone-200 space-y-2">
-                      <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider">Asset Acquisition & Ownership Structure</h4>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs pt-1">
+                  {/* Asset Ownership & Management Mandate */}
+                  <div className="p-4 bg-stone-50/80 rounded-2xl border border-stone-200 space-y-2">
+                    <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center justify-between">
+                      <span>Asset Ownership & Management Mandate</span>
+                      <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-bold">
+                        Title Holder: {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
+                      </span>
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs pt-1">
+                      <div>
+                        <span className="text-stone-400 block text-[10px]">Operating Mandate</span>
+                        <span className="font-semibold text-stone-800">
+                          {selectedPropertyDetail.business_model === 'Corporate Master Lease'
+                            ? 'Corporate Master Lease'
+                            : selectedPropertyDetail.business_model === 'Revenue Share'
+                            ? 'Turnkey STR Rev-Share'
+                            : 'Direct Property Management'}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-stone-400 block text-[10px]">Remittance Agreement</span>
+                        <span className="font-semibold text-stone-800">
+                          {selectedPropertyDetail.landlord_contract?.remittance_frequency || landlord.remittance_frequency || 'Monthly'} Cycle
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-stone-400 block text-[10px]">Managing Agency</span>
+                        <span className="font-semibold text-stone-800">
+                          PropertyFlow Premier Asset Mgmt
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Landlord Asset Valuation & Tax Depreciation Guidance */}
+                    {selectedPropertyDetail.acquisition && (
+                      <div className="mt-3 pt-3 border-t border-stone-200/80 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                         <div>
-                          <span className="text-stone-400 block text-[10px]">Structure</span>
-                          <span className="font-semibold text-stone-800">{selectedPropertyDetail.acquisition.acquisition_type}</span>
-                        </div>
-                        <div>
-                          <span className="text-stone-400 block text-[10px]">Acquisition Date</span>
-                          <span className="font-semibold text-stone-800">{selectedPropertyDetail.acquisition.acquisition_date}</span>
-                        </div>
-                        <div>
-                          <span className="text-stone-400 block text-[10px]">Historical Cost</span>
+                          <span className="text-stone-400 block text-[10px]">Owner Asset Basis / Valuation</span>
                           <span className="font-semibold text-stone-800">
-                            {formatAmountInTarget(selectedPropertyDetail.acquisition.total_acquisition_cost || 0, selectedPropertyDetail.acquisition.acquisition_currency || 'CAD')}
+                            {formatAmountInTarget(selectedPropertyDetail.acquisition.total_acquisition_cost || 0, selectedPropertyDetail.acquisition.acquisition_currency || nativeCurr)}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-stone-400 block text-[10px]">Annual Capital Allowance / Depr.</span>
+                          <span className="font-semibold text-stone-800">
+                            {formatAmountInTarget(selectedPropertyDetail.acquisition.annual_depreciation_or_amort || 0, selectedPropertyDetail.acquisition.acquisition_currency || nativeCurr)}/yr
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-stone-400 block text-[10px]">Statutory Depr. Term</span>
+                          <span className="font-semibold text-stone-800">
+                            {selectedPropertyDetail.acquisition.amortization_period_years || 25} Years
                           </span>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   {/* Property Expenses & Invoices */}
                   <div className="space-y-3">

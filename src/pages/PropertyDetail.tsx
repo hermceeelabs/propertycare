@@ -216,10 +216,17 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             <span className="text-xs font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded border border-brand-200">
               {property.property_type}
             </span>
-            <span className="text-xs font-bold bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
-              <Landmark className="w-3.5 h-3.5" />
-              {acquisition.acquisition_type}: {formatMoney(acquisition.total_acquisition_cost, { maximumFractionDigits: 0 })}
-            </span>
+            {property.ownership_type === 'Firm-Owned' ? (
+              <span className="text-xs font-bold bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded border border-purple-200 flex items-center gap-1">
+                <Landmark className="w-3.5 h-3.5" />
+                Firm Asset ({property.acquisition?.acquisition_type || 'Outright'}): {formatMoney(acquisition.total_acquisition_cost, { maximumFractionDigits: 0 })}
+              </span>
+            ) : (
+              <span className="text-xs font-bold bg-amber-50 text-amber-800 px-2.5 py-0.5 rounded border border-amber-200 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" />
+                Landlord Asset · {property.business_model || 'Direct Management'} Mandate
+              </span>
+            )}
             <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
               {property.status}
             </span>
@@ -264,7 +271,15 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
       <div className="flex items-center gap-1 border-b border-slate-200 overflow-x-auto pb-px">
         {[
           { id: 'financials', label: 'Unit Economics & Profit', icon: TrendingUp },
-          { id: 'asset', label: 'Asset Management & Amortization', icon: Landmark },
+          {
+            id: 'asset',
+            label: property.ownership_type === 'Firm-Owned'
+              ? 'Firm Amortization & Balance Sheet'
+              : property.business_model === 'Corporate Master Lease'
+              ? 'Master Lease Capex Amortization'
+              : 'Owner Asset Basis & Advisory',
+            icon: Landmark
+          },
           { id: 'overview', label: 'Overview', icon: Building2 },
           { id: 'units', label: `Units (${units.length})`, icon: Home },
           { id: 'tenants', label: `Tenants (${tenants.length})`, icon: Users },
@@ -299,8 +314,20 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
           <div className="space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h3 className="font-bold text-slate-900 text-base">Asset Capitalization, Amortization & Break-Even Horizon</h3>
-                <p className="text-xs text-slate-500">Track capital recovery on acquisition equity vs operational cash yields</p>
+                <h3 className="font-bold text-slate-900 text-base">
+                  {property.ownership_type === 'Firm-Owned'
+                    ? 'Firm Asset Capitalization, Amortization & Balance Sheet Payback'
+                    : property.business_model === 'Corporate Master Lease'
+                    ? 'Master Lease Capex & Upfront Capital Payback Horizon'
+                    : 'Landlord Asset Valuation & Capital Allowance Advisory'}
+                </h3>
+                <p className="text-xs text-slate-500">
+                  {property.ownership_type === 'Firm-Owned'
+                    ? '100% corporate balance sheet asset owned by firm. Tracking equity recovery and structural debt amortization.'
+                    : property.business_model === 'Corporate Master Lease'
+                    ? 'Institutional leasehold leased by firm. Tracking recovery of fit-out capex and security deposits against sublease margins.'
+                    : 'Landlord-owned asset operated under management mandate. Firm acts as managing agent without balance sheet capital expenditure.'}
+                </p>
               </div>
 
               <button

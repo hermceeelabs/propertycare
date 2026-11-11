@@ -128,10 +128,16 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
                     <span className="text-[11px] font-bold text-brand-700 bg-brand-50 border border-brand-200/60 px-2 py-0.5 rounded uppercase">
                       {property.property_type}
                     </span>
-                    {acq && (
+                    {/* Ownership & Operating Mandate Badge */}
+                    {property.ownership_type === 'Firm-Owned' ? (
                       <span className="text-[11px] font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded flex items-center gap-1">
-                        {acq.acquisition_type === 'Outright Purchase' ? <Landmark className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                        {acq.acquisition_type}
+                        <Landmark className="w-3 h-3" />
+                        Firm Asset ({property.acquisition?.acquisition_type || 'Balance Sheet'})
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        Landlord Asset · {property.business_model || 'Direct Management'}
                       </span>
                     )}
                     <span className={`text-[11px] font-extrabold px-2 py-0.5 rounded ${margin >= 50 ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}`}>
