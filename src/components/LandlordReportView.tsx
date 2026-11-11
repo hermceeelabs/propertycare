@@ -118,6 +118,34 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
     }, 0);
   }, [filteredExpenses, currentCurrency]);
 
+  // All owned units
+  const ownedUnits = useMemo(() => {
+    return (dbState.units || []).filter(u => ownedPropertyIds.includes(u.property_id));
+  }, [dbState.units, ownedPropertyIds]);
+
+  // Overall Contracted Gross Monthly Rent across portfolio
+  const contractedGrossMonthlyInActiveCurr = useMemo(() => {
+    return ownedUnits
+      .filter(u => u.status === 'Occupied')
+      .reduce((sum, u) => {
+        const nativeCurr = getPropNativeCurrency(u.property_id);
+        return sum + convertAmount(u.monthly_rent || 0, nativeCurr, currentCurrency);
+      }, 0);
+  }, [ownedUnits, currentCurrency]);
+
+  const mgmtFeePercent = landlord.management_fee_percentage ?? 10.0;
+  const managementFeeInActiveCurr = Math.round((contractedGrossMonthlyInActiveCurr * mgmtFeePercent) / 100);
+
+  // Total recorded expenses across all owned assets (lifetime / all-time)
+  const totalAllTimeExpensesInActiveCurr = useMemo(() => {
+    return (dbState.expenses || [])
+      .filter(e => ownedPropertyIds.includes(e.property_id))
+      .reduce((acc, e) => {
+        const nativeCurr = getPropNativeCurrency(e.property_id);
+        return acc + convertAmount(e.amount || 0, nativeCurr, currentCurrency);
+      }, 0);
+  }, [dbState.expenses, ownedPropertyIds, currentCurrency]);
+
   const totalRevenueInActiveCurr = useMemo(() => {
     return filteredPayments.reduce((acc, p) => {
       const lease = (dbState.leases || []).find(l => l.id === p.lease_id);
@@ -126,6 +154,8 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       return acc + convertAmount(p.amount_paid || 0, nativeCurr, currentCurrency);
     }, 0);
   }, [filteredPayments, dbState.leases, dbState.units, currentCurrency]);
+
+  const netRemittanceInActiveCurr = contractedGrossMonthlyInActiveCurr - managementFeeInActiveCurr - totalAllTimeExpensesInActiveCurr;
 
   const hasActivity = filteredInspections.length > 0 || filteredExpenses.length > 0 || filteredPayments.length > 0;
 
@@ -139,16 +169,45 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       {/* Adopted Title and Subtitle Section Design with Divider */}
       <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
         <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">
-          Portfolio Operational & Financial Audit
+          Financials & Reports
         </h1>
         <span className="hidden sm:inline text-cream-400 font-light">|</span>
         <p className="text-sm text-stone-600">
-          Daily timeline, verified field inspections with media proofs & itemized expense invoices
+          Remittance settlement ledgers, live currency calculations, verified field audits & expense proofs
         </p>
       </div>
 
       {/* Visual Divider */}
       <hr className="border-t border-slate-800/80" />
+
+      {/* Contracted Remittance Settlement Ledger Summary (Consolidated from Yield & Remittances) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 print:grid-cols-3">
+        <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+          <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Total Contracted Rent</span>
+          <div className="text-2xl font-black text-stone-900">
+            {currencyConfig.symbol}{contractedGrossMonthlyInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </div>
+          <span className="text-[11px] text-emerald-600 font-bold">100% Contracted Monthly Yield</span>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+          <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Management Fee ({mgmtFeePercent}%)</span>
+          <div className="text-2xl font-black text-stone-600">
+            -{currencyConfig.symbol}{managementFeeInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </div>
+          <span className="text-[11px] text-stone-400">Retained for property management & operations</span>
+        </div>
+
+        <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl shadow-xs space-y-1">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-900">Net Transfer Amount</span>
+          <div className="text-2xl font-black text-emerald-800">
+            {currencyConfig.symbol}{netRemittanceInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+          </div>
+          <span className="text-[11px] text-emerald-700 font-bold truncate block">
+            Direct payout to {landlord.bank_name || 'Designated Bank'}
+          </span>
+        </div>
+      </div>
 
       {/* Export / Print Actions Row */}
       <div className="flex justify-end gap-2 print:hidden">

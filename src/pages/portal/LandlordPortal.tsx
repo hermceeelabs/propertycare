@@ -10,7 +10,7 @@ import { LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } 
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 import { LandlordReportView } from '../../components/LandlordReportView';
 
-export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'reports' | 'maintenance' | 'delegates';
+export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'maintenance' | 'delegates';
 
 interface LandlordPortalProps {
   dbState: DatabaseState;
@@ -164,9 +164,8 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
       title: 'Investor Portfolio',
       items: [
         { id: 'overview' as LandlordNavTab, label: 'Portfolio Overview', icon: LayoutDashboard },
-        { id: 'properties' as LandlordNavTab, label: 'Owned Assets & Units', icon: Building2, badge: `${ownedProperties.length}` },
-        { id: 'financials' as LandlordNavTab, label: 'Yield & Remittances', icon: CreditCard },
-        { id: 'reports' as LandlordNavTab, label: 'Reports & Audits', icon: FileText },
+        { id: 'properties' as LandlordNavTab, label: 'Holdings & Assets', icon: Building2, badge: `${ownedProperties.length}` },
+        { id: 'financials' as LandlordNavTab, label: 'Financials & Reports', icon: FileText },
       ]
     },
     {
@@ -525,16 +524,16 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           )}
 
           {/* =========================================================================
-              VIEW 2: OWNED ASSETS & UNITS (COMPACT CARD DIRECTORY & INLINE UNIFIED 360 HUB)
+              VIEW 2: HOLDINGS & ASSETS (PURE PHYSICAL INVENTORY, SUITE CONFIGURATIONS & TENANCIES)
               ========================================================================= */}
           {currentTab === 'properties' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
               <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Owned Assets & Unit Registry</h1>
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Holdings & Assets</h1>
                 <span className="hidden sm:inline text-cream-400 font-light">|</span>
                 <p className="text-sm text-stone-600">
-                  Select any building to view its unified financial ledger, maintenance records, and unit-by-unit resident breakdown
+                  Comprehensive real estate portfolio registry, building specifications, suite configurations, and active tenancies
                 </p>
               </div>
 
@@ -548,13 +547,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 const propOccupiedUnits = propUnits.filter(u => u.status === 'Occupied');
                 const propOccupancyRate = propUnits.length > 0 ? Math.round((propOccupiedUnits.length / propUnits.length) * 100) : 0;
                 const nativeCurr = getPropNativeCurrency(activeProp.id);
-                const propExpenses = (dbState.expenses || []).filter(e => e.property_id === activeProp.id);
-                const propTotalExpenses = propExpenses.reduce((acc, e) => acc + (e.amount || 0), 0);
-                const propMaintenance = (dbState.maintenance_requests || []).filter(m => {
-                  const pId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
-                  return pId === activeProp.id;
-                });
-                const propInspections = (dbState.inspections || []).filter(i => i.property_id === activeProp.id);
 
                 // Filtered units based on quick pill filter
                 const filteredPropUnits = propUnits.filter(u => {
@@ -567,8 +559,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 const activeUnit = propUnits.find(u => u.id === activeUnitTabId) || propUnits[0];
                 const activeLease = activeUnit ? (dbState.leases || []).find(l => l.unit_id === activeUnit.id && l.status === 'Active') : null;
                 const activeTenant = activeLease ? (dbState.tenants || []).find(t => t.id === activeLease.tenant_id) : null;
-                const activeUnitExpenses = activeUnit ? (dbState.expenses || []).filter(e => e.unit_id === activeUnit.id) : [];
-                const activeUnitExpTotal = activeUnitExpenses.reduce((acc, e) => acc + e.amount, 0);
 
                 return (
                   <div className="space-y-6">
@@ -602,7 +592,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                       </div>
                     </div>
 
-                    {/* Unified Property Header Banner */}
+                    {/* Property Specification Banner */}
                     <div className="bg-white rounded-3xl border border-stone-200/90 shadow-sm p-6 space-y-5">
                       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-stone-100 pb-5">
                         <div className="space-y-2">
@@ -636,32 +626,24 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                           </div>
                         </div>
 
-                        {/* Top Financial KPI Strip */}
+                        {/* Property Specs Pill Grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 shrink-0">
                           <div className="px-4 py-2.5 bg-stone-50 rounded-2xl border border-stone-200/80 text-right">
-                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Monthly Gross</span>
-                            <DualCurrencyDisplay
-                              amount={propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0)}
-                              nativeCurrency={nativeCurr}
-                              primaryClassName="text-sm font-black text-stone-900"
-                              secondaryClassName="text-[10px] text-stone-400 block"
-                            />
+                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Suites</span>
+                            <span className="text-sm font-black text-stone-900 block">{propUnits.length} Registered</span>
+                            <span className="text-[10px] text-stone-400 block">{propOccupiedUnits.length} Leased • {propUnits.length - propOccupiedUnits.length} Vacant</span>
                           </div>
 
-                          <div className="px-4 py-2.5 bg-rose-50/60 rounded-2xl border border-rose-200/80 text-right">
-                            <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">Total Costs</span>
-                            <DualCurrencyDisplay
-                              amount={propTotalExpenses}
-                              nativeCurrency={nativeCurr}
-                              primaryClassName="text-sm font-black text-rose-700"
-                              secondaryClassName="text-[10px] text-rose-500/80 block"
-                            />
+                          <div className="px-4 py-2.5 bg-stone-50 rounded-2xl border border-stone-200/80 text-right">
+                            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Building Type</span>
+                            <span className="text-sm font-black text-stone-800 block">{activeProp.property_type}</span>
+                            <span className="text-[10px] text-stone-400 block">{activeProp.city}, {activeProp.province}</span>
                           </div>
 
                           <div className="px-4 py-2.5 bg-emerald-50/60 rounded-2xl border border-emerald-200/80 text-right col-span-2 sm:col-span-1">
-                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Net Remitted</span>
+                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Contracted Rent</span>
                             <DualCurrencyDisplay
-                              amount={Math.max(0, propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0) - propTotalExpenses)}
+                              amount={propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0)}
                               nativeCurrency={nativeCurr}
                               primaryClassName="text-sm font-black text-emerald-800"
                               secondaryClassName="text-[10px] text-emerald-600/80 block"
@@ -670,14 +652,14 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         </div>
                       </div>
 
-                      {/* Unified Property Intelligence & Unit Filter Toolbar */}
+                      {/* Suite Explorer & Unit Filter Toolbar */}
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
                         <div>
                           <h3 className="text-xs font-bold text-stone-900 uppercase tracking-wider flex items-center gap-1.5">
                             <Home className="w-3.5 h-3.5 text-stone-500" />
                             Individual Unit Explorer ({propUnits.length} Total Suites)
                           </h3>
-                          <p className="text-[11px] text-stone-400">Select any suite tab below to inspect tenant lease, contracted rent, and unit-level invoices</p>
+                          <p className="text-[11px] text-stone-400">Select any suite tab below to inspect tenant lease, configurations, and contracted rent</p>
                         </div>
 
                         {/* Quick Filter Pills */}
@@ -725,7 +707,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         })}
                       </div>
 
-                      {/* Active Unit Drill-Down Card (Inline, no modal required) */}
+                      {/* Active Unit Drill-Down Card (Pure Unit & Lease Information) */}
                       {activeUnit && (
                         <div className="bg-stone-50/80 rounded-2xl border border-stone-200 p-5 space-y-4 animate-in fade-in">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200/60 pb-3">
@@ -749,7 +731,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Resident Details */}
                             <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
                               <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Resident & Lease Agreement</span>
@@ -771,9 +753,9 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                               )}
                             </div>
 
-                            {/* Rent Yield */}
+                            {/* Contracted Rent Yield */}
                             <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
-                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Rent & Yield</span>
+                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Monthly Rent</span>
                               <div className="space-y-1">
                                 <span className="text-lg font-black text-stone-900 block">
                                   {formatMoney(convertAmount(activeUnit.monthly_rent || 0, nativeCurr, currentCurrency))}
@@ -784,99 +766,14 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                                 </span>
                               </div>
                             </div>
-
-                            {/* Direct Costs */}
-                            <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
-                              <span className="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Direct Suite Costs</span>
-                              <div className="space-y-1">
-                                <span className="text-lg font-black text-rose-700 block">
-                                  {formatMoney(convertAmount(activeUnitExpTotal, nativeCurr, currentCurrency))}
-                                </span>
-                                <span className="text-[11px] text-stone-500 block">{activeUnitExpenses.length} logged invoices/receipts</span>
-                                {activeUnitExpenses.length > 0 && (
-                                  <span className="text-[10px] text-stone-400 block truncate">
-                                    Latest: {activeUnitExpenses[0].description}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
                           </div>
                         </div>
                       )}
-
-                      {/* Property Wide Operations & Cost Ledger */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-3">
-                        {/* Recorded Invoices & Expenses */}
-                        <div className="p-4 bg-white rounded-2xl border border-stone-200 space-y-3">
-                          <div className="flex items-center justify-between">
-                            <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5">
-                              <Receipt className="w-3.5 h-3.5 text-stone-500" />
-                              Operating Expenses & Vendor Invoices ({propExpenses.length})
-                            </h4>
-                            <span className="text-xs font-extrabold text-rose-700">
-                              {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
-                            </span>
-                          </div>
-
-                          {propExpenses.length === 0 ? (
-                            <p className="text-xs text-stone-400 italic p-3 text-center">No expenses logged for this building.</p>
-                          ) : (
-                            <div className="space-y-2 max-h-48 overflow-y-auto divide-y divide-stone-100">
-                              {propExpenses.map(exp => (
-                                <div key={exp.id} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
-                                  <div>
-                                    <span className="font-bold text-stone-800 block">{exp.description}</span>
-                                    <span className="text-[10px] text-stone-400">{exp.date} • {exp.category}</span>
-                                  </div>
-                                  <span className="font-black text-rose-700">
-                                    {formatMoney(convertAmount(exp.amount, nativeCurr, currentCurrency))}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Recent Maintenance & Inspections */}
-                        <div className="p-4 bg-white rounded-2xl border border-stone-200 space-y-3">
-                          <h4 className="text-xs font-bold text-stone-800 uppercase tracking-wider flex items-center gap-1.5">
-                            <Wrench className="w-3.5 h-3.5 text-stone-500" />
-                            Maintenance Tickets & Audits ({propMaintenance.length})
-                          </h4>
-
-                          {propMaintenance.length === 0 ? (
-                            <p className="text-xs text-stone-400 italic p-3 text-center">All systems operational. No work orders.</p>
-                          ) : (
-                            <div className="space-y-2 max-h-48 overflow-y-auto divide-y divide-stone-100">
-                              {propMaintenance.map(m => (
-                                <div key={m.id} className="pt-2 first:pt-0 flex items-center justify-between text-xs">
-                                  <div>
-                                    <div className="flex items-center gap-2">
-                                      <span className="font-bold text-stone-800">{m.title || m.category}</span>
-                                      <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
-                                        m.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                                      }`}>
-                                        {m.status}
-                                      </span>
-                                    </div>
-                                    <span className="text-[10px] text-stone-400">{m.description}</span>
-                                  </div>
-                                  {m.estimated_cost && (
-                                    <span className="font-bold text-stone-900 shrink-0">
-                                      {formatMoney(convertAmount(m.estimated_cost, nativeCurr, currentCurrency))}
-                                    </span>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
                     </div>
                   </div>
                 );
               })() : (
-                /* Compact Property Overview Cards (No wasted vertical whitespace) */
+                /* Compact Property Overview Cards */
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {ownedProperties.map(prop => {
                     const propUnits = ownedUnits.filter(u => u.property_id === prop.id);
@@ -884,8 +781,6 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                     const propOccupancyRate = propUnits.length > 0 ? Math.round((propOccupiedUnits.length / propUnits.length) * 100) : 0;
                     const nativeCurr = getPropNativeCurrency(prop.id);
                     const propGrossMonthly = propOccupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0);
-                    const propExpenses = (dbState.expenses || []).filter(e => e.property_id === prop.id);
-                    const propTotalExpenses = propExpenses.reduce((acc, e) => acc + (e.amount || 0), 0);
 
                     return (
                       <div
@@ -919,34 +814,34 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                           </span>
                         </div>
 
-                        {/* Compact Financial Strip */}
+                        {/* Property Details Strip (No operating cost clutter) */}
                         <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-stone-100">
                           <div className="p-2.5 bg-stone-50/80 rounded-xl">
-                            <span className="text-[10px] text-stone-400 block font-bold uppercase">Monthly Gross</span>
+                            <span className="text-[10px] text-stone-400 block font-bold uppercase">Suite Portfolio</span>
                             <span className="text-sm font-black text-stone-900 block">
-                              {formatMoney(convertAmount(propGrossMonthly, nativeCurr, currentCurrency))}
+                              {propUnits.length} Suites Registered
                             </span>
-                            <span className="text-[9px] text-stone-400 block font-mono">
-                              {propOccupiedUnits.length} of {propUnits.length} units leased
+                            <span className="text-[9px] text-stone-500 block">
+                              {propOccupiedUnits.length} Leased • {propUnits.length - propOccupiedUnits.length} Vacant
                             </span>
                           </div>
 
-                          <div className="p-2.5 bg-rose-50/50 rounded-xl">
-                            <span className="text-[10px] text-rose-500 block font-bold uppercase">Operating Costs</span>
-                            <span className="text-sm font-black text-rose-700 block">
-                              {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
+                          <div className="p-2.5 bg-emerald-50/50 rounded-xl">
+                            <span className="text-[10px] text-emerald-700 block font-bold uppercase">Contracted Rent</span>
+                            <span className="text-sm font-black text-emerald-800 block">
+                              {formatMoney(convertAmount(propGrossMonthly, nativeCurr, currentCurrency))}
                             </span>
-                            <span className="text-[9px] text-rose-400 block font-mono">
-                              {propExpenses.length} recorded items
+                            <span className="text-[9px] text-emerald-600 block">
+                              Monthly gross yield
                             </span>
                           </div>
                         </div>
 
                         {/* Action Footer */}
                         <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
-                          <span className="font-semibold text-stone-700">{propUnits.length} Suites Registered</span>
+                          <span className="font-semibold text-stone-700">{prop.acquisition?.acquisition_type || 'Outright Asset'}</span>
                           <span className="text-brand-600 font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
-                            Open Property 360 Hub <ChevronRight className="w-3.5 h-3.5" />
+                            Explore Suites & Tenancies <ChevronRight className="w-3.5 h-3.5" />
                           </span>
                         </div>
                       </div>
@@ -958,80 +853,14 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           )}
 
           {/* =========================================================================
-              VIEW 3: FINANCIALS & SETTLEMENT STATEMENTS (WITH SIDE-BY-SIDE DUAL CURRENCY)
+              VIEW 3: FINANCIALS & REPORTS (CONSOLIDATED AUDIT, SETTLEMENT & STATEMENTS)
               ========================================================================= */}
           {currentTab === 'financials' && (
-            <div className="space-y-6">
-              {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Yield & Remittance Statements</h1>
-                <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                <p className="text-sm text-stone-600">Monthly settlement ledgers, live currency exchange calculations & repair receipts</p>
-              </div>
-
-              {/* Visual Horizontal Separator */}
-              <hr className="border-t border-slate-800/80" />
-
-              {/* Financial Summary Card */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Total Contracted Rent</span>
-                  <div className="text-2xl font-black text-stone-900">
-                    {currencyConfig.symbol}{grossMonthlyRentInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </div>
-                  <span className="text-[11px] text-emerald-600 font-bold">100% Contracted Yield</span>
-                </div>
-
-                <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-wider text-stone-400">Management Fee ({mgmtFeePercent}%)</span>
-                  <div className="text-2xl font-black text-stone-600">
-                    -{currencyConfig.symbol}{managementFeeInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </div>
-                  <span className="text-[11px] text-stone-400">Retained for property operations</span>
-                </div>
-
-                <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl shadow-xs space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-900">Net Transfer Amount</span>
-                  <div className="text-2xl font-black text-emerald-800">
-                    {currencyConfig.symbol}{netRemittanceInActiveCurr.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </div>
-                  <span className="text-[11px] text-emerald-700 font-bold">Transferred to {landlord.bank_name || 'Bank'}</span>
-                </div>
-              </div>
-
-              {/* Deductions & Maintenance Invoices with Side-by-Side Dual Currency */}
-              <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-xs space-y-4">
-                <h2 className="text-base font-bold text-stone-900">Operating Expenses & Maintenance Deductions</h2>
-                {propertyExpenses.length === 0 ? (
-                  <p className="text-xs text-stone-400 py-6 text-center">No repair deductions recorded for your properties.</p>
-                ) : (
-                  <div className="divide-y divide-stone-100">
-                    {propertyExpenses.map(e => {
-                      const prop = ownedProperties.find(p => p.id === e.property_id);
-                      const nativeCurr = getPropNativeCurrency(e.property_id);
-                      return (
-                        <div key={e.id} className="py-3 flex items-center justify-between text-xs">
-                          <div>
-                            <strong className="text-stone-900 block">{e.description}</strong>
-                            <span className="text-stone-500 text-[11px]">{prop?.name} • Category: {e.category}</span>
-                          </div>
-                          <div className="text-right">
-                            <DualCurrencyDisplay
-                              amount={e.amount}
-                              nativeCurrency={nativeCurr}
-                              prefix="-"
-                              primaryClassName="font-black text-rose-600 block"
-                              secondaryClassName="text-[10px] text-stone-400 block"
-                            />
-                            <span className="text-[10px] text-stone-400">{e.date}</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
+            <LandlordReportView
+              dbState={dbState}
+              landlord={landlord}
+              ownedPropertyIds={ownedPropertyIds}
+            />
           )}
 
           {/* =========================================================================
@@ -1237,16 +1066,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
             </div>
           )}
 
-          {/* =========================================================================
-              VIEW 6: REPORTS & FIELD AUDITS
-              ========================================================================= */}
-          {currentTab === 'reports' && (
-            <LandlordReportView
-              dbState={dbState}
-              landlord={landlord}
-              ownedPropertyIds={ownedPropertyIds}
-            />
-          )}
+
         </main>
       </div>
 
