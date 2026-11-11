@@ -82,14 +82,43 @@ const INITIAL_LANDLORDS: Landlord[] = [
 ];
 
 function loadInitialState(): DatabaseState {
+  // Always initialize from the canonical versioned database first (Database is Single Source of Truth)
+  const canonicalDb = (databaseJson as any)?.properties ? (databaseJson as any) : null;
+  const baseState: DatabaseState = {
+    landlords: canonicalDb?.landlords || INITIAL_LANDLORDS,
+    properties: canonicalDb?.properties || INITIAL_PROPERTIES,
+    units: canonicalDb?.units || INITIAL_UNITS,
+    tenants: canonicalDb?.tenants || INITIAL_TENANTS,
+    leases: canonicalDb?.leases || INITIAL_LEASES,
+    payments: canonicalDb?.payments || INITIAL_PAYMENTS,
+    vendors: canonicalDb?.vendors || INITIAL_VENDORS,
+    maintenance_requests: canonicalDb?.maintenance_requests || INITIAL_MAINTENANCE,
+    bills: canonicalDb?.bills || INITIAL_BILLS,
+    expenses: canonicalDb?.expenses || INITIAL_EXPENSES,
+    notices: canonicalDb?.notices || INITIAL_NOTICES,
+    communications: canonicalDb?.communications || INITIAL_COMMUNICATIONS,
+    automation_rules: canonicalDb?.automation_rules || INITIAL_AUTOMATION_RULES,
+    automation_runs: canonicalDb?.automation_runs || [],
+    automation_logs: canonicalDb?.automation_logs || INITIAL_AUTOMATION_LOGS,
+    tasks: canonicalDb?.tasks || INITIAL_TASKS,
+    applicants: canonicalDb?.applicants || INITIAL_APPLICANTS,
+    shortlet_bookings: canonicalDb?.shortlet_bookings || [],
+    inspections: canonicalDb?.inspections || [],
+    currency: canonicalDb?.currency || 'CAD'
+  };
+
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (parsed.expenses && parsed.properties) {
+      // Only overlay user runtime modifications if they align with the canonical property registry
+      if (parsed && Array.isArray(parsed.properties) && parsed.properties.length === baseState.properties.length) {
         return {
+          ...baseState,
           ...parsed,
-          landlords: parsed.landlords || INITIAL_LANDLORDS
+          // Re-enforce canonical ownership and property definitions so stale local caches never leak rogue landlord associations
+          properties: baseState.properties,
+          landlords: baseState.landlords
         };
       }
     }
@@ -97,55 +126,7 @@ function loadInitialState(): DatabaseState {
     console.warn('Failed to load state from localStorage', e);
   }
 
-  // Fallback to git-committed JSON database
-  if (databaseJson && (databaseJson as any).properties) {
-    const db = databaseJson as any;
-    return {
-      landlords: db.landlords || INITIAL_LANDLORDS,
-      properties: db.properties || INITIAL_PROPERTIES,
-      units: db.units || INITIAL_UNITS,
-      tenants: db.tenants || INITIAL_TENANTS,
-      leases: db.leases || INITIAL_LEASES,
-      payments: db.payments || INITIAL_PAYMENTS,
-      vendors: db.vendors || INITIAL_VENDORS,
-      maintenance_requests: db.maintenance_requests || INITIAL_MAINTENANCE,
-      bills: db.bills || INITIAL_BILLS,
-      expenses: db.expenses || INITIAL_EXPENSES,
-      notices: db.notices || INITIAL_NOTICES,
-      communications: db.communications || INITIAL_COMMUNICATIONS,
-      automation_rules: db.automation_rules || INITIAL_AUTOMATION_RULES,
-      automation_runs: db.automation_runs || [],
-      automation_logs: db.automation_logs || INITIAL_AUTOMATION_LOGS,
-      tasks: db.tasks || INITIAL_TASKS,
-      applicants: db.applicants || INITIAL_APPLICANTS,
-      shortlet_bookings: db.shortlet_bookings || [],
-      inspections: db.inspections || [],
-      currency: db.currency || 'CAD'
-    };
-  }
-
-  return {
-    landlords: INITIAL_LANDLORDS,
-    properties: INITIAL_PROPERTIES,
-    units: INITIAL_UNITS,
-    tenants: INITIAL_TENANTS,
-    leases: INITIAL_LEASES,
-    payments: INITIAL_PAYMENTS,
-    vendors: INITIAL_VENDORS,
-    maintenance_requests: INITIAL_MAINTENANCE,
-    bills: INITIAL_BILLS,
-    expenses: INITIAL_EXPENSES,
-    notices: INITIAL_NOTICES,
-    communications: INITIAL_COMMUNICATIONS,
-    automation_rules: INITIAL_AUTOMATION_RULES,
-    automation_runs: [],
-    automation_logs: INITIAL_AUTOMATION_LOGS,
-    tasks: INITIAL_TASKS,
-    applicants: INITIAL_APPLICANTS,
-    shortlet_bookings: [],
-    inspections: [],
-    currency: 'CAD'
-  };
+  return baseState;
 }
 
 class StoreManager {
