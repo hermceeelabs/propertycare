@@ -443,8 +443,8 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 <div className="text-2xl font-bold text-slate-900">
                   <DualCurrencyDisplay
                     amount={unit?.monthly_rent || 0}
-                    sourceCurrency={nativeCurr}
-                    amountClassName="text-2xl font-bold font-mono"
+                    nativeCurrency={nativeCurr}
+                    primaryClassName="text-2xl font-bold font-mono text-slate-900"
                     secondaryClassName="text-xs text-stone-500 mt-1"
                   />
                 </div>

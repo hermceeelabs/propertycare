@@ -4,8 +4,10 @@ import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 interface DualCurrencyDisplayProps {
   amount: number;
   nativeCurrency?: CurrencyCode;
+  sourceCurrency?: CurrencyCode; // Alias for nativeCurrency for backwards compatibility
   className?: string;
   primaryClassName?: string;
+  amountClassName?: string; // Alias for primaryClassName
   secondaryClassName?: string;
   prefix?: string; // e.g. '-' or '+'
   showOriginCode?: boolean;
@@ -19,18 +21,22 @@ interface DualCurrencyDisplayProps {
  */
 export const DualCurrencyDisplay: React.FC<DualCurrencyDisplayProps> = ({
   amount,
-  nativeCurrency = 'CAD',
+  nativeCurrency,
+  sourceCurrency,
   className = 'inline-flex items-baseline gap-1.5 flex-wrap',
-  primaryClassName = 'font-bold text-stone-900',
+  primaryClassName,
+  amountClassName,
   secondaryClassName = 'text-[11px] text-stone-400 font-normal whitespace-nowrap',
   prefix = ''
 }) => {
   const { formatDualCurrency } = useCurrency();
-  const { primary, secondary, isConverted } = formatDualCurrency(amount, nativeCurrency);
+  const effectiveNativeCurrency = nativeCurrency || sourceCurrency || 'CAD';
+  const effectivePrimaryClass = primaryClassName || amountClassName || 'font-bold text-stone-900';
+  const { primary, secondary, isConverted } = formatDualCurrency(amount, effectiveNativeCurrency);
 
   return (
     <span className={className}>
-      <span className={primaryClassName}>
+      <span className={effectivePrimaryClass}>
         {prefix}{primary}
       </span>
       {isConverted && secondary && (
