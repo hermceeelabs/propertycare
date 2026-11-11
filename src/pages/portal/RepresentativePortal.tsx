@@ -11,7 +11,7 @@ import { Landlord, LandlordDelegate, Property, Unit, MaintenanceRequest, Expense
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 import { LandlordReportView } from '../../components/LandlordReportView';
 
-export type RepNavTab = 'mandate' | 'statements' | 'approvals' | 'holdings' | 'banking';
+export type RepNavTab = 'mandate' | 'statements' | 'approvals' | 'holdings';
 
 interface RepresentativePortalProps {
   dbState: DatabaseState;
@@ -29,7 +29,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
   const { currentCurrency, setCurrency, currencyConfig, convertAmount, formatMoney } = useCurrency();
   const [currentTab, setCurrentTab] = useState<RepNavTab>(() => {
     const saved = localStorage.getItem('propertyflow_rep_tab') as RepNavTab;
-    const validTabs: RepNavTab[] = ['mandate', 'statements', 'approvals', 'holdings', 'banking'];
+    const validTabs: RepNavTab[] = ['mandate', 'statements', 'approvals', 'holdings'];
     return validTabs.includes(saved) ? saved : 'mandate';
   });
 
@@ -189,12 +189,6 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           label: 'Maintenance Approvals',
           icon: Wrench,
           badge: pendingApprovals.length > 0 ? `${pendingApprovals.length}` : undefined
-        },
-        {
-          id: 'banking' as RepNavTab,
-          label: 'Banking & Remittance',
-          icon: Landmark,
-          badge: representative.can_modify_banking ? 'Granted' : 'Protected'
         },
       ]
     }
@@ -791,82 +785,6 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                     </div>
                   );
                 })}
-              </div>
-            </div>
-          )}
-
-          {/* =========================================================================
-              VIEW 5: BANKING & REMITTANCE COMPLIANCE
-              ========================================================================= */}
-          {currentTab === 'banking' && (
-            <div className="space-y-6">
-              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                  Banking & Remittance Compliance
-                </h1>
-                <span className="text-cream-400 font-light shrink-0">|</span>
-                <p className="text-sm text-stone-600 truncate">
-                  Fiduciary settlement accounts, wire routing details, and remittance protection policies
-                </p>
-              </div>
-
-              <hr className="border-t border-slate-800/80" />
-
-              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-5 max-w-2xl">
-                <div className="flex items-center justify-between pb-3 border-b border-stone-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                      <Landmark className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-stone-900 text-sm">Settlement Wire Account</h3>
-                      <p className="text-[11px] text-stone-500">Destination for monthly net yield remittances</p>
-                    </div>
-                  </div>
-                  <span className="text-xs px-2.5 py-1 bg-emerald-50 text-emerald-800 rounded-lg font-bold border border-emerald-200">
-                    KYC Verified
-                  </span>
-                </div>
-
-                <div className="space-y-3 text-xs">
-                  <div className="flex justify-between p-3 bg-stone-50 rounded-xl">
-                    <span className="font-semibold text-stone-500">Beneficiary Institution</span>
-                    <span className="font-bold text-stone-900">{landlord.bank_name || 'Standard Chartered Bank'}</span>
-                  </div>
-                  <div className="flex justify-between p-3 bg-stone-50 rounded-xl">
-                    <span className="font-semibold text-stone-500">Account Number / IBAN</span>
-                    <span className="font-bold text-stone-900 font-mono">
-                      {landlord.bank_account_number || '•••• •••• •••• 9102'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between p-3 bg-stone-50 rounded-xl">
-                    <span className="font-semibold text-stone-500">Remittance Frequency</span>
-                    <span className="font-bold text-emerald-700">{landlord.remittance_frequency || 'Monthly Direct Wire'}</span>
-                  </div>
-                </div>
-
-                {/* Banking Modification Protection Notice */}
-                {!representative.can_modify_banking ? (
-                  <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-1.5 text-xs text-amber-900">
-                    <div className="flex items-center gap-1.5 font-bold">
-                      <Lock className="w-4 h-4 text-amber-700" />
-                      <span>Fiduciary Banking Protection Active</span>
-                    </div>
-                    <p className="text-[11px] text-amber-800 leading-relaxed">
-                      To prevent unauthorized diversion of rental capital, legal delegates cannot alter settlement banking coordinates without the primary landlord's multi-factor corporate ratification.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1.5 text-xs text-emerald-900">
-                    <div className="flex items-center gap-1.5 font-bold">
-                      <ShieldCheck className="w-4 h-4 text-emerald-700" />
-                      <span>Full Banking Modification Authority Granted</span>
-                    </div>
-                    <p className="text-[11px] text-emerald-800 leading-relaxed">
-                      You are explicitly authorized under power of attorney to update banking wire destinations.
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
           )}

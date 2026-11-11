@@ -445,7 +445,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {ownedProperties.map(p => {
                     const pUnits = ownedUnits.filter(u => u.property_id === p.id);
                     const pOccupied = pUnits.filter(u => u.status === 'Occupied').length;
@@ -458,33 +458,38 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                           setSelectedPropertyId(p.id);
                           handleTabChange('properties');
                         }}
-                        className="p-5 bg-stone-50 hover:bg-stone-100/80 rounded-xl border border-stone-200 transition-all cursor-pointer space-y-3 group"
+                        className="p-5 bg-white hover:bg-stone-50/80 rounded-2xl border border-stone-200/90 shadow-2xs hover:shadow-sm transition-all cursor-pointer flex flex-col justify-between gap-4 group"
                       >
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-bold text-stone-900 text-sm group-hover:text-brand-600 transition-colors">
+                        <div className="flex justify-between items-start gap-2">
+                          <div className="min-w-0">
+                            <h3 className="font-bold text-stone-900 text-sm group-hover:text-brand-600 transition-colors truncate">
                               {p.name}
                             </h3>
-                            <p className="text-xs text-stone-500 mt-0.5">{p.address}, {p.city}</p>
+                            <p className="text-xs text-stone-500 mt-0.5 line-clamp-1">{p.address}, {p.city}</p>
                           </div>
-                          <span className="px-2.5 py-1 bg-brand-100 text-brand-800 rounded-lg font-bold text-[10px]">
+                          <span className="px-2.5 py-1 bg-brand-50 text-brand-700 border border-brand-200/60 rounded-lg font-bold text-[10px] shrink-0">
                             {p.property_type}
                           </span>
                         </div>
 
-                        <div className="pt-3 border-t border-stone-200 flex justify-between items-center text-xs">
-                          <div>
-                            <span className="text-[10px] text-stone-400 block uppercase font-bold">Occupancy</span>
-                            <span className="font-bold text-stone-800">{pOccupied} / {pUnits.length} Units</span>
+                        {/* Metric Boxes Layout - structured 2-column cards to give full breathing room */}
+                        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-stone-100">
+                          <div className="bg-stone-50/80 rounded-xl p-2.5 border border-stone-200/60 flex flex-col justify-center">
+                            <span className="text-[10px] text-stone-400 block uppercase font-bold tracking-wider">Occupancy</span>
+                            <span className="font-bold text-xs text-stone-800 mt-0.5">
+                              {pOccupied} / {pUnits.length} Units
+                            </span>
                           </div>
-                          <div className="text-right">
-                            <span className="text-[10px] text-stone-400 block uppercase font-bold">Monthly Yield</span>
-                            <DualCurrencyDisplay
-                              amount={pNativeRent}
-                              nativeCurrency={nativeCurr}
-                              primaryClassName="font-black text-emerald-700"
-                              secondaryClassName="text-[10px] text-stone-400 block"
-                            />
+                          <div className="bg-stone-50/80 rounded-xl p-2.5 border border-stone-200/60 flex flex-col justify-center">
+                            <span className="text-[10px] text-stone-400 block uppercase font-bold tracking-wider">Monthly Yield</span>
+                            <div className="mt-0.5 min-w-0">
+                              <DualCurrencyDisplay
+                                amount={pNativeRent}
+                                nativeCurrency={nativeCurr}
+                                primaryClassName="font-black text-xs text-emerald-700 truncate"
+                                secondaryClassName="text-[9px] text-stone-400 block truncate"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
