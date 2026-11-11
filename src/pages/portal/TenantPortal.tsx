@@ -46,6 +46,56 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ticketSubmitted, setTicketSubmitted] = useState(false);
   
+  // Maintenance History Filters
+  const [ticketFilterStatus, setTicketFilterStatus] = useState<'All' | 'Pending' | 'In Progress' | 'Completed'>('All');
+  const [ticketFilterCategory, setTicketFilterCategory] = useState<string>('All');
+
+  // Email Change Request Modal State
+  const [showEmailChangeModal, setShowEmailChangeModal] = useState(false);
+  const [newRequestedEmail, setNewRequestedEmail] = useState('');
+  const [emailChangeReason, setEmailChangeReason] = useState('');
+  const [emailChangeSuccess, setEmailChangeSuccess] = useState(false);
+
+  // Submit Email Change Request (Dispatches a Task to Firm for Approval)
+  const handleSubmitEmailChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newRequestedEmail.trim()) return;
+
+    const changeTask = {
+      id: `task-email-${Date.now()}`,
+      assigned_to: 'Property Manager',
+      task_type: 'Tenant Email Change',
+      title: `Email Change Request: ${tenant?.first_name} ${tenant?.last_name} (${tenant?.email} → ${newRequestedEmail.trim()})`,
+      description: `Tenant ${tenant?.first_name} ${tenant?.last_name} residing in Unit ${unit?.unit_number} (${property?.name}) has requested to update their primary registered email address.\nNew Email: ${newRequestedEmail.trim()}\nReason: ${emailChangeReason.trim() || 'Resident profile update'}\nTenant ID: ${tenant?.id}`,
+      priority: 'Normal' as any,
+      status: 'Pending' as any,
+      due_date: new Date(Date.now() + 48 * 3600 * 1000).toISOString().split('T')[0],
+      related_entity_type: 'Tenant',
+      related_entity_id: tenant?.id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    store.addTask(changeTask);
+    store.addAutomationLog({
+      id: `log-email-req-${Date.now()}`,
+      automation_type: 'stakeholder_update_request',
+      entity_type: 'Tenant',
+      entity_id: tenant?.id,
+      action: `Tenant ${tenant?.first_name} ${tenant?.last_name} requested email change from ${tenant?.email} to ${newRequestedEmail.trim()}`,
+      status: 'Success',
+      created_at: new Date().toISOString()
+    });
+
+    setEmailChangeSuccess(true);
+    setTimeout(() => {
+      setShowEmailChangeModal(false);
+      setEmailChangeSuccess(false);
+      setNewRequestedEmail('');
+      setEmailChangeReason('');
+    }, 2500);
+  };
+  
   // Voicenote audio recording state
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -252,23 +302,6 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             )}
           </div>
 
-          {/* Resident Identity Card */}
-          <div className="p-3.5 mx-3 my-4 rounded-xl bg-slate-950/50 border border-slate-800/80 text-white">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
-                {tenant ? `${tenant.first_name[0]}${tenant.last_name[0]}` : 'JD'}
-              </div>
-              <div className="min-w-0 flex-1">
-                <span className="block text-xs font-bold text-white truncate">
-                  {tenant ? `${tenant.first_name} ${tenant.last_name}` : 'Resident'}
-                </span>
-                <span className="text-[10px] text-stone-400 truncate block">
-                  {unit ? `Unit ${unit.unit_number}` : 'Assigned Unit'} · {property?.name || 'Property'}
-                </span>
-              </div>
-            </div>
-          </div>
-
           {/* Multi-Currency Dropdown in Sidebar */}
           <div className="px-3 py-2 mx-3 mb-4 bg-slate-950/40 rounded-xl border border-slate-800 flex items-center justify-between">
             <span className="text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
@@ -388,9 +421,37 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
           </nav>
         </div>
 
-        {/* Sidebar Footer */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/60">
-          <div className="flex items-center justify-between text-xs text-slate-400 px-1">
+        {/* Sidebar Footer with Resident Profile Card */}
+        <div className="p-3 border-t border-slate-800 bg-slate-950/70 space-y-2">
+          {/* Resident Identity Card (Moved to bottom of sidebar) */}
+          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
+                  {tenant ? `${tenant.first_name[0]}${tenant.last_name[0]}` : 'JD'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="block text-xs font-bold text-white truncate">
+                    {tenant ? `${tenant.first_name} ${tenant.last_name}` : 'Resident'}
+                  </span>
+                  <span className="text-[10px] text-stone-400 truncate block">
+                    {unit ? `Unit ${unit.unit_number}` : 'Assigned Unit'} · {property?.name || 'Property'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Email Change Action Trigger */}
+              <button
+                onClick={() => setShowEmailChangeModal(true)}
+                className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors shrink-0 cursor-pointer"
+                title="Request Email Change"
+              >
+                <Mail className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-xs text-slate-400 px-1 pt-1">
             <span className="flex items-center gap-1.5 text-stone-300 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               Verified Resident
@@ -406,33 +467,24 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
       <main className="flex-1 overflow-y-auto bg-cream-100 p-8 space-y-6 max-w-7xl w-full mx-auto">
         {/* Top Header Bar / Title Section */}
         <header className="pb-2">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
-            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-              <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
-                {activeTab === 'overview' && 'Resident Executive Suite'}
-                {activeTab === 'payments' && 'Rent Ledger & Digital Receipts'}
-                {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
-                {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
-                {activeTab === 'notices' && 'Building Circulars & Official Notices'}
-                {activeTab === 'reports' && 'Resident Statements & Periodic Reports'}
-              </h1>
-              <span className="hidden sm:inline text-cream-400 font-light">|</span>
-              <p className="text-sm text-stone-600">
-                {activeTab === 'overview' && 'Personal resident suite overview, active lease term & unit details'}
-                {activeTab === 'payments' && 'Rent history, transaction ledgers & cryptographically verified payment receipts'}
-                {activeTab === 'maintenance' && 'Submit repair tickets with photos, video and voice notes & track contractor dispatches'}
-                {activeTab === 'documents' && 'Official executed tenancy contracts, inventory reports & legal agreements'}
-                {activeTab === 'notices' && 'Official property management communications, circulars & community notices'}
-                {activeTab === 'reports' && 'Hierarchical statements by month, quarter, and day covering rent, inspections, and dispatches'}
-              </p>
-            </div>
-
-            <div className="bg-white border border-stone-200 px-3.5 py-1.5 rounded-xl text-right shadow-xs shrink-0">
-              <div className="text-[10px] uppercase font-bold text-stone-400">Residence Address</div>
-              <div className="text-xs font-semibold text-slate-800">
-                Unit {unit?.unit_number || 'N/A'}, {property?.name || 'Property'}
-              </div>
-            </div>
+          <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+            <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+              {activeTab === 'overview' && 'Resident Executive Suite'}
+              {activeTab === 'payments' && 'Rent Ledger & Digital Receipts'}
+              {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
+              {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
+              {activeTab === 'notices' && 'Building Circulars & Official Notices'}
+              {activeTab === 'reports' && 'Resident Statements & Periodic Reports'}
+            </h1>
+            <span className="text-cream-400 font-light shrink-0">|</span>
+            <p className="text-sm text-stone-600 truncate">
+              {activeTab === 'overview' && 'Personal resident suite overview, active lease term & unit details'}
+              {activeTab === 'payments' && 'Rent history, transaction ledgers & cryptographically verified payment receipts'}
+              {activeTab === 'maintenance' && 'Submit repair tickets with photos, video and voice notes & track contractor dispatches'}
+              {activeTab === 'documents' && 'Official executed tenancy contracts, inventory reports & legal agreements'}
+              {activeTab === 'notices' && 'Official property management communications, circulars & community notices'}
+              {activeTab === 'reports' && 'Hierarchical statements by month, quarter, and day covering rent, inspections, and dispatches'}
+            </p>
           </div>
         </header>
 
@@ -881,19 +933,68 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               </form>
             </div>
 
-            {/* List of Previous Requests */}
-            <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-              <h3 className="text-base font-bold text-slate-900 mb-4">
-                Service Request History & Status
-              </h3>
+            {/* List of Previous Requests with Interactive Filters */}
+            <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-stone-100">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Service Request History & Status
+                  </h3>
+                  <p className="text-xs text-stone-500">Track contractor dispatch, priority, and diagnostic updates</p>
+                </div>
 
-              {tenantRequests.length === 0 ? (
+                {/* Filter Controls for Service Requests */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
+                    <span className="text-[11px] font-bold text-stone-500">Status:</span>
+                    <select
+                      value={ticketFilterStatus}
+                      onChange={(e) => setTicketFilterStatus(e.target.value as any)}
+                      className="bg-transparent text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
+                    >
+                      <option value="All">All Statuses</option>
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
+                    <span className="text-[11px] font-bold text-stone-500">Category:</span>
+                    <select
+                      value={ticketFilterCategory}
+                      onChange={(e) => setTicketFilterCategory(e.target.value)}
+                      className="bg-transparent text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
+                    >
+                      <option value="All">All Categories</option>
+                      <option value="Plumbing">Plumbing</option>
+                      <option value="Electrical">Electrical</option>
+                      <option value="HVAC">HVAC</option>
+                      <option value="Structural">Structural</option>
+                      <option value="Appliance">Appliance</option>
+                      <option value="General">General</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {tenantRequests.filter(r => {
+                if (ticketFilterStatus !== 'All' && r.status !== ticketFilterStatus) return false;
+                if (ticketFilterCategory !== 'All' && r.category !== ticketFilterCategory) return false;
+                return true;
+              }).length === 0 ? (
                 <div className="text-center py-8 text-stone-400 text-xs">
-                  No active or past repair tickets for this residence.
+                  No repair tickets match the selected filter criteria.
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {tenantRequests.map((req) => (
+                  {tenantRequests
+                    .filter(r => {
+                      if (ticketFilterStatus !== 'All' && r.status !== ticketFilterStatus) return false;
+                      if (ticketFilterCategory !== 'All' && r.category !== ticketFilterCategory) return false;
+                      return true;
+                    })
+                    .map((req) => (
                     <div
                       key={req.id}
                       className="p-4 bg-stone-50 rounded-xl border border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
@@ -1252,6 +1353,101 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                   <audio controls src={activeMediaModal.url} className="w-full" autoPlay />
                 </div>
               </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EMAIL CHANGE REQUEST (Awaiting Firm Approval) */}
+      {showEmailChangeModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 relative animate-in fade-in zoom-in-95 duration-150">
+            <button
+              onClick={() => setShowEmailChangeModal(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-3 pb-3 mb-4 border-b border-stone-100">
+              <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center font-bold">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-stone-900 text-sm">Request Primary Email Change</h3>
+                <p className="text-[11px] text-stone-500">Security workflow · Dispatched to Firm for authorization</p>
+              </div>
+            </div>
+
+            {emailChangeSuccess ? (
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-3 text-emerald-900 text-xs">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <span className="font-bold block">Change Request Dispatched!</span>
+                  Your email update has been routed to the executive property manager for verification and security audit.
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitEmailChange} className="space-y-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-1">
+                    Current Registered Email
+                  </label>
+                  <input
+                    type="email"
+                    disabled
+                    value={tenant?.email || ''}
+                    className="w-full bg-stone-100 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-600 font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
+                    New Desired Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. sarah.mitchell.work@gmail.com"
+                    value={newRequestedEmail}
+                    onChange={(e) => setNewRequestedEmail(e.target.value)}
+                    className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
+                    Reason for Change (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Brief explanation for tenancy record update..."
+                    value={emailChangeReason}
+                    onChange={(e) => setEmailChangeReason(e.target.value)}
+                    className="w-full bg-white border border-stone-300 rounded-xl p-2.5 text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500 resize-none"
+                  />
+                </div>
+
+                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800">
+                  <strong>Security Protocol:</strong> In accordance with lease compliance, email address updates are verified and ratified by the property management firm before taking effect across digital receipts and login credentials.
+                </div>
+
+                <div className="pt-2 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailChangeModal(false)}
+                    className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold rounded-xl text-xs transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer"
+                  >
+                    Submit for Approval
+                  </button>
+                </div>
+              </form>
             )}
           </div>
         </div>

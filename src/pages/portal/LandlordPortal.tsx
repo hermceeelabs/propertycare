@@ -3,7 +3,7 @@ import { DatabaseState, supabase, store } from '../../services/supabase';
 import {
   Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2,
   UserPlus, Users, X, Lock, LogOut, LayoutDashboard, Home, FileText, CreditCard, Bell,
-  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt
+  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt, Mail
 } from 'lucide-react';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
@@ -60,6 +60,51 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
   const [canViewStatements, setCanViewStatements] = useState(true);
   const [canApproveMaintenance, setCanApproveMaintenance] = useState(true);
   const [canModifyBanking, setCanModifyBanking] = useState(false);
+
+  // Email Change Request Modal State for Landlords
+  const [showEmailChangeModal, setShowEmailChangeModal] = useState(false);
+  const [newRequestedEmail, setNewRequestedEmail] = useState('');
+  const [emailChangeReason, setEmailChangeReason] = useState('');
+  const [emailChangeSuccess, setEmailChangeSuccess] = useState(false);
+
+  const handleSubmitEmailChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newRequestedEmail.trim()) return;
+
+    const changeTask = {
+      id: `task-landlord-email-${Date.now()}`,
+      assigned_to: 'Executive Operations',
+      task_type: 'Landlord Email Change',
+      title: `Landlord Email Change: ${landlord.company_name || `${landlord.first_name} ${landlord.last_name}`} (${landlord.email} → ${newRequestedEmail.trim()})`,
+      description: `Investor/Landlord ${landlord.first_name} ${landlord.last_name} (${landlord.company_name || 'Individual Landlord'}) has submitted a request to update their legal remittance and statement delivery email.\nNew Email: ${newRequestedEmail.trim()}\nReason: ${emailChangeReason.trim() || 'Corporate investor portfolio update'}\nLandlord ID: ${landlord.id}`,
+      priority: 'High' as any,
+      status: 'Pending' as any,
+      due_date: new Date(Date.now() + 24 * 3600 * 1000).toISOString().split('T')[0],
+      related_entity_type: 'Landlord',
+      related_entity_id: landlord.id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    store.addTask(changeTask);
+    store.addAutomationLog({
+      id: `log-landlord-email-${Date.now()}`,
+      automation_type: 'stakeholder_update_request',
+      entity_type: 'Landlord',
+      entity_id: landlord.id,
+      action: `Landlord ${landlord.first_name} ${landlord.last_name} submitted email change from ${landlord.email} to ${newRequestedEmail.trim()}`,
+      status: 'Success',
+      created_at: new Date().toISOString()
+    });
+
+    setEmailChangeSuccess(true);
+    setTimeout(() => {
+      setShowEmailChangeModal(false);
+      setEmailChangeSuccess(false);
+      setNewRequestedEmail('');
+      setEmailChangeReason('');
+    }, 2500);
+  };
 
   // Find the exact landlord record
   const landlord = (dbState.landlords || []).find(l => l.id === landlordId) || dbState.landlords?.[0] || {
@@ -271,13 +316,23 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 </span>
               </div>
             </div>
-            <button
-              onClick={handleSignOut}
-              className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-colors shrink-0 cursor-pointer"
-              title="Sign Out of Landlord Portal"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
+
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                onClick={() => setShowEmailChangeModal(true)}
+                className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                title="Request Legal Email Change"
+              >
+                <Mail className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleSignOut}
+                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-colors cursor-pointer"
+                title="Sign Out of Landlord Portal"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </aside>
@@ -344,13 +399,13 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               ========================================================================= */}
           {currentTab === 'overview' && (
             <div className="space-y-6">
-              {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
+              {/* Adopted Title and Subtitle Section Design with visual divider (Single line strictly enforced) */}
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
                   {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
                 </h1>
-                <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                <p className="text-sm text-stone-600">
+                <span className="text-cream-400 font-light shrink-0">|</span>
+                <p className="text-sm text-stone-600 truncate">
                   Investor portfolio overview, real-time live yield remittances & contracted fee oversight
                 </p>
               </div>
@@ -1541,6 +1596,101 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EMAIL CHANGE REQUEST (Dispatched for Firm Executive Approval) */}
+      {showEmailChangeModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 relative animate-in fade-in zoom-in-95 duration-150">
+            <button
+              onClick={() => setShowEmailChangeModal(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-3 pb-3 mb-4 border-b border-stone-100">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-stone-900 text-sm">Request Remittance Email Change</h3>
+                <p className="text-[11px] text-stone-500">Legal remittance workflow · Dispatched to Firm for authorization</p>
+              </div>
+            </div>
+
+            {emailChangeSuccess ? (
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-3 text-emerald-900 text-xs">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <span className="font-bold block">Remittance Update Dispatched!</span>
+                  Your email change request has been routed to Executive Operations for banking and legal verification.
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitEmailChange} className="space-y-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-1">
+                    Current Registered Investor Email
+                  </label>
+                  <input
+                    type="email"
+                    disabled
+                    value={landlord.email || ''}
+                    className="w-full bg-stone-100 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-600 font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
+                    New Desired Legal Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. finance@adeyemiholdings.com"
+                    value={newRequestedEmail}
+                    onChange={(e) => setNewRequestedEmail(e.target.value)}
+                    className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-medium"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-stone-700 uppercase tracking-wider mb-1">
+                    Corporate Reason / Authorizing Note
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="e.g. Migration to centralized treasury & banking email..."
+                    value={emailChangeReason}
+                    onChange={(e) => setEmailChangeReason(e.target.value)}
+                    className="w-full bg-white border border-stone-300 rounded-xl p-2.5 text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500 resize-none"
+                  />
+                </div>
+
+                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800">
+                  <strong>Legal Compliance:</strong> To safeguard fund remittances and prevent unauthorized diversion of portfolio yields, email updates require affirmative ratification by Executive Operations.
+                </div>
+
+                <div className="pt-2 flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailChangeModal(false)}
+                    className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold rounded-xl text-xs transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer"
+                  >
+                    Submit for Executive Review
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
