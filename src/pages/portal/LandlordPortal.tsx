@@ -23,7 +23,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
   landlordId = dbState.landlords?.[0]?.id || 'landlord-1',
   onClosePreview
 }) => {
-  const { formatMoney, currentCurrency, setCurrency, currencyConfig, convertAmount } = useCurrency();
+  const { formatMoney, formatAmountInTarget, currentCurrency, setCurrency, currencyConfig, convertAmount } = useCurrency();
   const [currentTab, setCurrentTab] = useState<LandlordNavTab>(() => {
     return (localStorage.getItem('propertyflow_landlord_tab') as LandlordNavTab) || 'overview';
   });
@@ -758,7 +758,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                               <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Monthly Rent</span>
                               <div className="space-y-1">
                                 <span className="text-lg font-black text-stone-900 block">
-                                  {formatMoney(convertAmount(activeUnit.monthly_rent || 0, nativeCurr, currentCurrency))}
+                                  {formatAmountInTarget(activeUnit.monthly_rent || 0, nativeCurr)}
                                 </span>
                                 <span className="text-[11px] text-stone-500 block">per calendar month</span>
                                 <span className="text-[10px] text-stone-400 block pt-1">
@@ -829,7 +829,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                           <div className="p-2.5 bg-emerald-50/50 rounded-xl">
                             <span className="text-[10px] text-emerald-700 block font-bold uppercase">Contracted Rent</span>
                             <span className="text-sm font-black text-emerald-800 block">
-                              {formatMoney(convertAmount(propGrossMonthly, nativeCurr, currentCurrency))}
+                              {formatAmountInTarget(propGrossMonthly, nativeCurr)}
                             </span>
                             <span className="text-[9px] text-emerald-600 block">
                               Monthly gross yield
@@ -1122,7 +1122,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                     <div className="p-3 bg-rose-50 rounded-2xl border border-rose-200">
                       <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider block">Total Expenses</span>
                       <span className="text-base font-extrabold text-rose-800">
-                        {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
+                        {formatAmountInTarget(propTotalExpenses, nativeCurr)}
                       </span>
                     </div>
                   </div>
@@ -1143,7 +1143,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         <div>
                           <span className="text-stone-400 block text-[10px]">Historical Cost</span>
                           <span className="font-semibold text-stone-800">
-                            {formatMoney(convertAmount(selectedPropertyDetail.acquisition.total_acquisition_cost || 0, selectedPropertyDetail.acquisition.acquisition_currency || 'CAD', currentCurrency))}
+                            {formatAmountInTarget(selectedPropertyDetail.acquisition.total_acquisition_cost || 0, selectedPropertyDetail.acquisition.acquisition_currency || 'CAD')}
                           </span>
                         </div>
                       </div>
@@ -1158,7 +1158,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         Itemized Operating & Maintenance Expenses ({propExpenses.length})
                       </h4>
                       <span className="text-[11px] text-stone-500 font-semibold">
-                        Total: {formatMoney(convertAmount(propTotalExpenses, nativeCurr, currentCurrency))}
+                        Total: {formatAmountInTarget(propTotalExpenses, nativeCurr)}
                       </span>
                     </div>
 
@@ -1185,7 +1185,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                               </span>
                             </div>
                             <span className="font-black text-rose-700 shrink-0">
-                              {formatMoney(convertAmount(exp.amount, nativeCurr, currentCurrency))}
+                              {formatAmountInTarget(exp.amount, nativeCurr)}
                             </span>
                           </div>
                         ))}
@@ -1296,14 +1296,14 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                     <div>
                       <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">Contracted Rent</span>
                       <span className="text-lg font-black text-stone-900">
-                        {formatMoney(convertAmount(selectedUnitDetail.monthly_rent || 0, nativeCurr, currentCurrency))}
+                        {formatAmountInTarget(selectedUnitDetail.monthly_rent || 0, nativeCurr)}
                       </span>
                       <span className="text-[10px] text-stone-400 block">per month</span>
                     </div>
                     <div className="text-right">
                       <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">Direct Suite Costs</span>
                       <span className="text-sm font-extrabold text-rose-700">
-                        {formatMoney(convertAmount(unitExpenseTotal, nativeCurr, currentCurrency))}
+                        {formatAmountInTarget(unitExpenseTotal, nativeCurr)}
                       </span>
                     </div>
                   </div>
@@ -1349,7 +1349,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                               <span className="text-[10px] text-stone-400">{e.date} • {e.category}</span>
                             </div>
                             <span className="font-bold text-rose-700">
-                              {formatMoney(convertAmount(e.amount, nativeCurr, currentCurrency))}
+                              {formatAmountInTarget(e.amount, nativeCurr)}
                             </span>
                           </div>
                         ))}
