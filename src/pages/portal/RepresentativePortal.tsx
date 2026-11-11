@@ -123,14 +123,18 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
 
   const netRemittanceInActiveCurr = Math.max(0, grossMonthlyRentInActiveCurr - managementFeeInActiveCurr - totalRepairsInActiveCurr);
 
-  // Maintenance requests strictly under this portfolio
-  const [maintenanceTickets, setMaintenanceTickets] = useState<MaintenanceRequest[]>(() => {
-    return (dbState.maintenance_requests || []).filter(m => {
-      if (m.property_id && ownedPropertyIds.includes(m.property_id)) return true;
-      if (m.unit_id && ownedUnitIds.includes(m.unit_id)) return true;
-      return false;
-    });
-  });
+  // Maintenance requests strictly under this portfolio (reactive to dbState updates)
+  const [maintenanceTickets, setMaintenanceTickets] = useState<MaintenanceRequest[]>([]);
+
+  useEffect(() => {
+    setMaintenanceTickets(
+      (dbState.maintenance_requests || []).filter(m => {
+        if (m.property_id && ownedPropertyIds.includes(m.property_id)) return true;
+        if (m.unit_id && ownedUnitIds.includes(m.unit_id)) return true;
+        return false;
+      })
+    );
+  }, [dbState.maintenance_requests, landlord.id, ownedPropertyIds.join(','), ownedUnitIds.join(',')]);
 
   // Action status message
   const [approvalNotification, setApprovalNotification] = useState<{ id: string; msg: string; type: 'success' | 'warn' } | null>(null);
@@ -679,13 +683,43 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 </div>
               </div>
 
+              {/* Property Filter & Status Summary Bar */}
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
+                  <select
+                    value={selectedPropertyFilter || 'All'}
+                    onChange={(e) => setSelectedPropertyFilter(e.target.value === 'All' ? null : e.target.value)}
+                    className="px-3.5 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs focus:ring-2 focus:ring-purple-500 focus:outline-hidden"
+                  >
+                    <option value="All">All Supervised Properties ({ownedProperties.length})</option>
+                    {ownedProperties.map(p => (
+                      <option key={p.id} value={p.id}>{p.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="px-3 py-1 bg-amber-50 text-amber-800 rounded-full font-bold border border-amber-200/80">
+                    {pendingApprovals.length} Awaiting Ratification
+                  </span>
+                  <span className="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full font-bold border border-emerald-200/80">
+                    {maintenanceTickets.filter(m => m.status === 'Completed').length} Completed
+                  </span>
+                </div>
+              </div>
+
               {/* Tickets list */}
               <div className="bg-white rounded-2xl border border-stone-200 shadow-xs overflow-hidden">
                 <div className="p-4 border-b border-stone-200 flex items-center justify-between bg-stone-50/50">
                   <div className="flex items-center gap-2">
                     <Wrench className="w-4 h-4 text-purple-600" />
                     <h3 className="font-bold text-xs uppercase tracking-wider text-stone-700">
-                      Work Orders Across Supervised Portfolio ({maintenanceTickets.length})
+                      Work Orders Across Supervised Portfolio ({maintenanceTickets.filter(m => {
+                        if (!selectedPropertyFilter) return true;
+                        const pId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
+                        return pId === selectedPropertyFilter;
+                      }).length})
                     </h3>
                   </div>
                   {!representative.can_approve_maintenance && (
@@ -701,19 +735,26 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                   </div>
                 ) : (
                   <div className="divide-y divide-stone-100">
-                    {maintenanceTickets.map(req => {
+                    {maintenanceTickets
+                      .filter(req => {
+                        if (!selectedPropertyFilter) return true;
+                        const propId = req.property_id || (dbState.units || []).find(u => u.id === req.unit_id)?.property_id;
+                        return propId === selectedPropertyFilter;
+                      })
+                      .map(req => {
                       const propId = req.property_id || (dbState.units || []).find(u => u.id === req.unit_id)?.property_id;
                       const prop = (dbState.properties || []).find(p => p.id === propId);
                       const unit = (dbState.units || []).find(u => u.id === req.unit_id);
-                      const vendor = (dbState.vendors || []).find(v => v.id === req.vendor_id);
+                      const vendor = (dbState.vendors || []).find(v => v.id === req.vendor_id || v.id === (req as any).assigned_vendor_id);
                       const isPending = req.status === 'Pending';
                       const nativeCurr = getPropNativeCurrency(propId);
+                      const billableCost = req.estimated_cost ?? req.actual_cost;
 
                       return (
                         <div key={req.id} className="p-5 hover:bg-stone-50/60 transition-colors space-y-3">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div className="space-y-1">
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                                   req.priority === 'Emergency' ? 'bg-rose-100 text-rose-800' :
                                   req.priority === 'High' ? 'bg-amber-100 text-amber-800' :
@@ -732,21 +773,25 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                                   {prop?.name} {unit ? `• Unit ${unit.unit_number}` : ''}
                                 </span>
                               </div>
-                              <h4 className="font-bold text-sm text-stone-900">{req.category}: {req.description}</h4>
+                              <h4 className="font-bold text-sm text-stone-900">{req.title || req.category}: {req.description}</h4>
                             </div>
 
                             {/* Estimate and actions */}
                             <div className="flex items-center gap-3 self-start sm:self-center">
-                              {req.estimated_cost !== undefined && req.estimated_cost !== null && (
+                              {billableCost !== undefined && billableCost !== null ? (
                                 <div className="text-right px-3 py-1.5 bg-stone-50 rounded-xl border border-stone-200/80">
-                                  <span className="text-[10px] uppercase font-bold text-stone-400 block">Estimated Cost</span>
+                                  <span className="text-[10px] uppercase font-bold text-stone-400 block">
+                                    {req.actual_cost ? 'Incurred Cost' : 'Estimated Cost'}
+                                  </span>
                                   <DualCurrencyDisplay
-                                    amount={Number(req.estimated_cost || 0)}
+                                    amount={Number(billableCost || 0)}
                                     nativeCurrency={nativeCurr}
                                     primaryClassName="font-bold text-sm text-stone-900 font-mono"
                                     secondaryClassName="text-[10px] text-stone-400 block"
                                   />
                                 </div>
+                              ) : (
+                                <span className="text-[11px] text-stone-400 italic">No billable quote attached</span>
                               )}
 
                               {isPending && representative?.can_approve_maintenance && (
