@@ -570,10 +570,10 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'properties' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Holdings & Assets</h1>
-                <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                <p className="text-sm text-stone-600">
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">Holdings & Assets</h1>
+                <span className="text-cream-400 font-light shrink-0">|</span>
+                <p className="text-sm text-stone-600 truncate">
                   Comprehensive real estate portfolio registry, building specifications, suite configurations, and active tenancies
                 </p>
               </div>
@@ -962,11 +962,27 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               VIEW 3: FINANCIALS & REPORTS (CONSOLIDATED AUDIT, SETTLEMENT & STATEMENTS)
               ========================================================================= */}
           {currentTab === 'financials' && (
-            <LandlordReportView
-              dbState={dbState}
-              landlord={landlord}
-              ownedPropertyIds={ownedPropertyIds}
-            />
+            <div className="space-y-6">
+              {/* Adopted Title and Subtitle Section Design with visual divider */}
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+                  Financial Statements & Reports
+                </h1>
+                <span className="text-cream-400 font-light shrink-0">|</span>
+                <p className="text-sm text-stone-600 truncate">
+                  Audited financial ledger, rent yields, management fees and operating deductions for {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
+                </p>
+              </div>
+
+              {/* Visual Horizontal Separator */}
+              <hr className="border-t border-slate-800/80" />
+
+              <LandlordReportView
+                dbState={dbState}
+                landlord={landlord}
+                ownedPropertyIds={ownedPropertyIds}
+              />
+            </div>
           )}
 
           {/* =========================================================================
@@ -975,10 +991,10 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'maintenance' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Maintenance & Work Orders</h1>
-                <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                <p className="text-sm text-stone-600">
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">Maintenance & Work Orders</h1>
+                <span className="text-cream-400 font-light shrink-0">|</span>
+                <p className="text-sm text-stone-600 truncate">
                   Live repair tracking and vendor dispatches across your {ownedProperties.length} properties ({ownedMaintenance.length} total work orders)
                 </p>
               </div>
@@ -1117,10 +1133,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'delegates' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap">Legal Delegates & Representative Access</h1>
-                <span className="hidden sm:inline text-cream-400 font-light">|</span>
-                <p className="text-sm text-stone-600">
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+                <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+                  Legal Delegates & Representative Access
+                </h1>
+                <span className="text-cream-400 font-light shrink-0">|</span>
+                <p className="text-sm text-stone-600 truncate">
                   Manage attorney, accountant, and family representative sub-permissions for your portfolio
                 </p>
               </div>
