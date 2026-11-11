@@ -1075,40 +1075,20 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   return (
     <div className="space-y-6">
       {/* =========================================================================
-          FORMAL EXECUTIVE LETTERHEAD (PRINT ONLY)
+          CLEAN LANDLORD STATEMENT HEADER (PRINT ONLY - MINIMALIST & DIRECT)
           ========================================================================= */}
-      <div className="hidden print:block pb-6 mb-6 border-b-2 border-stone-800">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-stone-900 text-white font-black text-sm flex items-center justify-center">
-                PF
-              </span>
-              <span className="text-xl font-black tracking-tight text-stone-900">PropertyFlow Inc.</span>
-            </div>
-            <p className="text-xs text-stone-500">Asset Management & Fiduciary Real Estate Administration</p>
-          </div>
-          <div className="text-right text-xs text-stone-600 space-y-0.5">
-            <span className="font-bold text-stone-900 block text-sm">Portfolio Financial Statement</span>
-            <p>Generated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p>Currency: <strong>{currentCurrency} ({currencyConfig.symbol})</strong></p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-stone-200 text-xs">
+      <div className="hidden print:block pb-4 mb-5 border-b border-stone-300">
+        <div className="flex justify-between items-baseline">
           <div>
-            <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider">Beneficiary Entity / Investor</span>
-            <span className="font-bold text-stone-900 text-sm">{landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}</span>
-            <p className="text-stone-500 mt-0.5">Email: {landlord.email || 'N/A'}</p>
-          </div>
-          <div className="text-right">
-            <span className="text-[10px] uppercase font-bold text-stone-400 block tracking-wider">Audited Statement Scope</span>
-            <span className="font-bold text-stone-900">
-              {formatReadableDate(dateRange.startDate)} – {formatReadableDate(dateRange.endDate)}
-            </span>
-            <p className="text-stone-500 mt-0.5">
-              {selectedPropertyFilter === 'All' ? `${ownedProperties.length} Properties · ${ownedUnits.length} Units` : 'Filtered Specific Asset'}
+            <h1 className="text-xl font-bold text-stone-900 tracking-tight">Portfolio Financial Statement</h1>
+            <p className="text-xs text-stone-600 mt-0.5">
+              Landlord: <strong className="text-stone-900">{landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}</strong>
+              {landlord.email ? ` (${landlord.email})` : ""}
             </p>
+          </div>
+          <div className="text-right text-xs text-stone-500 space-y-0.5">
+            <p>Reporting Window: <strong className="text-stone-800">{formatReadableDate(dateRange.startDate)} – {formatReadableDate(dateRange.endDate)}</strong></p>
+            <p>Scope: <strong>{selectedPropertyFilter === "All" ? `${ownedProperties.length} Properties · ${ownedUnits.length} Units` : "Selected Property"}</strong> · Base Currency: <strong>{currentCurrency} ({currencyConfig.symbol})</strong></p>
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || (i
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v7';
+const STORAGE_KEY = 'propertyflow_db_v8';
 
 export interface DatabaseState {
   landlords: Landlord[];
@@ -167,15 +167,46 @@ class StoreManager {
       if (props && props.length > 0) this.state.properties = props as any;
       if (units && units.length > 0) this.state.units = units as any;
       if (tenants && tenants.length > 0) this.state.tenants = tenants as any;
-      if (leases && leases.length > 0) this.state.leases = leases as any;
-      if (payments && payments.length > 0) this.state.payments = payments as any;
+      
+      // Merge leases: preserve versioned local leases (e.g. shortlet & updated leases)
+      const jsonLeases: Lease[] = (databaseJson as any)?.leases || [];
+      if (leases && leases.length > 0) {
+        const remoteIds = new Set((leases as any[]).map(l => l.id));
+        const missingJsonLeases = jsonLeases.filter(l => !remoteIds.has(l.id));
+        this.state.leases = [...(leases as any[]), ...missingJsonLeases];
+      } else {
+        this.state.leases = jsonLeases;
+      }
+
+      // Merge payments: preserve canonical October & November 2026 records
+      const jsonPayments: Payment[] = (databaseJson as any)?.payments || [];
+      if (payments && payments.length > 0) {
+        const remoteIds = new Set((payments as any[]).map(p => p.id));
+        const missingJsonPayments = jsonPayments.filter(p => !remoteIds.has(p.id));
+        this.state.payments = [...(payments as any[]), ...missingJsonPayments];
+      } else {
+        this.state.payments = jsonPayments;
+      }
+
       if (vendors && vendors.length > 0) this.state.vendors = vendors as any;
-      if (maint && maint.length > 0) this.state.maintenance_requests = maint as any;
+      
+      // Merge maintenance requests: preserve canonical local requests
+      const jsonMaint: MaintenanceRequest[] = (databaseJson as any)?.maintenance_requests || [];
+      if (maint && maint.length > 0) {
+        const remoteIds = new Set((maint as any[]).map(m => m.id));
+        const missingJsonMaint = jsonMaint.filter(m => !remoteIds.has(m.id));
+        this.state.maintenance_requests = [...(maint as any[]), ...missingJsonMaint];
+      } else {
+        this.state.maintenance_requests = jsonMaint;
+      }
+
       if (bills && bills.length > 0) this.state.bills = bills as any;
+      
+      // Merge expenses: remote rows + local JSON expenses (e.g. Oct/Nov records)
+      const jsonExpenses: any[] = (databaseJson as any)?.expenses || [];
       if (expenses && expenses.length > 0) {
-        // Merge Supabase remote rows with enriched local JSON fields (proofs, invoices, receipts)
-        const jsonExpenses: any[] = (databaseJson as any)?.expenses || [];
-        this.state.expenses = (expenses as any[]).map(remoteExp => {
+        const remoteIds = new Set((expenses as any[]).map(e => e.id));
+        const enrichedRemote = (expenses as any[]).map(remoteExp => {
           const match = jsonExpenses.find(j => j.id === remoteExp.id);
           return {
             ...remoteExp,
@@ -185,12 +216,32 @@ class StoreManager {
             share_with_landlord: match?.share_with_landlord ?? true
           };
         });
+        const missingJsonExpenses = jsonExpenses.filter(e => !remoteIds.has(e.id));
+        this.state.expenses = [...enrichedRemote, ...missingJsonExpenses];
+      } else {
+        this.state.expenses = jsonExpenses;
       }
+
       if (landlords && landlords.length > 0) this.state.landlords = landlords as any;
 
       // Ensure inspections are populated from versioned dataset if remote table is not configured
+      const jsonInspections: PropertyInspection[] = (databaseJson as any)?.inspections || [];
       if (!this.state.inspections || this.state.inspections.length === 0) {
-        this.state.inspections = (databaseJson as any)?.inspections || [];
+        this.state.inspections = jsonInspections;
+      } else {
+        const currentIds = new Set(this.state.inspections.map(i => i.id));
+        const missingJsonInsp = jsonInspections.filter(i => !currentIds.has(i.id));
+        this.state.inspections = [...this.state.inspections, ...missingJsonInsp];
+      }
+
+      // Ensure shortlet bookings are populated and preserved
+      const jsonShortlets: ShortletBooking[] = (databaseJson as any)?.shortlet_bookings || [];
+      if (!this.state.shortlet_bookings || this.state.shortlet_bookings.length === 0) {
+        this.state.shortlet_bookings = jsonShortlets;
+      } else {
+        const currentIds = new Set(this.state.shortlet_bookings.map(b => b.id));
+        const missingShortlets = jsonShortlets.filter(b => !currentIds.has(b.id));
+        this.state.shortlet_bookings = [...this.state.shortlet_bookings, ...missingShortlets];
       }
 
       this.saveState();
