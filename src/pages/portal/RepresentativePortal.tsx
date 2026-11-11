@@ -28,10 +28,18 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
 }) => {
   const { currentCurrency, setCurrency, currencyConfig, convertAmount, formatMoney } = useCurrency();
   const [currentTab, setCurrentTab] = useState<RepNavTab>(() => {
-    return (localStorage.getItem('propertyflow_rep_tab') as RepNavTab) || 'mandate';
+    const saved = localStorage.getItem('propertyflow_rep_tab') as RepNavTab;
+    const validTabs: RepNavTab[] = ['mandate', 'statements', 'approvals', 'holdings', 'banking'];
+    return validTabs.includes(saved) ? saved : 'mandate';
   });
 
   const mainScrollRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (mainScrollRef.current) {
+      mainScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentTab]);
 
   // Auto-scroll to top when switching tabs
   const handleTabChange = (tab: RepNavTab) => {
