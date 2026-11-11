@@ -4,14 +4,17 @@ import {
   ShieldCheck, Wrench, FileText, CreditCard, Bell,
   Calendar, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye,
   Mail, Building2, UserCheck, Lock, CheckCircle2, XCircle, ArrowUpRight,
-  Printer, DollarSign, Clock, Layers, AlertTriangle, LogOut, Home, ChevronRight
+  Printer, DollarSign, Clock, Layers, AlertTriangle, LogOut, Home, ChevronRight,
+  ClipboardCheck, Paperclip, Receipt
 } from 'lucide-react';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { Landlord, LandlordDelegate, Property, Unit, MaintenanceRequest, Expense } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 import { LandlordReportView } from '../../components/LandlordReportView';
+import { PortalMediaModal, PortalMediaItem } from '../../components/PortalMediaModal';
+import { PortfolioInspectionsView } from '../../components/PortfolioInspectionsView';
 
-export type RepNavTab = 'mandate' | 'statements' | 'approvals' | 'holdings';
+export type RepNavTab = 'mandate' | 'statements' | 'approvals' | 'inspections' | 'holdings';
 
 interface RepresentativePortalProps {
   dbState: DatabaseState;
@@ -29,13 +32,15 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
   const { currentCurrency, setCurrency, currencyConfig, convertAmount, formatAmountInTarget } = useCurrency();
   const [currentTab, setCurrentTab] = useState<RepNavTab>(() => {
     const saved = localStorage.getItem('propertyflow_rep_tab') as RepNavTab;
-    const validTabs: RepNavTab[] = ['mandate', 'statements', 'approvals', 'holdings'];
+    const validTabs: RepNavTab[] = ['mandate', 'statements', 'approvals', 'inspections', 'holdings'];
     return validTabs.includes(saved) ? saved : 'mandate';
   });
   const [activePropertyViewId, setActivePropertyViewId] = useState<string | null>(null);
   const [unitFilterType, setUnitFilterType] = useState<'All' | 'Occupied' | 'Vacant' | 'Shortlet'>('All');
   const [activeUnitTabId, setActiveUnitTabId] = useState<string | null>(null);
   const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string | null>(null);
+  const [maintStatusFilter, setMaintStatusFilter] = useState<'All' | 'Open' | 'In Progress' | 'Completed'>('All');
+  const [activeMediaItem, setActiveMediaItem] = useState<PortalMediaItem | null>(null);
 
   const mainScrollRef = useRef<HTMLElement>(null);
 
@@ -201,6 +206,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
   };
 
   const pendingApprovals = maintenanceTickets.filter(m => m.status === 'Pending');
+  const ownedInspections = (dbState.inspections || []).filter(i => ownedPropertyIds.includes(i.property_id));
 
   const handleSignOut = async () => {
     localStorage.removeItem('propertyflow_active_tab');
@@ -232,6 +238,12 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           label: 'Maintenance & Work Orders',
           icon: Wrench,
           badge: pendingApprovals.length > 0 ? `${pendingApprovals.length}` : undefined
+        },
+        {
+          id: 'inspections' as RepNavTab,
+          label: 'Inspections & Audits',
+          icon: ClipboardCheck,
+          badge: ownedInspections.length > 0 ? `${ownedInspections.length}` : undefined
         },
       ]
     }
@@ -687,19 +699,39 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
               </div>
 
               {/* Property Filter & Status Summary Bar */}
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
-                  <select
-                    value={selectedPropertyFilter || 'All'}
-                    onChange={(e) => setSelectedPropertyFilter(e.target.value === 'All' ? null : e.target.value)}
-                    className="px-3.5 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs focus:ring-2 focus:ring-purple-500 focus:outline-hidden"
-                  >
-                    <option value="All">All Supervised Properties ({ownedProperties.length})</option>
-                    {ownedProperties.map(p => (
-                      <option key={p.id} value={p.id}>{p.name}</option>
+              {/* Property & Status Filter Bar */}
+              <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-4 rounded-2xl border border-stone-200 shadow-xs">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
+                    <select
+                      value={selectedPropertyFilter || 'All'}
+                      onChange={(e) => setSelectedPropertyFilter(e.target.value === 'All' ? null : e.target.value)}
+                      className="px-3.5 py-1.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer focus:ring-2 focus:ring-purple-500 focus:outline-hidden"
+                    >
+                      <option value="All">All Supervised Properties ({ownedProperties.length})</option>
+                      {ownedProperties.map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-stone-600 uppercase tracking-wider mr-1">Status:</span>
+                    {(['All', 'Open', 'In Progress', 'Completed'] as const).map(st => (
+                      <button
+                        key={st}
+                        onClick={() => setMaintStatusFilter(st)}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          maintStatusFilter === st
+                            ? 'bg-stone-900 text-white shadow-2xs'
+                            : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                        }`}
+                      >
+                        {st}
+                      </button>
                     ))}
-                  </select>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs">
@@ -719,9 +751,12 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                     <Wrench className="w-4 h-4 text-purple-600" />
                     <h3 className="font-bold text-xs uppercase tracking-wider text-stone-700">
                       Work Orders Across Supervised Portfolio ({maintenanceTickets.filter(m => {
-                        if (!selectedPropertyFilter) return true;
                         const pId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
-                        return pId === selectedPropertyFilter;
+                        if (selectedPropertyFilter && pId !== selectedPropertyFilter) return false;
+                        if (maintStatusFilter === 'Completed' && m.status !== 'Completed') return false;
+                        if (maintStatusFilter === 'In Progress' && m.status !== 'In Progress' && m.status !== 'Assigned' && m.status !== 'Vendor Accepted') return false;
+                        if (maintStatusFilter === 'Open' && m.status === 'Completed') return false;
+                        return true;
                       }).length})
                     </h3>
                   </div>
@@ -740,9 +775,12 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                   <div className="divide-y divide-stone-100">
                     {maintenanceTickets
                       .filter(req => {
-                        if (!selectedPropertyFilter) return true;
                         const propId = req.property_id || (dbState.units || []).find(u => u.id === req.unit_id)?.property_id;
-                        return propId === selectedPropertyFilter;
+                        if (selectedPropertyFilter && propId !== selectedPropertyFilter) return false;
+                        if (maintStatusFilter === 'Completed' && req.status !== 'Completed') return false;
+                        if (maintStatusFilter === 'In Progress' && req.status !== 'In Progress' && req.status !== 'Assigned' && req.status !== 'Vendor Accepted') return false;
+                        if (maintStatusFilter === 'Open' && req.status === 'Completed') return false;
+                        return true;
                       })
                       .map(req => {
                       const propId = req.property_id || (dbState.units || []).find(u => u.id === req.unit_id)?.property_id;
@@ -751,11 +789,18 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       const vendor = (dbState.vendors || []).find(v => v.id === req.vendor_id || v.id === (req as any).assigned_vendor_id);
                       const isPending = req.status === 'Pending';
                       const nativeCurr = getPropNativeCurrency(propId);
-                      const billableCost = req.estimated_cost ?? req.actual_cost;
+                      const billableCost = req.actual_cost ?? req.estimated_cost;
+                      const attachments = req.attachments || [];
+
+                      // Match any unit/property expense proofs from the same month/unit for full transparency
+                      const ticketMonth = (req.created_at || req.reported_date || '').slice(0, 7);
+                      const relatedExpenseProofs = propertyExpenses
+                        .filter(e => e.unit_id && e.unit_id === req.unit_id && (!ticketMonth || (e.date || '').startsWith(ticketMonth)))
+                        .flatMap(e => e.proofs || []);
 
                       return (
-                        <div key={req.id} className="p-5 hover:bg-stone-50/60 transition-colors space-y-3">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div key={req.id} className="p-5 hover:bg-stone-50/60 transition-colors space-y-3.5">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div className="space-y-1">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
@@ -767,12 +812,13 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                                 </span>
                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                                   req.status === 'Pending' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
-                                  req.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
+                                  req.status === 'In Progress' || req.status === 'Assigned' || req.status === 'Vendor Accepted' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
                                   'bg-emerald-50 text-emerald-700 border border-emerald-200'
                                 }`}>
                                   {req.status}
                                 </span>
-                                <span className="text-xs font-semibold text-stone-500">
+                                <span className="text-xs font-semibold text-stone-600 flex items-center gap-1">
+                                  <Building2 className="w-3.5 h-3.5 text-stone-400" />
                                   {prop?.name} {unit ? `• Unit ${unit.unit_number}` : ''}
                                 </span>
                               </div>
@@ -784,7 +830,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                               {billableCost !== undefined && billableCost !== null ? (
                                 <div className="text-right px-3 py-1.5 bg-stone-50 rounded-xl border border-stone-200/80">
                                   <span className="text-[10px] uppercase font-bold text-stone-400 block">
-                                    {req.actual_cost ? 'Incurred Cost' : 'Estimated Cost'}
+                                    {req.status === 'Completed' || req.actual_cost ? 'Incurred Cost' : 'Estimated Cost'}
                                   </span>
                                   <DualCurrencyDisplay
                                     amount={Number(billableCost || 0)}
@@ -823,9 +869,107 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                             </div>
                           )}
 
+                          {/* Attached Supporting Documents, Quotes, Invoices & Site Photos */}
+                          {(attachments.length > 0 || relatedExpenseProofs.length > 0) && (
+                            <div className="pt-2.5 border-t border-stone-100 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+                                  <Paperclip className="w-3.5 h-3.5 text-purple-600" />
+                                  Attached Work Order Documents, Quotes & Site Photos ({attachments.length + relatedExpenseProofs.length})
+                                </span>
+                                <span className="text-[10px] text-stone-400">Click to inspect document or photo</span>
+                              </div>
+
+                              <div className="flex flex-wrap gap-2">
+                                {attachments.map(att => {
+                                  const isImage = att.type.startsWith('image/');
+                                  return (
+                                    <button
+                                      key={att.id}
+                                      type="button"
+                                      onClick={() =>
+                                        setActiveMediaItem({
+                                          type: isImage ? 'photo' : 'document',
+                                          url: att.url,
+                                          title: att.name,
+                                          caption: `${req.title || req.category}: ${req.description}`,
+                                          propertyName: prop?.name,
+                                          unitNumber: unit?.unit_number,
+                                          vendorOrAuditor: vendor?.company || vendor?.name || 'In-House Facilities Staff',
+                                          date: (att.uploaded_at || req.created_at || '').slice(0, 10),
+                                          amountFormatted: billableCost ? formatAmountInTarget(Number(billableCost), nativeCurr) : undefined,
+                                          status: req.status,
+                                          referenceId: req.id.toUpperCase()
+                                        })
+                                      }
+                                      className="p-2 bg-stone-50 hover:bg-stone-100 border border-stone-200 hover:border-stone-300 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-stone-800 transition-all group cursor-pointer shadow-2xs"
+                                    >
+                                      {isImage ? (
+                                        <img
+                                          src={att.url}
+                                          alt={att.name}
+                                          className="w-8 h-8 rounded-lg object-cover border border-stone-200 shrink-0"
+                                        />
+                                      ) : (
+                                        <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center shrink-0">
+                                          <FileText className="w-4 h-4" />
+                                        </div>
+                                      )}
+                                      <div className="text-left min-w-0">
+                                        <span className="block truncate max-w-[180px] text-[11px] font-bold text-stone-800">
+                                          {att.name}
+                                        </span>
+                                        <span className="block text-[10px] text-stone-500">
+                                          {isImage ? 'Site Diagnostic Photo' : att.name.toLowerCase().includes('invoice') ? 'Verified Tax Invoice' : att.name.toLowerCase().includes('completion') ? 'Completion Sign-Off' : 'Contractor Quote PDF'}
+                                        </span>
+                                      </div>
+                                      <Eye className="w-3.5 h-3.5 text-stone-400 group-hover:text-stone-900 ml-1 shrink-0" />
+                                    </button>
+                                  );
+                                })}
+
+                                {relatedExpenseProofs.map(prf => (
+                                  <button
+                                    key={prf.id}
+                                    type="button"
+                                    onClick={() =>
+                                      setActiveMediaItem({
+                                        type: prf.file_type === 'photo' ? 'photo' : 'document',
+                                        url: prf.file_url,
+                                        title: prf.file_name,
+                                        caption: prf.caption || req.description,
+                                        propertyName: prop?.name,
+                                        unitNumber: unit?.unit_number,
+                                        vendorOrAuditor: vendor?.company || vendor?.name || 'Verified Trade Vendor',
+                                        date: (prf.uploaded_at || req.created_at || '').slice(0, 10),
+                                        amountFormatted: billableCost ? formatAmountInTarget(Number(billableCost), nativeCurr) : undefined,
+                                        status: req.status,
+                                        referenceId: req.id.toUpperCase()
+                                      })
+                                    }
+                                    className="p-2 bg-rose-50/60 hover:bg-rose-50 border border-rose-200 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-stone-800 transition-all group cursor-pointer shadow-2xs"
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                                      <Receipt className="w-4 h-4" />
+                                    </div>
+                                    <div className="text-left min-w-0">
+                                      <span className="block truncate max-w-[180px] text-[11px] font-bold text-stone-800">
+                                        {prf.file_name}
+                                      </span>
+                                      <span className="block text-[10px] text-rose-700 font-medium">
+                                        Ledger Expense Proof
+                                      </span>
+                                    </div>
+                                    <Eye className="w-3.5 h-3.5 text-stone-400 group-hover:text-stone-900 ml-1 shrink-0" />
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
                           <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1 border-t border-stone-100">
                             <span>Ticket ID: {req.id}</span>
-                            <span>Assigned Trade: {vendor?.name || 'In-House Facilities Staff'}</span>
+                            <span>Assigned Trade: {vendor?.company || vendor?.name || 'In-House Facilities Staff'}</span>
                             <span>Submitted: {req.created_at ? String(req.created_at).slice(0, 10) : 'Recent'}</span>
                           </div>
                         </div>
@@ -835,6 +979,17 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 )}
               </div>
             </div>
+          )}
+
+          {/* =========================================================================
+              VIEW 3B: INSPECTIONS & FIELD AUDITS (AT-A-GLANCE DEDICATED VIEW)
+              ========================================================================= */}
+          {currentTab === 'inspections' && (
+            <PortfolioInspectionsView
+              dbState={dbState}
+              ownedProperties={ownedProperties}
+              roleLabel="Representative"
+            />
           )}
 
           {/* =========================================================================
@@ -1218,6 +1373,12 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           )}
         </main>
       </div>
+
+      {/* Shared Work Order Document & Site Photo Modal */}
+      <PortalMediaModal
+        item={activeMediaItem}
+        onClose={() => setActiveMediaItem(null)}
+      />
     </div>
   );
 };

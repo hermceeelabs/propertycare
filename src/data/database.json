@@ -9033,7 +9033,27 @@
         "rent_rate_at_event": 2850,
         "lease_start": "2025-10-01",
         "lease_end": "2026-09-30"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "estimated_cost": 180,
+      "attachments": [
+        {
+          "id": "att-maint-1-photo",
+          "name": "plumbing_site_inspection_1.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-20T14:30:00Z"
+        },
+        {
+          "id": "att-maint-1-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-08-20T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2",
@@ -9056,7 +9076,27 @@
         "rent_rate_at_event": 2450,
         "lease_start": "2025-09-15",
         "lease_end": "2026-09-14"
-      }
+      },
+      "title": "HVAC Service & Repair Order",
+      "estimated_cost": 245,
+      "attachments": [
+        {
+          "id": "att-maint-2-photo",
+          "name": "hvac_site_inspection_2.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-19T09:15:00Z"
+        },
+        {
+          "id": "att-maint-2-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-2.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-08-19T09:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-3",
@@ -9079,7 +9119,27 @@
         "rent_rate_at_event": 2650,
         "lease_start": "2025-11-01",
         "lease_end": "2026-10-31"
-      }
+      },
+      "title": "Electrical Service & Repair Order",
+      "estimated_cost": 310,
+      "attachments": [
+        {
+          "id": "att-maint-3-photo",
+          "name": "electrical_site_inspection_3.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-18T11:00:00Z"
+        },
+        {
+          "id": "att-maint-3-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-3.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-08-18T11:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-4",
@@ -9102,7 +9162,27 @@
         "rent_rate_at_event": 1950,
         "lease_start": "2025-07-01",
         "lease_end": "2026-06-30"
-      }
+      },
+      "title": "Pest Service & Repair Order",
+      "estimated_cost": 375,
+      "attachments": [
+        {
+          "id": "att-maint-4-photo",
+          "name": "pest_site_inspection_4.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-21T08:45:00Z"
+        },
+        {
+          "id": "att-maint-4-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-4.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-08-21T08:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-5",
@@ -9124,7 +9204,27 @@
         "rent_rate_at_event": 2150,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "title": "Appliance Service & Repair Order",
+      "estimated_cost": 440,
+      "attachments": [
+        {
+          "id": "att-maint-5-photo",
+          "name": "appliance_site_inspection_5.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-21T10:00:00Z"
+        },
+        {
+          "id": "att-maint-5-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-5.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-08-21T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "req-501",
@@ -9148,7 +9248,27 @@
         "rent_rate_at_event": 2150,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "vendor_id": "ven-1",
+      "attachments": [
+        {
+          "id": "att-req-501-photo",
+          "name": "plumbing_site_inspection_6.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-10T10:00:00Z"
+        },
+        {
+          "id": "att-req-501-quote",
+          "name": "Vendor_Repair_Estimate_REQ-501.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-06-10T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "req-502",
@@ -9173,7 +9293,35 @@
         "rent_rate_at_event": 2850,
         "lease_start": "2025-10-01",
         "lease_end": "2026-09-30"
-      }
+      },
+      "title": "HVAC Service & Repair Order",
+      "vendor_id": "ven-3",
+      "attachments": [
+        {
+          "id": "att-req-502-photo",
+          "name": "hvac_site_inspection_7.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-11T10:00:00Z"
+        },
+        {
+          "id": "att-req-502-inv",
+          "name": "Contractor_Tax_Invoice_REQ-502.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-13T14:30:00Z"
+        },
+        {
+          "id": "att-req-502-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-502.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-13T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-503",
@@ -9198,7 +9346,35 @@
         "rent_rate_at_event": 2650,
         "lease_start": "2025-11-01",
         "lease_end": "2026-10-31"
-      }
+      },
+      "title": "Electrical Service & Repair Order",
+      "vendor_id": "ven-2",
+      "attachments": [
+        {
+          "id": "att-req-503-photo",
+          "name": "electrical_site_inspection_8.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-12T10:00:00Z"
+        },
+        {
+          "id": "att-req-503-inv",
+          "name": "Contractor_Tax_Invoice_REQ-503.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-14T14:30:00Z"
+        },
+        {
+          "id": "att-req-503-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-503.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-14T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-504",
@@ -9222,7 +9398,27 @@
         "rent_rate_at_event": 2450,
         "lease_start": "2025-09-15",
         "lease_end": "2026-09-14"
-      }
+      },
+      "title": "Appliance Service & Repair Order",
+      "vendor_id": "ven-1",
+      "attachments": [
+        {
+          "id": "att-req-504-photo",
+          "name": "appliance_site_inspection_9.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-13T10:00:00Z"
+        },
+        {
+          "id": "att-req-504-quote",
+          "name": "Vendor_Repair_Estimate_REQ-504.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-06-13T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "req-505",
@@ -9247,7 +9443,35 @@
         "rent_rate_at_event": 1950,
         "lease_start": "2025-07-01",
         "lease_end": "2026-06-30"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "vendor_id": "ven-1",
+      "attachments": [
+        {
+          "id": "att-req-505-photo",
+          "name": "plumbing_site_inspection_10.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-14T10:00:00Z"
+        },
+        {
+          "id": "att-req-505-inv",
+          "name": "Contractor_Tax_Invoice_REQ-505.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-16T14:30:00Z"
+        },
+        {
+          "id": "att-req-505-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-505.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-16T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-506",
@@ -9267,7 +9491,35 @@
         "tenant_name": "Elena Rostova",
         "email": "elena.rostova@example.ca",
         "phone": "(416) 555-0611"
-      }
+      },
+      "title": "General Service & Repair Order",
+      "vendor_id": "ven-4",
+      "attachments": [
+        {
+          "id": "att-req-506-photo",
+          "name": "general_site_inspection_11.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-15T10:00:00Z"
+        },
+        {
+          "id": "att-req-506-inv",
+          "name": "Contractor_Tax_Invoice_REQ-506.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-17T14:30:00Z"
+        },
+        {
+          "id": "att-req-506-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-506.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-17T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-507",
@@ -9291,13 +9543,33 @@
         "rent_rate_at_event": 2100,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "title": "HVAC Service & Repair Order",
+      "vendor_id": "ven-3",
+      "attachments": [
+        {
+          "id": "att-req-507-photo",
+          "name": "hvac_site_inspection_12.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-16T10:00:00Z"
+        },
+        {
+          "id": "att-req-507-quote",
+          "name": "Vendor_Repair_Estimate_REQ-507.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-06-16T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "req-508",
       "unit_id": "unit-104",
       "tenant_id": "ten-8",
-      "category": "Carpentry",
+      "category": "General",
       "priority": "Low",
       "status": "Completed",
       "description": "Balcony sliding screen door off track and patio latch loose.",
@@ -9316,7 +9588,35 @@
         "rent_rate_at_event": 2750,
         "lease_start": "2025-06-01",
         "lease_end": "2026-05-31"
-      }
+      },
+      "title": "General Service & Repair Order",
+      "vendor_id": "ven-4",
+      "attachments": [
+        {
+          "id": "att-req-508-photo",
+          "name": "general_site_inspection_13.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-17T10:00:00Z"
+        },
+        {
+          "id": "att-req-508-inv",
+          "name": "Contractor_Tax_Invoice_REQ-508.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-19T14:30:00Z"
+        },
+        {
+          "id": "att-req-508-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-508.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-19T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-509",
@@ -9341,7 +9641,35 @@
         "rent_rate_at_event": 3200000,
         "lease_start": "2025-03-01",
         "lease_end": "2027-02-28"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "vendor_id": "ven-1",
+      "attachments": [
+        {
+          "id": "att-req-509-photo",
+          "name": "plumbing_site_inspection_14.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-18T10:00:00Z"
+        },
+        {
+          "id": "att-req-509-inv",
+          "name": "Contractor_Tax_Invoice_REQ-509.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-20T14:30:00Z"
+        },
+        {
+          "id": "att-req-509-cert",
+          "name": "Work_Order_Completion_SignOff_REQ-509.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-20T14:30:00Z"
+        }
+      ]
     },
     {
       "id": "req-510",
@@ -9365,7 +9693,27 @@
         "rent_rate_at_event": 4200000,
         "lease_start": "2025-07-01",
         "lease_end": "2027-06-30"
-      }
+      },
+      "title": "HVAC Service & Repair Order",
+      "vendor_id": "ven-3",
+      "attachments": [
+        {
+          "id": "att-req-510-photo",
+          "name": "hvac_site_inspection_15.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-19T10:00:00Z"
+        },
+        {
+          "id": "att-req-510-quote",
+          "name": "Vendor_Repair_Estimate_REQ-510.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-06-19T10:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-1",
@@ -9394,14 +9742,40 @@
         "rent_rate_at_event": 2150,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-1-photo",
+          "name": "plumbing_site_inspection_16.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-12T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-1-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-12T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-1-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-12T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-2",
       "tenant_id": "ten-2",
       "unit_id": "unit-302",
       "property_id": "prop-2",
-      "category": "Appliances",
+      "category": "Appliance",
       "title": "Refrigerator inverter compressor relay starter failure",
       "description": "Fridge failing to cycle cool. Technician swapped compressor capacitor and PTC relay.",
       "priority": "Emergency",
@@ -9420,7 +9794,33 @@
         "phone": "(416) 555-0341",
         "unit_number": "302",
         "property_name": "Harbourview Residences"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-2-photo",
+          "name": "appliance_site_inspection_17.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-28T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-2-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-2.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-28T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-2-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-2.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-28T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-3",
@@ -9449,7 +9849,33 @@
         "rent_rate_at_event": 1950,
         "lease_start": "2025-07-01",
         "lease_end": "2026-06-30"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-3-photo",
+          "name": "electrical_site_inspection_18.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-14T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-3-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-3.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-14T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-3-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-3.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-14T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-4",
@@ -9478,14 +9904,40 @@
         "rent_rate_at_event": 2100,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-4-photo",
+          "name": "hvac_site_inspection_19.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-23T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-4-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-4.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-23T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-4-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-4.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-23T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-5",
       "tenant_id": "ten-5",
       "unit_id": "unit-ea-204",
       "property_id": "prop-5",
-      "category": "Repairs & Maintenance",
+      "category": "General",
       "title": "Entry door deadbolt latch alignment & heavy brass strike plate adjustment",
       "description": "Deadbolt jamming in winter expansion. Mortise pocket deepened and lubricated.",
       "priority": "Medium",
@@ -9504,7 +9956,33 @@
         "phone": "(905) 555-0922",
         "unit_number": "EA-204",
         "property_name": "Eko Atlantic Waterfront Towers"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-5-photo",
+          "name": "general_site_inspection_20.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-08T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-5-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-5.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-08T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-5-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-5.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-08T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-6",
@@ -9530,14 +10008,40 @@
         "phone": "(416) 555-0611",
         "unit_number": "IK-05",
         "property_name": "Ikoyi Luxury Heights & Suites"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-6-photo",
+          "name": "plumbing_site_inspection_21.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-17T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-6-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-6.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-17T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-6-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-6.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-17T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-7",
       "tenant_id": "ten-7",
       "unit_id": "unit-701",
       "property_id": "prop-7",
-      "category": "Painting",
+      "category": "General",
       "title": "Post-leak ceiling plaster repair, stain block primer & ceiling coat",
       "description": "Previous moisture ring sealed with Zinsser oil-based stain blocker and matched flat white.",
       "priority": "Medium",
@@ -9556,14 +10060,40 @@
         "phone": "(613) 555-0133",
         "unit_number": "MT-12",
         "property_name": "Maitama Diplomatic Residences"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-7-photo",
+          "name": "general_site_inspection_22.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-05T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-7-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-7.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-05T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-7-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-7.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-05T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-8",
       "tenant_id": "ten-8",
       "unit_id": "unit-802",
       "property_id": "prop-8",
-      "category": "Appliances",
+      "category": "Appliance",
       "title": "Dishwasher spray arm cracking & detergent dispenser door latch rebuild",
       "description": "Lower spray arm cracked causing water hammer. Replaced with OEM parts and tested.",
       "priority": "Low",
@@ -9582,7 +10112,33 @@
         "phone": "(416) 555-0789",
         "unit_number": "W2-10",
         "property_name": "Wuse II Executive Lofts"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-8-photo",
+          "name": "appliance_site_inspection_23.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-22T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-8-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-8.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-22T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-8-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-8.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-22T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-9",
@@ -9611,14 +10167,40 @@
         "rent_rate_at_event": 2850,
         "lease_start": "2025-10-01",
         "lease_end": "2026-09-30"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-9-photo",
+          "name": "electrical_site_inspection_24.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-11T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-9-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-9.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-11T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-9-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-9.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-11T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-10",
       "tenant_id": "ten-10",
       "unit_id": "unit-301",
       "property_id": "prop-2",
-      "category": "Pest Control",
+      "category": "Pest",
       "title": "Seasonal preventive perimeter pest exclusion & bait station service",
       "description": "Foundation weep holes screened with brass wire mesh, non-toxic monitoring stations placed.",
       "priority": "Medium",
@@ -9640,7 +10222,33 @@
         "rent_rate_at_event": 2450,
         "lease_start": "2025-09-15",
         "lease_end": "2026-09-14"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-10-photo",
+          "name": "pest_site_inspection_25.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-25T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-25T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-25T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-11",
@@ -9669,14 +10277,40 @@
         "rent_rate_at_event": 1950,
         "lease_start": "2025-07-01",
         "lease_end": "2026-06-30"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-11-photo",
+          "name": "hvac_site_inspection_26.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-08T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-11-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-08T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-11-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-08T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-12",
       "tenant_id": "ten-2026-2",
       "unit_id": "unit-502",
       "property_id": "prop-4",
-      "category": "Cleaning",
+      "category": "General",
       "title": "Turnover deep tile grout steam extraction & balcony power washing",
       "description": "Full unit restorative clean. Bathroom tiles steam-extracted and sealed against mold.",
       "priority": "Medium",
@@ -9698,7 +10332,33 @@
         "rent_rate_at_event": 2100,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-12-photo",
+          "name": "general_site_inspection_27.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-20T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-12-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-20T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-12-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-20T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-13",
@@ -9724,14 +10384,40 @@
         "phone": "(416) 555-0192",
         "unit_number": "EA-101",
         "property_name": "Eko Atlantic Waterfront Towers"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-13-photo",
+          "name": "plumbing_site_inspection_28.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-07T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-13-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-13.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-07T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-13-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-13.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-07T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-14",
       "tenant_id": "ten-2",
       "unit_id": "unit-602",
       "property_id": "prop-6",
-      "category": "Appliances",
+      "category": "Appliance",
       "title": "Clothes dryer thermal fuse blown & exhaust lint duct mechanical vacuuming",
       "description": "Dryer tumbling with zero heat. Replaced safety thermal cut-off and vacuumed 15-foot duct line.",
       "priority": "High",
@@ -9750,14 +10436,40 @@
         "phone": "(416) 555-0341",
         "unit_number": "IK-05",
         "property_name": "Ikoyi Luxury Heights & Suites"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-14-photo",
+          "name": "appliance_site_inspection_29.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-24T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-14-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-14.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-24T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-14-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-14.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-24T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-15",
       "tenant_id": "ten-3",
       "unit_id": "unit-701",
       "property_id": "prop-7",
-      "category": "Repairs & Maintenance",
+      "category": "General",
       "title": "Balcony sliding screen door track re-alignment and heavy-duty nylon rollers",
       "description": "Screen door derailed during windstorm. Installed stainless steel spring-loaded tandem wheels.",
       "priority": "Low",
@@ -9776,14 +10488,40 @@
         "phone": "(613) 555-0812",
         "unit_number": "MT-12",
         "property_name": "Maitama Diplomatic Residences"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-15-photo",
+          "name": "general_site_inspection_30.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-14T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-15-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-15.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-08-14T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-15-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-15.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-08-14T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-16",
       "tenant_id": "ten-4",
       "unit_id": "unit-802",
       "property_id": "prop-8",
-      "category": "Painting",
+      "category": "General",
       "title": "Living room scuff touch-ups & baseboard gloss repainting after tenant move-in",
       "description": "Furniture move-in scrapes prepped, caulked at corner joints and touched up seamlessly.",
       "priority": "Low",
@@ -9802,7 +10540,33 @@
         "phone": "(905) 555-0477",
         "unit_number": "W2-10",
         "property_name": "Wuse II Executive Lofts"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-16-photo",
+          "name": "general_site_inspection_31.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-29T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-16-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-16.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-08-29T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-16-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-16.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-08-29T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-17",
@@ -9828,7 +10592,33 @@
         "phone": "(905) 555-0922",
         "unit_number": "103",
         "property_name": "Maple Heights Apartments"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-17-photo",
+          "name": "electrical_site_inspection_32.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-15T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-17-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-17.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-15T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-17-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-17.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-15T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-18",
@@ -9852,7 +10642,33 @@
         "tenant_name": "Elena Rostova",
         "email": "elena.rostova@example.ca",
         "phone": "(416) 555-0611"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-18-photo",
+          "name": "hvac_site_inspection_33.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-18T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-18-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-18.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-18T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-18-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-18.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-18T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-19",
@@ -9881,14 +10697,40 @@
         "rent_rate_at_event": 1950,
         "lease_start": "2025-07-01",
         "lease_end": "2026-06-30"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-19-photo",
+          "name": "plumbing_site_inspection_34.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-12T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-19-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-19.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-12T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-19-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-19.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-12T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-20",
       "tenant_id": "ten-8",
       "unit_id": "unit-502",
       "property_id": "prop-4",
-      "category": "Cleaning",
+      "category": "General",
       "title": "Year-end lobby and common corridor deep carpet shampoo and odor neutralization",
       "description": "Commercial hot-water extraction performed on 3 floors of corridor carpet runner.",
       "priority": "Medium",
@@ -9910,14 +10752,40 @@
         "rent_rate_at_event": 2100,
         "lease_start": "2025-09-01",
         "lease_end": "2026-08-31"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-20-photo",
+          "name": "general_site_inspection_35.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-05T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-20-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-20.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-05T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-20-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-20.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-05T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-gen-21",
       "tenant_id": "ten-9",
       "unit_id": "unit-ea-302",
       "property_id": "prop-5",
-      "category": "Repairs & Maintenance",
+      "category": "General",
       "title": "Underground garage security gate optical sensor re-calibration & chain lubrication",
       "description": "Safety reversal eye obstructed by road salt dust. Cleaned, aligned beams and greased rollers.",
       "priority": "High",
@@ -9939,7 +10807,33 @@
         "rent_rate_at_event": 3200000,
         "lease_start": "2025-03-01",
         "lease_end": "2027-02-28"
-      }
+      },
+      "attachments": [
+        {
+          "id": "att-maint-gen-21-photo",
+          "name": "general_site_inspection_36.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-20T09:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-21-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-GEN-21.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-20T16:00:00Z"
+        },
+        {
+          "id": "att-maint-gen-21-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-GEN-21.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-20T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-oct-1",
@@ -9963,7 +10857,35 @@
         "rent_rate_at_event": 2800000,
         "lease_start": "2026-01-01",
         "lease_end": "2026-12-31"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "actual_cost": 145000,
+      "attachments": [
+        {
+          "id": "att-maint-oct-1-photo",
+          "name": "plumbing_site_inspection_37.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-16T10:00:00Z"
+        },
+        {
+          "id": "att-maint-oct-1-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-OCT-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-18T15:00:00Z"
+        },
+        {
+          "id": "att-maint-oct-1-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-OCT-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-18T15:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-nov-1",
@@ -9977,7 +10899,35 @@
       "vendor_id": "ven-1",
       "resolution_notes": "Replaced Somfy high-torque roller motor and re-paired wireless zigbee relay.",
       "created_at": "2026-11-08T09:00:00Z",
-      "updated_at": "2026-11-09T14:00:00Z"
+      "updated_at": "2026-11-09T14:00:00Z",
+      "title": "Electrical Service & Repair Order",
+      "actual_cost": 210000,
+      "attachments": [
+        {
+          "id": "att-maint-nov-1-photo",
+          "name": "electrical_site_inspection_38.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-08T09:00:00Z"
+        },
+        {
+          "id": "att-maint-nov-1-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-NOV-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-09T14:00:00Z"
+        },
+        {
+          "id": "att-maint-nov-1-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-NOV-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-09T14:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-nov-pending-1",
@@ -10001,7 +10951,26 @@
         "rent_rate_at_event": 2800000,
         "lease_start": "2026-01-01",
         "lease_end": "2026-12-31"
-      }
+      },
+      "title": "HVAC Service & Repair Order",
+      "attachments": [
+        {
+          "id": "att-maint-nov-pending-1-photo",
+          "name": "hvac_site_inspection_39.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-10T16:00:00Z"
+        },
+        {
+          "id": "att-maint-nov-pending-1-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-NOV-PENDING-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-11-10T16:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-nov-today-urgent",
@@ -10025,7 +10994,26 @@
         "rent_rate_at_event": 3800000,
         "lease_start": "2026-02-01",
         "lease_end": "2027-01-31"
-      }
+      },
+      "title": "Plumbing Service & Repair Order",
+      "attachments": [
+        {
+          "id": "att-maint-nov-today-urgent-photo",
+          "name": "plumbing_site_inspection_40.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-11T09:15:00Z"
+        },
+        {
+          "id": "att-maint-nov-today-urgent-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-NOV-TODAY-URGENT.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-11-11T09:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-ik-oct-1",
@@ -10036,7 +11024,37 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-10-10T09:00:00Z",
-      "updated_at": "2026-10-10T12:00:00Z"
+      "updated_at": "2026-10-10T12:00:00Z",
+      "category": "General",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 238500,
+      "actual_cost": 238500,
+      "attachments": [
+        {
+          "id": "att-maint-ik-oct-1-photo",
+          "name": "general_site_inspection_41.jpg",
+          "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-10T09:00:00Z"
+        },
+        {
+          "id": "att-maint-ik-oct-1-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-IK-OCT-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-10T12:00:00Z"
+        },
+        {
+          "id": "att-maint-ik-oct-1-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-IK-OCT-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-10T12:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-mt-nov-1",
@@ -10047,7 +11065,37 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-11-03T10:00:00Z",
-      "updated_at": "2026-11-03T14:00:00Z"
+      "updated_at": "2026-11-03T14:00:00Z",
+      "category": "General",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 267750,
+      "actual_cost": 267750,
+      "attachments": [
+        {
+          "id": "att-maint-mt-nov-1-photo",
+          "name": "general_site_inspection_42.jpg",
+          "url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-03T10:00:00Z"
+        },
+        {
+          "id": "att-maint-mt-nov-1-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-MT-NOV-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-03T14:00:00Z"
+        },
+        {
+          "id": "att-maint-mt-nov-1-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-MT-NOV-1.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-03T14:00:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-01",
@@ -10060,7 +11108,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-01-08T10:15:00Z",
-      "updated_at": "2026-01-08T16:45:00Z"
+      "updated_at": "2026-01-08T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 660,
+      "actual_cost": 660,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-01-photo",
+          "name": "electrical_site_inspection_43.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-08T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-08T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-08T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-01",
@@ -10073,7 +11150,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-01-11T10:15:00Z",
-      "updated_at": "2026-01-11T16:45:00Z"
+      "updated_at": "2026-01-11T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 725,
+      "actual_cost": 725,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-01-photo",
+          "name": "structural_site_inspection_44.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-11T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-11T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-11T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-01",
@@ -10086,7 +11192,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-01-14T10:15:00Z",
-      "updated_at": "2026-01-14T16:45:00Z"
+      "updated_at": "2026-01-14T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 355500,
+      "actual_cost": 355500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-01-photo",
+          "name": "appliance_site_inspection_45.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-14T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-14T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-14T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-01",
@@ -10099,7 +11234,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-01-17T10:15:00Z",
-      "updated_at": "2026-01-17T16:45:00Z"
+      "updated_at": "2026-01-17T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 384750,
+      "actual_cost": 384750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-01-photo",
+          "name": "electrical_site_inspection_46.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-17T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-17T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-17T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-01",
@@ -10112,7 +11276,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-01-20T10:15:00Z",
-      "updated_at": "2026-01-20T16:45:00Z"
+      "updated_at": "2026-01-20T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 414000,
+      "actual_cost": 414000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-01-photo",
+          "name": "hvac_site_inspection_47.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-01",
@@ -10125,7 +11318,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-01-23T10:15:00Z",
-      "updated_at": "2026-01-23T16:45:00Z"
+      "updated_at": "2026-01-23T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 105750,
+      "actual_cost": 105750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-01-photo",
+          "name": "plumbing_site_inspection_48.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-01-23T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-01-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-01-23T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-01-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-01.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-01-23T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-02",
@@ -10138,7 +11360,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-02-03T10:15:00Z",
-      "updated_at": "2026-02-03T16:45:00Z"
+      "updated_at": "2026-02-03T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 300,
+      "actual_cost": 300,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-02-photo",
+          "name": "plumbing_site_inspection_49.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-03T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-1-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-03T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-1-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-03T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-02",
@@ -10151,7 +11402,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-02-06T10:15:00Z",
-      "updated_at": "2026-02-06T16:45:00Z"
+      "updated_at": "2026-02-06T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 365,
+      "actual_cost": 365,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-02-photo",
+          "name": "electrical_site_inspection_50.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-06T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-06T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-06T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-02",
@@ -10164,7 +11444,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-02-15T10:15:00Z",
-      "updated_at": "2026-02-15T16:45:00Z"
+      "updated_at": "2026-02-15T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 193500,
+      "actual_cost": 193500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-02-photo",
+          "name": "electrical_site_inspection_51.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-15T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-15T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-15T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-02",
@@ -10177,7 +11486,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-02-18T10:15:00Z",
-      "updated_at": "2026-02-18T16:45:00Z"
+      "updated_at": "2026-02-18T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 222750,
+      "actual_cost": 222750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-02-photo",
+          "name": "hvac_site_inspection_52.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-18T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-18T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-18T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-02",
@@ -10190,7 +11528,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-02-21T10:15:00Z",
-      "updated_at": "2026-02-21T16:45:00Z"
+      "updated_at": "2026-02-21T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 252000,
+      "actual_cost": 252000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-02-photo",
+          "name": "plumbing_site_inspection_53.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-21T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-21T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-21T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-02",
@@ -10203,7 +11570,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-02-24T10:15:00Z",
-      "updated_at": "2026-02-24T16:45:00Z"
+      "updated_at": "2026-02-24T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 281250,
+      "actual_cost": 281250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-02-photo",
+          "name": "electrical_site_inspection_54.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-02-24T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-02-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-02-24T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-02-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-02.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-02-24T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-03",
@@ -10216,7 +11612,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-03-04T10:15:00Z",
-      "updated_at": "2026-03-04T16:45:00Z"
+      "updated_at": "2026-03-04T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 690,
+      "actual_cost": 690,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-03-photo",
+          "name": "electrical_site_inspection_55.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-04T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-1-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-04T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-1-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-04T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-03",
@@ -10229,7 +11654,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-03-07T10:15:00Z",
-      "updated_at": "2026-03-07T16:45:00Z"
+      "updated_at": "2026-03-07T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 755,
+      "actual_cost": 755,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-03-photo",
+          "name": "structural_site_inspection_56.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-07T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-07T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-07T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-03",
@@ -10242,7 +11696,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-03-10T10:15:00Z",
-      "updated_at": "2026-03-10T16:45:00Z"
+      "updated_at": "2026-03-10T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 820,
+      "actual_cost": 820,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-03-photo",
+          "name": "appliance_site_inspection_57.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-10T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-10T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-10T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-03",
@@ -10255,7 +11738,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-03-13T10:15:00Z",
-      "updated_at": "2026-03-13T16:45:00Z"
+      "updated_at": "2026-03-13T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 885,
+      "actual_cost": 885,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-03-photo",
+          "name": "electrical_site_inspection_58.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-13T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-13T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-13T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-03",
@@ -10268,7 +11780,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-03-22T10:15:00Z",
-      "updated_at": "2026-03-22T16:45:00Z"
+      "updated_at": "2026-03-22T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 90000,
+      "actual_cost": 90000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-03-photo",
+          "name": "electrical_site_inspection_59.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-22T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-22T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-22T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-03",
@@ -10281,7 +11822,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-03-25T10:15:00Z",
-      "updated_at": "2026-03-25T16:45:00Z"
+      "updated_at": "2026-03-25T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 119250,
+      "actual_cost": 119250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-03-photo",
+          "name": "structural_site_inspection_60.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-03-25T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-03-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-03-25T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-03-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-03.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-03-25T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-04",
@@ -10294,7 +11864,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-04-05T10:15:00Z",
-      "updated_at": "2026-04-05T16:45:00Z"
+      "updated_at": "2026-04-05T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 330,
+      "actual_cost": 330,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-04-photo",
+          "name": "structural_site_inspection_61.jpg",
+          "url": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-05T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-1-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-05T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-1-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-05T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-04",
@@ -10307,7 +11906,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-04-08T10:15:00Z",
-      "updated_at": "2026-04-08T16:45:00Z"
+      "updated_at": "2026-04-08T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 395,
+      "actual_cost": 395,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-04-photo",
+          "name": "appliance_site_inspection_62.jpg",
+          "url": "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-08T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-08T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-08T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-04",
@@ -10320,7 +11948,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-04-11T10:15:00Z",
-      "updated_at": "2026-04-11T16:45:00Z"
+      "updated_at": "2026-04-11T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 460,
+      "actual_cost": 460,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-04-photo",
+          "name": "electrical_site_inspection_63.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-11T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-11T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-11T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-04",
@@ -10333,7 +11990,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-04-14T10:15:00Z",
-      "updated_at": "2026-04-14T16:45:00Z"
+      "updated_at": "2026-04-14T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 525,
+      "actual_cost": 525,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-04-photo",
+          "name": "hvac_site_inspection_64.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-14T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-14T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-14T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-04",
@@ -10346,7 +12032,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-04-17T10:15:00Z",
-      "updated_at": "2026-04-17T16:45:00Z"
+      "updated_at": "2026-04-17T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 265500,
+      "actual_cost": 265500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-04-photo",
+          "name": "plumbing_site_inspection_65.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-17T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-17T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-17T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-04",
@@ -10359,7 +12074,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-04-20T10:15:00Z",
-      "updated_at": "2026-04-20T16:45:00Z"
+      "updated_at": "2026-04-20T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 294750,
+      "actual_cost": 294750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-04-photo",
+          "name": "electrical_site_inspection_66.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-04-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-04-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-04-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-04-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-04.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-04-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-05",
@@ -10372,7 +12116,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-05-08T10:15:00Z",
-      "updated_at": "2026-05-08T16:45:00Z"
+      "updated_at": "2026-05-08T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 720,
+      "actual_cost": 720,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-05-photo",
+          "name": "hvac_site_inspection_67.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-08T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-08T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-08T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-05",
@@ -10385,7 +12158,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-05-11T10:15:00Z",
-      "updated_at": "2026-05-11T16:45:00Z"
+      "updated_at": "2026-05-11T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 785,
+      "actual_cost": 785,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-05-photo",
+          "name": "plumbing_site_inspection_68.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-11T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-11T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-11T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-05",
@@ -10398,7 +12200,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-05-14T10:15:00Z",
-      "updated_at": "2026-05-14T16:45:00Z"
+      "updated_at": "2026-05-14T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 382500,
+      "actual_cost": 382500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-05-photo",
+          "name": "electrical_site_inspection_69.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-14T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-14T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-14T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-05",
@@ -10411,7 +12242,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-05-17T10:15:00Z",
-      "updated_at": "2026-05-17T16:45:00Z"
+      "updated_at": "2026-05-17T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 411750,
+      "actual_cost": 411750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-05-photo",
+          "name": "structural_site_inspection_70.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-17T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-17T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-17T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-05",
@@ -10424,7 +12284,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-05-20T10:15:00Z",
-      "updated_at": "2026-05-20T16:45:00Z"
+      "updated_at": "2026-05-20T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 103500,
+      "actual_cost": 103500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-05-photo",
+          "name": "appliance_site_inspection_71.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-05",
@@ -10437,7 +12326,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-05-23T10:15:00Z",
-      "updated_at": "2026-05-23T16:45:00Z"
+      "updated_at": "2026-05-23T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 132750,
+      "actual_cost": 132750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-05-photo",
+          "name": "electrical_site_inspection_72.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-05-23T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-05-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-05-23T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-05-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-05.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-05-23T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-06",
@@ -10450,7 +12368,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-06-18T10:15:00Z",
-      "updated_at": "2026-06-18T16:45:00Z"
+      "updated_at": "2026-06-18T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 162000,
+      "actual_cost": 162000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-06-photo",
+          "name": "appliance_site_inspection_73.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-18T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-06-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-06.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-18T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-06-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-06.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-18T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-06",
@@ -10463,7 +12410,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-06-24T10:15:00Z",
-      "updated_at": "2026-06-24T16:45:00Z"
+      "updated_at": "2026-06-24T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 191250,
+      "actual_cost": 191250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-06-photo",
+          "name": "hvac_site_inspection_74.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-06-24T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-06-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-06.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-06-24T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-06-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-06.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-06-24T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-07",
@@ -10476,7 +12452,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-07-04T10:15:00Z",
-      "updated_at": "2026-07-04T16:45:00Z"
+      "updated_at": "2026-07-04T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 490,
+      "actual_cost": 490,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-07-photo",
+          "name": "hvac_site_inspection_75.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-04T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-1-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-04T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-1-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-04T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-07",
@@ -10489,7 +12494,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-07-07T10:15:00Z",
-      "updated_at": "2026-07-07T16:45:00Z"
+      "updated_at": "2026-07-07T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 555,
+      "actual_cost": 555,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-07-photo",
+          "name": "plumbing_site_inspection_76.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-07T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-07T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-07T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-07",
@@ -10502,7 +12536,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-07-10T10:15:00Z",
-      "updated_at": "2026-07-10T16:45:00Z"
+      "updated_at": "2026-07-10T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 620,
+      "actual_cost": 620,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-07-photo",
+          "name": "electrical_site_inspection_77.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-10T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-10T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-10T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-07",
@@ -10515,7 +12578,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-07-13T10:15:00Z",
-      "updated_at": "2026-07-13T16:45:00Z"
+      "updated_at": "2026-07-13T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 685,
+      "actual_cost": 685,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-07-photo",
+          "name": "structural_site_inspection_78.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-13T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-13T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-13T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-07",
@@ -10528,7 +12620,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-07-22T10:15:00Z",
-      "updated_at": "2026-07-22T16:45:00Z"
+      "updated_at": "2026-07-22T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 337500,
+      "actual_cost": 337500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-07-photo",
+          "name": "hvac_site_inspection_79.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-22T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-22T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-22T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-07",
@@ -10541,7 +12662,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-07-25T10:15:00Z",
-      "updated_at": "2026-07-25T16:45:00Z"
+      "updated_at": "2026-07-25T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 366750,
+      "actual_cost": 366750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-07-photo",
+          "name": "plumbing_site_inspection_80.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-07-25T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-07-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-07-25T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-07-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-07.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-07-25T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-08",
@@ -10554,7 +12704,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-08-17T10:15:00Z",
-      "updated_at": "2026-08-17T16:45:00Z"
+      "updated_at": "2026-08-17T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 396000,
+      "actual_cost": 396000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-08-photo",
+          "name": "electrical_site_inspection_81.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-17T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-08-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-08.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-08-17T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-08-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-08.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-08-17T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-08",
@@ -10567,7 +12746,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-08-20T10:15:00Z",
-      "updated_at": "2026-08-20T16:45:00Z"
+      "updated_at": "2026-08-20T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 87750,
+      "actual_cost": 87750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-08-photo",
+          "name": "hvac_site_inspection_82.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-08-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-08-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-08.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-08-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-08-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-08.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-08-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-09",
@@ -10580,7 +12788,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-09-05T10:15:00Z",
-      "updated_at": "2026-09-05T16:45:00Z"
+      "updated_at": "2026-09-05T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 260,
+      "actual_cost": 260,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-09-photo",
+          "name": "structural_site_inspection_83.jpg",
+          "url": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-05T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-05T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-05T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-09",
@@ -10593,7 +12830,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-09-08T10:15:00Z",
-      "updated_at": "2026-09-08T16:45:00Z"
+      "updated_at": "2026-09-08T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 325,
+      "actual_cost": 325,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-09-photo",
+          "name": "appliance_site_inspection_84.jpg",
+          "url": "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-08T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-08T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-08T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-09",
@@ -10606,7 +12872,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-09-11T10:15:00Z",
-      "updated_at": "2026-09-11T16:45:00Z"
+      "updated_at": "2026-09-11T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 390,
+      "actual_cost": 390,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-09-photo",
+          "name": "electrical_site_inspection_85.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-11T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-11T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-11T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-5-2026-09",
@@ -10619,7 +12914,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-09-14T10:15:00Z",
-      "updated_at": "2026-09-14T16:45:00Z"
+      "updated_at": "2026-09-14T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 204750,
+      "actual_cost": 204750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-5-2026-09-photo",
+          "name": "hvac_site_inspection_86.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-14T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-5-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-14T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-5-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-5-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-14T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-09",
@@ -10632,7 +12956,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-09-17T10:15:00Z",
-      "updated_at": "2026-09-17T16:45:00Z"
+      "updated_at": "2026-09-17T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 234000,
+      "actual_cost": 234000,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-09-photo",
+          "name": "plumbing_site_inspection_87.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-17T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-17T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-17T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-09",
@@ -10645,7 +12998,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-09-20T10:15:00Z",
-      "updated_at": "2026-09-20T16:45:00Z"
+      "updated_at": "2026-09-20T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 263250,
+      "actual_cost": 263250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-09-photo",
+          "name": "electrical_site_inspection_88.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-09",
@@ -10658,7 +13040,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-09-23T10:15:00Z",
-      "updated_at": "2026-09-23T16:45:00Z"
+      "updated_at": "2026-09-23T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 292500,
+      "actual_cost": 292500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-09-photo",
+          "name": "structural_site_inspection_89.jpg",
+          "url": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-09-23T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-09-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-09-23T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-09-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-09.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-09-23T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-10",
@@ -10671,7 +13082,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-10-03T10:15:00Z",
-      "updated_at": "2026-10-03T16:45:00Z"
+      "updated_at": "2026-10-03T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 715,
+      "actual_cost": 715,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-10-photo",
+          "name": "structural_site_inspection_90.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-03T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-1-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-03T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-1-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-03T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-10",
@@ -10684,7 +13124,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-10-09T10:15:00Z",
-      "updated_at": "2026-10-09T16:45:00Z"
+      "updated_at": "2026-10-09T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 780,
+      "actual_cost": 780,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-10-photo",
+          "name": "electrical_site_inspection_91.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-09T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-09T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-09T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-10",
@@ -10697,7 +13166,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-10-12T10:15:00Z",
-      "updated_at": "2026-10-12T16:45:00Z"
+      "updated_at": "2026-10-12T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 845,
+      "actual_cost": 845,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-10-photo",
+          "name": "hvac_site_inspection_92.jpg",
+          "url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-12T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-4-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-12T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-4-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-12T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-10",
@@ -10710,7 +13208,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-10-21T10:15:00Z",
-      "updated_at": "2026-10-21T16:45:00Z"
+      "updated_at": "2026-10-21T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 409500,
+      "actual_cost": 409500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-10-photo",
+          "name": "structural_site_inspection_93.jpg",
+          "url": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-21T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-7-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-21T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-7-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-21T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-10",
@@ -10723,7 +13250,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-10-24T10:15:00Z",
-      "updated_at": "2026-10-24T16:45:00Z"
+      "updated_at": "2026-10-24T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 101250,
+      "actual_cost": 101250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-10-photo",
+          "name": "appliance_site_inspection_94.jpg",
+          "url": "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-10-24T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-10-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-10-24T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-10-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-10.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-10-24T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-11",
@@ -10736,7 +13292,27 @@
       "priority": "Low",
       "status": "In Progress",
       "created_at": "2026-11-04T10:15:00Z",
-      "updated_at": "2026-11-04T16:45:00Z"
+      "updated_at": "2026-11-04T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 290,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-11-photo",
+          "name": "appliance_site_inspection_95.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-04T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-11-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-2026-PROP-1-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-11-04T10:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-11",
@@ -10749,7 +13325,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-11-07T10:15:00Z",
-      "updated_at": "2026-11-07T16:45:00Z"
+      "updated_at": "2026-11-07T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 355,
+      "actual_cost": 355,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-11-photo",
+          "name": "electrical_site_inspection_96.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-07T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-11-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-07T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-11-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-07T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-4-2026-11",
@@ -10762,7 +13367,27 @@
       "priority": "Low",
       "status": "In Progress",
       "created_at": "2026-11-13T10:15:00Z",
-      "updated_at": "2026-11-13T16:45:00Z"
+      "updated_at": "2026-11-13T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 420,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-4-2026-11-photo",
+          "name": "plumbing_site_inspection_97.jpg",
+          "url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-13T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-4-2026-11-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-2026-PROP-4-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-11-13T10:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-11",
@@ -10775,7 +13400,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-11-19T10:15:00Z",
-      "updated_at": "2026-11-19T16:45:00Z"
+      "updated_at": "2026-11-19T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 218250,
+      "actual_cost": 218250,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-11-photo",
+          "name": "structural_site_inspection_98.jpg",
+          "url": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-19T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-11-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-19T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-11-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-19T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-11",
@@ -10788,7 +13442,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-11-25T10:15:00Z",
-      "updated_at": "2026-11-25T16:45:00Z"
+      "updated_at": "2026-11-25T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 247500,
+      "actual_cost": 247500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-11-photo",
+          "name": "electrical_site_inspection_99.jpg",
+          "url": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-11-25T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-11-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-11-25T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-11-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-11.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-11-25T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-1-2026-12",
@@ -10801,7 +13484,27 @@
       "priority": "Medium",
       "status": "In Progress",
       "created_at": "2026-12-05T10:15:00Z",
-      "updated_at": "2026-12-05T16:45:00Z"
+      "updated_at": "2026-12-05T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 615,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-1-2026-12-photo",
+          "name": "electrical_site_inspection_100.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-05T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-1-2026-12-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-2026-PROP-1-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-12-05T10:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-2-2026-12",
@@ -10814,7 +13517,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-12-08T10:15:00Z",
-      "updated_at": "2026-12-08T16:45:00Z"
+      "updated_at": "2026-12-08T16:45:00Z",
+      "vendor_id": "ven-1",
+      "estimated_cost": 680,
+      "actual_cost": 680,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-2-2026-12-photo",
+          "name": "hvac_site_inspection_101.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-08T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-12-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-2-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-08T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-2-2026-12-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-2-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-08T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-3-2026-12",
@@ -10827,7 +13559,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-12-11T10:15:00Z",
-      "updated_at": "2026-12-11T16:45:00Z"
+      "updated_at": "2026-12-11T16:45:00Z",
+      "vendor_id": "ven-2",
+      "estimated_cost": 745,
+      "actual_cost": 745,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-3-2026-12-photo",
+          "name": "plumbing_site_inspection_102.jpg",
+          "url": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-11T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-12-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-3-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-11T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-3-2026-12-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-3-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-11T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-6-2026-12",
@@ -10840,7 +13601,36 @@
       "priority": "Low",
       "status": "Completed",
       "created_at": "2026-12-20T10:15:00Z",
-      "updated_at": "2026-12-20T16:45:00Z"
+      "updated_at": "2026-12-20T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 364500,
+      "actual_cost": 364500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-6-2026-12-photo",
+          "name": "appliance_site_inspection_103.jpg",
+          "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-20T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-12-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-6-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-20T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-6-2026-12-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-6-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-20T16:45:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-7-2026-12",
@@ -10853,7 +13643,27 @@
       "priority": "Medium",
       "status": "In Progress",
       "created_at": "2026-12-23T10:15:00Z",
-      "updated_at": "2026-12-23T16:45:00Z"
+      "updated_at": "2026-12-23T16:45:00Z",
+      "vendor_id": "ven-ng-5",
+      "estimated_cost": 393750,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-7-2026-12-photo",
+          "name": "electrical_site_inspection_104.jpg",
+          "url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-23T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-7-2026-12-quote",
+          "name": "Vendor_Repair_Estimate_MAINT-2026-PROP-7-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 156400,
+          "uploaded_at": "2026-12-23T10:15:00Z"
+        }
+      ]
     },
     {
       "id": "maint-2026-prop-8-2026-12",
@@ -10866,7 +13676,36 @@
       "priority": "Medium",
       "status": "Completed",
       "created_at": "2026-12-26T10:15:00Z",
-      "updated_at": "2026-12-26T16:45:00Z"
+      "updated_at": "2026-12-26T16:45:00Z",
+      "vendor_id": "ven-ng-1",
+      "estimated_cost": 85500,
+      "actual_cost": 85500,
+      "attachments": [
+        {
+          "id": "att-maint-2026-prop-8-2026-12-photo",
+          "name": "hvac_site_inspection_105.jpg",
+          "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+          "type": "image/jpeg",
+          "size": 245800,
+          "uploaded_at": "2026-12-26T10:15:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-12-inv",
+          "name": "Contractor_Tax_Invoice_MAINT-2026-PROP-8-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 184200,
+          "uploaded_at": "2026-12-26T16:45:00Z"
+        },
+        {
+          "id": "att-maint-2026-prop-8-2026-12-cert",
+          "name": "Work_Order_Completion_SignOff_MAINT-2026-PROP-8-2026-12.pdf",
+          "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "type": "application/pdf",
+          "size": 142000,
+          "uploaded_at": "2026-12-26T16:45:00Z"
+        }
+      ]
     }
   ],
   "bills": [
@@ -22994,8 +25833,45 @@
       "status": "Scheduled",
       "overall_condition": "Good",
       "general_remarks": "Upcoming routine heat pump and balcony seal inspection scheduled.",
-      "findings": [],
-      "attachments": [],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "insp-att-insp-103-1",
+          "file_name": "suite_condition_verification_3.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-22T10:30:00Z",
+          "recorded_by": "Amara Okafor"
+        },
+        {
+          "id": "insp-att-insp-103-2",
+          "file_name": "Signed_Audit_Checklist_INSP-103.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-08-22T11:00:00Z",
+          "recorded_by": "Amara Okafor"
+        }
+      ],
       "created_at": "2026-08-18T10:00:00Z",
       "updated_at": "2026-08-18T10:00:00Z"
     },
@@ -27688,7 +30564,46 @@
       "status": "Completed",
       "score": 98,
       "notes": "Suites in pristine condition; luxury amenities verified intact.",
-      "created_at": "2026-10-14T15:00:00Z"
+      "created_at": "2026-10-14T15:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-ik-oct-1-1",
+          "file_name": "suite_condition_verification_84.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-ik-oct-1-2",
+          "file_name": "Signed_Audit_Checklist_INSP-IK-OCT-1.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-14T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-ik-nov-1",
@@ -27700,7 +30615,46 @@
       "status": "Completed",
       "score": 96,
       "notes": "Power backup, high-speed fiber routers and water treatment plant all passed.",
-      "created_at": "2026-11-06T10:00:00Z"
+      "created_at": "2026-11-06T10:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-ik-nov-1-1",
+          "file_name": "suite_condition_verification_85.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-06T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-ik-nov-1-2",
+          "file_name": "Signed_Audit_Checklist_INSP-IK-NOV-1.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-06T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-mt-oct-1",
@@ -27712,7 +30666,46 @@
       "status": "Completed",
       "score": 99,
       "notes": "Diplomatic security perimeter, access control and fire suppression verified.",
-      "created_at": "2026-10-21T11:00:00Z"
+      "created_at": "2026-10-21T11:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-mt-oct-1-1",
+          "file_name": "suite_condition_verification_86.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-21T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-mt-oct-1-2",
+          "file_name": "Signed_Audit_Checklist_INSP-MT-OCT-1.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-21T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-mt-nov-1",
@@ -27724,7 +30717,46 @@
       "status": "Completed",
       "score": 100,
       "notes": "Pre-diplomatic arrival inspection certified 100% compliant.",
-      "created_at": "2026-11-03T16:00:00Z"
+      "created_at": "2026-11-03T16:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-mt-nov-1-1",
+          "file_name": "suite_condition_verification_87.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-03T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-mt-nov-1-2",
+          "file_name": "Signed_Audit_Checklist_INSP-MT-NOV-1.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-03T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-1-2026-09",
@@ -27749,7 +30781,46 @@
         }
       ],
       "created_at": "2026-09-06T09:00:00Z",
-      "updated_at": "2026-09-06T14:00:00Z"
+      "updated_at": "2026-09-06T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-09-1",
+          "file_name": "suite_condition_verification_88.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-06T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-09-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-1-2026-09.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-06T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-2-2026-09",
@@ -27774,7 +30845,46 @@
         }
       ],
       "created_at": "2026-09-09T09:00:00Z",
-      "updated_at": "2026-09-09T14:00:00Z"
+      "updated_at": "2026-09-09T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-09-1",
+          "file_name": "suite_condition_verification_89.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-09T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-09-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-2-2026-09.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-09T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-5-2026-09",
@@ -27799,7 +30909,46 @@
         }
       ],
       "created_at": "2026-09-18T09:00:00Z",
-      "updated_at": "2026-09-18T14:00:00Z"
+      "updated_at": "2026-09-18T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-5-2026-09-1",
+          "file_name": "suite_condition_verification_90.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-18T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-5-2026-09-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-5-2026-09.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-18T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-6-2026-09",
@@ -27824,7 +30973,46 @@
         }
       ],
       "created_at": "2026-09-21T09:00:00Z",
-      "updated_at": "2026-09-21T14:00:00Z"
+      "updated_at": "2026-09-21T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-6-2026-09-1",
+          "file_name": "suite_condition_verification_91.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-21T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-6-2026-09-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-6-2026-09.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-09-21T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-1-2026-10",
@@ -27849,7 +31037,46 @@
         }
       ],
       "created_at": "2026-10-07T09:00:00Z",
-      "updated_at": "2026-10-07T14:00:00Z"
+      "updated_at": "2026-10-07T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-10-1",
+          "file_name": "suite_condition_verification_92.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-07T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-10-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-1-2026-10.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-07T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-2-2026-10",
@@ -27874,7 +31101,46 @@
         }
       ],
       "created_at": "2026-10-10T09:00:00Z",
-      "updated_at": "2026-10-10T14:00:00Z"
+      "updated_at": "2026-10-10T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-10-1",
+          "file_name": "suite_condition_verification_93.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-10-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-2-2026-10.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-10T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-3-2026-10",
@@ -27899,7 +31165,46 @@
         }
       ],
       "created_at": "2026-10-13T09:00:00Z",
-      "updated_at": "2026-10-13T14:00:00Z"
+      "updated_at": "2026-10-13T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-10-1",
+          "file_name": "suite_condition_verification_94.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-13T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-10-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-3-2026-10.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-13T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-4-2026-10",
@@ -27924,7 +31229,46 @@
         }
       ],
       "created_at": "2026-10-16T09:00:00Z",
-      "updated_at": "2026-10-16T14:00:00Z"
+      "updated_at": "2026-10-16T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-10-1",
+          "file_name": "suite_condition_verification_95.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-16T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-10-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-4-2026-10.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-16T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-8-2026-10",
@@ -27949,7 +31293,46 @@
         }
       ],
       "created_at": "2026-10-28T09:00:00Z",
-      "updated_at": "2026-10-28T14:00:00Z"
+      "updated_at": "2026-10-28T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-10-1",
+          "file_name": "suite_condition_verification_96.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-28T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-10-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-8-2026-10.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-28T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-2-2026-11",
@@ -27974,7 +31357,46 @@
         }
       ],
       "created_at": "2026-11-07T09:00:00Z",
-      "updated_at": "2026-11-07T14:00:00Z"
+      "updated_at": "2026-11-07T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-11-1",
+          "file_name": "suite_condition_verification_97.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-07T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-11-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-2-2026-11.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-07T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-3-2026-11",
@@ -27999,7 +31421,46 @@
         }
       ],
       "created_at": "2026-11-10T09:00:00Z",
-      "updated_at": "2026-11-10T14:00:00Z"
+      "updated_at": "2026-11-10T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-11-1",
+          "file_name": "suite_condition_verification_98.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-10T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-11-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-3-2026-11.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-10T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-4-2026-11",
@@ -28024,7 +31485,46 @@
         }
       ],
       "created_at": "2026-11-13T09:00:00Z",
-      "updated_at": "2026-11-13T14:00:00Z"
+      "updated_at": "2026-11-13T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-11-1",
+          "file_name": "suite_condition_verification_99.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-13T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-11-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-4-2026-11.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-13T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-8-2026-11",
@@ -28049,7 +31549,46 @@
         }
       ],
       "created_at": "2026-11-25T09:00:00Z",
-      "updated_at": "2026-11-25T14:00:00Z"
+      "updated_at": "2026-11-25T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-11-1",
+          "file_name": "suite_condition_verification_100.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-25T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-11-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-8-2026-11.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-25T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-1-2026-12",
@@ -28073,7 +31612,46 @@
         }
       ],
       "created_at": "2026-12-05T09:00:00Z",
-      "updated_at": "2026-12-05T14:00:00Z"
+      "updated_at": "2026-12-05T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-12-1",
+          "file_name": "suite_condition_verification_101.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-05T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-1-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-1-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-05T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-2-2026-12",
@@ -28097,7 +31675,46 @@
         }
       ],
       "created_at": "2026-12-08T09:00:00Z",
-      "updated_at": "2026-12-08T14:00:00Z"
+      "updated_at": "2026-12-08T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-12-1",
+          "file_name": "suite_condition_verification_102.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-08T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-2-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-2-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-08T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-3-2026-12",
@@ -28121,7 +31738,46 @@
         }
       ],
       "created_at": "2026-12-11T09:00:00Z",
-      "updated_at": "2026-12-11T14:00:00Z"
+      "updated_at": "2026-12-11T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-12-1",
+          "file_name": "suite_condition_verification_103.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-11T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-3-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-3-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-11T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-4-2026-12",
@@ -28145,7 +31801,46 @@
         }
       ],
       "created_at": "2026-12-14T09:00:00Z",
-      "updated_at": "2026-12-14T14:00:00Z"
+      "updated_at": "2026-12-14T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-12-1",
+          "file_name": "suite_condition_verification_104.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-14T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-4-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-4-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-14T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-5-2026-12",
@@ -28169,7 +31864,46 @@
         }
       ],
       "created_at": "2026-12-17T09:00:00Z",
-      "updated_at": "2026-12-17T14:00:00Z"
+      "updated_at": "2026-12-17T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-5-2026-12-1",
+          "file_name": "suite_condition_verification_105.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-17T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-5-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-5-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-17T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-6-2026-12",
@@ -28193,7 +31927,46 @@
         }
       ],
       "created_at": "2026-12-20T09:00:00Z",
-      "updated_at": "2026-12-20T14:00:00Z"
+      "updated_at": "2026-12-20T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-6-2026-12-1",
+          "file_name": "suite_condition_verification_106.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-20T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-6-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-6-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-20T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-7-2026-12",
@@ -28217,7 +31990,46 @@
         }
       ],
       "created_at": "2026-12-23T09:00:00Z",
-      "updated_at": "2026-12-23T14:00:00Z"
+      "updated_at": "2026-12-23T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-7-2026-12-1",
+          "file_name": "suite_condition_verification_107.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-23T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-7-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-7-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-23T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     },
     {
       "id": "insp-2026-prop-8-2026-12",
@@ -28241,7 +32053,46 @@
         }
       ],
       "created_at": "2026-12-26T09:00:00Z",
-      "updated_at": "2026-12-26T14:00:00Z"
+      "updated_at": "2026-12-26T14:00:00Z",
+      "attachments": [
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-12-1",
+          "file_name": "suite_condition_verification_108.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+          "caption": "Physical walkthrough photo of main suite interior, fixtures, and life-safety systems",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-26T10:30:00Z",
+          "recorded_by": "Marcus Vance"
+        },
+        {
+          "id": "insp-att-insp-2026-prop-8-2026-12-2",
+          "file_name": "Signed_Audit_Checklist_INSP-2026-PROP-8-2026-12.pdf",
+          "file_type": "document",
+          "file_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          "caption": "Official signed field inspection checklist & MEP compliance report",
+          "share_with_landlord": true,
+          "recorded_at": "2026-12-26T11:00:00Z",
+          "recorded_by": "Marcus Vance"
+        }
+      ],
+      "findings": [
+        {
+          "area": "HVAC & Electrical Panel",
+          "rating": "Good",
+          "remarks": "Breaker switches tested, thermostat calibrated and air filters inspected."
+        },
+        {
+          "area": "Plumbing & Wet Areas",
+          "rating": "Good",
+          "remarks": "Zero moisture intrusion detected under sinks; shut-off valves operational."
+        },
+        {
+          "area": "Structural & Safety",
+          "rating": "Excellent",
+          "remarks": "Smoke/CO detectors verified, door locks and window seals intact."
+        }
+      ]
     }
   ],
   "landlords": [

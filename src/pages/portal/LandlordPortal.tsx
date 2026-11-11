@@ -3,14 +3,17 @@ import { DatabaseState, supabase, store } from '../../services/supabase';
 import {
   Building2, DollarSign, TrendingUp, Download, Printer, ShieldCheck, Wrench, CheckCircle2,
   UserPlus, Users, X, Lock, LogOut, LayoutDashboard, Home, FileText, CreditCard, Bell,
-  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt, Mail
+  ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt, Mail,
+  ClipboardCheck, Paperclip
 } from 'lucide-react';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { Landlord, LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 import { LandlordReportView } from '../../components/LandlordReportView';
+import { PortalMediaModal, PortalMediaItem } from '../../components/PortalMediaModal';
+import { PortfolioInspectionsView } from '../../components/PortfolioInspectionsView';
 
-export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'maintenance' | 'delegates';
+export type LandlordNavTab = 'overview' | 'properties' | 'financials' | 'maintenance' | 'inspections' | 'delegates';
 
 interface LandlordPortalProps {
   dbState: DatabaseState;
@@ -34,6 +37,8 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
   const [selectedUnitDetail, setSelectedUnitDetail] = useState<Unit | null>(null);
   const [selectedPropertyDetail, setSelectedPropertyDetail] = useState<Property | null>(null);
   const [showDelegateModal, setShowDelegateModal] = useState(false);
+  const [maintStatusFilter, setMaintStatusFilter] = useState<'All' | 'Open' | 'In Progress' | 'Completed'>('All');
+  const [activeMediaItem, setActiveMediaItem] = useState<PortalMediaItem | null>(null);
   const mainScrollRef = useRef<HTMLElement>(null);
 
   // Auto-scroll to top when moving between pages/tabs
@@ -171,6 +176,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     return false;
   });
   const openMaintenance = ownedMaintenance.filter(m => m.status !== 'Completed');
+  const ownedInspections = (dbState.inspections || []).filter(i => ownedPropertyIds.includes(i.property_id));
 
   const handleAddRepresentative = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -228,6 +234,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
       title: 'Operations & Oversight',
       items: [
         { id: 'maintenance' as LandlordNavTab, label: 'Maintenance & Work Orders', icon: Wrench, badge: openMaintenance.length > 0 ? `${openMaintenance.length}` : undefined },
+        { id: 'inspections' as LandlordNavTab, label: 'Inspections & Audits', icon: ClipboardCheck, badge: ownedInspections.length > 0 ? `${ownedInspections.length}` : undefined },
         { id: 'delegates' as LandlordNavTab, label: 'Legal & Delegates', icon: Users, badge: `${representatives.length}` },
       ]
     }
@@ -1016,20 +1023,39 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               {/* Visual Horizontal Separator */}
               <hr className="border-t border-slate-800/80" />
 
-              {/* Property Filter Dropdown */}
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
-                  <select
-                    value={selectedPropertyId || 'All'}
-                    onChange={(e) => setSelectedPropertyId(e.target.value === 'All' ? null : e.target.value)}
-                    className="px-3.5 py-2 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer shadow-2xs focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
-                  >
-                    <option value="All">All Owned Properties ({ownedProperties.length})</option>
-                    {ownedProperties.map(p => (
-                      <option key={p.id} value={p.id}>{p.name}</option>
+              {/* Property & Status Filter Bar */}
+              <div className="flex items-center justify-between gap-3 flex-wrap bg-white p-4 rounded-2xl border border-stone-200 shadow-xs">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">Filter Property:</span>
+                    <select
+                      value={selectedPropertyId || 'All'}
+                      onChange={(e) => setSelectedPropertyId(e.target.value === 'All' ? null : e.target.value)}
+                      className="px-3.5 py-1.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+                    >
+                      <option value="All">All Owned Properties ({ownedProperties.length})</option>
+                      {ownedProperties.map(p => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-stone-600 uppercase tracking-wider mr-1">Status:</span>
+                    {(['All', 'Open', 'In Progress', 'Completed'] as const).map(st => (
+                      <button
+                        key={st}
+                        onClick={() => setMaintStatusFilter(st)}
+                        className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          maintStatusFilter === st
+                            ? 'bg-stone-900 text-white shadow-2xs'
+                            : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                        }`}
+                      >
+                        {st}
+                      </button>
                     ))}
-                  </select>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs">
@@ -1045,19 +1071,21 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               {/* Work Orders List */}
               <div className="bg-white rounded-3xl border border-stone-200 shadow-xs overflow-hidden">
                 {(() => {
-                  const filteredMaint = selectedPropertyId
-                    ? ownedMaintenance.filter(m => {
-                        const propId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
-                        return propId === selectedPropertyId;
-                      })
-                    : ownedMaintenance;
+                  const filteredMaint = ownedMaintenance.filter(m => {
+                    const propId = m.property_id || (dbState.units || []).find(u => u.id === m.unit_id)?.property_id;
+                    if (selectedPropertyId && propId !== selectedPropertyId) return false;
+                    if (maintStatusFilter === 'Completed' && m.status !== 'Completed') return false;
+                    if (maintStatusFilter === 'In Progress' && m.status !== 'In Progress' && m.status !== 'Assigned' && m.status !== 'Vendor Accepted') return false;
+                    if (maintStatusFilter === 'Open' && m.status === 'Completed') return false;
+                    return true;
+                  });
 
                   if (filteredMaint.length === 0) {
                     return (
                       <div className="p-16 text-center text-xs text-stone-400 space-y-2">
                         <Wrench className="w-8 h-8 text-stone-300 mx-auto" />
                         <p className="font-semibold text-stone-600 text-sm">No maintenance requests found.</p>
-                        <p className="text-stone-400">All properties and suites in your portfolio are currently operating normally without open issues.</p>
+                        <p className="text-stone-400">All properties and suites matching your filter are operating normally.</p>
                       </div>
                     );
                   }
@@ -1070,67 +1098,184 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         const unit = (dbState.units || []).find(u => u.id === m.unit_id);
                         const vendor = (dbState.vendors || []).find(v => v.id === m.vendor_id || v.id === (m as any).assigned_vendor_id);
                         const nativeCurr = getPropNativeCurrency(propId);
+                        const billableCost = m.actual_cost ?? m.estimated_cost;
+                        const attachments = m.attachments || [];
+
+                        // Match any unit/property expense proofs from the same month/unit for full transparency
+                        const ticketMonth = (m.created_at || m.reported_date || '').slice(0, 7);
+                        const relatedExpenseProofs = propertyExpenses
+                          .filter(e => e.unit_id && e.unit_id === m.unit_id && (!ticketMonth || (e.date || '').startsWith(ticketMonth)))
+                          .flatMap(e => e.proofs || []);
 
                         return (
-                          <div key={m.id} className="p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 hover:bg-stone-50/70 transition-colors">
-                            <div className="space-y-2 flex-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-extrabold text-stone-900 text-sm tracking-tight">{m.title || m.category}</span>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                                  m.status === 'Completed'
-                                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                    : m.status === 'In Progress'
-                                    ? 'bg-blue-100 text-blue-800 border border-blue-200'
-                                    : 'bg-amber-100 text-amber-800 border border-amber-200'
-                                }`}>
-                                  {m.status}
-                                </span>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                                  m.priority === 'Emergency' || m.priority === 'High'
-                                    ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                                    : 'bg-stone-100 text-stone-600 border border-stone-200'
-                                }`}>
-                                  {m.priority} Priority
-                                </span>
-                              </div>
-
-                              <p className="text-xs text-stone-700 leading-relaxed font-normal">{m.description}</p>
-
-                              <div className="flex items-center gap-3 flex-wrap text-[11px] text-stone-500 pt-1">
-                                <span className="font-bold text-stone-800 flex items-center gap-1">
-                                  <Building2 className="w-3.5 h-3.5 text-stone-400" />
-                                  {prop?.name || 'Property'}
-                                </span>
-                                {unit && (
-                                  <span className="font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200/60">
-                                    Unit {unit.unit_number} ({unit.unit_type})
+                          <div key={m.id} className="p-5 sm:p-6 space-y-4 hover:bg-stone-50/70 transition-colors">
+                            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                              <div className="space-y-2 flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-extrabold text-stone-900 text-sm tracking-tight">{m.title || m.category}</span>
+                                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                                    m.status === 'Completed'
+                                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                      : m.status === 'In Progress' || m.status === 'Assigned' || m.status === 'Vendor Accepted'
+                                      ? 'bg-blue-100 text-blue-800 border border-blue-200'
+                                      : 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  }`}>
+                                    {m.status}
                                   </span>
-                                )}
-                                {vendor && (
-                                  <span className="text-stone-600">
-                                    Assigned Trade: <strong className="text-stone-800">{vendor.company || vendor.name}</strong> ({vendor.category})
+                                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                    m.priority === 'Emergency' || m.priority === 'High'
+                                      ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                      : 'bg-stone-100 text-stone-600 border border-stone-200'
+                                  }`}>
+                                    {m.priority} Priority
                                   </span>
-                                )}
-                                <span>Reported: {m.created_at ? new Date(m.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'Recent'}</span>
-                              </div>
-                            </div>
-
-                            {/* Estimated / Logged Cost */}
-                            <div className="flex items-center gap-4 shrink-0 justify-between md:justify-end border-t md:border-t-0 pt-3 md:pt-0 border-stone-100">
-                              {m.estimated_cost ? (
-                                <div className="text-left md:text-right px-3 py-2 bg-stone-50 rounded-xl border border-stone-200/80 min-w-[120px]">
-                                  <span className="text-[10px] text-stone-400 block uppercase font-bold tracking-wider">Estimated Cost</span>
-                                  <DualCurrencyDisplay
-                                    amount={m.estimated_cost}
-                                    nativeCurrency={nativeCurr}
-                                    primaryClassName="font-black text-stone-900 text-sm"
-                                    secondaryClassName="text-[10px] text-stone-400 block font-normal"
-                                  />
+                                  <span className="text-[10px] font-mono text-stone-400">#{m.id}</span>
                                 </div>
-                              ) : (
-                                <span className="text-[11px] text-stone-400 italic">No billable quote attached</span>
-                              )}
+
+                                <p className="text-xs text-stone-700 leading-relaxed font-normal">{m.description}</p>
+
+                                <div className="flex items-center gap-3 flex-wrap text-[11px] text-stone-500 pt-1">
+                                  <span className="font-bold text-stone-800 flex items-center gap-1">
+                                    <Building2 className="w-3.5 h-3.5 text-stone-400" />
+                                    {prop?.name || 'Property'}
+                                  </span>
+                                  {unit && (
+                                    <span className="font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200/60">
+                                      Unit {unit.unit_number} ({unit.unit_type})
+                                    </span>
+                                  )}
+                                  {vendor && (
+                                    <span className="text-stone-600">
+                                      Assigned Trade: <strong className="text-stone-800">{vendor.company || vendor.name}</strong> ({vendor.category})
+                                    </span>
+                                  )}
+                                  <span>Reported: {m.created_at ? new Date(m.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'Recent'}</span>
+                                </div>
+                              </div>
+
+                              {/* Estimated / Logged Cost */}
+                              <div className="flex items-center gap-4 shrink-0 justify-between md:justify-end">
+                                {billableCost ? (
+                                  <div className="text-left md:text-right px-3.5 py-2 bg-stone-50 rounded-xl border border-stone-200/80 min-w-[130px]">
+                                    <span className="text-[10px] text-stone-400 block uppercase font-bold tracking-wider">
+                                      {m.status === 'Completed' || m.actual_cost ? 'Incurred Cost' : 'Estimated Quote'}
+                                    </span>
+                                    <DualCurrencyDisplay
+                                      amount={billableCost}
+                                      nativeCurrency={nativeCurr}
+                                      primaryClassName="font-black text-stone-900 text-sm font-mono"
+                                      secondaryClassName="text-[10px] text-stone-400 block font-normal"
+                                    />
+                                  </div>
+                                ) : (
+                                  <span className="text-[11px] text-stone-400 italic">No billable quote attached</span>
+                                )}
+                              </div>
                             </div>
+
+                            {m.resolution_notes && (
+                              <div className="p-2.5 bg-emerald-50/60 rounded-xl border border-emerald-200/70 text-[11px] text-emerald-900">
+                                <span className="font-bold">Resolution / Audit Note:</span> {m.resolution_notes}
+                              </div>
+                            )}
+
+                            {/* Attached Supporting Documents, Quotes, Invoices & Site Photos */}
+                            {(attachments.length > 0 || relatedExpenseProofs.length > 0) && (
+                              <div className="pt-3 border-t border-stone-100 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+                                    <Paperclip className="w-3.5 h-3.5 text-brand-600" />
+                                    Attached Work Order Documents, Quotes & Site Photos ({attachments.length + relatedExpenseProofs.length})
+                                  </span>
+                                  <span className="text-[10px] text-stone-400">Click to inspect document or photo</span>
+                                </div>
+
+                                <div className="flex flex-wrap gap-2">
+                                  {attachments.map(att => {
+                                    const isImage = att.type.startsWith('image/');
+                                    return (
+                                      <button
+                                        key={att.id}
+                                        type="button"
+                                        onClick={() =>
+                                          setActiveMediaItem({
+                                            type: isImage ? 'photo' : 'document',
+                                            url: att.url,
+                                            title: att.name,
+                                            caption: `${m.title || m.category}: ${m.description}`,
+                                            propertyName: prop?.name,
+                                            unitNumber: unit?.unit_number,
+                                            vendorOrAuditor: vendor?.company || vendor?.name || 'In-House Facilities Team',
+                                            date: (att.uploaded_at || m.created_at || '').slice(0, 10),
+                                            amountFormatted: billableCost ? formatAmountInTarget(billableCost, nativeCurr) : undefined,
+                                            status: m.status,
+                                            referenceId: m.id.toUpperCase()
+                                          })
+                                        }
+                                        className="p-2 bg-stone-50 hover:bg-stone-100 border border-stone-200 hover:border-stone-300 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-stone-800 transition-all group cursor-pointer shadow-2xs"
+                                      >
+                                        {isImage ? (
+                                          <img
+                                            src={att.url}
+                                            alt={att.name}
+                                            className="w-8 h-8 rounded-lg object-cover border border-stone-200 shrink-0"
+                                          />
+                                        ) : (
+                                          <div className="w-8 h-8 rounded-lg bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center shrink-0">
+                                            <FileText className="w-4 h-4" />
+                                          </div>
+                                        )}
+                                        <div className="text-left min-w-0">
+                                          <span className="block truncate max-w-[180px] text-[11px] font-bold text-stone-800">
+                                            {att.name}
+                                          </span>
+                                          <span className="block text-[10px] text-stone-500">
+                                            {isImage ? 'Site Diagnostic Photo' : att.name.toLowerCase().includes('invoice') ? 'Verified Tax Invoice' : att.name.toLowerCase().includes('completion') ? 'Completion Sign-Off' : 'Contractor Quote PDF'}
+                                          </span>
+                                        </div>
+                                        <Eye className="w-3.5 h-3.5 text-stone-400 group-hover:text-stone-900 ml-1 shrink-0" />
+                                      </button>
+                                    );
+                                  })}
+
+                                  {relatedExpenseProofs.map(prf => (
+                                    <button
+                                      key={prf.id}
+                                      type="button"
+                                      onClick={() =>
+                                        setActiveMediaItem({
+                                          type: prf.file_type === 'photo' ? 'photo' : 'document',
+                                          url: prf.file_url,
+                                          title: prf.file_name,
+                                          caption: prf.caption || m.description,
+                                          propertyName: prop?.name,
+                                          unitNumber: unit?.unit_number,
+                                          vendorOrAuditor: vendor?.company || vendor?.name || 'Verified Trade Vendor',
+                                          date: (prf.uploaded_at || m.created_at || '').slice(0, 10),
+                                          amountFormatted: billableCost ? formatAmountInTarget(billableCost, nativeCurr) : undefined,
+                                          status: m.status,
+                                          referenceId: m.id.toUpperCase()
+                                        })
+                                      }
+                                      className="p-2 bg-rose-50/60 hover:bg-rose-50 border border-rose-200 rounded-xl flex items-center gap-2.5 text-xs font-semibold text-stone-800 transition-all group cursor-pointer shadow-2xs"
+                                    >
+                                      <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                                        <Receipt className="w-4 h-4" />
+                                      </div>
+                                      <div className="text-left min-w-0">
+                                        <span className="block truncate max-w-[180px] text-[11px] font-bold text-stone-800">
+                                          {prf.file_name}
+                                        </span>
+                                        <span className="block text-[10px] text-rose-700 font-medium">
+                                          Ledger Expense Proof
+                                        </span>
+                                      </div>
+                                      <Eye className="w-3.5 h-3.5 text-stone-400 group-hover:text-stone-900 ml-1 shrink-0" />
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         );
                       })}
@@ -1139,6 +1284,17 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                 })()}
               </div>
             </div>
+          )}
+
+          {/* =========================================================================
+              VIEW 4B: INSPECTIONS & FIELD AUDITS (AT-A-GLANCE DEDICATED VIEW)
+              ========================================================================= */}
+          {currentTab === 'inspections' && (
+            <PortfolioInspectionsView
+              dbState={dbState}
+              ownedProperties={ownedProperties}
+              roleLabel="Landlord"
+            />
           )}
 
           {/* =========================================================================
@@ -1710,6 +1866,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           </div>
         </div>
       )}
+
+      {/* Shared Work Order Document & Site Photo Modal */}
+      <PortalMediaModal
+        item={activeMediaItem}
+        onClose={() => setActiveMediaItem(null)}
+      />
     </div>
   );
 };

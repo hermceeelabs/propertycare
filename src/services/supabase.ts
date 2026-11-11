@@ -23,7 +23,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || (i
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v9';
+const STORAGE_KEY = 'propertyflow_db_v10';
 
 export interface DatabaseState {
   landlords: Landlord[];
@@ -237,12 +237,27 @@ class StoreManager {
 
       if (vendors && vendors.length > 0) this.state.vendors = vendors as any;
       
-      // Merge maintenance requests: preserve canonical local requests
+      // Merge maintenance requests: preserve canonical local requests and attachments
       const jsonMaint: MaintenanceRequest[] = (databaseJson as any)?.maintenance_requests || [];
       if (maint && maint.length > 0) {
         const remoteIds = new Set((maint as any[]).map(m => m.id));
+        const enrichedRemoteMaint = (maint as any[]).map(remoteM => {
+          const match = jsonMaint.find(jm => jm.id === remoteM.id);
+          return {
+            ...remoteM,
+            property_id: remoteM.property_id || match?.property_id,
+            title: remoteM.title || match?.title,
+            vendor_id: remoteM.vendor_id || match?.vendor_id,
+            estimated_cost: remoteM.estimated_cost ?? match?.estimated_cost,
+            actual_cost: remoteM.actual_cost ?? match?.actual_cost,
+            resolution_notes: remoteM.resolution_notes || match?.resolution_notes,
+            attachments: (Array.isArray(remoteM.attachments) && remoteM.attachments.length > 0)
+              ? remoteM.attachments
+              : (match?.attachments || [])
+          };
+        });
         const missingJsonMaint = jsonMaint.filter(m => !remoteIds.has(m.id));
-        this.state.maintenance_requests = [...(maint as any[]), ...missingJsonMaint];
+        this.state.maintenance_requests = [...enrichedRemoteMaint, ...missingJsonMaint];
       } else {
         this.state.maintenance_requests = jsonMaint;
       }
