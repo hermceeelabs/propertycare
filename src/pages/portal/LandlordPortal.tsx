@@ -732,39 +732,94 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                           </div>
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Resident Details */}
+                            {/* Resident / Guest Booking Details */}
                             <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
-                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Resident & Lease Agreement</span>
-                              {activeTenant ? (
-                                <div className="space-y-1 text-xs">
-                                  <p className="font-extrabold text-stone-900">{activeTenant.first_name} {activeTenant.last_name}</p>
-                                  <p className="text-stone-500 text-[11px]">{activeTenant.email}</p>
-                                  <p className="text-stone-500 text-[11px]">{activeTenant.phone}</p>
-                                  {activeLease && (
-                                    <div className="pt-2 border-t border-stone-100 text-[11px] text-stone-600">
-                                      Lease Period: <strong className="text-stone-800">{activeLease.start_date}</strong> to <strong className="text-stone-800">{activeLease.end_date}</strong>
+                              {activeUnit.rental_model === 'Shortlet / STR' ? (
+                                <>
+                                  <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">Active Guest & STR Booking</span>
+                                  {(() => {
+                                    const booking = (dbState.shortlet_bookings || []).find(b => b.unit_id === activeUnit.id && b.booking_status === 'Checked In');
+                                    return booking ? (
+                                      <div className="space-y-1 text-xs">
+                                        <div className="flex items-center gap-2">
+                                          <p className="font-extrabold text-stone-900">{booking.guest_name}</p>
+                                          <span className="px-1.5 py-0.2 bg-purple-100 text-purple-800 rounded font-bold text-[9px]">
+                                            {booking.platform_source}
+                                          </span>
+                                        </div>
+                                        <p className="text-stone-500 text-[11px]">{booking.guest_email}</p>
+                                        <p className="text-stone-500 text-[11px]">{booking.guest_phone}</p>
+                                        <div className="pt-2 border-t border-stone-100 text-[11px] text-stone-600">
+                                          Current Stay: <strong className="text-stone-800">{booking.check_in}</strong> to <strong className="text-stone-800">{booking.check_out}</strong> ({booking.nights_count} Nights)
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="py-2 text-xs text-stone-400 italic">
+                                        Available for guest check-in. Listed across Airbnb & Booking.com.
+                                      </div>
+                                    );
+                                  })()}
+                                </>
+                              ) : (
+                                <>
+                                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Resident & Lease Agreement</span>
+                                  {activeTenant ? (
+                                    <div className="space-y-1 text-xs">
+                                      <p className="font-extrabold text-stone-900">{activeTenant.first_name} {activeTenant.last_name}</p>
+                                      <p className="text-stone-500 text-[11px]">{activeTenant.email}</p>
+                                      <p className="text-stone-500 text-[11px]">{activeTenant.phone}</p>
+                                      {activeLease && (
+                                        <div className="pt-2 border-t border-stone-100 text-[11px] text-stone-600">
+                                          Lease Period: <strong className="text-stone-800">{activeLease.start_date}</strong> to <strong className="text-stone-800">{activeLease.end_date}</strong>
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div className="py-2 text-xs text-stone-400 italic">
+                                      Unit is currently vacant. Active marketing in progress.
                                     </div>
                                   )}
-                                </div>
-                              ) : (
-                                <div className="py-2 text-xs text-stone-400 italic">
-                                  Unit is currently vacant. Active marketing in progress.
-                                </div>
+                                </>
                               )}
                             </div>
 
-                            {/* Contracted Rent Yield */}
+                            {/* Dynamic Pricing: Shortlet Nightly Yield vs Long-Term Rent */}
                             <div className="p-4 bg-white rounded-xl border border-stone-200 space-y-2">
-                              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Monthly Rent</span>
-                              <div className="space-y-1">
-                                <span className="text-lg font-black text-stone-900 block">
-                                  {formatAmountInTarget(activeUnit.monthly_rent || 0, nativeCurr)}
-                                </span>
-                                <span className="text-[11px] text-stone-500 block">per calendar month</span>
-                                <span className="text-[10px] text-stone-400 block pt-1">
-                                  Orig: {nativeCurr} {Number(activeUnit.monthly_rent || 0).toLocaleString()}
-                                </span>
-                              </div>
+                              {activeUnit.rental_model === 'Shortlet / STR' ? (
+                                <>
+                                  <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">Nightly Rate & Projected STR Yield</span>
+                                  <div className="space-y-1">
+                                    <div className="flex items-baseline gap-1.5">
+                                      <span className="text-xl font-black text-purple-900">
+                                        {formatAmountInTarget(activeUnit.nightly_rate || 180000, nativeCurr)}
+                                      </span>
+                                      <span className="text-xs font-semibold text-stone-500">/ night</span>
+                                    </div>
+                                    <span className="text-[11px] text-stone-500 block">
+                                      Turnkey STR Management • 15% firm share deducted at payout
+                                    </span>
+                                    <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
+                                      <span className="text-stone-400">Est. 70% Monthly Yield:</span>
+                                      <span className="font-black text-emerald-800">
+                                        ~{formatAmountInTarget((activeUnit.nightly_rate || 180000) * 21, nativeCurr)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Monthly Rent</span>
+                                  <div className="space-y-1">
+                                    <span className="text-lg font-black text-stone-900 block">
+                                      {formatAmountInTarget(activeUnit.monthly_rent || 0, nativeCurr)}
+                                    </span>
+                                    <span className="text-[11px] text-stone-500 block">per calendar month</span>
+                                    <span className="text-[10px] text-stone-400 block pt-1">
+                                      Orig: {nativeCurr} {Number(activeUnit.monthly_rent || 0).toLocaleString()}
+                                    </span>
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
