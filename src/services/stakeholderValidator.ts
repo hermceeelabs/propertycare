@@ -21,16 +21,36 @@ export async function checkEmailConflict(email: string, ignoreId?: string): Prom
   const normalizedEmail = email.trim().toLowerCase();
   if (!normalizedEmail) return { hasConflict: false };
 
-  // 1. Check Profiles (Company Staff / Master Owner)
+  // 1. Check Owners Table (Master Platform Owner)
+  try {
+    const { data: owner } = await supabase
+      .from('owners')
+      .select('id, email, full_name')
+      .eq('email', normalizedEmail)
+      .maybeSingle();
+
+    if (owner && owner.id !== ignoreId) {
+      return {
+        hasConflict: true,
+        roleName: 'Master Platform Owner',
+        entityName: owner.full_name || owner.email,
+        errorMessage: `This email is registered to ${owner.full_name || owner.email} as Master Platform Owner. A single email cannot hold multiple stakeholder roles.`
+      };
+    }
+  } catch (e) {
+    // Fallback or continue
+  }
+
+  // 2. Check Profiles (Company Staff strictly)
   try {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('id, email, full_name, user_type, is_owner')
+      .select('id, email, full_name, user_type')
       .eq('email', normalizedEmail)
       .maybeSingle();
 
     if (profile && profile.id !== ignoreId) {
-      const role = profile.is_owner ? 'Master Owner' : 'Company Staff';
+      const role = 'Company Staff';
       return {
         hasConflict: true,
         roleName: role,

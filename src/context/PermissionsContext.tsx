@@ -40,11 +40,9 @@ const DEFAULT_STAFF_PERMISSIONS: UserPermissions = {
   can_trigger_automations: false,
 };
 
-// Master Platform Owners (Hardcoded SuperAdmin whitelist to guarantee executive access regardless of DB state)
+// Master Platform Owners (Strictly hermceeelabs@gmail.com is the sole Master Platform Owner)
 const MASTER_OWNER_EMAILS = [
-  'hermceee@gmail.com',
-  'hermceeelabs@gmail.com',
-  'martecco@gmail.com'
+  'hermceeelabs@gmail.com'
 ];
 
 const PermissionsContext = createContext<PermissionsContextType | undefined>(undefined);
@@ -101,19 +99,32 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const email = (user.email || '').toLowerCase().trim();
 
     try {
-      // 0. MASTER OWNER / SUPERADMIN WHITELIST CHECK FIRST
+      // 0. MASTER PLATFORM OWNER CHECK FIRST (Dedicated public.owners table & hermceeelabs@gmail.com whitelist)
       if (MASTER_OWNER_EMAILS.includes(email)) {
+        let ownerData = null;
+        try {
+          const { data: dbOwner } = await supabase
+            .from('owners')
+            .select('*')
+            .eq('email', email)
+            .maybeSingle();
+          ownerData = dbOwner;
+        } catch (e) {
+          // fallback
+        }
+
         const masterProfile: UserProfile = {
-          id: user.id || 'master-owner',
+          id: ownerData?.id || user.id || 'master-owner',
           email: email,
-          full_name: user.user_metadata?.full_name || 'Platform Master Owner',
-          avatar_url: user.user_metadata?.avatar_url,
+          full_name: ownerData?.full_name || user.user_metadata?.full_name || 'Master Platform Owner',
+          avatar_url: ownerData?.avatar_url || user.user_metadata?.avatar_url,
           is_owner: true,
           user_type: 'owner',
+          role_title: ownerData?.role_title || 'Master Platform Owner',
           permissions: DEFAULT_OWNER_PERMISSIONS,
           assigned_properties: [],
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
+          created_at: ownerData?.created_at || new Date().toISOString(),
+          updated_at: ownerData?.updated_at || new Date().toISOString()
         };
 
         verifiedUserIdRef.current = user.id;
@@ -128,7 +139,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 1. CHECK PROFILES TABLE FIRST (Company Staff & Executives)
+      // 1. CHECK PROFILES TABLE FIRST (Company Staff & Operations Specialists strictly)
       const { data: profileMatch } = await supabase
         .from('profiles')
         .select('*')
@@ -140,7 +151,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         if (!isStatusActive) {
           setAuthResult({
             authorized: false,
-            stakeholderType: profileMatch.user_type as any,
+            stakeholderType: 'staff',
             status: (profileMatch as any).status,
             profileData: profileMatch,
             rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
@@ -155,9 +166,11 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
           full_name: profileMatch.full_name || user.user_metadata?.full_name,
           avatar_url: profileMatch.avatar_url || user.user_metadata?.avatar_url,
           phone: profileMatch.phone,
-          is_owner: !!profileMatch.is_owner,
-          user_type: profileMatch.user_type as UserType,
-          permissions: profileMatch.is_owner ? DEFAULT_OWNER_PERMISSIONS : (profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS),
+          is_owner: false,
+          user_type: 'staff',
+          role_title: profileMatch.role_title || 'Operations Specialist',
+          role_template_id: profileMatch.role_template_id,
+          permissions: profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS,
           assigned_properties: profileMatch.assigned_properties || [],
           created_at: profileMatch.created_at,
           updated_at: profileMatch.updated_at
@@ -167,7 +180,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setProfile(userProfile);
         setAuthResult({
           authorized: true,
-          stakeholderType: profileMatch.is_owner ? 'owner' : 'staff',
+          stakeholderType: 'staff',
           status: 'Active',
           profileData: userProfile
         });

@@ -228,18 +228,18 @@ Operations Team
                               <div className="flex items-center gap-2">
                                 <strong className="text-slate-900 text-xs">{staff.full_name || staff.email}</strong>
                                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                  staff.is_owner ? 'bg-purple-100 text-purple-800 border border-purple-200' :
+                                  staff.email === 'hermceeelabs@gmail.com' ? 'bg-purple-100 text-purple-800 border border-purple-200' :
                                   staff.status === 'Suspended' ? 'bg-rose-100 text-rose-800 border border-rose-200' :
                                   'bg-emerald-100 text-emerald-800 border border-emerald-200'
                                 }`}>
-                                  {staff.is_owner ? 'Fixed SuperAdmin / Owner' : (staff.status || 'Active')}
+                                  {staff.email === 'hermceeelabs@gmail.com' ? 'Master Platform Owner' : (staff.status || 'Active')}
                                 </span>
                                 {isCurrentUser && (
                                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600">You</span>
                                 )}
                               </div>
                               <p className="text-[11px] text-slate-500 mt-0.5">
-                                {staff.role_title || template?.name || (staff.is_owner ? 'Master Owner' : 'Operations Staff')} • {staff.email}
+                                {staff.role_title || template?.name || 'Operations Staff'} • {staff.email}
                               </p>
                               {staff.assigned_properties && staff.assigned_properties.length > 0 && (
                                 <span className="text-[10px] text-brand-600 font-semibold block mt-0.5">
@@ -250,7 +250,7 @@ Operations Team
                           </div>
 
                           <div className="flex items-center gap-2 self-start sm:self-center">
-                            {!staff.is_owner && (
+                            {staff.email !== 'hermceeelabs@gmail.com' && (
                               <button
                                 onClick={() => handleToggleStaffStatus(staff)}
                                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
