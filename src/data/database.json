@@ -1908,6 +1908,424 @@
         "lease_start": "2025-07-01",
         "lease_end": "2027-06-30"
       }
+    },
+    {
+      "id": "pay-701",
+      "tenant_id": "ten-1",
+      "lease_id": "lease-1",
+      "amount_due": 2150,
+      "amount_paid": 2150,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.ca",
+        "phone": "(416) 555-0192",
+        "unit_number": "101",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2150,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
+    },
+    {
+      "id": "pay-702",
+      "tenant_id": "ten-2",
+      "lease_id": "lease-2",
+      "amount_due": 2850,
+      "amount_paid": 2850,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "David Chen",
+        "email": "david.chen@example.ca",
+        "phone": "(416) 555-0341",
+        "unit_number": "102",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2850,
+        "lease_start": "2025-10-01",
+        "lease_end": "2026-09-30"
+      }
+    },
+    {
+      "id": "pay-703",
+      "tenant_id": "ten-3",
+      "lease_id": "lease-3",
+      "amount_due": 2650,
+      "amount_paid": 2650,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Jean-Luc Roy",
+        "email": "jeanluc.roy@example.ca",
+        "phone": "(613) 555-0812",
+        "unit_number": "501",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2650,
+        "lease_start": "2025-11-01",
+        "lease_end": "2026-10-31"
+      }
+    },
+    {
+      "id": "pay-704",
+      "tenant_id": "ten-4",
+      "lease_id": "lease-4",
+      "amount_due": 2450,
+      "amount_paid": 2450,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
+        "unit_number": "301",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2450,
+        "lease_start": "2025-09-15",
+        "lease_end": "2026-09-14"
+      }
+    },
+    {
+      "id": "pay-705",
+      "tenant_id": "ten-5",
+      "lease_id": "lease-5",
+      "amount_due": 1950,
+      "amount_paid": 1950,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
+    },
+    {
+      "id": "pay-706",
+      "tenant_id": "ten-7",
+      "lease_id": "lease-7",
+      "amount_due": 2100,
+      "amount_paid": 2100,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
+    },
+    {
+      "id": "pay-707",
+      "tenant_id": "ten-8",
+      "lease_id": "lease-8",
+      "amount_due": 2750,
+      "amount_paid": 2750,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Priya Patel",
+        "email": "priya.patel@example.ca",
+        "phone": "(416) 555-0789",
+        "unit_number": "104",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2750,
+        "lease_start": "2025-06-01",
+        "lease_end": "2026-05-31"
+      }
+    },
+    {
+      "id": "pay-708",
+      "tenant_id": "ten-9",
+      "lease_id": "lease-9",
+      "amount_due": 3200000,
+      "amount_paid": 3200000,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
+      }
+    },
+    {
+      "id": "pay-709",
+      "tenant_id": "ten-10",
+      "lease_id": "lease-10",
+      "amount_due": 4200000,
+      "amount_paid": 4200000,
+      "due_date": "2026-10-01",
+      "payment_date": "2026-10-01",
+      "status": "Paid",
+      "created_at": "2026-10-01T09:00:00Z",
+      "updated_at": "2026-10-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
+      }
+    },
+    {
+      "id": "pay-710",
+      "tenant_id": "ten-1",
+      "lease_id": "lease-1",
+      "amount_due": 2150,
+      "amount_paid": 2150,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.ca",
+        "phone": "(416) 555-0192",
+        "unit_number": "101",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2150,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
+    },
+    {
+      "id": "pay-711",
+      "tenant_id": "ten-2",
+      "lease_id": "lease-2",
+      "amount_due": 2850,
+      "amount_paid": 2850,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "David Chen",
+        "email": "david.chen@example.ca",
+        "phone": "(416) 555-0341",
+        "unit_number": "102",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2850,
+        "lease_start": "2025-10-01",
+        "lease_end": "2026-09-30"
+      }
+    },
+    {
+      "id": "pay-712",
+      "tenant_id": "ten-3",
+      "lease_id": "lease-3",
+      "amount_due": 2650,
+      "amount_paid": 2650,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Jean-Luc Roy",
+        "email": "jeanluc.roy@example.ca",
+        "phone": "(613) 555-0812",
+        "unit_number": "501",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2650,
+        "lease_start": "2025-11-01",
+        "lease_end": "2026-10-31"
+      }
+    },
+    {
+      "id": "pay-713",
+      "tenant_id": "ten-4",
+      "lease_id": "lease-4",
+      "amount_due": 2450,
+      "amount_paid": 2450,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
+        "unit_number": "301",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2450,
+        "lease_start": "2025-09-15",
+        "lease_end": "2026-09-14"
+      }
+    },
+    {
+      "id": "pay-714",
+      "tenant_id": "ten-5",
+      "lease_id": "lease-5",
+      "amount_due": 1950,
+      "amount_paid": 1950,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
+    },
+    {
+      "id": "pay-715",
+      "tenant_id": "ten-7",
+      "lease_id": "lease-7",
+      "amount_due": 2100,
+      "amount_paid": 2100,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
+    },
+    {
+      "id": "pay-716",
+      "tenant_id": "ten-8",
+      "lease_id": "lease-8",
+      "amount_due": 2750,
+      "amount_paid": 2750,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Priya Patel",
+        "email": "priya.patel@example.ca",
+        "phone": "(416) 555-0789",
+        "unit_number": "104",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2750,
+        "lease_start": "2025-06-01",
+        "lease_end": "2026-05-31"
+      }
+    },
+    {
+      "id": "pay-717",
+      "tenant_id": "ten-9",
+      "lease_id": "lease-9",
+      "amount_due": 3200000,
+      "amount_paid": 3200000,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
+      }
+    },
+    {
+      "id": "pay-718",
+      "tenant_id": "ten-10",
+      "lease_id": "lease-10",
+      "amount_due": 4200000,
+      "amount_paid": 4200000,
+      "due_date": "2026-11-01",
+      "payment_date": "2026-11-01",
+      "status": "Paid",
+      "created_at": "2026-11-01T09:00:00Z",
+      "updated_at": "2026-11-01T10:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
+      }
+    },
+    {
+      "id": "pay-today-1111",
+      "tenant_id": "ten-1",
+      "lease_id": "lease-1",
+      "amount_due": 350,
+      "amount_paid": 350,
+      "due_date": "2026-11-11",
+      "payment_date": "2026-11-11",
+      "status": "Paid",
+      "created_at": "2026-11-11T09:30:00Z",
+      "updated_at": "2026-11-11T09:30:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.ca",
+        "phone": "(416) 555-0192",
+        "unit_number": "101",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 350,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-12-31"
+      }
     }
   ],
   "vendors": [
@@ -3002,6 +3420,92 @@
         "rent_rate_at_event": 3200000,
         "lease_start": "2025-03-01",
         "lease_end": "2027-02-28"
+      }
+    },
+    {
+      "id": "maint-oct-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "category": "Plumbing",
+      "description": "Master bathroom shower mixer handle loose; hot water fluctuating intermittently.",
+      "priority": "Normal",
+      "status": "Completed",
+      "estimated_cost": 145000,
+      "vendor_id": "ven-1",
+      "resolution_notes": "Replaced Hansgrohe mixer valve cartridge and pressure balancing spool. Signed off by delegate.",
+      "created_at": "2026-10-16T10:00:00Z",
+      "updated_at": "2026-10-18T15:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "babajide@investments.ng",
+        "phone": "+234 802 334 9988",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 2800000,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
+    },
+    {
+      "id": "maint-nov-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "category": "Electrical",
+      "description": "Balcony electric roller shutter stopped responding to wall switch and mobile app.",
+      "priority": "High",
+      "status": "Completed",
+      "estimated_cost": 210000,
+      "vendor_id": "ven-1",
+      "resolution_notes": "Replaced Somfy high-torque roller motor and re-paired wireless zigbee relay.",
+      "created_at": "2026-11-08T09:00:00Z",
+      "updated_at": "2026-11-09T14:00:00Z"
+    },
+    {
+      "id": "maint-nov-pending-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "category": "HVAC",
+      "description": "Secondary bedroom Daikin VRV air handler fan motor bearing emitting high-pitch whine.",
+      "priority": "High",
+      "status": "Pending",
+      "estimated_cost": 185000,
+      "vendor_id": "ven-1",
+      "resolution_notes": "Awaiting delegate review and quote approval for Daikin OEM fan motor replacement.",
+      "created_at": "2026-11-10T16:00:00Z",
+      "updated_at": "2026-11-10T16:00:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "babajide@investments.ng",
+        "phone": "+234 802 334 9988",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 2800000,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
+    },
+    {
+      "id": "maint-nov-today-urgent",
+      "property_id": "prop-7",
+      "unit_id": "unit-702",
+      "category": "Plumbing",
+      "description": "Under-counter water filtration reverse-osmosis membrane housing dripping slightly.",
+      "priority": "Normal",
+      "status": "Pending",
+      "estimated_cost": 95000,
+      "vendor_id": "ven-1",
+      "resolution_notes": "Submitted for quick ratification to dispatch technician.",
+      "created_at": "2026-11-11T09:15:00Z",
+      "updated_at": "2026-11-11T09:15:00Z",
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@embassy.gov.ng",
+        "phone": "+234 803 771 2233",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 3800000,
+        "lease_start": "2026-02-01",
+        "lease_end": "2027-01-31"
       }
     }
   ],
@@ -4418,6 +4922,159 @@
       ],
       "created_at": "2026-12-20T16:00:00Z",
       "updated_at": "2026-12-20T16:30:00Z"
+    },
+    {
+      "id": "exp-oct-1",
+      "property_id": "prop-5",
+      "scope": "Property",
+      "vendor_id": "ven-1",
+      "category": "Facility & Operations",
+      "description": "Eko Atlantic Central HVAC chillers monthly water treatment and cooling tower descale",
+      "amount": 320000,
+      "date": "2026-10-08",
+      "payment_status": "Paid",
+      "created_at": "2026-10-08T11:00:00Z",
+      "updated_at": "2026-10-08T11:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-NG-8801",
+      "proofs": [
+        {
+          "id": "prf-oct-1",
+          "file_name": "chiller_water_treatment_cert.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Central chiller descaling and chemical treatment compliance certificate",
+          "uploaded_at": "2026-10-08T11:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-oct-2",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Suite EA-302 Master bath Hansgrohe mixer valve seal replacement",
+      "amount": 145000,
+      "date": "2026-10-18",
+      "payment_status": "Paid",
+      "created_at": "2026-10-18T14:30:00Z",
+      "updated_at": "2026-10-18T14:30:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-NG-8822",
+      "proofs": [
+        {
+          "id": "prf-oct-2",
+          "file_name": "mixer_valve_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+          "caption": "Original German mixer valve replacement part invoice",
+          "uploaded_at": "2026-10-18T14:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-oct-3",
+      "property_id": "prop-1",
+      "scope": "Property",
+      "vendor_id": "ven-1",
+      "category": "Utilities & Building",
+      "description": "Maple Heights commercial boiler pre-winter seasonal inspection and combustion tuning",
+      "amount": 620,
+      "date": "2026-10-22",
+      "payment_status": "Paid",
+      "created_at": "2026-10-22T09:00:00Z",
+      "updated_at": "2026-10-22T09:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-CA-9103",
+      "proofs": [
+        {
+          "id": "prf-oct-3",
+          "file_name": "boiler_combustion_tuning_report.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "TSSA certified boiler tuning report",
+          "uploaded_at": "2026-10-22T09:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-nov-1",
+      "property_id": "prop-5",
+      "scope": "Property",
+      "vendor_id": "ven-1",
+      "category": "Security & Concierge",
+      "description": "Eko Atlantic Biometric turnstile access control server upgrade and backup battery array",
+      "amount": 450000,
+      "date": "2026-11-04",
+      "payment_status": "Paid",
+      "created_at": "2026-11-04T10:00:00Z",
+      "updated_at": "2026-11-04T10:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-NG-9301",
+      "proofs": [
+        {
+          "id": "prf-nov-1",
+          "file_name": "turnstile_battery_invoice.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Lithium battery bank and access control certification",
+          "uploaded_at": "2026-11-04T10:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-nov-2",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Suite EA-101 Balcony automated roller shutter motor replacement and calibration",
+      "amount": 210000,
+      "date": "2026-11-09",
+      "payment_status": "Paid",
+      "created_at": "2026-11-09T13:00:00Z",
+      "updated_at": "2026-11-09T13:00:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-NG-9318",
+      "proofs": [
+        {
+          "id": "prf-nov-2",
+          "file_name": "shutter_motor_receipt.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+          "caption": "Somfy high-torque roller motor replacement receipt",
+          "uploaded_at": "2026-11-09T13:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "exp-nov-today",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "scope": "Unit",
+      "vendor_id": "ven-1",
+      "category": "Repairs & Maintenance",
+      "description": "Suite EA-302 Smart lock firmware flash and high-security deadbolt realignment",
+      "amount": 95000,
+      "date": "2026-11-11",
+      "payment_status": "Paid",
+      "created_at": "2026-11-11T11:15:00Z",
+      "updated_at": "2026-11-11T11:15:00Z",
+      "share_with_landlord": true,
+      "invoice_number": "INV-NG-9402",
+      "proofs": [
+        {
+          "id": "prf-nov-today",
+          "file_name": "locksmith_service_voucher.pdf",
+          "file_type": "invoice",
+          "file_url": "https://images.unsplash.com/photo-1554415707-9e4c09d48d53?auto=format&fit=crop&w=800&q=80",
+          "caption": "Deadbolt realignment service sign-off",
+          "uploaded_at": "2026-11-11T11:15:00Z"
+        }
+      ]
     }
   ],
   "notices": [
@@ -5091,6 +5748,66 @@
       "total_payout": 665000,
       "booking_status": "Checked In",
       "created_at": "2026-08-16T15:20:00Z"
+    },
+    {
+      "id": "book-oct-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "guest_name": "Dr. Kunle Adeleke",
+      "guest_email": "k.adeleke@shell.com",
+      "guest_phone": "+234 803 123 4567",
+      "check_in": "2026-10-04",
+      "check_out": "2026-10-12",
+      "nights": 8,
+      "nightly_rate": 185000,
+      "total_amount": 1480000,
+      "status": "Completed",
+      "created_at": "2026-09-28T10:00:00Z"
+    },
+    {
+      "id": "book-oct-2",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "guest_name": "Folashade Alakija",
+      "guest_email": "f.alakija@famfa.com",
+      "guest_phone": "+234 802 987 6543",
+      "check_in": "2026-10-15",
+      "check_out": "2026-10-22",
+      "nights": 7,
+      "nightly_rate": 220000,
+      "total_amount": 1540000,
+      "status": "Completed",
+      "created_at": "2026-10-10T14:30:00Z"
+    },
+    {
+      "id": "book-nov-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "guest_name": "Tariq Al-Mansoor",
+      "guest_email": "tariq.mansoor@aramco.sa",
+      "guest_phone": "+966 50 123 4567",
+      "check_in": "2026-11-05",
+      "check_out": "2026-11-12",
+      "nights": 7,
+      "nightly_rate": 195000,
+      "total_amount": 1365000,
+      "status": "Active",
+      "created_at": "2026-11-01T11:00:00Z"
+    },
+    {
+      "id": "book-nov-2",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-204",
+      "guest_name": "Chinyere Uzo",
+      "guest_email": "chinyere.uzo@pwc.ng",
+      "guest_phone": "+234 809 332 1100",
+      "check_in": "2026-11-08",
+      "check_out": "2026-11-11",
+      "nights": 3,
+      "nightly_rate": 230000,
+      "total_amount": 690000,
+      "status": "Completed",
+      "created_at": "2026-11-04T08:00:00Z"
     }
   ],
   "inspections": [
@@ -9777,6 +10494,178 @@
       "team_lead_signed_by": "Amara Okafor (Lead)",
       "created_at": "2026-09-26T08:00:00Z",
       "updated_at": "2026-09-26T11:30:00Z"
+    },
+    {
+      "id": "insp-oct-501",
+      "property_id": "prop-5",
+      "title": "Q4 Building-Wide Façade & Marine Atmosphere Audit",
+      "scheduled_date": "2026-10-14",
+      "scheduled_time": "11:00 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Structural Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Oceanfront glazing seals and stainless railings show zero saltwater corrosion. All automatic floodgates and sump systems verified operational.",
+      "findings": [
+        {
+          "area": "Marine Railings & Glazing",
+          "rating": "Excellent",
+          "remarks": "Grade 316 stainless steel pristine; silicone seals fully intact."
+        },
+        {
+          "area": "Storm Water & Sump Pumps",
+          "rating": "Excellent",
+          "remarks": "Triplex sump pumps triggered successfully on manual test."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-oct-501",
+          "file_name": "facade_glazing_drone_scan.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Drone exterior video scan of high-altitude balconies",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-14T11:30:00Z"
+        }
+      ],
+      "incurred_cost": 0,
+      "team_lead_signed_at": "2026-10-14T13:00:00Z",
+      "team_lead_signed_by": "Marcus Vance (Lead)",
+      "created_at": "2026-10-10T09:00:00Z",
+      "updated_at": "2026-10-14T13:00:00Z"
+    },
+    {
+      "id": "insp-oct-502",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-302",
+      "title": "Executive Tenancy Compliance Audit - Suite EA-302",
+      "scheduled_date": "2026-10-20",
+      "scheduled_time": "02:00 PM",
+      "team_lead_id": "staff-2",
+      "team_lead_name": "Amara Okafor",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-2",
+          "staff_name": "Amara Okafor",
+          "staff_role": "Field Auditor",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Good",
+      "general_remarks": "Tenant maintaining residence in pristine order. All smart home sensors online. Minor bathroom valve service logged and completed.",
+      "findings": [
+        {
+          "area": "Living / Panoramic Terraces",
+          "rating": "Excellent",
+          "remarks": "Parquet flooring well kept with protective pads on furniture."
+        },
+        {
+          "area": "Kitchen Miele Appliances",
+          "rating": "Good",
+          "remarks": "Induction cooktop and built-in steam oven tested."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-oct-502",
+          "file_name": "terrace_condition.jpg",
+          "file_type": "photo",
+          "file_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+          "caption": "Panoramic terrace decking condition audit",
+          "share_with_landlord": true,
+          "recorded_at": "2026-10-20T14:15:00Z"
+        }
+      ],
+      "incurred_cost": 0,
+      "team_lead_signed_at": "2026-10-20T15:00:00Z",
+      "team_lead_signed_by": "Amara Okafor (Auditor)",
+      "created_at": "2026-10-15T10:00:00Z",
+      "updated_at": "2026-10-20T15:00:00Z"
+    },
+    {
+      "id": "insp-nov-today-1",
+      "property_id": "prop-5",
+      "unit_id": "unit-ea-101",
+      "title": "Mid-Quarter Premium Turnaround Inspection - Suite EA-101",
+      "scheduled_date": "2026-11-11",
+      "scheduled_time": "10:30 AM",
+      "team_lead_id": "staff-1",
+      "team_lead_name": "Marcus Vance",
+      "assigned_attendees": [
+        {
+          "staff_id": "staff-1",
+          "staff_name": "Marcus Vance",
+          "staff_role": "Operations Lead",
+          "attended": true
+        },
+        {
+          "staff_id": "staff-3",
+          "staff_name": "Dapo Adeleke",
+          "staff_role": "Hospitality Lead",
+          "attended": true
+        }
+      ],
+      "status": "Approved / Completed",
+      "overall_condition": "Excellent",
+      "general_remarks": "Luxury executive shortlet prepared for VIP guest arrival. Full audio visual briefing attached. High-speed fiber tested at 980Mbps symmetric.",
+      "findings": [
+        {
+          "area": "Master Bedroom & Linens",
+          "rating": "Excellent",
+          "remarks": "800-thread count Egyptian cotton fitted; mattress sanitization certified."
+        },
+        {
+          "area": "Balcony Shutter & Automation",
+          "rating": "Excellent",
+          "remarks": "Motor replacement verified; runs smoothly with zero vibration."
+        },
+        {
+          "area": "Kitchen & Bar Equipment",
+          "rating": "Excellent",
+          "remarks": "Nespresso machine descaled, wine chiller holding 12 degrees C."
+        }
+      ],
+      "attachments": [
+        {
+          "id": "att-nov-today-audio",
+          "file_name": "turnaround_lead_audio_brief.mp3",
+          "file_type": "audio",
+          "file_url": "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
+          "caption": "Field Lead voice walkthrough of luxury guest turnover",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-11T10:45:00Z"
+        },
+        {
+          "id": "att-nov-today-video",
+          "file_name": "suite_101_readiness_walkthrough.mp4",
+          "file_type": "video",
+          "file_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "caption": "Full 4K video showing pristine readiness of living quarters",
+          "share_with_landlord": true,
+          "recorded_at": "2026-11-11T10:55:00Z"
+        }
+      ],
+      "incurred_cost": 0,
+      "team_lead_signed_at": "2026-11-11T11:30:00Z",
+      "team_lead_signed_by": "Marcus Vance (Operations Lead)",
+      "created_at": "2026-11-09T08:00:00Z",
+      "updated_at": "2026-11-11T11:30:00Z"
     }
   ],
   "landlords": [
