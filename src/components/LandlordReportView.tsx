@@ -475,7 +475,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
                       return (
                         <tr key={unit.id} className="hover:bg-white transition-colors">
-                          <td className="py-3 px-3 font-bold text-stone-900">
+                          <td className="py-3 px-3 font-bold text-stone-900 whitespace-nowrap">
                             Unit {unit.unit_number}
                             <span className="text-[10px] text-stone-400 font-normal block">
                               {unit.bedrooms}BR / {unit.bathrooms}BA · {unit.square_feet ? `${unit.square_feet} sqft` : 'Standard'}
@@ -484,24 +484,24 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                           <td className="py-3 px-3">
                             {isShortlet ? (
                               <div>
-                                <span className="font-semibold text-purple-900 flex items-center gap-1">
-                                  <Hotel className="w-3.5 h-3.5 text-purple-600" />
+                                <span className="font-semibold text-purple-900 flex items-center gap-1 whitespace-nowrap">
+                                  <Hotel className="w-3.5 h-3.5 text-purple-600 shrink-0" />
                                   STR Shortlet Suite
                                 </span>
-                                <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 block w-fit mt-1">
+                                <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200 block w-fit mt-1 whitespace-nowrap">
                                   {shortletMetrics?.bookingCount || 0} Booking{(shortletMetrics?.bookingCount || 0) !== 1 ? 's' : ''} ({shortletMetrics?.nightsCount || 0} Nights Occupied)
                                 </span>
                               </div>
                             ) : activeTenant ? (
                               <div>
-                                <span className="font-semibold text-stone-800">{activeTenant.first_name} {activeTenant.last_name}</span>
-                                <span className="text-[10px] text-stone-400 block font-mono">{activeTenant.phone || activeTenant.email}</span>
+                                <span className="font-semibold text-stone-800 block whitespace-nowrap">{activeTenant.first_name} {activeTenant.last_name}</span>
+                                <span className="text-[10px] text-stone-400 block font-mono truncate max-w-[160px] print:max-w-none">{activeTenant.phone || activeTenant.email}</span>
                               </div>
                             ) : (
-                              <span className="text-stone-400 italic">Unoccupied / Vacant</span>
+                              <span className="text-stone-400 italic whitespace-nowrap">Unoccupied / Vacant</span>
                             )}
                           </td>
-                          <td className="py-3 px-3">
+                          <td className="py-3 px-3 whitespace-nowrap">
                             <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
                               unit.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800' :
                               unit.status === 'Vacant' ? 'bg-amber-100 text-amber-800' :
@@ -513,28 +513,30 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                               {unit.rental_model || 'Long-Term'}
                             </span>
                           </td>
-                          <td className="py-3 px-3 text-right font-mono font-bold text-stone-900">
+                          <td className="py-3 px-3 text-right font-mono font-bold text-stone-900 whitespace-nowrap">
                             {unitRentCollected > 0 ? (
                               <DualCurrencyDisplay
                                 amount={unitRentCollected}
                                 sourceCurrency={nativeCurr}
-                                amountClassName="font-bold font-mono"
+                                className="inline-flex flex-col items-end gap-0.5"
+                                amountClassName="font-bold font-mono whitespace-nowrap"
+                                secondaryClassName="text-[9px] text-stone-400 font-normal whitespace-nowrap block"
                               />
                             ) : (
-                              <span className="text-stone-400">₦0.00</span>
+                              <span className="text-stone-400">{currencyConfig.symbol}0.00</span>
                             )}
                           </td>
-                          <td className="py-3 px-3 text-right font-mono font-bold text-rose-600">
+                          <td className="py-3 px-3 text-right font-mono font-bold text-rose-600 whitespace-nowrap">
                             {totalUnitExpense > 0 ? (
                               <span>-{currencyConfig.symbol}{formatCurVal(convertAmount(totalUnitExpense, nativeCurr, currentCurrency))}</span>
                             ) : (
                               <span className="text-stone-400">—</span>
                             )}
                           </td>
-                          <td className="py-3 px-3 text-right font-mono font-medium text-stone-600">
+                          <td className="py-3 px-3 text-right font-mono font-medium text-stone-600 whitespace-nowrap">
                             {unitFirmFee > 0 ? (
                               <div>
-                                <span>-{currencyConfig.symbol}{formatCurVal(convertAmount(unitFirmFee, nativeCurr, currentCurrency))}</span>
+                                <span className="whitespace-nowrap">-{currencyConfig.symbol}{formatCurVal(convertAmount(unitFirmFee, nativeCurr, currentCurrency))}</span>
                                 <span className="text-[9px] font-bold text-brand-600 block bg-brand-50 rounded px-1 w-fit ml-auto">
                                   {unitFeePercent}%
                                 </span>
@@ -543,7 +545,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                               <span className="text-stone-400">—</span>
                             )}
                           </td>
-                          <td className="py-3 px-3 text-right font-mono font-black text-emerald-600">
+                          <td className="py-3 px-3 text-right font-mono font-black text-emerald-600 whitespace-nowrap">
                             {currencyConfig.symbol}{formatCurVal(convertAmount(unitNetPayout, nativeCurr, currentCurrency))}
                           </td>
                         </tr>
@@ -906,7 +908,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
     return (
       <div className="space-y-6 pt-2">
         {/* Month Financial Breakdown Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3.5 rounded-xl border border-stone-200 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 print:grid-cols-4 gap-3 bg-white p-3.5 rounded-xl border border-stone-200 text-xs">
           <div>
             <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block">Gross Rent Collected</span>
             <span className="font-bold text-stone-900 font-mono text-sm">{currencyConfig.symbol}{formatCurVal(monthGross)}</span>
@@ -953,7 +955,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
         {/* SECTION 2: HIERARCHICAL MAINTENANCE EXPENSES BREAKDOWN WITH PROOFS */}
         {(categoryFilter === 'All' || categoryFilter === 'Expenses') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4 ${monthExpenses.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-rose-50 text-rose-700 rounded-lg">
@@ -968,7 +970,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+              <span className="text-[11px] font-bold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200 whitespace-nowrap">
                 Total: -{currencyConfig.symbol}{formatCurVal(monthExp)}
               </span>
             </div>
@@ -979,7 +981,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
         {/* SECTION 3: INFORMATIVE MAINTENANCE DISPATCH LOG (NO DOUBLE-COUNTING) */}
         {(categoryFilter === 'All' || categoryFilter === 'Maintenance') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-3">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-3 ${monthMaintenance.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-2 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-amber-50 text-amber-700 rounded-lg">
@@ -994,7 +996,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full whitespace-nowrap">
                 {monthMaintenance.length} Ticket{monthMaintenance.length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -1007,7 +1009,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                   const prop = ownedProperties.find(p => p.id === req.property_id);
                   const unit = (dbState.units || []).find(u => u.id === req.unit_id);
                   return (
-                    <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                    <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs break-inside-avoid">
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-stone-900">{req.title || `${req.category} Issue`}</span>
@@ -1045,7 +1047,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
         {/* SECTION 4: HIERARCHICAL PHYSICAL AUDITS & INSPECTIONS */}
         {(categoryFilter === 'All' || categoryFilter === 'Inspections') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4 ${monthInspections.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-blue-50 text-blue-700 rounded-lg">
@@ -1060,7 +1062,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                   </p>
                 </div>
               </div>
-              <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full whitespace-nowrap">
                 {monthInspections.length} Audit{monthInspections.length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -1273,34 +1275,34 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 print:grid-cols-4 gap-4 print:gap-2.5">
+          <div className="bg-white p-5 print:p-3 rounded-2xl border border-stone-200 shadow-xs space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Inflow Collections</span>
-            <div className="text-2xl font-black text-stone-900 font-mono">
+            <div className="text-2xl print:text-lg font-black text-stone-900 font-mono">
               {currencyConfig.symbol}{periodStats.grossCollected.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-stone-500">Gross rent & shortlet receipts</span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+          <div className="bg-white p-5 print:p-3 rounded-2xl border border-stone-200 shadow-xs space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Management Fees</span>
-            <div className="text-2xl font-black text-stone-700 font-mono">
+            <div className="text-2xl print:text-lg font-black text-stone-700 font-mono">
               -{currencyConfig.symbol}{periodStats.firmFees.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-stone-500">Retained firm management split</span>
           </div>
 
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+          <div className="bg-white p-5 print:p-3 rounded-2xl border border-stone-200 shadow-xs space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Expenses & Deductions</span>
-            <div className="text-2xl font-black text-rose-600 font-mono">
+            <div className="text-2xl print:text-lg font-black text-rose-600 font-mono">
               -{currencyConfig.symbol}{periodStats.expensesTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-rose-700/80 font-medium">Repairs, maintenance & operating costs</span>
           </div>
 
-          <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl shadow-xs space-y-1">
+          <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 print:p-3 rounded-2xl shadow-xs space-y-1">
             <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900">Period Net Remitted Payout</span>
-            <div className="text-2xl font-black text-emerald-800 font-mono">
+            <div className="text-2xl print:text-lg font-black text-emerald-800 font-mono">
               {currencyConfig.symbol}{periodStats.netRemitted.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </div>
             <span className="text-[11px] text-emerald-700 font-bold">Total net funds remitted to landlord</span>
@@ -1330,7 +1332,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
             const hasActivity = dayPayments.length > 0 || dayExpenses.length > 0 || dayInspections.length > 0;
 
             return (
-              <div key={dayStr} className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs break-inside-avoid print:border-stone-300">
+              <div key={dayStr} className="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-xs print:border-stone-300">
                 <div className="bg-slate-900 text-white px-5 py-3 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
@@ -1387,7 +1389,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       {(timeFrame === 'day' || timeFrame === 'month' || timeFrame === 'multi_month' || timeFrame === 'all' || timeFrame === 'custom') && (
         <div className="space-y-8">
           {allMonths.map(monthStr => (
-            <div key={monthStr} className="bg-cream-50/80 rounded-2xl border border-cream-300 p-6 shadow-xs space-y-4 break-inside-avoid print:bg-white print:border-stone-300">
+            <div key={monthStr} className="bg-cream-50/80 rounded-2xl border border-cream-300 p-6 shadow-xs space-y-4 print:bg-white print:border-stone-300 print:p-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-cream-300/80 gap-2">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">
@@ -1420,7 +1422,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       {timeFrame === 'year' && (
         <div className="space-y-10">
           {quarters.map(q => (
-            <div key={q.id} className="bg-cream-100 rounded-3xl border-2 border-stone-800/10 p-6 shadow-sm space-y-6 print:bg-white print:border-stone-300">
+            <div key={q.id} className="bg-cream-100 rounded-3xl border-2 border-stone-800/10 p-6 shadow-sm space-y-6 print:bg-white print:border-stone-300 print:p-4">
               <div className="bg-slate-900 text-white p-4 rounded-2xl flex items-center justify-between shadow-xs">
                 <div className="flex items-center gap-3">
                   <Sparkles className="w-5 h-5 text-brand-400" />
@@ -1436,7 +1438,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
               <div className="space-y-6">
                 {q.months.map(mStr => (
-                  <div key={mStr} className="bg-white rounded-2xl border border-stone-200 p-5 space-y-4 break-inside-avoid print:border-stone-300">
+                  <div key={mStr} className="bg-white rounded-2xl border border-stone-200 p-5 space-y-4 print:border-stone-300 print:p-4">
                     <div className="flex items-center gap-2.5 pb-2 border-b border-stone-100">
                       <span className="w-2 h-2 rounded-full bg-brand-600"></span>
                       <h3 className="font-bold text-sm text-stone-900">

@@ -497,7 +497,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
             <div className="space-y-6">
               {representative.can_view_statements ? (
                 <div>
-                  <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden mb-4">
+                  <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden mb-4 print:hidden">
                     <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
                       Financial Statements & Reports
                     </h1>
@@ -506,7 +506,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       Audited financial ledger, rent yields, management fees and operating deductions for {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
                     </p>
                   </div>
-                  <hr className="border-t border-slate-800/80 mb-6" />
+                  <hr className="border-t border-slate-800/80 mb-6 print:hidden" />
 
                   {/* Render the full hierarchical LandlordReportView */}
                   <LandlordReportView

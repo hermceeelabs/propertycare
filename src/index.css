@@ -8,17 +8,23 @@
   }
 }
 
-/* Print Styles: Clean Document Export */
+/* Print Styles: Clean Executive Document Export */
 @media print {
   @page {
     size: letter portrait;
-    margin: 12mm 15mm;
+    margin: 10mm 12mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   body {
     background: #ffffff !important;
     color: #111827 !important;
-    font-size: 11pt;
+    font-size: 9.5pt;
+    line-height: 1.35;
   }
 
   /* Hide navigation, sidebars, headers, action buttons, modals and backgrounds */
@@ -30,34 +36,62 @@
     display: none !important;
   }
 
-  /* Reset layout constraints so report document flows naturally across pages */
-  html, body, #root, .flex, .overflow-hidden, .overflow-y-auto {
+  /* Reset root scroll/viewport containers so report document flows naturally across pages WITHOUT breaking inner .flex rows */
+  html,
+  body,
+  #root,
+  main,
+  .h-screen,
+  .min-h-screen,
+  .overflow-hidden,
+  .overflow-y-auto,
+  .overflow-x-auto {
     overflow: visible !important;
     height: auto !important;
-    min-height: auto !important;
+    min-height: 0 !important;
     max-height: none !important;
+  }
+
+  html,
+  body,
+  #root,
+  main,
+  .h-screen {
     display: block !important;
     position: static !important;
+    width: 100% !important;
   }
 
   main {
     padding: 0 !important;
     margin: 0 !important;
     max-width: 100% !important;
-    overflow: visible !important;
+  }
+
+  /* Compact table typography in print so currency and unit numbers never wrap across 3-4 lines */
+  table {
+    width: 100% !important;
+    font-size: 8.5pt !important;
+  }
+
+  th,
+  td {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
   }
 
   /* Card and Table Print Styling */
   .bg-white, .bg-stone-50, .bg-cream-50, .bg-cream-100 {
-    background: #ffffff !important;
     box-shadow: none !important;
   }
 
   .border, .border-stone-200, .border-stone-100 {
-    border-color: #e5e7eb !important;
+    border-color: #d1d5db !important;
   }
 
-  /* Page break rules */
+  /* Page break rules - apply only to atomic rows/cards, never whole multi-page months */
   .break-inside-avoid {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
@@ -66,6 +100,10 @@
   tr {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  thead {
+    display: table-header-group !important;
   }
 }
 ::-webkit-scrollbar {

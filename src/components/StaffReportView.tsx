@@ -212,7 +212,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
 
         {/* SUBSECTION 1: FIELD INSPECTIONS CONDUCTED */}
         {(activityCategory === 'All' || activityCategory === 'Inspections') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${mInspections.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-blue-50 text-blue-700 rounded-lg">
@@ -237,7 +237,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
             ) : (
               <div className="space-y-3">
                 {mInspections.map(insp => (
-                  <div key={insp.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1.5">
+                  <div key={insp.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1.5 break-inside-avoid">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-stone-900">{insp.title}</span>
@@ -269,7 +269,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
 
         {/* SUBSECTION 2: MAINTENANCE DISPATCHES */}
         {(activityCategory === 'All' || activityCategory === 'Maintenance') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${mMaintenance.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-amber-50 text-amber-700 rounded-lg">
@@ -294,7 +294,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
             ) : (
               <div className="space-y-3">
                 {mMaintenance.map(req => (
-                  <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 flex items-center justify-between text-xs">
+                  <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 flex items-center justify-between text-xs break-inside-avoid">
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-bold text-stone-900">#{req.id}</span>
@@ -325,7 +325,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
 
         {/* SUBSECTION 3: NOTICES & CIRCULARS ISSUED */}
         {(activityCategory === 'All' || activityCategory === 'Notices') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${mNotices.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg">
@@ -350,7 +350,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
             ) : (
               <div className="space-y-3">
                 {mNotices.map(n => (
-                  <div key={n.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1">
+                  <div key={n.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1 break-inside-avoid">
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-bold text-stone-900">{n.title}</span>
                       <span className="text-[10px] text-stone-400 font-mono">{(n.created_at || '').slice(0, 10)}</span>
@@ -365,7 +365,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
 
         {/* SUBSECTION 4: OPERATIONAL TASKS RESOLVED */}
         {(activityCategory === 'All' || activityCategory === 'Tasks') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${mTasks.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-purple-50 text-purple-700 rounded-lg">
@@ -418,9 +418,27 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
   return (
     <div className="space-y-6">
       {/* =========================================================================
+          CLEAN STAFF OPERATIONS HEADER (PRINT ONLY - MINIMALIST & DIRECT)
+          ========================================================================= */}
+      <div className="hidden print:block pb-4 mb-5 border-b border-stone-300">
+        <div className="flex justify-between items-baseline">
+          <div>
+            <h1 className="text-xl font-bold text-stone-900 tracking-tight">Staff Operations & Field Audit Statement</h1>
+            <p className="text-xs text-stone-600 mt-0.5">
+              Scope: <strong className="text-stone-900">{selectedStaffId === 'All' ? 'All Operations Staff (Team Overview)' : (activeStaffMeta as any)?.full_name || (activeStaffMeta as any)?.name}</strong>
+            </p>
+          </div>
+          <div className="text-right text-xs text-stone-500 space-y-0.5">
+            <p>Reporting Window: <strong className="text-stone-800">{formatReadableDate(dateRange.startDate)} – {formatReadableDate(dateRange.endDate)}</strong></p>
+            <p>Audits: <strong>{staffInspections.length}</strong> · Dispatches: <strong>{staffMaintenance.length}</strong> · Tasks: <strong>{staffTasks.length}</strong></p>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
           CONTROL & FILTER BAR
           ========================================================================= */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
+      <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4 print:hidden">
         {/* Top Row: Staff Selector + Timeframe Selector */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">

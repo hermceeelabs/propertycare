@@ -163,10 +163,10 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
       </div>
 
       {/* Decorative Divider */}
-      <hr className="border-t border-slate-800/80" />
+      <hr className="border-t border-slate-800/80 print:hidden" />
 
       {/* View Switcher Tabs Bar */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 print:hidden">
         <div className="flex items-center bg-cream-100 p-1 rounded-2xl border border-cream-300">
           <button
             onClick={() => setReportView('daily')}

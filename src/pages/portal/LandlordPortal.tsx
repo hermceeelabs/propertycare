@@ -975,7 +975,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           {currentTab === 'financials' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design with visual divider */}
-              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+              <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden print:hidden">
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
                   Financial Statements & Reports
                 </h1>
@@ -986,7 +986,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
               </div>
 
               {/* Visual Horizontal Separator */}
-              <hr className="border-t border-slate-800/80" />
+              <hr className="border-t border-slate-800/80 print:hidden" />
 
               <LandlordReportView
                 dbState={dbState}

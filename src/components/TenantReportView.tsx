@@ -263,7 +263,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
 
         {/* SUBSECTION 2: FIELD INSPECTIONS & PREMISES AUDITS */}
         {(categoryFilter === 'All' || categoryFilter === 'Inspections') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${monthInspections.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-blue-50 text-blue-700 rounded-lg">
@@ -290,7 +290,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
             ) : (
               <div className="space-y-3">
                 {monthInspections.map(insp => (
-                  <div key={insp.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-2">
+                  <div key={insp.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-2 break-inside-avoid">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-xs text-stone-900">{insp.title}</span>
@@ -353,7 +353,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
 
         {/* SUBSECTION 3: MAINTENANCE & REPAIR TICKETS */}
         {(categoryFilter === 'All' || categoryFilter === 'Maintenance') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${monthRequests.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-amber-50 text-amber-700 rounded-lg">
@@ -380,7 +380,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
             ) : (
               <div className="space-y-3">
                 {monthRequests.map(req => (
-                  <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-2">
+                  <div key={req.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-2 break-inside-avoid">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs font-bold text-stone-900">#{req.id}</span>
@@ -433,7 +433,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
 
         {/* SUBSECTION 4: BUILDING CIRCULARS & NOTICES */}
         {(categoryFilter === 'All' || categoryFilter === 'Notices') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
+          <div className={`bg-white rounded-xl border border-stone-200 p-4 shadow-2xs ${monthNotices.length === 0 ? 'print:hidden' : ''}`}>
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg">
@@ -492,9 +492,28 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
   return (
     <div className="space-y-6">
       {/* =========================================================================
+          CLEAN TENANT STATEMENT HEADER (PRINT ONLY - MINIMALIST & DIRECT)
+          ========================================================================= */}
+      <div className="hidden print:block pb-4 mb-5 border-b border-stone-300">
+        <div className="flex justify-between items-baseline">
+          <div>
+            <h1 className="text-xl font-bold text-stone-900 tracking-tight">Resident Tenancy & Financial Statement</h1>
+            <p className="text-xs text-stone-600 mt-0.5">
+              Resident: <strong className="text-stone-900">{tenant.first_name} {tenant.last_name}</strong>
+              {unit ? ` · Unit ${unit.unit_number}` : ''} {property ? `(${property.name})` : ''}
+            </p>
+          </div>
+          <div className="text-right text-xs text-stone-500 space-y-0.5">
+            <p>Reporting Window: <strong className="text-stone-800">{formatReadableDate(dateRange.startDate)} – {formatReadableDate(dateRange.endDate)}</strong></p>
+            <p>Rent Paid: <strong>{currencyConfig.symbol}{totalRentPaid.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong> · Currency: <strong>{currentCurrency} ({currencyConfig.symbol})</strong></p>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
           CONTROL & FILTER BAR
           ========================================================================= */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
+      <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4 print:hidden">
         {/* Top Filter Row: Time Frame Tabs */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="space-y-1">

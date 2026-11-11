@@ -489,7 +489,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
         </header>
 
         {/* Decorative Dark Demarcation Line matching other portals */}
-        <hr className="border-t border-slate-800/80" />
+        <hr className="border-t border-slate-800/80 print:hidden" />
 
         {/* TAB 1: OVERVIEW & RESIDENCE DASHBOARD */}
         {activeTab === 'overview' && (
