@@ -13,34 +13,45 @@ export interface DateRange {
 export const DEFAULT_ANCHOR_DATE = '2026-08-20';
 
 /**
+ * Return current real-world date in 'YYYY-MM-DD' format
+ */
+export function getRealWorldToday(): string {
+  const now = new Date();
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+/**
  * Helper to calculate start & end dates based on selected timeframe preset
  */
 export function getDateRangeForTimeFrame(
   timeFrame: ReportTimeFrame,
   anchorDate: string = DEFAULT_ANCHOR_DATE
 ): DateRange {
-  const [yearStr, monthStr, dayStr] = anchorDate.split('-');
-  const year = parseInt(yearStr, 10);
-  const month = parseInt(monthStr, 10); // 1-based
-  const day = parseInt(dayStr, 10);
-
   const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 
   if (timeFrame === 'day') {
-    return { startDate: anchorDate, endDate: anchorDate };
+    // Exact real-world current date
+    const today = getRealWorldToday();
+    return { startDate: today, endDate: today };
   }
 
   if (timeFrame === 'week') {
-    // Current week around anchor date (Mon - Sun)
-    const dateObj = new Date(year, month - 1, day);
-    const dayOfWeek = (dateObj.getDay() + 6) % 7; // 0 is Monday, 6 is Sunday
-    const mon = new Date(year, month - 1, day - dayOfWeek);
-    const sun = new Date(year, month - 1, day - dayOfWeek + 6);
+    // Current real-world week (Monday to Sunday)
+    const now = new Date();
+    const dayOfWeek = (now.getDay() + 6) % 7; // 0 is Monday, 6 is Sunday
+    const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek);
+    const sun = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek + 6);
     return {
       startDate: `${mon.getFullYear()}-${pad(mon.getMonth() + 1)}-${pad(mon.getDate())}`,
       endDate: `${sun.getFullYear()}-${pad(sun.getMonth() + 1)}-${pad(sun.getDate())}`
     };
   }
+
+  const [yearStr, monthStr, dayStr] = anchorDate.split('-');
+  const year = parseInt(yearStr, 10);
+  const month = parseInt(monthStr, 10); // 1-based
+  const day = parseInt(dayStr, 10);
 
   if (timeFrame === 'month') {
     // Entire current month

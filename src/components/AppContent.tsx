@@ -27,6 +27,7 @@ import { ReportsPage } from '../pages/Reports';
 import { SettingsPage } from '../pages/Settings';
 import { TenantPortal } from '../pages/portal/TenantPortal';
 import { LandlordPortal } from '../pages/portal/LandlordPortal';
+import { RepresentativePortal } from '../pages/portal/RepresentativePortal';
 import { ContractorPortal } from '../pages/portal/ContractorPortal';
 import { DatabaseState } from '../services/supabase';
 import { Communication } from '../types/database';
@@ -143,7 +144,18 @@ export const AppContent: React.FC<AppContentProps> = ({
     );
   }
 
-  // 4. AUTOMATIC ROUTING FOR CONTRACTORS / TRADES (Direct to Contractor Portal)
+  // 4. AUTOMATIC ROUTING FOR LANDLORD REPRESENTATIVES / DELEGATES
+  if (authResult?.stakeholderType === 'representative') {
+    return (
+      <RepresentativePortal
+        dbState={dbState}
+        landlordId={authResult.profileData?.id}
+        repId={authResult.representativeData?.id}
+      />
+    );
+  }
+
+  // 5. AUTOMATIC ROUTING FOR CONTRACTORS / TRADES (Direct to Contractor Portal)
   if (authResult?.stakeholderType === 'contractor') {
     return (
       <ContractorPortal
@@ -296,6 +308,13 @@ export const AppContent: React.FC<AppContentProps> = ({
 
           {currentTab === 'portal-landlord' && (
             <LandlordPortal
+              dbState={dbState}
+              onClosePreview={() => setCurrentTab('dashboard')}
+            />
+          )}
+
+          {currentTab === 'portal-representative' && (
+            <RepresentativePortal
               dbState={dbState}
               onClosePreview={() => setCurrentTab('dashboard')}
             />

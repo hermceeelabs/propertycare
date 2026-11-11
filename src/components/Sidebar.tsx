@@ -26,6 +26,7 @@ export type NavTab =
   | 'settings'
   | 'portal-tenant'
   | 'portal-landlord'
+  | 'portal-representative'
   | 'portal-contractor';
 
 interface SidebarProps {
@@ -94,6 +95,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ...(can('can_trigger_automations') ? [
           { id: 'automations' as NavTab, label: 'Automations & Audit Hub', icon: Zap }
         ] : [])
+      ]
+    },
+    {
+      title: 'Portal Previews',
+      items: [
+        { id: 'portal-landlord' as NavTab, label: 'Landlord Investor Portal', icon: Landmark },
+        { id: 'portal-representative' as NavTab, label: 'Representative / Legal Delegate', icon: ShieldAlert },
+        { id: 'portal-tenant' as NavTab, label: 'Resident Tenant Portal', icon: Users },
+        { id: 'portal-contractor' as NavTab, label: 'Field Contractor Portal', icon: Truck },
       ]
     },
     {

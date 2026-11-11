@@ -4,9 +4,10 @@ import { supabase, store } from '../services/supabase';
 
 export interface StakeholderAuthResult {
   authorized: boolean;
-  stakeholderType: 'owner' | 'staff' | 'landlord' | 'tenant' | 'vendor' | 'contractor' | null;
+  stakeholderType: 'owner' | 'staff' | 'landlord' | 'representative' | 'tenant' | 'vendor' | 'contractor' | null;
   status: 'Active' | 'Suspended' | 'Inactive' | 'Pending' | null;
   profileData: any;
+  representativeData?: any;
   rejectionReason?: string;
 }
 
@@ -19,7 +20,7 @@ interface PermissionsContextType {
   setUserType: (type: UserType) => void;
   authResult: StakeholderAuthResult | null;
   isVerifying: boolean;
-  switchStakeholderRole: (role: 'owner' | 'landlord' | 'tenant' | 'contractor', email?: string) => void;
+  switchStakeholderRole: (role: 'owner' | 'landlord' | 'representative' | 'tenant' | 'contractor', email?: string) => void;
 }
 
 const DEFAULT_OWNER_PERMISSIONS: UserPermissions = {
@@ -252,9 +253,10 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setProfile(landlordProfile);
         setAuthResult({
           authorized: true,
-          stakeholderType: 'landlord',
+          stakeholderType: isPrimary ? 'landlord' : 'representative',
           status: 'Active',
-          profileData: matchedLandlord
+          profileData: matchedLandlord,
+          representativeData: matchedRep || undefined
         });
         setIsVerifying(false);
         return;
@@ -412,7 +414,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
   /**
    * Fast In-App Stakeholder Switcher (For local testing & client demonstrations)
    */
-  const switchStakeholderRole = (role: 'owner' | 'landlord' | 'tenant' | 'contractor', targetEmail?: string) => {
+  const switchStakeholderRole = (role: 'owner' | 'landlord' | 'representative' | 'tenant' | 'contractor', targetEmail?: string) => {
     setIsVerifying(true);
     if (role === 'owner') {
       const ownerProfile: UserProfile = {
@@ -460,6 +462,48 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         stakeholderType: 'landlord',
         status: 'Active',
         profileData: target || landlordProfile
+      });
+    } else if (role === 'representative') {
+      const landlords = store.getState().landlords || [];
+      const parentLandlord = landlords.find(l => (l.authorized_representatives || []).length > 0) || landlords[0];
+      const targetRep = (parentLandlord?.authorized_representatives || [])[0] || {
+        id: 'rep-1',
+        name: 'Barrister Chidi Okonkwo',
+        email: 'chidi.legal@adeyemiholdings.com',
+        phone: '+234 802 334 5566',
+        relationship: 'Legal Counsel / Lawyer',
+        can_view_statements: true,
+        can_approve_maintenance: true,
+        can_modify_banking: false,
+        status: 'Active',
+        created_at: '2024-01-15T00:00:00Z'
+      };
+
+      const repProfile: UserProfile = {
+        id: targetRep.id,
+        email: targetRep.email,
+        full_name: `${targetRep.name} (${targetRep.relationship})`,
+        is_owner: false,
+        user_type: 'landlord',
+        permissions: {
+          can_view_financials: !!targetRep.can_view_statements,
+          can_manage_leases: false,
+          can_dispatch_maintenance: !!targetRep.can_approve_maintenance,
+          can_issue_notices: false,
+          can_edit_properties: false,
+          can_trigger_automations: false
+        },
+        assigned_properties: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      setProfile(repProfile);
+      setAuthResult({
+        authorized: true,
+        stakeholderType: 'representative',
+        status: 'Active',
+        profileData: parentLandlord,
+        representativeData: targetRep
       });
     } else if (role === 'tenant') {
       const tenants = store.getState().tenants || [];
