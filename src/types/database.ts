@@ -197,6 +197,7 @@ export interface Unit {
   cleaning_fee?: number;
   minimum_stay_nights?: number;
   current_occupancy_rate?: number;
+  management_fee_percentage?: number;
   price_history?: PriceHistoryRecord[];
   created_at: string;
   updated_at: string;

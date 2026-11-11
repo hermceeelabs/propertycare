@@ -260,6 +260,25 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           </div>
         </div>
 
+        {/* Currency Switcher in Left Sidebar */}
+        <div className="px-3 py-2 mx-3 my-2 bg-slate-950/40 rounded-xl border border-slate-800 flex items-center justify-between">
+          <span className="text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Currency:
+          </span>
+          <select
+            value={currentCurrency}
+            onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+            className="bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 rounded-lg px-2 py-1 cursor-pointer focus:outline-hidden"
+            title="Switch Operational Currency"
+          >
+            {Object.values(CURRENCIES).map(c => (
+              <option key={c.code} value={c.code}>
+                {c.code} ({c.symbol.trim()})
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Grouped Classified Navigation */}
         <nav className="flex-1 overflow-y-auto p-3 space-y-5">
           {navSections.map((section, idx) => (
@@ -357,42 +376,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
           </div>
         )}
 
-        {/* Global Header */}
-        <header className="bg-cream-50/90 border-b border-cream-200 h-16 px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs backdrop-blur-xs">
-          <div className="flex items-center gap-4">
-            <div className="md:hidden flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-xs">PF</div>
-              <span className="font-bold text-xs text-stone-900">Landlord Portal</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Multi-Currency Dropdown */}
-            <div className="flex items-center gap-1.5 bg-cream-100 hover:bg-cream-200/90 px-3 py-1.5 rounded-xl border border-cream-300 transition-colors shadow-xs">
-              <span className="text-xs font-bold text-stone-600 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                {currencyConfig.code}
-              </span>
-              <select
-                value={currentCurrency}
-                onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
-                className="bg-transparent text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
-                title="Switch Operational Currency"
-              >
-                {Object.values(CURRENCIES).map(c => (
-                  <option key={c.code} value={c.code}>
-                    {c.code} ({c.symbol.trim()})
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </header>
-
-        {/* Decorative Dark Demarcation Line */}
-        <hr className="border-t border-slate-800/80" />
-
-        {/* Scrollable Portal Content Body */}
+        {/* Main View Body */}
         <main ref={mainScrollRef} className="flex-1 overflow-y-auto p-8 space-y-6 max-w-7xl w-full mx-auto">
           {/* =========================================================================
               VIEW 1: PORTFOLIO OVERVIEW

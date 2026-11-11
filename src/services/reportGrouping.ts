@@ -1,6 +1,6 @@
 import { CurrencyCode } from '../types/database';
 
-export type ReportTimeFrame = 'day' | 'week' | 'month' | 'multi_month' | 'year' | 'custom';
+export type ReportTimeFrame = 'day' | 'week' | 'month' | 'multi_month' | 'year' | 'all' | 'custom';
 
 export interface DateRange {
   startDate: string; // YYYY-MM-DD
@@ -52,18 +52,8 @@ export function getDateRangeForTimeFrame(
   }
 
   if (timeFrame === 'multi_month') {
-    // Last 3 calendar months (Quarter)
-    let startMonth = month - 2;
-    let startYear = year;
-    if (startMonth < 1) {
-      startMonth += 12;
-      startYear -= 1;
-    }
-    const lastDay = new Date(year, month, 0).getDate();
-    return {
-      startDate: `${startYear}-${pad(startMonth)}-01`,
-      endDate: `${year}-${pad(month)}-${pad(lastDay)}`
-    };
+    // Default to Q3 for August (July - September)
+    return getDateRangeForQuarter(year, 3);
   }
 
   if (timeFrame === 'year') {
@@ -73,8 +63,29 @@ export function getDateRangeForTimeFrame(
     };
   }
 
+  if (timeFrame === 'all') {
+    return {
+      startDate: '2020-01-01',
+      endDate: '2030-12-31'
+    };
+  }
+
   // Custom fallback
   return { startDate: anchorDate, endDate: anchorDate };
+}
+
+/**
+ * Calculate date range for a specific quarter
+ */
+export function getDateRangeForQuarter(year: number, quarterNumber: 1 | 2 | 3 | 4): DateRange {
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  const startMonth = (quarterNumber - 1) * 3 + 1;
+  const endMonth = quarterNumber * 3;
+  const lastDay = new Date(year, endMonth, 0).getDate();
+  return {
+    startDate: `${year}-${pad(startMonth)}-01`,
+    endDate: `${year}-${pad(endMonth)}-${pad(lastDay)}`
+  };
 }
 
 /**
@@ -101,31 +112,17 @@ export function formatDayTitle(dateStr: string): string {
  * Return quarter string e.g. "Q1 (Jan – Mar 2026)"
  */
 export function getQuarterInfo(year: number, quarterNumber: 1 | 2 | 3 | 4): { id: string; label: string; months: string[] } {
-  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
-  switch (quarterNumber) {
-    case 1:
-      return {
-        id: `Q1-${year}`,
-        label: `Q1 (${year}) · January – March`,
-        months: [`${year}-01`, `${year}-02`, `${year}-03`]
-      };
-    case 2:
-      return {
-        id: `Q2-${year}`,
-        label: `Q2 (${year}) · April – June`,
-        months: [`${year}-04`, `${year}-05`, `${year}-06`]
-      };
-    case 3:
-      return {
-        id: `Q3-${year}`,
-        label: `Q3 (${year}) · July – September`,
-        months: [`${year}-07`, `${year}-08`, `${year}-09`]
-      };
-    case 4:
-      return {
-        id: `Q4-${year}`,
-        label: `Q4 (${year}) · October – December`,
-        months: [`${year}-10`, `${year}-11`, `${year}-12`]
-      };
-  }
+  return {
+    id: `Q${quarterNumber}-${year}`,
+    label: `Q${quarterNumber} (${year}) · ${
+      quarterNumber === 1 ? 'January – March' :
+      quarterNumber === 2 ? 'April – June' :
+      quarterNumber === 3 ? 'July – September' : 'October – December'
+    }`,
+    months: [
+      `${year}-${String((quarterNumber - 1) * 3 + 1).padStart(2, '0')}`,
+      `${year}-${String((quarterNumber - 1) * 3 + 2).padStart(2, '0')}`,
+      `${year}-${String((quarterNumber - 1) * 3 + 3).padStart(2, '0')}`
+    ]
+  };
 }
