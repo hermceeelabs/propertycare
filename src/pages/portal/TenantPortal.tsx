@@ -6,7 +6,7 @@ import {
   Mic, MicOff, Video, Download, Printer, Bell, Calendar, Phone, Mail,
   User, Building2, Play, Pause, ChevronRight, ShieldAlert, Sparkles
 } from 'lucide-react';
-import { useCurrency, CurrencyCode } from '../../context/CurrencyContext';
+import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { MaintenanceAttachment, MaintenancePriority, MaintenanceCategory, MaintenanceStatus } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 
@@ -21,12 +21,11 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   tenantId = dbState.tenants[0]?.id,
   onClosePreview
 }) => {
-  const { formatMoney } = useCurrency();
+  const { formatMoney, currentCurrency, setCurrency, currencyConfig } = useCurrency();
   const [activeTab, setActiveTab] = useState<'overview' | 'payments' | 'maintenance' | 'documents' | 'notices'>('overview');
   
-  // Selected Tenant (for demo/preview selector)
-  const [selectedTenantId, setSelectedTenantId] = useState(tenantId);
-  const tenant = dbState.tenants.find(t => t.id === selectedTenantId) || dbState.tenants[0];
+  // Selected Tenant based on passed-in tenantId
+  const tenant = dbState.tenants.find(t => t.id === tenantId) || dbState.tenants[0];
   const lease = dbState.leases.find(l => l.tenant_id === tenant?.id);
   const unit = dbState.units.find(u => u.id === lease?.unit_id);
   const property = dbState.properties.find(p => p.id === unit?.property_id);
@@ -226,29 +225,25 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   ];
 
   return (
-    <div className="flex h-screen bg-[#fdfbf7] text-slate-800 font-sans overflow-hidden">
+    <div className="flex h-screen bg-cream-100 text-stone-900 font-sans antialiased overflow-hidden">
       {/* SIDEBAR NAVIGATION - Dark Slate Signature */}
       <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between z-20 shrink-0">
         <div>
           {/* Brand Header */}
-          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+          <div className="p-5 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center font-serif text-slate-950 font-bold text-lg shadow-md shadow-amber-500/20">
-                P
+              <div className="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black shadow-md shadow-brand-900/50">
+                PF
               </div>
               <div>
-                <span className="font-serif text-lg tracking-tight font-bold text-slate-100 block leading-tight">
-                  PropertyFlow
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
-                  Resident Portal
-                </span>
+                <h1 className="font-bold text-white tracking-wide text-sm leading-tight">PropertyFlow</h1>
+                <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">Resident Portal</span>
               </div>
             </div>
             {onClosePreview && (
               <button
                 onClick={onClosePreview}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
                 title="Exit Preview"
               >
                 <X className="w-4 h-4" />
@@ -256,54 +251,53 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             )}
           </div>
 
-          {/* Resident Quick Profile Card */}
-          <div className="p-4 mx-3 my-4 rounded-xl bg-slate-800/80 border border-slate-700/60 text-white">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-slate-700 border border-slate-600 flex items-center justify-center text-amber-300 font-bold text-sm">
+          {/* Resident Identity Card */}
+          <div className="p-3.5 mx-3 my-4 rounded-xl bg-slate-950/50 border border-slate-800/80 text-white">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">
                 {tenant ? `${tenant.first_name[0]}${tenant.last_name[0]}` : 'JD'}
               </div>
-              <div className="overflow-hidden">
-                <div className="text-xs font-semibold truncate text-slate-100">
+              <div className="min-w-0 flex-1">
+                <span className="block text-xs font-bold text-white truncate">
                   {tenant ? `${tenant.first_name} ${tenant.last_name}` : 'Resident'}
-                </div>
-                <div className="text-[11px] text-slate-400 truncate">
+                </span>
+                <span className="text-[10px] text-stone-400 truncate block">
                   {unit ? `Unit ${unit.unit_number}` : 'Assigned Unit'} · {property?.name || 'Property'}
-                </div>
+                </span>
               </div>
             </div>
+          </div>
 
-            {/* Resident switcher for demo if multiple exist */}
-            {dbState.tenants.length > 1 && (
-              <div className="mt-3 pt-2.5 border-t border-slate-700/50">
-                <label className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-1">
-                  Preview As Resident:
-                </label>
-                <select
-                  value={selectedTenantId}
-                  onChange={(e) => setSelectedTenantId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded text-xs text-slate-200 px-2 py-1 focus:outline-none focus:border-amber-400"
-                >
-                  {dbState.tenants.map(t => (
-                    <option key={t.id} value={t.id}>
-                      {t.first_name} {t.last_name} ({t.id})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+          {/* Multi-Currency Dropdown in Sidebar */}
+          <div className="px-3 py-2 mx-3 mb-4 bg-slate-950/40 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-300 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Currency:
+            </span>
+            <select
+              value={currentCurrency}
+              onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+              className="bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 rounded-lg px-2 py-1 cursor-pointer focus:outline-hidden"
+              title="Switch Operational Currency"
+            >
+              {Object.values(CURRENCIES).map(c => (
+                <option key={c.code} value={c.code}>
+                  {c.code} ({c.symbol.trim()})
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Navigation Links */}
           <nav className="px-3 space-y-1">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'overview'
-                  ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <Home className="w-4 h-4" />
                 <span>Home & Tenancy</span>
               </div>
@@ -312,18 +306,18 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
 
             <button
               onClick={() => setActiveTab('payments')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'payments'
-                  ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <CreditCard className="w-4 h-4" />
                 <span>Rent & Receipts</span>
               </div>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-                activeTab === 'payments' ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${
+                activeTab === 'payments' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
               }`}>
                 {tenantPayments.length}
               </span>
@@ -331,18 +325,18 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
 
             <button
               onClick={() => setActiveTab('maintenance')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'maintenance'
-                  ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <Wrench className="w-4 h-4" />
                 <span>Support & Repairs</span>
               </div>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
-                activeTab === 'maintenance' ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${
+                activeTab === 'maintenance' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
               }`}>
                 {tenantRequests.length}
               </span>
@@ -350,13 +344,13 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
 
             <button
               onClick={() => setActiveTab('documents')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'documents'
-                  ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <FileText className="w-4 h-4" />
                 <span>Lease Vault</span>
               </div>
@@ -364,13 +358,13 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
 
             <button
               onClick={() => setActiveTab('notices')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === 'notices'
-                  ? 'bg-amber-500 text-slate-950 font-semibold shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <Bell className="w-4 h-4" />
                 <span>Official Notices</span>
               </div>
@@ -380,9 +374,9 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-slate-800/80">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="flex items-center gap-1.5">
+        <div className="p-3 border-t border-slate-800 bg-slate-950/60">
+          <div className="flex items-center justify-between text-xs text-slate-400 px-1">
+            <span className="flex items-center gap-1.5 text-stone-300 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               Verified Resident
             </span>
@@ -394,30 +388,29 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
       </aside>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 overflow-y-auto bg-[#fdfbf7] p-8">
-        {/* Top Header Bar */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-8 border-b border-stone-200 gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs uppercase tracking-wider font-semibold text-stone-500">
-                Official Tenancy Space
-              </span>
-              <span className="inline-block w-1 h-1 rounded-full bg-stone-300"></span>
-              <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                Active & Good Standing
-              </span>
+      <main className="flex-1 overflow-y-auto bg-cream-100 p-8 space-y-6 max-w-7xl w-full mx-auto">
+        {/* Top Header Bar / Title Section */}
+        <header className="pb-2">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+              <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
+                {activeTab === 'overview' && 'Resident Executive Suite'}
+                {activeTab === 'payments' && 'Rent Ledger & Digital Receipts'}
+                {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
+                {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
+                {activeTab === 'notices' && 'Building Circulars & Official Notices'}
+              </h1>
+              <span className="hidden sm:inline text-cream-400 font-light">|</span>
+              <p className="text-sm text-stone-600">
+                {activeTab === 'overview' && 'Personal resident suite overview, active lease term & unit details'}
+                {activeTab === 'payments' && 'Rent history, transaction ledgers & cryptographically verified payment receipts'}
+                {activeTab === 'maintenance' && 'Submit repair tickets with photos, video and voice notes & track contractor dispatches'}
+                {activeTab === 'documents' && 'Official executed tenancy contracts, inventory reports & legal agreements'}
+                {activeTab === 'notices' && 'Official property management communications, circulars & community notices'}
+              </p>
             </div>
-            <h1 className="font-serif text-3xl font-bold text-slate-900 tracking-tight">
-              {activeTab === 'overview' && 'Resident Executive Suite'}
-              {activeTab === 'payments' && 'Rent Ledger & Digital Receipts'}
-              {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
-              {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
-              {activeTab === 'notices' && 'Building Circulars & Official Notices'}
-            </h1>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <div className="bg-white border border-stone-200 px-3.5 py-1.5 rounded-xl text-right shadow-sm">
+            <div className="bg-white border border-stone-200 px-3.5 py-1.5 rounded-xl text-right shadow-xs shrink-0">
               <div className="text-[10px] uppercase font-bold text-stone-400">Residence Address</div>
               <div className="text-xs font-semibold text-slate-800">
                 Unit {unit?.unit_number || 'N/A'}, {property?.name || 'Property'}
@@ -425,6 +418,9 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             </div>
           </div>
         </header>
+
+        {/* Decorative Dark Demarcation Line matching other portals */}
+        <hr className="border-t border-slate-800/80" />
 
         {/* TAB 1: OVERVIEW & RESIDENCE DASHBOARD */}
         {activeTab === 'overview' && (
@@ -436,7 +432,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                   <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
                     Contracted Monthly Rent
                   </span>
-                  <div className="p-2 bg-amber-50 rounded-lg text-amber-700 border border-amber-200">
+                  <div className="p-2 bg-cream-100 rounded-lg text-brand-700 border border-cream-300">
                     <CreditCard className="w-4 h-4" />
                   </div>
                 </div>
@@ -493,8 +489,8 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Residence Profile */}
               <div className="lg:col-span-2 bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-                <h2 className="font-serif text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-amber-600" />
+                <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-brand-600" />
                   Your Assigned Residence
                 </h2>
 
@@ -524,23 +520,23 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 <div className="flex flex-wrap gap-3 pt-4 border-t border-stone-100">
                   <button
                     onClick={() => setActiveTab('maintenance')}
-                    className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition-colors flex items-center gap-2"
+                    className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
                   >
                     <Wrench className="w-3.5 h-3.5" />
                     Submit Repair Ticket
                   </button>
                   <button
                     onClick={() => setActiveTab('payments')}
-                    className="px-4 py-2 bg-amber-50 text-amber-800 border border-amber-200 rounded-xl text-xs font-semibold hover:bg-amber-100 transition-colors flex items-center gap-2"
+                    className="px-4 py-2 bg-cream-100 text-stone-800 border border-cream-300 rounded-xl text-xs font-semibold hover:bg-cream-200 transition-colors flex items-center gap-2 cursor-pointer"
                   >
-                    <CreditCard className="w-3.5 h-3.5" />
+                    <CreditCard className="w-3.5 h-3.5 text-brand-600" />
                     View Payment Receipts
                   </button>
                   <button
                     onClick={() => setActiveTab('documents')}
-                    className="px-4 py-2 bg-stone-100 text-stone-700 border border-stone-200 rounded-xl text-xs font-semibold hover:bg-stone-200 transition-colors flex items-center gap-2"
+                    className="px-4 py-2 bg-stone-100 text-stone-700 border border-stone-200 rounded-xl text-xs font-semibold hover:bg-stone-200 transition-colors flex items-center gap-2 cursor-pointer"
                   >
-                    <FileText className="w-3.5 h-3.5" />
+                    <FileText className="w-3.5 h-3.5 text-stone-600" />
                     Download Lease Agreement
                   </button>
                 </div>
@@ -550,13 +546,13 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-serif text-base font-bold text-slate-900 flex items-center gap-2">
-                      <Bell className="w-4 h-4 text-amber-600" />
+                    <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                      <Bell className="w-4 h-4 text-brand-600" />
                       Building Bulletins
                     </h3>
                     <button
                       onClick={() => setActiveTab('notices')}
-                      className="text-xs font-semibold text-amber-700 hover:underline"
+                      className="text-xs font-semibold text-brand-700 hover:underline cursor-pointer"
                     >
                       View All
                     </button>
@@ -566,7 +562,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     {buildingNotices.slice(0, 2).map((notice) => (
                       <div key={notice.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/60">
                         <div className="flex items-center justify-between text-[11px] text-stone-500 mb-1">
-                          <span className="font-semibold text-amber-800 bg-amber-100/60 px-1.5 py-0.5 rounded">
+                          <span className="font-semibold text-stone-800 bg-stone-200/80 px-1.5 py-0.5 rounded text-[10px]">
                             {notice.type}
                           </span>
                           <span>{notice.date}</span>
@@ -592,13 +588,13 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-stone-100 gap-3">
                 <div>
-                  <h2 className="font-serif text-lg font-bold text-slate-900">Official Payment History & Receipts</h2>
+                  <h2 className="text-lg font-bold text-slate-900">Official Payment History & Receipts</h2>
                   <p className="text-xs text-stone-500">
                     All completed rent, service charge, and security deposit transactions with cryptographic receipt references.
                   </p>
                 </div>
-                <div className="text-xs text-stone-500 bg-stone-50 px-3 py-1.5 rounded-lg border border-stone-200">
-                  Total Records: <strong>{tenantPayments.length}</strong>
+                <div className="text-xs text-stone-500 bg-stone-50 px-3 py-1.5 rounded-lg border border-stone-200 font-medium">
+                  Total Records: <strong className="text-stone-800">{tenantPayments.length}</strong>
                 </div>
               </div>
 
@@ -647,7 +643,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                             <span className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                               p.status === 'Paid'
                                 ? 'bg-emerald-100 text-emerald-800'
-                                : 'bg-amber-100 text-amber-800'
+                                : 'bg-stone-200 text-stone-700'
                             }`}>
                               {p.status || 'Paid'}
                             </span>
@@ -655,9 +651,9 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                           <td className="py-3.5 px-3 text-right">
                             <button
                               onClick={() => openReceipt(p)}
-                              className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-slate-800 rounded-md font-semibold text-[11px] inline-flex items-center gap-1 transition-colors"
+                              className="px-2.5 py-1 bg-cream-100 hover:bg-cream-200 text-stone-800 border border-cream-300 rounded-md font-semibold text-[11px] inline-flex items-center gap-1 transition-colors cursor-pointer"
                             >
-                              <FileText className="w-3 h-3 text-amber-600" />
+                              <FileText className="w-3 h-3 text-brand-600" />
                               View Receipt
                             </button>
                           </td>
@@ -676,8 +672,8 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
           <div className="space-y-6">
             {/* Create New Request Card with Audio/Video/Photo attachments */}
             <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-              <h2 className="font-serif text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-amber-600" />
+              <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
+                <Wrench className="w-5 h-5 text-brand-600" />
                 Report an Issue or Maintenance Request
               </h2>
               <p className="text-xs text-stone-500 mb-6">
@@ -702,7 +698,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     <select
                       value={newRequestCategory}
                       onChange={(e) => setNewRequestCategory(e.target.value as MaintenanceCategory)}
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 font-medium"
+                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-brand-500 font-medium"
                     >
                       <option value="Plumbing">Plumbing & Water Fixtures</option>
                       <option value="Electrical">Electrical, Lighting & Power</option>
@@ -721,7 +717,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     <select
                       value={priority}
                       onChange={(e) => setPriority(e.target.value as MaintenancePriority)}
-                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 font-medium"
+                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-brand-500 font-medium"
                     >
                       <option value="Low">Low - Cosmetic / Routine</option>
                       <option value="Normal">Normal - Standard Priority (24-48 hrs)</option>
@@ -740,7 +736,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     value={newRequestDesc}
                     onChange={(e) => setNewRequestDesc(e.target.value)}
                     placeholder="Provide specific details (e.g. Master bathroom sink drain is leaking water into the under-sink vanity cupboard)..."
-                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3.5 text-xs text-slate-800 placeholder:text-stone-400 focus:outline-none focus:border-amber-500 resize-none font-medium"
+                    className="w-full bg-stone-50 border border-stone-200 rounded-xl p-3.5 text-xs text-slate-800 placeholder:text-stone-400 focus:outline-none focus:border-brand-500 resize-none font-medium"
                     required
                   />
                 </div>
@@ -757,7 +753,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                       <button
                         type="button"
                         onClick={startRecording}
-                        className="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors"
+                        className="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
                       >
                         <Mic className="w-3.5 h-3.5" />
                         Record Voicenote
@@ -766,7 +762,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                       <button
                         type="button"
                         onClick={stopRecording}
-                        className="px-3.5 py-2 bg-red-600 text-white rounded-xl text-xs font-semibold flex items-center gap-2 animate-pulse"
+                        className="px-3.5 py-2 bg-red-600 text-white rounded-xl text-xs font-semibold flex items-center gap-2 animate-pulse cursor-pointer"
                       >
                         <MicOff className="w-3.5 h-3.5" />
                         Stop Recording ({recordingDuration}s)
@@ -807,7 +803,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                             <button
                               type="button"
                               onClick={() => removeAttachment(att.id)}
-                              className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 z-10"
+                              className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 z-10 cursor-pointer"
                               title="Remove"
                             >
                               <X className="w-3 h-3" />
@@ -824,7 +820,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                               ) : isVideo ? (
                                 <div
                                   onClick={() => setActiveMediaModal({ type: 'video', url: att.url, title: att.name })}
-                                  className="flex flex-col items-center justify-center cursor-pointer text-stone-600 hover:text-amber-600"
+                                  className="flex flex-col items-center justify-center cursor-pointer text-stone-600 hover:text-brand-600"
                                 >
                                   <Video className="w-6 h-6 mb-1" />
                                   <span className="text-[9px] font-bold">Watch Video</span>
@@ -859,7 +855,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                   <button
                     type="submit"
                     disabled={isSubmitting || !newRequestDesc.trim()}
-                    className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition-colors shadow-xs disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
                   >
                     <Wrench className="w-4 h-4" />
                     {isSubmitting ? 'Logging Ticket...' : 'Submit Maintenance Request'}
@@ -870,7 +866,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
 
             {/* List of Previous Requests */}
             <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
-              <h3 className="font-serif text-base font-bold text-slate-900 mb-4">
+              <h3 className="text-base font-bold text-slate-900 mb-4">
                 Service Request History & Status
               </h3>
 
@@ -914,7 +910,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                       <div className="flex items-center gap-3">
                         {req.attachments && req.attachments.length > 0 && (
                           <div className="flex items-center gap-1.5 bg-white border border-stone-200 px-2.5 py-1 rounded-lg text-[11px] text-stone-600">
-                            <Paperclip className="w-3.5 h-3.5 text-amber-600" />
+                            <Paperclip className="w-3.5 h-3.5 text-brand-600" />
                             <span>{req.attachments.length} Attachment{req.attachments.length > 1 ? 's' : ''}</span>
                           </div>
                         )}
@@ -924,7 +920,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                             ? 'bg-emerald-100 text-emerald-800'
                             : req.status === 'In Progress'
                             ? 'bg-blue-100 text-blue-800'
-                            : 'bg-amber-100 text-amber-800'
+                            : 'bg-stone-200 text-stone-700'
                         }`}>
                           {req.status}
                         </span>
@@ -943,7 +939,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-stone-100">
                 <div>
-                  <h2 className="font-serif text-lg font-bold text-slate-900">Executed Tenancy Documents</h2>
+                  <h2 className="text-lg font-bold text-slate-900">Executed Tenancy Documents</h2>
                   <p className="text-xs text-stone-500">
                     Legally binding tenancy contracts, inventory sign-off, and inspection protocols.
                   </p>
@@ -958,7 +954,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 {/* Master Lease Agreement */}
                 <div className="p-4 bg-stone-50 border border-stone-200 rounded-xl flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3">
-                    <div className="p-2.5 bg-amber-500 text-slate-950 rounded-xl">
+                    <div className="p-2.5 bg-brand-600 text-white rounded-xl shadow-xs">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
@@ -973,7 +969,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                   </div>
                   <button
                     onClick={() => alert('Downloading official executed tenancy contract PDF...')}
-                    className="p-2 bg-white hover:bg-stone-100 border border-stone-200 rounded-lg text-slate-700 transition-colors"
+                    className="p-2 bg-white hover:bg-stone-100 border border-stone-200 rounded-lg text-slate-700 transition-colors cursor-pointer"
                     title="Download Contract"
                   >
                     <Download className="w-4 h-4" />
@@ -1065,7 +1061,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-stone-100">
                 <div>
-                  <h2 className="font-serif text-lg font-bold text-slate-900">Official Circulars & Community Notices</h2>
+                  <h2 className="text-lg font-bold text-slate-900">Official Circulars & Community Notices</h2>
                   <p className="text-xs text-stone-500">
                     Important alerts, service schedules, and building administration advisories.
                   </p>
@@ -1081,7 +1077,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-200/60 pb-3">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-xs text-slate-900">{notice.title}</span>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-900">
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-cream-200 text-stone-800 border border-cream-300">
                           {notice.type}
                         </span>
                       </div>
@@ -1118,7 +1114,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 relative overflow-hidden">
             <button
               onClick={() => setActiveMediaModal(null)}
-              className="absolute top-4 right-4 p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors"
+              className="absolute top-4 right-4 p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-slate-700 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -1127,10 +1123,10 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             {activeMediaModal.type === 'receipt' && (
               <div className="space-y-4">
                 <div className="text-center pb-4 border-b border-stone-200">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-2 font-bold font-serif text-xl">
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-xl">
                     ✓
                   </div>
-                  <h3 className="font-serif text-xl font-bold text-slate-900">Official Electronic Receipt</h3>
+                  <h3 className="text-xl font-bold text-slate-900">Official Electronic Receipt</h3>
                   <div className="text-xs text-stone-500 font-mono mt-0.5">
                     Transaction Ref: {activeMediaModal.metadata?.id}
                   </div>
