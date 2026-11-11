@@ -663,16 +663,16 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
 
                             {/* Estimate and actions */}
                             <div className="flex items-center gap-3 self-start sm:self-center">
-                              {req.estimated_cost !== undefined && (
+                              {req.estimated_cost !== undefined && req.estimated_cost !== null && (
                                 <div className="text-right">
                                   <span className="text-[10px] uppercase font-bold text-stone-400 block">Estimated Cost</span>
                                   <span className="font-bold text-sm text-stone-900">
-                                    {currencyConfig.symbol}{req.estimated_cost.toLocaleString()}
+                                    {currencyConfig?.symbol || '$'}{Number(req.estimated_cost || 0).toLocaleString()}
                                   </span>
                                 </div>
                               )}
 
-                              {isPending && representative.can_approve_maintenance && (
+                              {isPending && representative?.can_approve_maintenance && (
                                 <div className="flex items-center gap-1.5">
                                   <button
                                     onClick={() => handleRepresentativeAction(req.id, 'Approved')}
@@ -692,7 +692,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                           </div>
 
                           {/* Resolution / Delegate Audit trail if available */}
-                          {req.resolution_notes && (
+                          {Boolean(req.resolution_notes) && (
                             <div className="p-2.5 bg-purple-50/50 rounded-xl border border-purple-100 text-[11px] text-purple-900">
                               <span className="font-bold">Audit Log:</span> {req.resolution_notes}
                             </div>
@@ -701,7 +701,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                           <div className="flex items-center justify-between text-[11px] text-stone-400 pt-1 border-t border-stone-100">
                             <span>Ticket ID: {req.id}</span>
                             <span>Assigned Trade: {vendor?.name || 'In-House Facilities Staff'}</span>
-                            <span>Submitted: {req.created_at?.slice(0, 10)}</span>
+                            <span>Submitted: {req.created_at ? String(req.created_at).slice(0, 10) : 'Recent'}</span>
                           </div>
                         </div>
                       );
@@ -767,7 +767,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                         <div>
                           <span className="text-[10px] uppercase font-bold text-stone-400 block">Operating Costs</span>
                           <span className="font-bold text-sm text-stone-800">
-                            {currencyConfig.symbol}{pTotalSpent.toLocaleString()}
+                            {currencyConfig?.symbol || '$'}{Number(pTotalSpent || 0).toLocaleString()}
                           </span>
                         </div>
                       </div>

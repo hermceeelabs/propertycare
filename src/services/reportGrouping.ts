@@ -122,6 +122,20 @@ export function formatDayTitle(dateStr: string): string {
 }
 
 /**
+ * Format YYYY-MM-DD to human friendly "1st Nov 2026"
+ */
+export function formatReadableDate(dateStr: string): string {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-');
+  if (!y || !m || !d) return dateStr;
+  const day = parseInt(d, 10);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthName = months[parseInt(m, 10) - 1] || m;
+  const suffix = (day >= 11 && day <= 13) ? 'th' : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][day % 10] || 'th';
+  return `${day}${suffix} ${monthName} ${y}`;
+}
+
+/**
  * Return quarter string e.g. "Q1 (Jan – Mar 2026)"
  */
 export function getQuarterInfo(year: number, quarterNumber: 1 | 2 | 3 | 4): { id: string; label: string; months: string[] } {

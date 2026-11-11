@@ -12,7 +12,7 @@ import { Landlord, PropertyInspection, Expense, InspectionAttachment, ExpensePro
 import { DualCurrencyDisplay } from './DualCurrencyDisplay';
 import {
   ReportTimeFrame, getDateRangeForTimeFrame, getDateRangeForQuarter, formatMonthName,
-  formatDayTitle, getQuarterInfo, DEFAULT_ANCHOR_DATE, getRealWorldToday
+  formatDayTitle, formatReadableDate, getQuarterInfo, DEFAULT_ANCHOR_DATE, getRealWorldToday
 } from '../services/reportGrouping';
 
 interface LandlordReportViewProps {
@@ -1183,7 +1183,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
         <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
           <div className="flex items-center gap-2">
             <CalendarRange className="w-4 h-4 text-brand-600" />
-            <span>Active Reporting Window: <strong>{dateRange.startDate}</strong> through <strong>{dateRange.endDate}</strong></span>
+            <span>Active Reporting Window: <strong>{formatReadableDate(dateRange.startDate)}</strong> – <strong>{formatReadableDate(dateRange.endDate)}</strong></span>
           </div>
           <span className="text-[11px] font-mono text-stone-400">
             {timeFrame === 'all' ? 'All Historic Records' : timeFrame === 'multi_month' ? `Quarter Q${selectedQuarter}` : timeFrame.toUpperCase()}
@@ -1198,7 +1198,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-            Financial Performance & Remittance Metrics ({dateRange.startDate} → {dateRange.endDate})
+            Financial Performance & Remittance Metrics ({formatReadableDate(dateRange.startDate)} – {formatReadableDate(dateRange.endDate)})
           </span>
           <span className="text-[10px] font-mono text-stone-400">
             {selectedPropertyFilter === 'All' ? `${ownedProperties.length} Properties · ${ownedUnits.length} Units` : 'Filtered Property Scope'}

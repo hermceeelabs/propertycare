@@ -8,7 +8,7 @@ import {
 import { UserProfile, PropertyInspection, MaintenanceRequest, Notice, Communication, Task } from '../types/database';
 import {
   ReportTimeFrame, getDateRangeForTimeFrame, formatMonthName,
-  formatDayTitle, getQuarterInfo, DEFAULT_ANCHOR_DATE
+  formatDayTitle, formatReadableDate, getQuarterInfo, DEFAULT_ANCHOR_DATE
 } from '../services/reportGrouping';
 
 interface StaffReportViewProps {
@@ -494,7 +494,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
         <div className="pt-2 border-t border-stone-100 flex flex-wrap items-center justify-between text-xs text-stone-500">
           <div className="flex items-center gap-2">
             <CalendarRange className="w-4 h-4 text-brand-600" />
-            <span>Active Range: <strong>{dateRange.startDate}</strong> through <strong>{dateRange.endDate}</strong></span>
+            <span>Active Range: <strong>{formatReadableDate(dateRange.startDate)}</strong> – <strong>{formatReadableDate(dateRange.endDate)}</strong></span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] font-semibold text-stone-600">
