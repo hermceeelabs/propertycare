@@ -60,6 +60,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { can, isOwner } = usePermissions();
 
   const handleSignOut = async () => {
+    localStorage.removeItem('propertyflow_active_tab');
+    localStorage.removeItem('propertyflow_landlord_tab');
     await supabase.auth.signOut();
   };
 

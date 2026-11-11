@@ -24,6 +24,8 @@ export const Header: React.FC<HeaderProps> = ({
   const [showTasksModal, setShowTasksModal] = useState(false);
 
   const handleSignOut = async () => {
+    localStorage.removeItem('propertyflow_active_tab');
+    localStorage.removeItem('propertyflow_landlord_tab');
     await supabase.auth.signOut();
   };
 

@@ -155,6 +155,8 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
   };
 
   const handleSignOut = async () => {
+    localStorage.removeItem('propertyflow_active_tab');
+    localStorage.removeItem('propertyflow_landlord_tab');
     await supabase.auth.signOut();
     window.location.reload();
   };
