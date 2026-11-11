@@ -77,7 +77,9 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setCurrentCurrency(dbCurr);
       }
     });
-    return () => unsub();
+    return () => {
+      unsub();
+    };
   }, [currentCurrency]);
 
   const setCurrency = (code: CurrencyCode) => {

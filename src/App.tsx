@@ -89,7 +89,9 @@ export function App() {
     const unsubscribe = store.subscribe(() => {
       setDbState({ ...store.getState() });
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const pendingTasksCount = dbState.tasks.filter(t => t.status === 'Pending').length;

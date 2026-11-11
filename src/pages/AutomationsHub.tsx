@@ -48,7 +48,12 @@ export const AutomationsHub: React.FC<AutomationsHubProps> = ({
 
       {/* Tab View Render */}
       <div>
-        {activeTab === 'rules' && <AutomationsPage dbState={dbState} />}
+        {activeTab === 'rules' && (
+          <AutomationsPage
+            dbState={dbState}
+            onNavigateToLogs={() => setActiveTab('logs')}
+          />
+        )}
         {activeTab === 'logs' && <AutomationLogsPage dbState={dbState} />}
       </div>
     </div>

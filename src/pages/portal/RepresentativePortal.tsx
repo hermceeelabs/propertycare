@@ -67,7 +67,10 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
     email: 'david.adeyemi@adeyemiholdings.com',
     company_name: 'Adeyemi Asset Holdings Ltd',
     management_fee_percentage: 10.0,
-    authorized_representatives: []
+    remittance_frequency: 'Monthly',
+    authorized_representatives: [],
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z'
   };
 
   const representatives: LandlordDelegate[] = landlord.authorized_representatives || [];

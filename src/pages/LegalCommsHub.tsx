@@ -52,7 +52,10 @@ export const LegalCommsHub: React.FC<LegalCommsHubProps> = ({
       <div>
         {activeTab === 'notices' && <NoticesPage dbState={dbState} />}
         {activeTab === 'communications' && (
-          <CommunicationsPage dbState={dbState} onPreviewEmail={onPreviewEmail} />
+          <CommunicationsPage
+            dbState={dbState}
+            onPreviewEmail={(comm) => onPreviewEmail?.(comm.id)}
+          />
         )}
       </div>
     </div>

@@ -6,7 +6,7 @@ import {
   ChevronRight, Calendar, ArrowUpRight, Search, Landmark, ChevronDown, Sparkles, AlertCircle, Eye, Tag, Receipt, Mail
 } from 'lucide-react';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
-import { LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
+import { Landlord, LandlordDelegate, Property, Unit, Lease, MaintenanceRequest, Expense } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
 import { LandlordReportView } from '../../components/LandlordReportView';
 
@@ -107,14 +107,17 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
   };
 
   // Find the exact landlord record
-  const landlord = (dbState.landlords || []).find(l => l.id === landlordId) || dbState.landlords?.[0] || {
+  const landlord: Landlord = (dbState.landlords || []).find(l => l.id === landlordId) || dbState.landlords?.[0] || {
     id: 'landlord-1',
     first_name: 'David',
     last_name: 'Adeyemi',
     email: 'david.adeyemi@adeyemiholdings.com',
     company_name: 'Adeyemi Asset Holdings Ltd',
     management_fee_percentage: 10.0,
-    authorized_representatives: []
+    remittance_frequency: 'Monthly',
+    authorized_representatives: [],
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z'
   };
 
   const representatives: LandlordDelegate[] = landlord.authorized_representatives || [];

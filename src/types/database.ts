@@ -91,11 +91,16 @@ export type BusinessModel =
 export type AcquisitionType = 'Outright Purchase' | 'Long-Term Lease' | 'Financed / Mortgage';
 
 export interface LandlordContractTerms {
-  remittance_frequency: 'Monthly' | 'Quarterly' | 'Bi-Weekly' | 'Semi-Annual' | 'Yearly / Annual Upfront';
+  lease_type?: string;
+  payment_structure?: string;
+  duration_months?: number;
+  start_date?: string;
+  end_date?: string;
+  remittance_frequency?: 'Monthly' | 'Quarterly' | 'Bi-Weekly' | 'Semi-Annual' | 'Yearly / Annual Upfront';
   management_fee_percentage?: number;
   fixed_master_lease_rent?: number; // Fixed payment firm remits to landlord per cycle
-  contract_start_date: string;
-  contract_end_date: string;
+  contract_start_date?: string;
+  contract_end_date?: string;
   notes?: string;
 }
 
@@ -190,6 +195,7 @@ export interface Unit {
   unit_type: string;
   bedrooms: number;
   bathrooms: number;
+  square_feet?: number;
   monthly_rent: number;
   status: UnitStatus;
   rental_model?: RentalModel;
@@ -244,7 +250,7 @@ export interface TenantSnapshot {
   lease_end?: string;
 }
 
-export type PaymentStatus = 'Paid' | 'Pending' | 'Partially Paid' | 'Overdue';
+export type PaymentStatus = 'Paid' | 'Pending' | 'Partially Paid' | 'Overdue' | 'Late';
 
 export interface Payment {
   id: string;
@@ -252,6 +258,10 @@ export interface Payment {
   lease_id: string;
   amount_due: number;
   amount_paid: number;
+  amount?: number;
+  payment_type?: string;
+  payment_method?: string;
+  currency?: CurrencyCode;
   due_date: string;
   payment_date?: string;
   status: PaymentStatus;
@@ -277,8 +287,8 @@ export interface Vendor {
 }
 
 export type MaintenanceCategory = 'Plumbing' | 'Electrical' | 'HVAC' | 'Appliance' | 'Structural' | 'Pest' | 'General' | 'Other';
-export type MaintenancePriority = 'Low' | 'Normal' | 'High' | 'Emergency';
-export type MaintenanceStatus = 'New' | 'Assigned' | 'Vendor Accepted' | 'In Progress' | 'Awaiting Parts' | 'Completed' | 'Cancelled';
+export type MaintenancePriority = 'Low' | 'Normal' | 'High' | 'Emergency' | 'Urgent';
+export type MaintenanceStatus = 'New' | 'Assigned' | 'Vendor Accepted' | 'In Progress' | 'Awaiting Parts' | 'Completed' | 'Cancelled' | 'Pending' | 'Open';
 
 export interface MaintenanceAttachment {
   id: string;
@@ -303,7 +313,10 @@ export interface MaintenanceRequest {
   assigned_vendor_id?: string;
   attachments?: MaintenanceAttachment[];
   admin_notes?: string;
+  resolution_notes?: string;
   estimated_cost?: number;
+  actual_cost?: number;
+  reported_date?: string;
   scheduled_date?: string;
   tenant_snapshot?: TenantSnapshot;
   created_at: string;
@@ -362,16 +375,24 @@ export interface Expense {
 }
 
 export type NoticeType = 'Rent Increase (N1)' | 'Notice of Non-Payment (N4)' | 'Lease Renewal' | 'Lease End' | 'General Tenant Notice';
-export type NoticeStatus = 'Draft' | 'Awaiting Review' | 'Approved' | 'Sent' | 'Archived';
+export type NoticeStatus = 'Draft' | 'Awaiting Review' | 'Approved' | 'Sent' | 'Served' | 'Archived';
 
 export interface Notice {
   id: string;
   tenant_id: string;
   lease_id: string;
+  property_id?: string;
   notice_type: NoticeType;
+  form_type?: string;
+  title?: string;
+  body?: string;
+  reason?: string;
   status: NoticeStatus;
   effective_date: string;
+  issue_date?: string;
+  termination_date?: string;
   amount?: number;
+  amount_owing?: number;
   content: string;
   approved_at?: string;
   sent_at?: string;
@@ -449,6 +470,7 @@ export interface Task {
   id: string;
   assigned_to: string;
   task_type: string;
+  category?: string;
   title: string;
   description: string;
   priority: TaskPriority;
