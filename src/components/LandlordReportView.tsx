@@ -299,10 +299,10 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
           </div>
         )}
 
-        {/* SUBSECTION 2: MAINTENANCE EXPENSES & DEDUCTIONS */}
+        {/* SUBSECTION 2: MAINTENANCE EXPENSES & DEDUCTIONS (Hierarchically grouped by Property & Unit) */}
         {(categoryFilter === 'All' || categoryFilter === 'Expenses') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
+          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-rose-50 text-rose-700 rounded-lg">
                   <Wrench className="w-4 h-4" />
@@ -312,7 +312,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                     Operational Deductions & Contractor Invoices
                   </h4>
                   <p className="text-[11px] text-stone-500">
-                    Dispatched repair costs, vendor receipts, and verified proof attachments
+                    Dispatched repair costs, vendor receipts, and verified proof attachments categorized by property and unit
                   </p>
                 </div>
               </div>
@@ -324,56 +324,276 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
             {monthExpenses.length === 0 ? (
               <p className="text-xs text-stone-400 py-3 text-center">No maintenance expenses deducted for this month.</p>
             ) : (
-              <div className="space-y-3">
-                {monthExpenses.map(e => {
-                  const prop = ownedProperties.find(p => p.id === e.property_id);
-                  const nativeCurr = getPropNativeCurrency(prop?.id);
+              <div className="space-y-4">
+                {/* 1. Property-by-Property & Unit Breakdown Table */}
+                <div className="overflow-x-auto rounded-xl border border-stone-200 bg-stone-50/50">
+                  <table className="w-full text-left border-collapse text-xs">
+                    <thead>
+                      <tr className="border-b border-stone-200 bg-stone-100/70 text-[10px] uppercase font-bold text-stone-500 tracking-wider">
+                        <th className="py-2.5 px-3">Property / Estate</th>
+                        <th className="py-2.5 px-3">Unit / Suite</th>
+                        <th className="py-2.5 px-3">Scope</th>
+                        <th className="py-2.5 px-3 text-center">Expense Count</th>
+                        <th className="py-2.5 px-3 text-right">Total Deductions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-200/70 text-stone-700">
+                      {ownedProperties.map(prop => {
+                        const propExpenses = monthExpenses.filter(e => e.property_id === prop.id);
+                        if (propExpenses.length === 0) return null;
+                        const propNativeCurr = getPropNativeCurrency(prop.id);
 
-                  return (
-                    <div key={e.id} className="p-3 bg-stone-50 rounded-xl border border-stone-200/80 space-y-2">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
+                        // Group by unit within this property
+                        const unitsInProp = (dbState.units || []).filter(u => u.property_id === prop.id);
+                        const unitGroups: { [unitId: string]: typeof propExpenses } = {};
+                        const commonAreaExpenses: typeof propExpenses = [];
+
+                        propExpenses.forEach(e => {
+                          if (e.unit_id) {
+                            if (!unitGroups[e.unit_id]) unitGroups[e.unit_id] = [];
+                            unitGroups[e.unit_id].push(e);
+                          } else {
+                            commonAreaExpenses.push(e);
+                          }
+                        });
+
+                        const rows = [];
+
+                        // Unit-level rows
+                        Object.entries(unitGroups).forEach(([uId, uExps]) => {
+                          const unitObj = unitsInProp.find(u => u.id === uId);
+                          const uTotal = uExps.reduce((s, e) => s + (e.amount || 0), 0);
+
+                          rows.push(
+                            <tr key={`${prop.id}-${uId}`} className="hover:bg-white/80 transition-colors">
+                              <td className="py-2.5 px-3 font-bold text-stone-900">{prop.name}</td>
+                              <td className="py-2.5 px-3">
+                                <span className="font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200/60 font-mono text-[11px]">
+                                  Suite {unitObj?.unit_number || uId}
+                                </span>
+                              </td>
+                              <td className="py-2.5 px-3 text-[11px] text-stone-500">Unit Specific</td>
+                              <td className="py-2.5 px-3 text-center font-bold text-stone-700">{uExps.length}</td>
+                              <td className="py-2.5 px-3 text-right font-mono font-bold text-rose-600">
+                                <DualCurrencyDisplay
+                                  amount={uTotal}
+                                  sourceCurrency={propNativeCurr}
+                                  amountClassName="font-bold font-mono text-rose-600"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        });
+
+                        // Common areas row (if any)
+                        if (commonAreaExpenses.length > 0) {
+                          const commonTotal = commonAreaExpenses.reduce((s, e) => s + (e.amount || 0), 0);
+                          rows.push(
+                            <tr key={`${prop.id}-common`} className="hover:bg-white/80 transition-colors">
+                              <td className="py-2.5 px-3 font-bold text-stone-900">{prop.name}</td>
+                              <td className="py-2.5 px-3 text-stone-500 italic text-[11px]">Building Common Area</td>
+                              <td className="py-2.5 px-3 text-[11px] text-stone-500">Facility / Estate</td>
+                              <td className="py-2.5 px-3 text-center font-bold text-stone-700">{commonAreaExpenses.length}</td>
+                              <td className="py-2.5 px-3 text-right font-mono font-bold text-rose-600">
+                                <DualCurrencyDisplay
+                                  amount={commonTotal}
+                                  sourceCurrency={propNativeCurr}
+                                  amountClassName="font-bold font-mono text-rose-600"
+                                />
+                              </td>
+                            </tr>
+                          );
+                        }
+
+                        return rows;
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 2. Itemized Expense Cards Grouped By Property & Unit */}
+                <div className="space-y-4 pt-1">
+                  {ownedProperties.map(prop => {
+                    const propExpenses = monthExpenses.filter(e => e.property_id === prop.id);
+                    if (propExpenses.length === 0) return null;
+                    const propNativeCurr = getPropNativeCurrency(prop.id);
+                    const unitsInProp = (dbState.units || []).filter(u => u.property_id === prop.id);
+
+                    // Group by unit within property
+                    const unitMap = new Map<string, typeof propExpenses>();
+                    const unassigned: typeof propExpenses = [];
+
+                    propExpenses.forEach(e => {
+                      if (e.unit_id) {
+                        const cur = unitMap.get(e.unit_id) || [];
+                        cur.push(e);
+                        unitMap.set(e.unit_id, cur);
+                      } else {
+                        unassigned.push(e);
+                      }
+                    });
+
+                    return (
+                      <div key={prop.id} className="rounded-xl border border-stone-200 bg-stone-50/40 p-3.5 space-y-3">
+                        {/* Property Subheader */}
+                        <div className="flex items-center justify-between pb-2 border-b border-stone-200">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-bold text-stone-900">{e.date}</span>
-                            <span className="font-semibold text-xs text-stone-800">{prop?.name}</span>
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-stone-200 text-stone-800">
-                              {e.category}
-                            </span>
+                            <Building2 className="w-4 h-4 text-brand-600" />
+                            <h5 className="font-bold text-xs text-stone-900 uppercase tracking-wide">
+                              {prop.name}
+                            </h5>
                           </div>
-                          <p className="text-xs text-stone-600 mt-1">{e.description}</p>
+                          <span className="text-[11px] text-stone-500 font-medium">
+                            {propExpenses.length} deduction{propExpenses.length !== 1 ? 's' : ''}
+                          </span>
                         </div>
-                        <div className="text-right">
-                          <DualCurrencyDisplay
-                            amount={e.amount || 0}
-                            sourceCurrency={nativeCurr}
-                            amountClassName="text-sm font-black font-mono text-rose-600"
-                          />
+
+                        {/* Unit Clusters */}
+                        <div className="space-y-3">
+                          {Array.from(unitMap.entries()).map(([uId, uExpenses]) => {
+                            const unitObj = unitsInProp.find(u => u.id === uId);
+                            const uTotal = uExpenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+                            return (
+                              <div key={uId} className="bg-white rounded-xl border border-stone-200 p-3 shadow-2xs space-y-2">
+                                <div className="flex items-center justify-between pb-1.5 border-b border-stone-100">
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                                    <span className="font-bold text-xs text-stone-900">
+                                      Suite {unitObj?.unit_number || uId}
+                                    </span>
+                                    <span className="text-[10px] text-stone-400">
+                                      ({unitObj?.bedrooms || 1} Bed · {unitObj?.bathrooms || 1} Bath)
+                                    </span>
+                                  </div>
+                                  <div className="text-right">
+                                    <DualCurrencyDisplay
+                                      amount={uTotal}
+                                      sourceCurrency={propNativeCurr}
+                                      amountClassName="text-xs font-black font-mono text-rose-600"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                  {uExpenses.map(e => (
+                                    <div key={e.id} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                                      <div>
+                                        <div className="flex items-center gap-2">
+                                          <span className="font-mono text-[11px] text-stone-500">{e.date}</span>
+                                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-stone-200 text-stone-800">
+                                            {e.category}
+                                          </span>
+                                          {e.invoice_number && (
+                                            <span className="text-[10px] font-mono text-stone-400">
+                                              #{e.invoice_number}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <p className="text-[11px] text-stone-600 mt-0.5">{e.description}</p>
+                                      </div>
+
+                                      <div className="flex items-center gap-2 shrink-0">
+                                        <DualCurrencyDisplay
+                                          amount={e.amount || 0}
+                                          sourceCurrency={propNativeCurr}
+                                          amountClassName="font-bold font-mono text-rose-600 text-xs"
+                                        />
+
+                                        {e.proofs && e.proofs.length > 0 && (
+                                          <div className="flex items-center gap-1">
+                                            {e.proofs.map(proof => (
+                                              <button
+                                                key={proof.id}
+                                                onClick={() => setActiveMediaModal({
+                                                  type: proof.type === 'video' ? 'video' : 'photo',
+                                                  url: proof.url,
+                                                  title: proof.name,
+                                                  caption: proof.caption || proof.description
+                                                })}
+                                                className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
+                                                title="View proof receipt/invoice"
+                                              >
+                                                <Paperclip className="w-3 h-3 text-rose-600" />
+                                                Proof
+                                              </button>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {/* Common Area / Facility Expenses (if any) */}
+                          {unassigned.length > 0 && (
+                            <div className="bg-white rounded-xl border border-stone-200 p-3 shadow-2xs space-y-2">
+                              <div className="flex items-center justify-between pb-1.5 border-b border-stone-100">
+                                <div className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-stone-400"></span>
+                                  <span className="font-bold text-xs text-stone-700 italic">
+                                    Estate & Building Common Facilities
+                                  </span>
+                                </div>
+                                <DualCurrencyDisplay
+                                  amount={unassigned.reduce((s, e) => s + (e.amount || 0), 0)}
+                                  sourceCurrency={propNativeCurr}
+                                  amountClassName="text-xs font-black font-mono text-rose-600"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                {unassigned.map(e => (
+                                  <div key={e.id} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-mono text-[11px] text-stone-500">{e.date}</span>
+                                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-stone-200 text-stone-800">
+                                          {e.category}
+                                        </span>
+                                      </div>
+                                      <p className="text-[11px] text-stone-600 mt-0.5">{e.description}</p>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 shrink-0">
+                                      <DualCurrencyDisplay
+                                        amount={e.amount || 0}
+                                        sourceCurrency={propNativeCurr}
+                                        amountClassName="font-bold font-mono text-rose-600 text-xs"
+                                      />
+                                      {e.proofs && e.proofs.length > 0 && (
+                                        <div className="flex items-center gap-1">
+                                          {e.proofs.map(proof => (
+                                            <button
+                                              key={proof.id}
+                                              onClick={() => setActiveMediaModal({
+                                                type: proof.type === 'video' ? 'video' : 'photo',
+                                                url: proof.url,
+                                                title: proof.name,
+                                                caption: proof.caption || proof.description
+                                              })}
+                                              className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
+                                            >
+                                              <Paperclip className="w-3 h-3 text-rose-600" />
+                                              Proof
+                                            </button>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
-
-                      {e.proofs && e.proofs.length > 0 && (
-                        <div className="flex items-center gap-2 pt-1 border-t border-stone-200/60">
-                          <span className="text-[10px] font-bold uppercase text-stone-400">Invoices & Proofs:</span>
-                          {e.proofs.map(proof => (
-                            <button
-                              key={proof.id}
-                              onClick={() => setActiveMediaModal({
-                                type: proof.type === 'video' ? 'video' : 'photo',
-                                url: proof.url,
-                                title: proof.name,
-                                caption: proof.description
-                              })}
-                              className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
-                            >
-                              <Paperclip className="w-3 h-3 text-rose-600" />
-                              {proof.name}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
