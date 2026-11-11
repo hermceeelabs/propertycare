@@ -1054,55 +1054,6 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   return (
     <div className="space-y-6">
       {/* =========================================================================
-          STANDALONE ALL-TIME PORTFOLIO FINANCIAL KPI CARDS
-          ========================================================================= */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-            All-Time Portfolio Performance & Remittance Metrics
-          </span>
-          <span className="text-[10px] font-mono text-stone-400">
-            {allTimeStats.totalAssets} Properties · {allTimeStats.totalUnits} Units Total
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">All-Time Inflow Collections</span>
-            <div className="text-2xl font-black text-stone-900 font-mono">
-              {currencyConfig.symbol}{allTimeStats.grossRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-            </div>
-            <span className="text-[11px] text-stone-500">Gross rent & shortlet receipts</span>
-          </div>
-
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">All-Time Management Fees</span>
-            <div className="text-2xl font-black text-stone-700 font-mono">
-              -{currencyConfig.symbol}{allTimeStats.firmFees.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-            </div>
-            <span className="text-[11px] text-stone-500">Retained firm management split</span>
-          </div>
-
-          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">All-Time Expenses & Deductions</span>
-            <div className="text-2xl font-black text-rose-600 font-mono">
-              -{currencyConfig.symbol}{allTimeStats.totalExpenses.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-            </div>
-            <span className="text-[11px] text-rose-700/80 font-medium">Repairs, maintenance & operating costs</span>
-          </div>
-
-          <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl shadow-xs space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900">All-Time Net Remitted Payout</span>
-            <div className="text-2xl font-black text-emerald-800 font-mono">
-              {currencyConfig.symbol}{allTimeStats.netRemitted.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-            </div>
-            <span className="text-[11px] text-emerald-700 font-bold">Total net funds remitted to landlord</span>
-          </div>
-        </div>
-      </div>
-
-      {/* =========================================================================
           CONTROL & FILTER BAR (2 HORIZONTAL ROWS)
           ========================================================================= */}
       <div className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs space-y-4">
@@ -1226,19 +1177,63 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
           </button>
         </div>
 
-        {/* ACTIVE PERIOD SUMMARY STRIP */}
-        <div className="pt-2 border-t border-stone-100 flex flex-wrap items-center justify-between text-xs text-stone-500">
+        {/* ACTIVE PERIOD DATE STRIP */}
+        <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
           <div className="flex items-center gap-2">
             <CalendarRange className="w-4 h-4 text-brand-600" />
-            <span>Active Period: <strong>{dateRange.startDate}</strong> through <strong>{dateRange.endDate}</strong></span>
+            <span>Active Reporting Window: <strong>{dateRange.startDate}</strong> through <strong>{dateRange.endDate}</strong></span>
+          </div>
+          <span className="text-[11px] font-mono text-stone-400">
+            {timeFrame === 'all' ? 'All Historic Records' : timeFrame === 'multi_month' ? `Quarter Q${selectedQuarter}` : timeFrame.toUpperCase()}
+          </span>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          DYNAMIC FINANCIAL KPI CARDS (LINKED DIRECTLY TO ACTIVE FILTER WINDOW)
+          ========================================================================= */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-brand-600" />
+            Financial Performance & Remittance Metrics ({dateRange.startDate} → {dateRange.endDate})
+          </span>
+          <span className="text-[10px] font-mono text-stone-400">
+            {selectedPropertyFilter === 'All' ? `${ownedProperties.length} Properties · ${ownedUnits.length} Units` : 'Filtered Property Scope'}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Inflow Collections</span>
+            <div className="text-2xl font-black text-stone-900 font-mono">
+              {currencyConfig.symbol}{periodStats.grossCollected.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </div>
+            <span className="text-[11px] text-stone-500">Gross rent & shortlet receipts</span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px] font-semibold text-stone-600">
-            <span>Collected Rent: <strong className="text-stone-900 font-mono">{currencyConfig.symbol}{periodStats.grossCollected.toLocaleString()}</strong></span>
-            <span>·</span>
-            <span>Expenses: <strong className="text-rose-600 font-mono">-{currencyConfig.symbol}{periodStats.expensesTotal.toLocaleString()}</strong></span>
-            <span>·</span>
-            <span>Net Remittance: <strong className="text-emerald-600 font-mono">{currencyConfig.symbol}{periodStats.netRemitted.toLocaleString()}</strong></span>
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Management Fees</span>
+            <div className="text-2xl font-black text-stone-700 font-mono">
+              -{currencyConfig.symbol}{periodStats.firmFees.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </div>
+            <span className="text-[11px] text-stone-500">Retained firm management split</span>
+          </div>
+
+          <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Period Expenses & Deductions</span>
+            <div className="text-2xl font-black text-rose-600 font-mono">
+              -{currencyConfig.symbol}{periodStats.expensesTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </div>
+            <span className="text-[11px] text-rose-700/80 font-medium">Repairs, maintenance & operating costs</span>
+          </div>
+
+          <div className="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-2xl shadow-xs space-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-900">Period Net Remitted Payout</span>
+            <div className="text-2xl font-black text-emerald-800 font-mono">
+              {currencyConfig.symbol}{periodStats.netRemitted.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </div>
+            <span className="text-[11px] text-emerald-700 font-bold">Total net funds remitted to landlord</span>
           </div>
         </div>
       </div>
