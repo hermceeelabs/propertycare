@@ -5,8 +5,10 @@ import {
   AlertCircle, Download, Printer, User, Filter, ArrowUpRight, ArrowDownRight,
   ClipboardCheck, Eye, Search, Landmark
 } from 'lucide-react';
-import { DatabaseState } from '../services/supabase';
+import { DatabaseState, supabase } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
+import { StaffReportView } from '../components/StaffReportView';
+import { UserProfile } from '../types/database';
 
 interface ReportsProps {
   dbState: DatabaseState;
@@ -14,10 +16,21 @@ interface ReportsProps {
 
 export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   const { formatMoney, convertToCAD, currencyConfig } = useCurrency();
-  const [reportView, setReportView] = useState<'daily' | 'landlords' | 'capital'>('daily');
+  const [reportView, setReportView] = useState<'daily' | 'landlords' | 'staff' | 'capital'>('daily');
   const [selectedDate, setSelectedDate] = useState('2026-08-20');
   const [landlordFilter, setLandlordFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [staffProfiles, setStaffProfiles] = useState<UserProfile[]>([]);
+
+  // Fetch staff list for the Staff Performance tab
+  React.useEffect(() => {
+    supabase
+      .from('staffs')
+      .select('*')
+      .then(({ data }) => {
+        if (data) setStaffProfiles(data as UserProfile[]);
+      });
+  }, []);
 
   // 1. Gather all unique event dates across the system
   const allRecordedDates = Array.from(new Set([
@@ -165,6 +178,16 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             }`}
           >
             <Landmark className="w-3.5 h-3.5" /> Landlord Statements
+          </button>
+          <button
+            onClick={() => setReportView('staff')}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              reportView === 'staff'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+            }`}
+          >
+            <User className="w-3.5 h-3.5" /> Staff Operations Journal
           </button>
           <button
             onClick={() => setReportView('capital')}
@@ -584,7 +607,14 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
       )}
 
       {/* ============================================================== */}
-      {/* VIEW 3: CAPITAL BREAK-EVEN & ACQUISITION MATRIX                */}
+      {/* VIEW 3: STAFF OPERATIONS JOURNAL & PERFORMANCE REPORT           */}
+      {/* ============================================================== */}
+      {reportView === 'staff' && (
+        <StaffReportView dbState={dbState} staffProfiles={staffProfiles} />
+      )}
+
+      {/* ============================================================== */}
+      {/* VIEW 4: CAPITAL BREAK-EVEN & ACQUISITION MATRIX                */}
       {/* ============================================================== */}
       {reportView === 'capital' && (
         <div className="space-y-6">

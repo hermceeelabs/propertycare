@@ -9,6 +9,7 @@ import {
 import { useCurrency, CURRENCIES, CurrencyCode } from '../../context/CurrencyContext';
 import { MaintenanceAttachment, MaintenancePriority, MaintenanceCategory, MaintenanceStatus } from '../../types/database';
 import { DualCurrencyDisplay } from '../../components/DualCurrencyDisplay';
+import { TenantReportView } from '../../components/TenantReportView';
 
 interface TenantPortalProps {
   dbState: DatabaseState;
@@ -22,7 +23,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   onClosePreview
 }) => {
   const { formatMoney, currentCurrency, setCurrency, currencyConfig } = useCurrency();
-  const [activeTab, setActiveTab] = useState<'overview' | 'payments' | 'maintenance' | 'documents' | 'notices'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'payments' | 'maintenance' | 'documents' | 'notices' | 'reports'>('overview');
   
   // Selected Tenant based on passed-in tenantId
   const tenant = dbState.tenants.find(t => t.id === tenantId) || dbState.tenants[0];
@@ -370,6 +371,20 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               </div>
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('reports')}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                activeTab === 'reports'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
+                  : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <FileText className="w-4 h-4" />
+                <span>Reports & Audits</span>
+              </div>
+            </button>
           </nav>
         </div>
 
@@ -399,6 +414,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
                 {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
                 {activeTab === 'notices' && 'Building Circulars & Official Notices'}
+                {activeTab === 'reports' && 'Resident Statements & Periodic Reports'}
               </h1>
               <span className="hidden sm:inline text-cream-400 font-light">|</span>
               <p className="text-sm text-stone-600">
@@ -407,6 +423,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 {activeTab === 'maintenance' && 'Submit repair tickets with photos, video and voice notes & track contractor dispatches'}
                 {activeTab === 'documents' && 'Official executed tenancy contracts, inventory reports & legal agreements'}
                 {activeTab === 'notices' && 'Official property management communications, circulars & community notices'}
+                {activeTab === 'reports' && 'Hierarchical statements by month, quarter, and day covering rent, inspections, and dispatches'}
               </p>
             </div>
 
@@ -1105,6 +1122,23 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               </div>
             </div>
           </div>
+        )}
+
+        {/* TAB 6: HIERARCHICAL REPORTS & AUDIT STATEMENTS */}
+        {activeTab === 'reports' && (
+          <TenantReportView
+            dbState={dbState}
+            tenant={tenant}
+            lease={lease}
+            unit={unit}
+            property={property}
+            onOpenReceipt={(payment) => openReceipt(payment)}
+            onOpenMedia={(media) => setActiveMediaModal({
+              type: media.type,
+              url: media.url,
+              title: media.title
+            })}
+          />
         )}
       </main>
 
