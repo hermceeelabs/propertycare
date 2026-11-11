@@ -26,7 +26,7 @@ export const SettingsPage: React.FC<SettingsProps> = ({ dbState }) => {
   const [editingTemplate, setEditingTemplate] = useState<RoleTemplate | null>(null);
   const [isLoadingAccess, setIsLoadingAccess] = useState(false);
 
-  // Fetch role templates and staff profiles
+  // Fetch role templates and staff records
   const fetchAccessData = async () => {
     setIsLoadingAccess(true);
     try {
@@ -36,11 +36,11 @@ export const SettingsPage: React.FC<SettingsProps> = ({ dbState }) => {
         .order('name');
       if (templates) setRoleTemplates(templates as RoleTemplate[]);
 
-      const { data: profiles } = await supabase
-        .from('profiles')
+      const { data: staffList } = await supabase
+        .from('staffs')
         .select('*')
         .order('created_at', { ascending: false });
-      if (profiles) setStaffProfiles(profiles as UserProfile[]);
+      if (staffList) setStaffProfiles(staffList as UserProfile[]);
     } catch (err) {
       console.error('Error fetching access control data:', err);
     } finally {
@@ -56,7 +56,7 @@ export const SettingsPage: React.FC<SettingsProps> = ({ dbState }) => {
     const newStatus = staff.status === 'Active' ? 'Suspended' : 'Active';
     try {
       await supabase
-        .from('profiles')
+        .from('staffs')
         .update({ status: newStatus, updated_at: new Date().toISOString() })
         .eq('id', staff.id);
       

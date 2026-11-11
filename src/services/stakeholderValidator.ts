@@ -41,10 +41,10 @@ export async function checkEmailConflict(email: string, ignoreId?: string): Prom
     // Fallback or continue
   }
 
-  // 2. Check Profiles (Company Staff strictly)
+  // 2. Check Staffs (Company Staff strictly)
   try {
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('staffs')
       .select('id, email, full_name, user_type')
       .eq('email', normalizedEmail)
       .maybeSingle();

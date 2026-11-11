@@ -139,9 +139,9 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 1. CHECK PROFILES TABLE FIRST (Company Staff & Operations Specialists strictly)
+      // 1. CHECK STAFFS TABLE FIRST (Company Staff & Operations Specialists strictly)
       const { data: profileMatch } = await supabase
-        .from('profiles')
+        .from('staffs')
         .select('*')
         .eq('email', email)
         .maybeSingle();

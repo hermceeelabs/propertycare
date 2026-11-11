@@ -94,9 +94,9 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
         updated_at: new Date().toISOString()
       };
 
-      // Save to Supabase profiles
+      // Save to Supabase staffs table
       const { data, error } = await supabase
-        .from('profiles')
+        .from('staffs')
         .upsert(newProfile, { onConflict: 'email' })
         .select()
         .single();
