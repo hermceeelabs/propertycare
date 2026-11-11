@@ -23,7 +23,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || (i
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v8';
+const STORAGE_KEY = 'propertyflow_db_v9';
 
 export interface DatabaseState {
   landlords: Landlord[];
@@ -112,13 +112,20 @@ function loadInitialState(): DatabaseState {
     if (saved) {
       const parsed = JSON.parse(saved);
       // Only overlay user runtime modifications if they align with the canonical property registry
-      if (parsed && Array.isArray(parsed.properties) && parsed.properties.length === baseState.properties.length) {
+      if (parsed && Array.isArray(parsed.properties) && parsed.properties.length >= baseState.properties.length) {
         return {
           ...baseState,
           ...parsed,
-          // Re-enforce canonical ownership and property definitions so stale local caches never leak rogue landlord associations
-          properties: baseState.properties,
-          landlords: baseState.landlords
+          properties: parsed.properties.map((pp: Property) => {
+            const baseProp = baseState.properties.find(bp => bp.id === pp.id);
+            return {
+              ...(baseProp || pp),
+              ...pp,
+              landlord_id: pp.landlord_id ?? baseProp?.landlord_id,
+              landlord_contract: pp.landlord_contract || baseProp?.landlord_contract
+            };
+          }),
+          landlords: parsed.landlords || baseState.landlords
         };
       }
     }
@@ -164,9 +171,49 @@ class StoreManager {
         supabase.from('landlords').select('*')
       ]);
 
-      if (props && props.length > 0) this.state.properties = props as any;
-      if (units && units.length > 0) this.state.units = units as any;
-      if (tenants && tenants.length > 0) this.state.tenants = tenants as any;
+      // Merge properties: preserve local landlord_contract & acquisition fields
+      const jsonProps: Property[] = (databaseJson as any)?.properties || [];
+      if (props && props.length > 0) {
+        this.state.properties = (props as any[]).map(remoteProp => {
+          const match = jsonProps.find(jp => jp.id === remoteProp.id);
+          return {
+            ...remoteProp,
+            landlord_contract: remoteProp.landlord_contract || match?.landlord_contract,
+            acquisition: remoteProp.acquisition || match?.acquisition,
+            ownership_type: remoteProp.ownership_type || match?.ownership_type,
+            business_model: remoteProp.business_model || match?.business_model
+          };
+        });
+      } else {
+        this.state.properties = jsonProps;
+      }
+
+      // Merge units: preserve local management_fee_percentage & rental_model
+      const jsonUnits: Unit[] = (databaseJson as any)?.units || [];
+      if (units && units.length > 0) {
+        this.state.units = (units as any[]).map(remoteUnit => {
+          const match = jsonUnits.find(ju => ju.id === remoteUnit.id);
+          return {
+            ...remoteUnit,
+            management_fee_percentage: remoteUnit.management_fee_percentage ?? match?.management_fee_percentage,
+            rental_model: remoteUnit.rental_model || match?.rental_model || 'Long-Term',
+            nightly_rate: remoteUnit.nightly_rate ?? match?.nightly_rate,
+            cleaning_fee: remoteUnit.cleaning_fee ?? match?.cleaning_fee
+          };
+        });
+      } else {
+        this.state.units = jsonUnits;
+      }
+
+      // Merge tenants: preserve local tenants
+      const jsonTenants: Tenant[] = (databaseJson as any)?.tenants || [];
+      if (tenants && tenants.length > 0) {
+        const remoteIds = new Set((tenants as any[]).map(t => t.id));
+        const missingTenants = jsonTenants.filter(t => !remoteIds.has(t.id));
+        this.state.tenants = [...(tenants as any[]), ...missingTenants];
+      } else {
+        this.state.tenants = jsonTenants;
+      }
       
       // Merge leases: preserve versioned local leases (e.g. shortlet & updated leases)
       const jsonLeases: Lease[] = (databaseJson as any)?.leases || [];
@@ -242,6 +289,25 @@ class StoreManager {
         const currentIds = new Set(this.state.shortlet_bookings.map(b => b.id));
         const missingShortlets = jsonShortlets.filter(b => !currentIds.has(b.id));
         this.state.shortlet_bookings = [...this.state.shortlet_bookings, ...missingShortlets];
+      }
+
+      // Ensure notices and communications are populated and preserved
+      const jsonNotices: Notice[] = (databaseJson as any)?.notices || [];
+      if (!this.state.notices || this.state.notices.length === 0) {
+        this.state.notices = jsonNotices;
+      } else {
+        const currentIds = new Set(this.state.notices.map(n => n.id));
+        const missingNotices = jsonNotices.filter(n => !currentIds.has(n.id));
+        this.state.notices = [...this.state.notices, ...missingNotices];
+      }
+
+      const jsonComms: Communication[] = (databaseJson as any)?.communications || [];
+      if (!this.state.communications || this.state.communications.length === 0) {
+        this.state.communications = jsonComms;
+      } else {
+        const currentIds = new Set(this.state.communications.map(c => c.id));
+        const missingComms = jsonComms.filter(c => !currentIds.has(c.id));
+        this.state.communications = [...this.state.communications, ...missingComms];
       }
 
       this.saveState();
@@ -548,10 +614,36 @@ class StoreManager {
     }
   }
 
-  updatePropertyAcquisition(propertyId: string, acquisition: any) {
-    this.state.properties = this.state.properties.map(p => 
-      p.id === propertyId ? { ...p, acquisition, updated_at: new Date().toISOString() } : p
-    );
+  updatePropertyAcquisition(propertyId: string, acquisition: any, managementFeePercentage?: number, applyCommissionToAllUnits?: boolean) {
+    const updated_at = new Date().toISOString();
+    this.state.properties = this.state.properties.map(p => {
+      if (p.id !== propertyId) return p;
+      const updatedContract = {
+        ...(p.landlord_contract || {
+          lease_type: p.business_model || 'Direct Management',
+          payment_structure: 'Monthly' as const,
+          duration_months: 12,
+          start_date: '2026-01-01',
+          end_date: '2026-12-31'
+        }),
+        ...(managementFeePercentage !== undefined ? { management_fee_percentage: managementFeePercentage } : {})
+      };
+      return {
+        ...p,
+        acquisition,
+        landlord_contract: updatedContract as any,
+        updated_at
+      };
+    });
+
+    if (applyCommissionToAllUnits && managementFeePercentage !== undefined) {
+      this.state.units = this.state.units.map(u =>
+        u.property_id === propertyId
+          ? { ...u, management_fee_percentage: managementFeePercentage, updated_at }
+          : u
+      );
+    }
+
     this.saveState();
   }
 

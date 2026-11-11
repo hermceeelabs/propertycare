@@ -44,6 +44,33 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
     ? dbState.properties.filter(p => p.landlord_id === activeLandlord.id)
     : [];
 
+  // Helper to compute effective commission range across a landlord's properties & units
+  const getLandlordCommissionLabel = (landlordId: string) => {
+    const props = dbState.properties.filter(p => p.landlord_id === landlordId);
+    const propIds = new Set(props.map(p => p.id));
+    const units = dbState.units.filter(u => propIds.has(u.property_id));
+    const rates: number[] = [];
+
+    units.forEach(u => {
+      const prop = props.find(p => p.id === u.property_id);
+      const rate = u.management_fee_percentage ?? prop?.landlord_contract?.management_fee_percentage ?? 10;
+      rates.push(rate);
+    });
+
+    if (rates.length === 0) {
+      props.forEach(p => {
+        if (p.landlord_contract?.management_fee_percentage !== undefined) {
+          rates.push(p.landlord_contract.management_fee_percentage);
+        }
+      });
+    }
+
+    if (rates.length === 0) return 'Per Property / Suite';
+    const min = Math.min(...rates);
+    const max = Math.max(...rates);
+    return min === max ? `${min}% (All Suites)` : `${min}% – ${max}% (Per Suite)`;
+  };
+
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
       {/* Landlord Detail View */}
@@ -94,8 +121,8 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
             {/* Quick Financial Summary for Landlord */}
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
               <div>
-                <span className="text-slate-500 block">Mgmt Fee</span>
-                <strong className="text-slate-900 text-sm font-extrabold">{activeLandlord.management_fee_percentage}%</strong>
+                <span className="text-slate-500 block">Suite Commissions</span>
+                <strong className="text-slate-900 text-sm font-extrabold">{getLandlordCommissionLabel(activeLandlord.id)}</strong>
               </div>
               <div>
                 <span className="text-slate-500 block">Payment Structure</span>
@@ -308,8 +335,8 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
 
                     <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-100 text-xs">
                       <div>
-                        <span className="text-slate-400 text-[10px] block">Mgmt Fee</span>
-                        <strong className="text-slate-900 font-bold">{landlord.management_fee_percentage}%</strong>
+                        <span className="text-slate-400 text-[10px] block">Suite Commissions</span>
+                        <strong className="text-slate-900 font-bold">{getLandlordCommissionLabel(landlord.id)}</strong>
                       </div>
                       <div>
                         <span className="text-slate-400 text-[10px] block">Payout Freq</span>

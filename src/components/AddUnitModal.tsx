@@ -30,6 +30,7 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
   const [monthlyRent, setMonthlyRent] = useState('');
   const [nightlyRate, setNightlyRate] = useState('');
   const [cleaningFee, setCleaningFee] = useState('');
+  const [commissionRate, setCommissionRate] = useState('15');
   const [status, setStatus] = useState<UnitStatus>('Vacant');
 
   if (!isOpen) return null;
@@ -40,6 +41,7 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
 
     const unitId = `unit-${Date.now()}`;
     const isShortlet = rentalModel === 'Shortlet / STR';
+    const parsedComm = parseFloat(commissionRate);
 
     const newUnit: Unit = {
       id: unitId,
@@ -53,6 +55,7 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       rental_model: rentalModel,
+      management_fee_percentage: !isNaN(parsedComm) ? parsedComm : (isShortlet ? 15.0 : 10.0),
       nightly_rate: isShortlet ? parseFloat(nightlyRate) || undefined : undefined,
       cleaning_fee: isShortlet ? parseFloat(cleaningFee) || undefined : undefined,
       minimum_stay_nights: isShortlet ? 2 : undefined,
@@ -239,6 +242,19 @@ export const AddUnitModal: React.FC<AddUnitModalProps> = ({
                 />
               </div>
             )}
+
+            <div>
+              <label className="block text-stone-700 font-semibold mb-1">Suite Firm Commission (%)</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.5"
+                value={commissionRate}
+                onChange={(e) => setCommissionRate(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-cream-300 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+              />
+            </div>
 
             <div>
               <label className="block text-stone-700 font-semibold mb-1">Initial Occupancy Status</label>

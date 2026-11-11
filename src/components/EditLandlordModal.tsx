@@ -380,7 +380,7 @@ export const EditLandlordModal: React.FC<EditLandlordModalProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                   Contract Duration (Months)
@@ -406,20 +406,13 @@ export const EditLandlordModal: React.FC<EditLandlordModalProps> = ({
                   className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 bg-white"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Management Commission (%) *
-                </label>
-                <input
-                  type="number"
-                  step="0.5"
-                  value={managementFee}
-                  onChange={(e) => setManagementFee(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-800 bg-white"
-                  required
-                />
-              </div>
+            <div className="p-2.5 bg-white/80 rounded-xl border border-amber-200/80 text-[11px] text-amber-900 flex items-center gap-2">
+              <Building2 className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+              <span>
+                <strong>Note:</strong> Firm commission percentages are configured individually on each <strong>Property</strong> and <strong>Suite / Unit</strong>.
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

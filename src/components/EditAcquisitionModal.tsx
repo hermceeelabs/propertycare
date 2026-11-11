@@ -35,6 +35,10 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
   const [amortYears, setAmortYears] = useState<string>(current.amortization_period_years.toString());
   const [interestRate, setInterestRate] = useState<string>((current.interest_rate_percent || 4.75).toString());
   const [notes, setNotes] = useState<string>(current.notes || '');
+  const [managementFeePercent, setManagementFeePercent] = useState<string>(
+    (property.landlord_contract?.management_fee_percentage ?? 10.0).toString()
+  );
+  const [applyToAllUnits, setApplyToAllUnits] = useState<boolean>(false);
   const { formatMoney, currencyConfig } = useCurrency();
 
   // Exchange rate & foreign valuation state
@@ -75,7 +79,13 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
       base_valuation_in_usd: usdValNum
     };
 
-    store.updatePropertyAcquisition(property.id, updatedAcquisition);
+    const feeNum = parseFloat(managementFeePercent);
+    store.updatePropertyAcquisition(
+      property.id,
+      updatedAcquisition,
+      !isNaN(feeNum) ? feeNum : 10.0,
+      applyToAllUnits
+    );
     onClose();
   };
 
@@ -307,6 +317,52 @@ export const EditAcquisitionModal: React.FC<EditAcquisitionModalProps> = ({
                   className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-slate-800 font-bold"
                 />
                 <span className="text-[10px] text-slate-500 block mt-0.5">Benchmark USD valuation</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Property Firm Commission & Suite Inheritance */}
+          <div className="p-3.5 bg-amber-50/70 rounded-xl border border-amber-200/90 space-y-2.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4 text-amber-700" />
+                <span className="font-bold text-amber-950 text-xs">Firm Management Commission (%)</span>
+              </div>
+              <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">
+                Property & Suite Rate
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+              <div>
+                <label className="block text-slate-700 font-semibold mb-1">Property Default Commission (%)</label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0"
+                  max="100"
+                  required
+                  value={managementFeePercent}
+                  onChange={(e) => setManagementFeePercent(e.target.value)}
+                  className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-slate-900 font-bold focus:ring-2 focus:ring-amber-500 focus:outline-hidden"
+                />
+              </div>
+
+              <div className="pt-2 sm:pt-4">
+                <label className="flex items-start gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={applyToAllUnits}
+                    onChange={(e) => setApplyToAllUnits(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500 cursor-pointer"
+                  />
+                  <span className="text-[11px] text-amber-950 leading-tight">
+                    <strong>Apply to all suites in this property</strong>
+                    <span className="block text-[10px] text-amber-700">
+                      Check if all units in this building follow the same commission arrangement
+                    </span>
+                  </span>
+                </label>
               </div>
             </div>
           </div>

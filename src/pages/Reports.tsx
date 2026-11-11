@@ -95,7 +95,11 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
     const occupancyRate = ownedUnits.length > 0 ? Math.round((occupiedUnits.length / ownedUnits.length) * 100) : 100;
 
     const grossRent = occupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0);
-    const mgmtFee = Math.round((grossRent * (landlord.management_fee_percentage || 10)) / 100);
+    const mgmtFee = occupiedUnits.reduce((acc, u) => {
+      const prop = ownedProps.find(p => p.id === u.property_id);
+      const feePct = u.management_fee_percentage ?? prop?.landlord_contract?.management_fee_percentage ?? 10;
+      return acc + Math.round(((u.monthly_rent || 0) * feePct) / 100);
+    }, 0);
     const expenses = (dbState.expenses || []).filter(e => propIds.includes(e.property_id));
     const repairCosts = expenses.reduce((acc, e) => acc + (e.amount || 0), 0);
     const netRemittance = Math.max(0, grossRent - mgmtFee - repairCosts);
@@ -592,7 +596,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
                     <span className="text-base font-extrabold text-stone-900">{formatMoney(grossRent)}</span>
                   </div>
                   <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase block">Management Fee ({landlord.management_fee_percentage || 10}%)</span>
+                    <span className="text-[11px] font-bold text-stone-500 uppercase block">Firm Commission (Per Suite)</span>
                     <span className="text-base font-extrabold text-stone-600">-{formatMoney(mgmtFee)}</span>
                   </div>
                   <div className="p-3 bg-rose-50/50 rounded-xl border border-rose-200">

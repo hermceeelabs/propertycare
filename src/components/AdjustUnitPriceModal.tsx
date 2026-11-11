@@ -9,6 +9,7 @@ interface AdjustUnitPriceModalProps {
   onClose: () => void;
   unit: Unit | null;
   propertyName?: string;
+  propertyDefaultCommission?: number;
   nativeCurrency?: CurrencyCode;
 }
 
@@ -17,6 +18,7 @@ export const AdjustUnitPriceModal: React.FC<AdjustUnitPriceModalProps> = ({
   onClose,
   unit,
   propertyName,
+  propertyDefaultCommission = 10.0,
   nativeCurrency = 'CAD'
 }) => {
   const { formatAmountInTarget, formatMoney } = useCurrency();
@@ -27,6 +29,11 @@ export const AdjustUnitPriceModal: React.FC<AdjustUnitPriceModalProps> = ({
   const [newPrice, setNewPrice] = useState<number>(() => {
     if (!unit) return 0;
     return unit.rental_model === 'Shortlet / STR' ? (unit.nightly_rate || 180) : unit.monthly_rent;
+  });
+
+  const [commissionRate, setCommissionRate] = useState<string>(() => {
+    if (!unit) return propertyDefaultCommission.toString();
+    return (unit.management_fee_percentage ?? propertyDefaultCommission).toString();
   });
 
   const [reason, setReason] = useState('Market rate adjustment for upcoming renewal cycle');
@@ -44,7 +51,10 @@ export const AdjustUnitPriceModal: React.FC<AdjustUnitPriceModalProps> = ({
     if (!newPrice || newPrice <= 0) return;
 
     setIsSubmitting(true);
-    const updates: Partial<Unit> = {};
+    const parsedCommission = parseFloat(commissionRate);
+    const updates: Partial<Unit> = {
+      management_fee_percentage: !isNaN(parsedCommission) ? parsedCommission : propertyDefaultCommission
+    };
     if (activeRateType === 'nightly_rate') {
       updates.nightly_rate = Number(newPrice);
     } else {
@@ -142,21 +152,50 @@ export const AdjustUnitPriceModal: React.FC<AdjustUnitPriceModalProps> = ({
             </div>
           </div>
 
-          {/* New Price Input Field */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-bold text-stone-700 block">
-              New {activeRateType === 'nightly_rate' ? 'Nightly Rate' : 'Monthly Rent'} ({nativeCurrency})
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                min="0"
-                step="any"
-                value={newPrice}
-                onChange={(e) => setNewPrice(Number(e.target.value))}
-                className="w-full px-4 py-2.5 bg-stone-50 border border-stone-300 rounded-xl font-black text-stone-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
-                required
-              />
+          {/* New Price & Suite Firm Commission Fields */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-stone-700 block">
+                New {activeRateType === 'nightly_rate' ? 'Nightly Rate' : 'Monthly Rent'} ({nativeCurrency})
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={newPrice}
+                  onChange={(e) => setNewPrice(Number(e.target.value))}
+                  className="w-full px-4 py-2.5 bg-stone-50 border border-stone-300 rounded-xl font-black text-stone-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-stone-700 block">
+                  Suite Firm Commission (%)
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setCommissionRate(propertyDefaultCommission.toString())}
+                  className="text-[10px] font-bold text-brand-600 hover:underline cursor-pointer"
+                >
+                  Use Property Default ({propertyDefaultCommission}%)
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.5"
+                  value={commissionRate}
+                  onChange={(e) => setCommissionRate(e.target.value)}
+                  className="w-full px-4 py-2.5 bg-amber-50/60 border border-amber-300 rounded-xl font-black text-stone-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                  required
+                />
+              </div>
             </div>
           </div>
 

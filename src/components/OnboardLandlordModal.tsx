@@ -263,17 +263,7 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
           {/* Financial & Remittance */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800">Management & Banking Terms</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="text-xs font-semibold text-slate-700 block mb-1">Management Fee (%)</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={managementFee}
-                  onChange={(e) => setManagementFee(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-amber-500"
-                />
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="text-xs font-semibold text-slate-700 block mb-1">Remittance Frequency</label>
                 <select
@@ -296,7 +286,7 @@ export const OnboardLandlordModal: React.FC<OnboardLandlordModalProps> = ({
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-amber-500"
                 />
               </div>
-              <div className="sm:col-span-3">
+              <div className="sm:col-span-2">
                 <label className="text-xs font-semibold text-slate-700 block mb-1">Bank Account / Direct Deposit Transit</label>
                 <input
                   type="text"

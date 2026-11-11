@@ -33,6 +33,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
   const [amortYears, setAmortYears] = useState('20');
   const [leaseTermYears, setLeaseTermYears] = useState('10');
   const [monthlyLeaseCost, setMonthlyLeaseCost] = useState('');
+  const [managementFeePercent, setManagementFeePercent] = useState('10');
   const [notes, setNotes] = useState('');
 
   // Currency & Exchange Rate at Acquisition
@@ -68,6 +69,14 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
       status: 'Active',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      landlord_contract: {
+        lease_type: 'Direct Management',
+        payment_structure: 'Monthly',
+        duration_months: 12,
+        management_fee_percentage: parseFloat(managementFeePercent) || 10.0,
+        start_date: new Date().toISOString().split('T')[0],
+        end_date: '2026-12-31'
+      },
       acquisition: {
         acquisition_type: acquisitionType,
         acquisition_date: new Date().toISOString().split('T')[0],
@@ -278,16 +287,30 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({
                   </div>
                 </>
               ) : (
-                <div>
-                  <label className="block text-stone-700 font-semibold mb-1">Amortization Period (Years)</label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={amortYears}
-                    onChange={(e) => setAmortYears(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-cream-300 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
-                  />
-                </div>
+                <>
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Amortization Period (Years)</label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={amortYears}
+                      onChange={(e) => setAmortYears(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-cream-300 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-stone-700 font-semibold mb-1">Default Firm Commission (%)</label>
+                    <input
+                      type="number"
+                      step="0.5"
+                      min="0"
+                      max="100"
+                      value={managementFeePercent}
+                      onChange={(e) => setManagementFeePercent(e.target.value)}
+                      className="w-full px-3 py-2 bg-white border border-cream-300 rounded-xl text-stone-900 font-bold focus:ring-2 focus:ring-brand-500 focus:outline-hidden"
+                    />
+                  </div>
+                </>
               )}
 
               {/* Multi-Currency & Valuation Baseline */}

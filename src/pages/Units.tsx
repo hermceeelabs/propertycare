@@ -24,7 +24,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const [isAddBookingOpen, setIsAddBookingOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState<{ unitId: string; propertyId: string } | null>(null);
   const [activeBookingUnitId, setActiveBookingUnitId] = useState<string | undefined>(undefined);
-  const [adjustPriceUnit, setAdjustPriceUnit] = useState<{ unit: any; propertyName?: string; nativeCurrency?: CurrencyCode } | null>(null);
+  const [adjustPriceUnit, setAdjustPriceUnit] = useState<{ unit: any; propertyName?: string; propertyDefaultCommission?: number; nativeCurrency?: CurrencyCode } | null>(null);
 
   const { formatMoney } = useCurrency();
 
@@ -281,6 +281,9 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                           <span className="text-[11px] text-slate-400 block">Monthly lease</span>
                         </div>
                       )}
+                      <span className="inline-block mt-1 px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/80 text-[10px] font-bold">
+                        {unit.management_fee_percentage ?? property?.landlord_contract?.management_fee_percentage ?? 10}% Firm Fee
+                      </span>
                     </td>
 
                     <td className="p-4">
@@ -351,12 +354,13 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                         <button
                           onClick={() => {
                             const nativeCurr: CurrencyCode = property?.acquisition?.acquisition_currency || (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
-                            setAdjustPriceUnit({ unit, propertyName: property?.name, nativeCurrency: nativeCurr });
+                            const propDefComm = property?.landlord_contract?.management_fee_percentage ?? 10.0;
+                            setAdjustPriceUnit({ unit, propertyName: property?.name, propertyDefaultCommission: propDefComm, nativeCurrency: nativeCurr });
                           }}
                           className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
-                          title="Adjust suite rate and record price history"
+                          title="Adjust suite rate, firm commission % and record price history"
                         >
-                          <TrendingUp className="w-3 h-3 text-stone-600" /> Rate
+                          <TrendingUp className="w-3 h-3 text-stone-600" /> Rate & Fee
                         </button>
                         <button
                           onClick={() => {
@@ -404,6 +408,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
           onClose={() => setAdjustPriceUnit(null)}
           unit={adjustPriceUnit.unit}
           propertyName={adjustPriceUnit.propertyName}
+          propertyDefaultCommission={adjustPriceUnit.propertyDefaultCommission}
           nativeCurrency={adjustPriceUnit.nativeCurrency}
         />
       )}

@@ -9,6 +9,7 @@ import { DatabaseState, store } from '../services/supabase';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { EditAcquisitionModal } from '../components/EditAcquisitionModal';
 import { AddUnitModal } from '../components/AddUnitModal';
+import { AdjustUnitPriceModal } from '../components/AdjustUnitPriceModal';
 import { useCurrency, CURRENCIES, CurrencyCode } from '../context/CurrencyContext';
 import { getYearlyWeightedExchangeRate, YearFxCalculation } from '../services/exchangeRateApi';
 
@@ -28,6 +29,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const [isEditAcquisitionOpen, setIsEditAcquisitionOpen] = useState(false);
   const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
+  const [adjustPriceUnit, setAdjustPriceUnit] = useState<any | null>(null);
   const { formatMoney, currencyConfig, liveFx, refreshLiveFx, getLiveRateVsUsd } = useCurrency();
 
   const property = dbState.properties.find(p => p.id === propertyId);
@@ -229,6 +231,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             )}
             <span className="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">
               {property.status}
+            </span>
+            <span className="text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full border border-amber-200">
+              Default Firm Commission: {property.landlord_contract?.management_fee_percentage ?? 10}%
             </span>
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900">{property.name}</h1>
@@ -876,6 +881,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                         <td className="p-3.5 font-extrabold text-slate-900">
                           Unit {unit.unit_number}
                           <span className="block text-[11px] font-normal text-slate-500">{unit.unit_type}</span>
+                          <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200/80 text-[10px] font-bold">
+                            {unit.management_fee_percentage ?? property.landlord_contract?.management_fee_percentage ?? 10}% Firm Fee
+                          </span>
                         </td>
                         <td className="p-3.5">
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
@@ -913,15 +921,24 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                           </span>
                         </td>
                         <td className="p-3.5 text-right">
-                          <button
-                            onClick={() => {
-                              setSelectedUnitForExpense(unit.id);
-                              setIsAddExpenseOpen(true);
-                            }}
-                            className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1"
-                          >
-                            <Plus className="w-3 h-3" /> Add Expense
-                          </button>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => setAdjustPriceUnit(unit)}
+                              className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                              title="Edit Suite Rate & Firm Commission (%)"
+                            >
+                              <TrendingUp className="w-3 h-3 text-stone-600" /> Rate & Fee
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedUnitForExpense(unit.id);
+                                setIsAddExpenseOpen(true);
+                              }}
+                              className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                            >
+                              <Plus className="w-3 h-3" /> Add Expense
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -1024,7 +1041,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <th className="pb-3">Layout / Type</th>
                   <th className="pb-3">Bed / Bath</th>
                   <th className="pb-3">Monthly Rent</th>
-                  <th className="pb-3 text-right">Status</th>
+                  <th className="pb-3">Firm Commission</th>
+                  <th className="pb-3">Status</th>
+                  <th className="pb-3 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -1034,13 +1053,26 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     <td className="py-3 text-slate-600">{u.unit_type}</td>
                     <td className="py-3 text-slate-600">{u.bedrooms} Bed / {u.bathrooms} Bath</td>
                     <td className="py-3 font-semibold text-slate-900">{formatMoney(u.monthly_rent)}</td>
-                    <td className="py-3 text-right">
+                    <td className="py-3">
+                      <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/80 text-[10px] font-bold">
+                        {u.management_fee_percentage ?? property.landlord_contract?.management_fee_percentage ?? 10}%
+                      </span>
+                    </td>
+                    <td className="py-3">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         u.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800' :
                         u.status === 'Vacant' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'
                       }`}>
                         {u.status}
                       </span>
+                    </td>
+                    <td className="py-3 text-right">
+                      <button
+                        onClick={() => setAdjustPriceUnit(u)}
+                        className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 font-semibold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                      >
+                        <TrendingUp className="w-3 h-3 text-stone-600" /> Rate & Fee
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -1161,6 +1193,18 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
         dbState={dbState}
         defaultPropertyId={propertyId}
       />
+
+      {/* Adjust Unit Rate & Commission Modal */}
+      {adjustPriceUnit && (
+        <AdjustUnitPriceModal
+          isOpen={!!adjustPriceUnit}
+          onClose={() => setAdjustPriceUnit(null)}
+          unit={adjustPriceUnit}
+          propertyName={property.name}
+          propertyDefaultCommission={property.landlord_contract?.management_fee_percentage ?? 10.0}
+          nativeCurrency={property.acquisition?.acquisition_currency || (property.city === 'Lagos' || property.city === 'Abuja' ? 'NGN' : 'CAD')}
+        />
+      )}
     </div>
   );
 };

@@ -143,8 +143,14 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     return acc + convertAmount(u.monthly_rent || 0, nativeCurr, currentCurrency);
   }, 0);
 
-  const mgmtFeePercent = landlord.management_fee_percentage ?? 10.0;
-  const managementFeeInActiveCurr = Math.round((grossMonthlyRentInActiveCurr * mgmtFeePercent) / 100);
+  // Calculate firm commission per unit based on unit -> property commission hierarchy
+  const managementFeeInActiveCurr = occupiedUnits.reduce((acc, u) => {
+    const prop = ownedProperties.find(p => p.id === u.property_id);
+    const nativeCurr = getPropNativeCurrency(u.property_id);
+    const unitRentActive = convertAmount(u.monthly_rent || 0, nativeCurr, currentCurrency);
+    const feePct = u.management_fee_percentage ?? prop?.landlord_contract?.management_fee_percentage ?? 10.0;
+    return acc + Math.round((unitRentActive * feePct) / 100);
+  }, 0);
 
   // Operating costs strictly for owned properties converted dynamically
   const propertyExpenses = (dbState.expenses || []).filter(e => ownedPropertyIds.includes(e.property_id));
