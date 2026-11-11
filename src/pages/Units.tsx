@@ -8,7 +8,8 @@ import { UnitStatus, RentalModel } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { AddUnitModal } from '../components/AddUnitModal';
 import { AddBookingModal } from '../components/AddBookingModal';
-import { useCurrency } from '../context/CurrencyContext';
+import { AdjustUnitPriceModal } from '../components/AdjustUnitPriceModal';
+import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 
 interface UnitsProps {
   dbState: DatabaseState;
@@ -23,6 +24,7 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const [isAddBookingOpen, setIsAddBookingOpen] = useState(false);
   const [selectedUnit, setSelectedUnit] = useState<{ unitId: string; propertyId: string } | null>(null);
   const [activeBookingUnitId, setActiveBookingUnitId] = useState<string | undefined>(undefined);
+  const [adjustPriceUnit, setAdjustPriceUnit] = useState<{ unit: any; propertyName?: string; nativeCurrency?: CurrencyCode } | null>(null);
 
   const { formatMoney } = useCurrency();
 
@@ -348,6 +350,16 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                         )}
                         <button
                           onClick={() => {
+                            const nativeCurr: CurrencyCode = property?.acquisition?.acquisition_currency || (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
+                            setAdjustPriceUnit({ unit, propertyName: property?.name, nativeCurrency: nativeCurr });
+                          }}
+                          className="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-[11px] rounded-lg transition-colors inline-flex items-center gap-1 cursor-pointer"
+                          title="Adjust suite rate and record price history"
+                        >
+                          <TrendingUp className="w-3 h-3 text-stone-600" /> Rate
+                        </button>
+                        <button
+                          onClick={() => {
                             setSelectedUnit({ unitId: unit.id, propertyId: unit.property_id });
                             setIsAddExpenseOpen(true);
                           }}
@@ -385,6 +397,16 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
         dbState={dbState}
         preselectedUnitId={activeBookingUnitId}
       />
+
+      {adjustPriceUnit && (
+        <AdjustUnitPriceModal
+          isOpen={!!adjustPriceUnit}
+          onClose={() => setAdjustPriceUnit(null)}
+          unit={adjustPriceUnit.unit}
+          propertyName={adjustPriceUnit.propertyName}
+          nativeCurrency={adjustPriceUnit.nativeCurrency}
+        />
+      )}
     </div>
   );
 };

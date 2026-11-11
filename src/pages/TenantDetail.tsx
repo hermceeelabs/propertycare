@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Users, Mail, Phone, Calendar, FileText, CreditCard, Wrench, Bell, CheckCircle2, History } from 'lucide-react';
-import { DatabaseState } from '../services/supabase';
+import { ArrowLeft, Users, Mail, Phone, Calendar, FileText, CreditCard, Wrench, Bell, CheckCircle2, History, Edit3, X, Save } from 'lucide-react';
+import { DatabaseState, store } from '../services/supabase';
 import { useCurrency } from '../context/CurrencyContext';
 
 interface TenantDetailProps {
@@ -18,6 +18,12 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'lease' | 'payments' | 'maintenance' | 'communications' | 'notices' | 'timeline'>('overview');
   const { formatMoney } = useCurrency();
+  const [isEditingTenant, setIsEditingTenant] = useState(false);
+  const [editFirstName, setEditFirstName] = useState('');
+  const [editLastName, setEditLastName] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editStatus, setEditStatus] = useState<any>('Active');
 
   const tenant = dbState.tenants.find(t => t.id === tenantId);
   if (!tenant) {
@@ -94,12 +100,138 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
           </div>
         </div>
 
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-1">
-          <span className="text-slate-500 font-medium block">Current Residence</span>
-          <span className="font-bold text-slate-900">{property ? `${property.name} (Unit ${unit?.unit_number})` : 'Unassigned'}</span>
-          <span className="text-slate-400 block">{property?.address}, {property?.city}</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => {
+              setEditFirstName(tenant.first_name);
+              setEditLastName(tenant.last_name);
+              setEditEmail(tenant.email);
+              setEditPhone(tenant.phone);
+              setEditStatus(tenant.status);
+              setIsEditingTenant(true);
+            }}
+            className="px-3.5 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 cursor-pointer shadow-xs"
+          >
+            <Edit3 className="w-3.5 h-3.5 text-emerald-400" /> Edit Resident Profile
+          </button>
+
+          <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-0.5">
+            <span className="text-slate-500 font-medium block">Current Residence</span>
+            <span className="font-bold text-slate-900">{property ? `${property.name} (Unit ${unit?.unit_number})` : 'Unassigned'}</span>
+            <span className="text-slate-400 block text-[11px]">{property?.address}, {property?.city}</span>
+          </div>
         </div>
       </div>
+
+      {/* Edit Resident Profile Modal */}
+      {isEditingTenant && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-md w-full border border-stone-200 shadow-2xl p-6 space-y-5">
+            <div className="flex justify-between items-start pb-3 border-b border-stone-100">
+              <div>
+                <h3 className="font-black text-stone-900 text-lg">Edit Resident Record</h3>
+                <p className="text-xs text-stone-500">Updates will sync across the tenant portal and directory</p>
+              </div>
+              <button
+                onClick={() => setIsEditingTenant(false)}
+                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg hover:bg-stone-100 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                store.updateTenant(tenant.id, {
+                  first_name: editFirstName.trim(),
+                  last_name: editLastName.trim(),
+                  email: editEmail.trim().toLowerCase(),
+                  phone: editPhone.trim(),
+                  status: editStatus
+                });
+                setIsEditingTenant(false);
+              }}
+              className="space-y-4 text-xs"
+            >
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="font-bold text-stone-700">First Name</label>
+                  <input
+                    type="text"
+                    value={editFirstName}
+                    onChange={(e) => setEditFirstName(e.target.value)}
+                    className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl font-semibold text-stone-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+                    required
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="font-bold text-stone-700">Last Name</label>
+                  <input
+                    type="text"
+                    value={editLastName}
+                    onChange={(e) => setEditLastName(e.target.value)}
+                    className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl font-semibold text-stone-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-stone-700">Email Address</label>
+                <input
+                  type="email"
+                  value={editEmail}
+                  onChange={(e) => setEditEmail(e.target.value)}
+                  className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl font-semibold text-stone-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-stone-700">Phone Number</label>
+                <input
+                  type="tel"
+                  value={editPhone}
+                  onChange={(e) => setEditPhone(e.target.value)}
+                  className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl font-semibold text-stone-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="font-bold text-stone-700">Tenancy Status</label>
+                <select
+                  value={editStatus}
+                  onChange={(e) => setEditStatus(e.target.value as any)}
+                  className="w-full px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl font-bold text-stone-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500 cursor-pointer"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Notice Given">Notice Given</option>
+                  <option value="Former">Former</option>
+                  <option value="Applicant">Applicant</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-3 border-t border-stone-100">
+                <button
+                  type="button"
+                  onClick={() => setIsEditingTenant(false)}
+                  className="px-4 py-2 font-bold text-stone-600 hover:text-stone-900 rounded-xl hover:bg-stone-100 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-xl shadow-xs cursor-pointer flex items-center gap-1.5"
+                >
+                  <Save className="w-3.5 h-3.5 text-emerald-400" /> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Decorative Divider */}
       <hr className="border-t border-slate-800/80" />

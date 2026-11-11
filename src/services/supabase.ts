@@ -408,8 +408,56 @@ class StoreManager {
     this.saveState();
   }
 
-  updateUnit(unitId: string, updates: Partial<Unit>) {
-    this.state.units = this.state.units.map(u => u.id === unitId ? { ...u, ...updates, updated_at: new Date().toISOString() } : u);
+  updateTenant(id: string, updates: Partial<Tenant>) {
+    this.state.tenants = this.state.tenants.map(t =>
+      t.id === id ? { ...t, ...updates, updated_at: new Date().toISOString() } : t
+    );
+    this.saveState();
+  }
+
+  updateUnit(unitId: string, updates: Partial<Unit>, reason?: string, changedBy?: string) {
+    this.state.units = this.state.units.map(u => {
+      if (u.id !== unitId) return u;
+
+      const priceHistory = [...(u.price_history || [])];
+
+      // Track monthly_rent price change
+      if (updates.monthly_rent !== undefined && updates.monthly_rent !== u.monthly_rent) {
+        priceHistory.unshift({
+          id: `ph-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          unit_id: unitId,
+          field_changed: 'monthly_rent',
+          old_price: u.monthly_rent,
+          new_price: updates.monthly_rent,
+          reason: reason || 'Standard rent rate adjustment',
+          changed_by: changedBy || 'Admin Management',
+          effective_date: new Date().toISOString().split('T')[0],
+          created_at: new Date().toISOString()
+        });
+      }
+
+      // Track nightly_rate price change for Shortlet
+      if (updates.nightly_rate !== undefined && updates.nightly_rate !== u.nightly_rate) {
+        priceHistory.unshift({
+          id: `ph-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          unit_id: unitId,
+          field_changed: 'nightly_rate',
+          old_price: u.nightly_rate || 0,
+          new_price: updates.nightly_rate,
+          reason: reason || 'Shortlet seasonal rate adjustment',
+          changed_by: changedBy || 'Admin Management',
+          effective_date: new Date().toISOString().split('T')[0],
+          created_at: new Date().toISOString()
+        });
+      }
+
+      return {
+        ...u,
+        ...updates,
+        price_history: priceHistory,
+        updated_at: new Date().toISOString()
+      };
+    });
     this.saveState();
   }
 

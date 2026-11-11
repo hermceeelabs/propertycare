@@ -171,6 +171,18 @@ export interface ShortletBooking {
   created_at: string;
 }
 
+export interface PriceHistoryRecord {
+  id: string;
+  unit_id: string;
+  field_changed: 'monthly_rent' | 'nightly_rate';
+  old_price: number;
+  new_price: number;
+  changed_by?: string;
+  reason?: string;
+  effective_date: string;
+  created_at: string;
+}
+
 export interface Unit {
   id: string;
   property_id: string;
@@ -185,6 +197,7 @@ export interface Unit {
   cleaning_fee?: number;
   minimum_stay_nights?: number;
   current_occupancy_rate?: number;
+  price_history?: PriceHistoryRecord[];
   created_at: string;
   updated_at: string;
 }
