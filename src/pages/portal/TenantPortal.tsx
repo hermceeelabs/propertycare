@@ -367,7 +367,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             >
               <div className="flex items-center gap-2.5">
                 <Wrench className="w-4 h-4" />
-                <span>Support & Repairs</span>
+                <span>Maintenance & Work Orders</span>
               </div>
               <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${
                 activeTab === 'maintenance' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
@@ -415,7 +415,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             >
               <div className="flex items-center gap-2.5">
                 <FileText className="w-4 h-4" />
-                <span>Reports & Audits</span>
+                <span>Financial Statements & Reports</span>
               </div>
             </button>
           </nav>
@@ -471,10 +471,10 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
             <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
               {activeTab === 'overview' && 'Resident Executive Suite'}
               {activeTab === 'payments' && 'Rent Ledger & Digital Receipts'}
-              {activeTab === 'maintenance' && 'Maintenance & Repair Requests'}
+              {activeTab === 'maintenance' && 'Maintenance & Work Orders'}
               {activeTab === 'documents' && 'Executed Lease Agreements & Vault'}
               {activeTab === 'notices' && 'Building Circulars & Official Notices'}
-              {activeTab === 'reports' && 'Resident Statements & Periodic Reports'}
+              {activeTab === 'reports' && 'Financial Statements & Reports'}
             </h1>
             <span className="text-cream-400 font-light shrink-0">|</span>
             <p className="text-sm text-stone-600 truncate">
@@ -483,7 +483,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
               {activeTab === 'maintenance' && 'Submit repair tickets with photos, video and voice notes & track contractor dispatches'}
               {activeTab === 'documents' && 'Official executed tenancy contracts, inventory reports & legal agreements'}
               {activeTab === 'notices' && 'Official property management communications, circulars & community notices'}
-              {activeTab === 'reports' && 'Hierarchical statements by month, quarter, and day covering rent, inspections, and dispatches'}
+              {activeTab === 'reports' && 'Hierarchical financial statements, verified receipts, and maintenance dispatches for your residence'}
             </p>
           </div>
         </header>

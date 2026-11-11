@@ -169,10 +169,10 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
   // Nav sections
   const navSections = [
     {
-      title: 'Power of Attorney & Mandate',
+      title: 'Representation & Scope',
       items: [
-        { id: 'mandate' as RepNavTab, label: 'Executive Summary & Scope', icon: ShieldCheck },
-        { id: 'holdings' as RepNavTab, label: 'Supervised Holdings', icon: Building2, badge: `${ownedProperties.length}` },
+        { id: 'mandate' as RepNavTab, label: 'Executive Summary', icon: ShieldCheck },
+        { id: 'holdings' as RepNavTab, label: 'Holdings & Assets', icon: Building2, badge: `${ownedProperties.length}` },
       ]
     },
     {
@@ -180,13 +180,12 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
       items: [
         {
           id: 'statements' as RepNavTab,
-          label: 'Statements & Financials',
-          icon: FileText,
-          badge: representative.can_view_statements ? 'Authorized' : 'Restricted'
+          label: 'Financial Statements & Reports',
+          icon: FileText
         },
         {
           id: 'approvals' as RepNavTab,
-          label: 'Maintenance Approvals',
+          label: 'Maintenance & Work Orders',
           icon: Wrench,
           badge: pendingApprovals.length > 0 ? `${pendingApprovals.length}` : undefined
         },
@@ -219,9 +218,9 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           <span className="font-bold text-stone-200 block truncate">
             {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
           </span>
-          <span className="text-[10px] text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            Power of Attorney Active
+          <span className="text-[10px] text-purple-300 font-medium flex items-center gap-1 mt-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+            Authorized Representative
           </span>
         </div>
 
@@ -368,7 +367,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
               {/* Adopted Title and Subtitle Section Design (Strict Single Line) */}
               <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                  Representative Executive Summary
+                  Executive Summary
                 </h1>
                 <span className="text-cream-400 font-light shrink-0">|</span>
                 <p className="text-sm text-stone-600 truncate">
@@ -379,10 +378,10 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
               {/* Personalized Welcome Banner */}
               <div className="flex items-center justify-between text-xs text-stone-600 bg-white px-4 py-2.5 rounded-xl border border-stone-200/80 shadow-2xs">
                 <span>
-                  Welcome, <strong className="text-stone-900">{representative.name}</strong> ({representative.relationship}) · Delegated Legal Authority Active
+                  Welcome, <strong className="text-stone-900">{representative.name}</strong> ({representative.relationship}) · Authorized Portfolio Representation
                 </span>
                 <span className="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">
-                  Mandate Ratified: {representative.created_at?.slice(0, 10) || '2024-01-15'}
+                  Authorized on: {representative.created_at?.slice(0, 10) || '2024-01-15'}
                 </span>
               </div>
 
@@ -423,8 +422,8 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 </div>
               </div>
 
-              {/* Power of Attorney Status Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Authority Status Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* 1. Statements Permission */}
                 <div className={`p-5 rounded-2xl border shadow-xs space-y-2 ${
                   representative.can_view_statements
@@ -476,32 +475,6 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       : 'Informational view only. Principal investor retains exclusive approval authority for capital expenditures.'}
                   </p>
                 </div>
-
-                {/* 3. Banking Modification */}
-                <div className={`p-5 rounded-2xl border shadow-xs space-y-2 ${
-                  representative.can_modify_banking
-                    ? 'bg-rose-50/50 border-rose-200'
-                    : 'bg-amber-50/50 border-amber-200'
-                }`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">Settlement Accounts</span>
-                    {representative.can_modify_banking ? (
-                      <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-[10px] flex items-center gap-1">
-                        <AlertTriangle className="w-3 h-3 text-rose-600" /> Granted
-                      </span>
-                    ) : (
-                      <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px] flex items-center gap-1">
-                        <Lock className="w-3 h-3 text-amber-600" /> Protected
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-base font-bold text-stone-900">Bank Routing Credentials</div>
-                  <p className="text-xs text-stone-600 leading-relaxed">
-                    {representative.can_modify_banking
-                      ? 'Authorized to update remittance bank accounts and routing numbers.'
-                      : 'Protected fiduciary protocol. Only the verified principal investor can alter settlement banking coordinates.'}
-                  </p>
-                </div>
               </div>
 
               {/* Quick Action & Executive Guidance Pill */}
@@ -526,11 +499,11 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 <div>
                   <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden mb-4">
                     <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                      Financial Statements & Yield Audit
+                      Financial Statements & Reports
                     </h1>
                     <span className="text-cream-400 font-light shrink-0">|</span>
                     <p className="text-sm text-stone-600 truncate">
-                      Audited ledger, rent collections, management fees and operating deductions for {landlord.company_name || landlord.first_name}
+                      Audited financial ledger, rent yields, management fees and operating deductions for {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
                     </p>
                   </div>
                   <hr className="border-t border-slate-800/80 mb-6" />
@@ -566,11 +539,11 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
             <div className="space-y-6">
               <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                  Maintenance & Repair Approvals
+                  Maintenance & Work Orders
                 </h1>
                 <span className="text-cream-400 font-light shrink-0">|</span>
                 <p className="text-sm text-stone-600 truncate">
-                  Review contractor estimates, authorize emergency dispatches, and track asset repairs
+                  Review contractor estimates, authorize emergency dispatches, and track asset repairs across supervised properties
                 </p>
               </div>
 
@@ -713,11 +686,11 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
             <div className="space-y-6">
               <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                  Supervised Real Estate Assets
+                  Holdings & Assets
                 </h1>
                 <span className="text-cream-400 font-light shrink-0">|</span>
                 <p className="text-sm text-stone-600 truncate">
-                  Complete asset directory of properties under legal representation for {landlord.company_name || landlord.first_name}
+                  Comprehensive real estate portfolio registry, building specifications, suite configurations, and supervised properties
                 </p>
               </div>
 

@@ -218,7 +218,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     {
       title: 'Operations & Oversight',
       items: [
-        { id: 'maintenance' as LandlordNavTab, label: 'Repairs & Requests', icon: Wrench, badge: openMaintenance.length > 0 ? `${openMaintenance.length}` : undefined },
+        { id: 'maintenance' as LandlordNavTab, label: 'Maintenance & Work Orders', icon: Wrench, badge: openMaintenance.length > 0 ? `${openMaintenance.length}` : undefined },
         { id: 'delegates' as LandlordNavTab, label: 'Legal & Delegates', icon: Users, badge: `${representatives.length}` },
       ]
     }
