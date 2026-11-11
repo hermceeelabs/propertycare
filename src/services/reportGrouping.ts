@@ -23,12 +23,18 @@ export function getRealWorldToday(): string {
 
 /**
  * Helper to calculate start & end dates based on selected timeframe preset
+ * All relative filters (day, week, month, quarter, year) dynamically resolve
+ * against the real-world current calendar date!
  */
 export function getDateRangeForTimeFrame(
   timeFrame: ReportTimeFrame,
   anchorDate: string = DEFAULT_ANCHOR_DATE
 ): DateRange {
   const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 1-12
+  const currentDate = now.getDate();
 
   if (timeFrame === 'day') {
     // Exact real-world current date
@@ -38,39 +44,35 @@ export function getDateRangeForTimeFrame(
 
   if (timeFrame === 'week') {
     // Current real-world week (Monday to Sunday)
-    const now = new Date();
     const dayOfWeek = (now.getDay() + 6) % 7; // 0 is Monday, 6 is Sunday
-    const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek);
-    const sun = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek + 6);
+    const mon = new Date(currentYear, now.getMonth(), currentDate - dayOfWeek);
+    const sun = new Date(currentYear, now.getMonth(), currentDate - dayOfWeek + 6);
     return {
       startDate: `${mon.getFullYear()}-${pad(mon.getMonth() + 1)}-${pad(mon.getDate())}`,
       endDate: `${sun.getFullYear()}-${pad(sun.getMonth() + 1)}-${pad(sun.getDate())}`
     };
   }
 
-  const [yearStr, monthStr, dayStr] = anchorDate.split('-');
-  const year = parseInt(yearStr, 10);
-  const month = parseInt(monthStr, 10); // 1-based
-  const day = parseInt(dayStr, 10);
-
   if (timeFrame === 'month') {
-    // Entire current month
-    const lastDay = new Date(year, month, 0).getDate();
+    // Current real-world month (1st through last day of current calendar month)
+    const lastDay = new Date(currentYear, currentMonth, 0).getDate();
     return {
-      startDate: `${year}-${pad(month)}-01`,
-      endDate: `${year}-${pad(month)}-${pad(lastDay)}`
+      startDate: `${currentYear}-${pad(currentMonth)}-01`,
+      endDate: `${currentYear}-${pad(currentMonth)}-${pad(lastDay)}`
     };
   }
 
   if (timeFrame === 'multi_month') {
-    // Default to Q3 for August (July - September)
-    return getDateRangeForQuarter(year, 3);
+    // Current real-world calendar quarter
+    const currentQuarter = (Math.floor((currentMonth - 1) / 3) + 1) as 1 | 2 | 3 | 4;
+    return getDateRangeForQuarter(currentYear, currentQuarter);
   }
 
   if (timeFrame === 'year') {
+    // Current real-world calendar year
     return {
-      startDate: `${year}-01-01`,
-      endDate: `${year}-12-31`
+      startDate: `${currentYear}-01-01`,
+      endDate: `${currentYear}-12-31`
     };
   }
 

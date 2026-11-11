@@ -12,7 +12,7 @@ import { Landlord, PropertyInspection, Expense, InspectionAttachment, ExpensePro
 import { DualCurrencyDisplay } from './DualCurrencyDisplay';
 import {
   ReportTimeFrame, getDateRangeForTimeFrame, getDateRangeForQuarter, formatMonthName,
-  formatDayTitle, getQuarterInfo, DEFAULT_ANCHOR_DATE
+  formatDayTitle, getQuarterInfo, DEFAULT_ANCHOR_DATE, getRealWorldToday
 } from '../services/reportGrouping';
 
 interface LandlordReportViewProps {
@@ -31,7 +31,9 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   // Selected preset and date range - Default to 'month'
   const [timeFrame, setTimeFrame] = useState<ReportTimeFrame>('month');
   const [dateRange, setDateRange] = useState(() => getDateRangeForTimeFrame('month'));
-  const [selectedQuarter, setSelectedQuarter] = useState<1 | 2 | 3 | 4>(3);
+  const [selectedQuarter, setSelectedQuarter] = useState<1 | 2 | 3 | 4>(() => {
+    return (Math.floor(new Date().getMonth() / 3) + 1) as 1 | 2 | 3 | 4;
+  });
   const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string>('All');
   const [categoryFilter, setCategoryFilter] = useState<'All' | 'Remittances' | 'Expenses' | 'Inspections' | 'Maintenance'>('All');
   const [activeMediaModal, setActiveMediaModal] = useState<{
@@ -44,7 +46,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   const handleTimeFrameChange = (newTf: ReportTimeFrame) => {
     setTimeFrame(newTf);
     if (newTf === 'multi_month') {
-      const year = parseInt((dateRange.startDate || DEFAULT_ANCHOR_DATE).slice(0, 4), 10) || 2026;
+      const year = parseInt((dateRange.startDate || getRealWorldToday()).slice(0, 4), 10) || new Date().getFullYear();
       setDateRange(getDateRangeForQuarter(year, selectedQuarter));
     } else if (newTf !== 'custom') {
       setDateRange(getDateRangeForTimeFrame(newTf));
@@ -53,7 +55,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 
   const handleQuarterChange = (q: 1 | 2 | 3 | 4) => {
     setSelectedQuarter(q);
-    const year = parseInt((dateRange.startDate || DEFAULT_ANCHOR_DATE).slice(0, 4), 10) || 2026;
+    const year = parseInt((dateRange.startDate || getRealWorldToday()).slice(0, 4), 10) || new Date().getFullYear();
     setDateRange(getDateRangeForQuarter(year, q));
   };
 
