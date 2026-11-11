@@ -408,14 +408,35 @@ class StoreManager {
     this.saveState();
   }
 
-  updateTenant(id: string, updates: Partial<Tenant>) {
+  async updateTenant(id: string, updates: Partial<Tenant>) {
+    const updated_at = new Date().toISOString();
     this.state.tenants = this.state.tenants.map(t =>
-      t.id === id ? { ...t, ...updates, updated_at: new Date().toISOString() } : t
+      t.id === id ? { ...t, ...updates, updated_at } : t
     );
     this.saveState();
+
+    // Async push to Supabase PostgreSQL database
+    try {
+      const { error } = await supabase
+        .from('tenants')
+        .update({
+          ...updates,
+          updated_at
+        })
+        .eq('id', id);
+
+      if (error) {
+        console.error('Failed to sync tenant update to Supabase:', error);
+      }
+    } catch (err) {
+      console.error('Error persisting tenant to Supabase:', err);
+    }
   }
 
-  updateUnit(unitId: string, updates: Partial<Unit>, reason?: string, changedBy?: string) {
+  async updateUnit(unitId: string, updates: Partial<Unit>, reason?: string, changedBy?: string) {
+    const updated_at = new Date().toISOString();
+    let updatedPriceHistory: any[] = [];
+
     this.state.units = this.state.units.map(u => {
       if (u.id !== unitId) return u;
 
@@ -432,7 +453,7 @@ class StoreManager {
           reason: reason || 'Standard rent rate adjustment',
           changed_by: changedBy || 'Admin Management',
           effective_date: new Date().toISOString().split('T')[0],
-          created_at: new Date().toISOString()
+          created_at: updated_at
         });
       }
 
@@ -447,18 +468,33 @@ class StoreManager {
           reason: reason || 'Shortlet seasonal rate adjustment',
           changed_by: changedBy || 'Admin Management',
           effective_date: new Date().toISOString().split('T')[0],
-          created_at: new Date().toISOString()
+          created_at: updated_at
         });
       }
+
+      updatedPriceHistory = priceHistory;
 
       return {
         ...u,
         ...updates,
         price_history: priceHistory,
-        updated_at: new Date().toISOString()
+        updated_at
       };
     });
     this.saveState();
+
+    // Async push to Supabase PostgreSQL database
+    try {
+      await supabase
+        .from('units')
+        .update({
+          ...updates,
+          updated_at
+        })
+        .eq('id', unitId);
+    } catch (err) {
+      console.error('Error persisting unit to Supabase:', err);
+    }
   }
 
   updatePropertyAcquisition(propertyId: string, acquisition: any) {
@@ -473,18 +509,37 @@ class StoreManager {
     this.saveState();
   }
 
-  addLandlord(landlord: Landlord) {
+  async addLandlord(landlord: Landlord) {
     if (!this.state.landlords) this.state.landlords = [];
     this.state.landlords.unshift(landlord);
     this.saveState();
+
+    try {
+      await supabase.from('landlords').insert(landlord);
+    } catch (err) {
+      console.error('Error persisting landlord insert to Supabase:', err);
+    }
   }
 
-  updateLandlord(id: string, updates: Partial<Landlord>) {
+  async updateLandlord(id: string, updates: Partial<Landlord>) {
+    const updated_at = new Date().toISOString();
     if (!this.state.landlords) this.state.landlords = [];
     this.state.landlords = this.state.landlords.map(l => 
-      l.id === id ? { ...l, ...updates, updated_at: new Date().toISOString() } : l
+      l.id === id ? { ...l, ...updates, updated_at } : l
     );
     this.saveState();
+
+    try {
+      await supabase
+        .from('landlords')
+        .update({
+          ...updates,
+          updated_at
+        })
+        .eq('id', id);
+    } catch (err) {
+      console.error('Error persisting landlord update to Supabase:', err);
+    }
   }
 
   setCurrency(currency: CurrencyCode) {

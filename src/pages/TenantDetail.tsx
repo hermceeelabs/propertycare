@@ -141,9 +141,9 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
             </div>
 
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                store.updateTenant(tenant.id, {
+                await store.updateTenant(tenant.id, {
                   first_name: editFirstName.trim(),
                   last_name: editLastName.trim(),
                   email: editEmail.trim().toLowerCase(),
