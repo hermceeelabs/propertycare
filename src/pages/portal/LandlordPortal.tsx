@@ -472,6 +472,8 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                         key={p.id}
                         onClick={() => {
                           setSelectedPropertyId(p.id);
+                          setActivePropertyViewId(p.id);
+                          setActiveUnitTabId(pUnits[0]?.id || null);
                           handleTabChange('properties');
                         }}
                         className="p-5 bg-white hover:bg-stone-50/80 rounded-2xl border border-stone-200/90 shadow-2xs hover:shadow-sm transition-all cursor-pointer flex flex-col justify-between gap-4 group"
@@ -856,9 +858,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                                   <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider block">Nightly Rate & Projected STR Yield</span>
                                   <div className="space-y-1">
                                     <div className="flex items-baseline gap-1.5">
-                                      <span className="text-xl font-black text-purple-900">
-                                        {formatAmountInTarget(activeUnit.nightly_rate || 180000, nativeCurr)}
-                                      </span>
+                                      <DualCurrencyDisplay
+                                        amount={activeUnit.nightly_rate || 180000}
+                                        nativeCurrency={nativeCurr}
+                                        primaryClassName="text-xl font-black text-purple-900"
+                                        secondaryClassName="text-[10px] text-purple-600 block"
+                                      />
                                       <span className="text-xs font-semibold text-stone-500">/ night</span>
                                     </div>
                                     <span className="text-[11px] text-stone-500 block">
@@ -866,9 +871,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                                     </span>
                                     <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
                                       <span className="text-stone-400">Est. 70% Monthly Yield:</span>
-                                      <span className="font-black text-emerald-800">
-                                        ~{formatAmountInTarget((activeUnit.nightly_rate || 180000) * 21, nativeCurr)}
-                                      </span>
+                                      <DualCurrencyDisplay
+                                        amount={(activeUnit.nightly_rate || 180000) * 21}
+                                        nativeCurrency={nativeCurr}
+                                        primaryClassName="font-black text-emerald-800"
+                                        secondaryClassName="text-[9px] text-emerald-600 block text-right"
+                                      />
                                     </div>
                                   </div>
                                 </>
@@ -876,13 +884,13 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                                 <>
                                   <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Contracted Monthly Rent</span>
                                   <div className="space-y-1">
-                                    <span className="text-lg font-black text-stone-900 block">
-                                      {formatAmountInTarget(activeUnit.monthly_rent || 0, nativeCurr)}
-                                    </span>
+                                    <DualCurrencyDisplay
+                                      amount={activeUnit.monthly_rent || 0}
+                                      nativeCurrency={nativeCurr}
+                                      primaryClassName="text-lg font-black text-stone-900 block"
+                                      secondaryClassName="text-[10px] text-stone-400 block"
+                                    />
                                     <span className="text-[11px] text-stone-500 block">per calendar month</span>
-                                    <span className="text-[10px] text-stone-400 block pt-1">
-                                      Orig: {nativeCurr} {Number(activeUnit.monthly_rent || 0).toLocaleString()}
-                                    </span>
                                   </div>
                                 </>
                               )}
@@ -949,9 +957,12 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
 
                           <div className="p-2.5 bg-emerald-50/50 rounded-xl">
                             <span className="text-[10px] text-emerald-700 block font-bold uppercase">Contracted Rent</span>
-                            <span className="text-sm font-black text-emerald-800 block">
-                              {formatAmountInTarget(propGrossMonthly, nativeCurr)}
-                            </span>
+                            <DualCurrencyDisplay
+                              amount={propGrossMonthly}
+                              nativeCurrency={nativeCurr}
+                              primaryClassName="text-sm font-black text-emerald-800 block"
+                              secondaryClassName="text-[9px] text-emerald-600 block"
+                            />
                             <span className="text-[9px] text-emerald-600 block">
                               Monthly gross yield
                             </span>

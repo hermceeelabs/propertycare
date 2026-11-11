@@ -2489,28 +2489,6 @@
       }
     },
     {
-      "id": "pay-today-1111",
-      "tenant_id": "ten-1",
-      "lease_id": "lease-1",
-      "amount_due": 350,
-      "amount_paid": 350,
-      "due_date": "2026-11-11",
-      "payment_date": "2026-11-11",
-      "status": "Paid",
-      "created_at": "2026-11-11T09:30:00Z",
-      "updated_at": "2026-11-11T09:30:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Sarah Mitchell",
-        "email": "sarah.mitchell@example.ca",
-        "phone": "(416) 555-0192",
-        "unit_number": "101",
-        "property_name": "Maple Heights Apartments",
-        "rent_rate_at_event": 350,
-        "lease_start": "2025-09-01",
-        "lease_end": "2026-12-31"
-      }
-    },
-    {
       "id": "pay-str-ik-601-oct",
       "tenant_id": "ten-str-ik-601",
       "lease_id": "lease-str-unit-601",
@@ -2556,7 +2534,7 @@
     },
     {
       "id": "pay-str-ik-601-nov",
-      "tenant_id": "ten-str-ik-601-nov",
+      "tenant_id": "ten-str-ik-601",
       "lease_id": "lease-str-unit-601",
       "amount_due": 1285000,
       "amount_paid": 1285000,
@@ -2578,7 +2556,7 @@
     },
     {
       "id": "pay-str-ik-602-nov",
-      "tenant_id": "ten-str-ik-602-nov",
+      "tenant_id": "ten-str-ik-602",
       "lease_id": "lease-str-unit-602",
       "amount_due": 1140000,
       "amount_paid": 1140000,
@@ -2622,7 +2600,7 @@
     },
     {
       "id": "pay-str-mt-701-nov",
-      "tenant_id": "ten-str-mt-701-nov",
+      "tenant_id": "ten-str-mt-701",
       "lease_id": "lease-str-unit-701",
       "amount_due": 2915000,
       "amount_paid": 2915000,
@@ -2688,7 +2666,7 @@
     },
     {
       "id": "pay-str-ea-101-nov",
-      "tenant_id": "ten-str-ea-101-nov",
+      "tenant_id": "ten-str-ea-101",
       "lease_id": "lease-str-unit-ea-101",
       "amount_due": 1365000,
       "amount_paid": 1365000,
@@ -2710,7 +2688,7 @@
     },
     {
       "id": "pay-str-ea-204-nov",
-      "tenant_id": "ten-str-ea-204-nov",
+      "tenant_id": "ten-str-ea-204",
       "lease_id": "lease-str-unit-ea-204",
       "amount_due": 690000,
       "amount_paid": 690000,
@@ -2754,7 +2732,7 @@
     },
     {
       "id": "pay-str-mh-103-nov",
-      "tenant_id": "ten-str-mh-103-nov",
+      "tenant_id": "ten-str-mh-103",
       "lease_id": "lease-str-unit-103",
       "amount_due": 1220,
       "amount_paid": 1220,
@@ -2798,7 +2776,7 @@
     },
     {
       "id": "pay-str-ks-402-nov",
-      "tenant_id": "ten-str-ks-402-nov",
+      "tenant_id": "ten-str-ks-402",
       "lease_id": "lease-str-unit-402",
       "amount_due": 1100,
       "amount_paid": 1100,
@@ -2842,7 +2820,7 @@
     },
     {
       "id": "pay-str-w2-801-nov",
-      "tenant_id": "ten-str-w2-801-nov",
+      "tenant_id": "ten-str-w2-801",
       "lease_id": "lease-str-unit-801",
       "amount_due": 1120000,
       "amount_paid": 1120000,
@@ -3137,28 +3115,6 @@
       "status": "Paid",
       "created_at": "2026-03-02T09:30:00Z",
       "updated_at": "2026-03-02T09:30:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Jean-Luc Roy",
-        "email": "jeanluc.roy@example.ca",
-        "phone": "(613) 555-0812",
-        "unit_number": "501",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 2650,
-        "lease_start": "2025-11-01",
-        "lease_end": "2026-10-31"
-      }
-    },
-    {
-      "id": "pay-2026-lease-3-2026-08",
-      "tenant_id": "ten-3",
-      "lease_id": "lease-3",
-      "amount_due": 2650,
-      "amount_paid": 2650,
-      "due_date": "2026-08-01",
-      "payment_date": "2026-08-01",
-      "status": "Paid",
-      "created_at": "2026-08-01T09:30:00Z",
-      "updated_at": "2026-08-01T09:30:00Z",
       "tenant_snapshot": {
         "tenant_name": "Jean-Luc Roy",
         "email": "jeanluc.roy@example.ca",
@@ -4997,28 +4953,6 @@
       }
     },
     {
-      "id": "pay-str-2026-unit-502-2026-01-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-01-19",
-      "payment_date": "2026-01-19",
-      "status": "Paid",
-      "created_at": "2026-01-19T12:00:00Z",
-      "updated_at": "2026-01-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Dr. Fatima Balarabe (ECOWAS) (Direct STR)",
-        "email": "fbalarabe@ecowas.int",
-        "phone": "+234 803 998 7711",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-01-19",
-        "lease_end": "2026-01-26"
-      }
-    },
-    {
       "id": "pay-str-2026-unit-502-2026-02-1",
       "tenant_id": "ten-7",
       "lease_id": "lease-7",
@@ -5038,28 +4972,6 @@
         "rent_rate_at_event": 1290,
         "lease_start": "2026-02-06",
         "lease_end": "2026-02-13"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-02-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1465,
-      "amount_paid": 1465,
-      "due_date": "2026-02-19",
-      "payment_date": "2026-02-19",
-      "status": "Paid",
-      "created_at": "2026-02-19T12:00:00Z",
-      "updated_at": "2026-02-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "David & Lisa Miller (Airbnb STR)",
-        "email": "miller.d@example.com",
-        "phone": "(416) 555-9210",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1465,
-        "lease_start": "2026-02-19",
-        "lease_end": "2026-02-27"
       }
     },
     {
@@ -5085,248 +4997,6 @@
       }
     },
     {
-      "id": "pay-str-2026-unit-502-2026-03-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 940,
-      "amount_paid": 940,
-      "due_date": "2026-03-19",
-      "payment_date": "2026-03-19",
-      "status": "Paid",
-      "created_at": "2026-03-19T12:00:00Z",
-      "updated_at": "2026-03-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Chloe Tremblay (Desjardins) (VRBO STR)",
-        "email": "ctremblay@quebec.ca",
-        "phone": "(514) 555-0987",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 940,
-        "lease_start": "2026-03-19",
-        "lease_end": "2026-03-24"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-04-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-04-06",
-      "payment_date": "2026-04-06",
-      "status": "Paid",
-      "created_at": "2026-04-06T12:00:00Z",
-      "updated_at": "2026-04-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Chloe Tremblay (Desjardins) (VRBO STR)",
-        "email": "ctremblay@quebec.ca",
-        "phone": "(514) 555-0987",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-04-06",
-        "lease_end": "2026-04-12"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-04-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-04-19",
-      "payment_date": "2026-04-19",
-      "status": "Paid",
-      "created_at": "2026-04-19T12:00:00Z",
-      "updated_at": "2026-04-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Liam Vance (Shopify) (Airbnb STR)",
-        "email": "lvance@shopify.com",
-        "phone": "(416) 555-7766",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-04-19",
-        "lease_end": "2026-04-25"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-05-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-05-06",
-      "payment_date": "2026-05-06",
-      "status": "Paid",
-      "created_at": "2026-05-06T12:00:00Z",
-      "updated_at": "2026-05-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Liam Vance (Shopify) (Airbnb STR)",
-        "email": "lvance@shopify.com",
-        "phone": "(416) 555-7766",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-05-06",
-        "lease_end": "2026-05-13"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-05-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-05-19",
-      "payment_date": "2026-05-19",
-      "status": "Paid",
-      "created_at": "2026-05-19T12:00:00Z",
-      "updated_at": "2026-05-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Engr. Yusuf Danjuma (NNPC) (Direct STR)",
-        "email": "yusuf.d@nnpcgroup.com",
-        "phone": "+234 805 778 2234",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-05-19",
-        "lease_end": "2026-05-26"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-06-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1465,
-      "amount_paid": 1465,
-      "due_date": "2026-06-06",
-      "payment_date": "2026-06-06",
-      "status": "Paid",
-      "created_at": "2026-06-06T12:00:00Z",
-      "updated_at": "2026-06-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Engr. Yusuf Danjuma (NNPC) (Direct STR)",
-        "email": "yusuf.d@nnpcgroup.com",
-        "phone": "+234 805 778 2234",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1465,
-        "lease_start": "2026-06-06",
-        "lease_end": "2026-06-14"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-06-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1465,
-      "amount_paid": 1465,
-      "due_date": "2026-06-19",
-      "payment_date": "2026-06-19",
-      "status": "Paid",
-      "created_at": "2026-06-19T12:00:00Z",
-      "updated_at": "2026-06-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Dr. Kunle Adeleke (Shell Executive) (Direct STR)",
-        "email": "k.adeleke@shell.com",
-        "phone": "+234 803 123 4567",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1465,
-        "lease_start": "2026-06-19",
-        "lease_end": "2026-06-27"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-07-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-07-06",
-      "payment_date": "2026-07-06",
-      "status": "Paid",
-      "created_at": "2026-07-06T12:00:00Z",
-      "updated_at": "2026-07-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Dr. Kunle Adeleke (Shell Executive) (Direct STR)",
-        "email": "k.adeleke@shell.com",
-        "phone": "+234 803 123 4567",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-07-06",
-        "lease_end": "2026-07-12"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-07-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 940,
-      "amount_paid": 940,
-      "due_date": "2026-07-19",
-      "payment_date": "2026-07-19",
-      "status": "Paid",
-      "created_at": "2026-07-19T12:00:00Z",
-      "updated_at": "2026-07-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Folashade Alakija (Famfa Oil) (Airbnb STR)",
-        "email": "f.alakija@famfa.com",
-        "phone": "+234 802 987 6543",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 940,
-        "lease_start": "2026-07-19",
-        "lease_end": "2026-07-24"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-08-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-08-06",
-      "payment_date": "2026-08-06",
-      "status": "Paid",
-      "created_at": "2026-08-06T12:00:00Z",
-      "updated_at": "2026-08-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Folashade Alakija (Famfa Oil) (Airbnb STR)",
-        "email": "f.alakija@famfa.com",
-        "phone": "+234 802 987 6543",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-08-06",
-        "lease_end": "2026-08-13"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-08-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-08-19",
-      "payment_date": "2026-08-19",
-      "status": "Paid",
-      "created_at": "2026-08-19T12:00:00Z",
-      "updated_at": "2026-08-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Tariq Al-Mansoor (Aramco Envoy) (Booking.com STR)",
-        "email": "tariq.mansoor@aramco.sa",
-        "phone": "+966 50 123 4567",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-08-19",
-        "lease_end": "2026-08-25"
-      }
-    },
-    {
       "id": "pay-str-2026-unit-502-2026-09-1",
       "tenant_id": "ten-7",
       "lease_id": "lease-7",
@@ -5349,116 +5019,6 @@
       }
     },
     {
-      "id": "pay-str-2026-unit-502-2026-09-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-09-19",
-      "payment_date": "2026-09-19",
-      "status": "Paid",
-      "created_at": "2026-09-19T12:00:00Z",
-      "updated_at": "2026-09-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Chinyere Uzo (PwC Advisory) (Direct STR)",
-        "email": "chinyere.uzo@pwc.ng",
-        "phone": "+234 809 332 1100",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-09-19",
-        "lease_end": "2026-09-26"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-10-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-10-06",
-      "payment_date": "2026-10-06",
-      "status": "Paid",
-      "created_at": "2026-10-06T12:00:00Z",
-      "updated_at": "2026-10-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Chinyere Uzo (PwC Advisory) (Direct STR)",
-        "email": "chinyere.uzo@pwc.ng",
-        "phone": "+234 809 332 1100",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-10-06",
-        "lease_end": "2026-10-12"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-10-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1465,
-      "amount_paid": 1465,
-      "due_date": "2026-10-19",
-      "payment_date": "2026-10-19",
-      "status": "Paid",
-      "created_at": "2026-10-19T12:00:00Z",
-      "updated_at": "2026-10-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Ambassador Jean-Luc Picard (Direct STR)",
-        "email": "jl.picard@diplomatie.gouv.fr",
-        "phone": "+33 6 12 34 56 78",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1465,
-        "lease_start": "2026-10-19",
-        "lease_end": "2026-10-27"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-11-1",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1290,
-      "amount_paid": 1290,
-      "due_date": "2026-11-06",
-      "payment_date": "2026-11-06",
-      "status": "Paid",
-      "created_at": "2026-11-06T12:00:00Z",
-      "updated_at": "2026-11-06T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Ambassador Jean-Luc Picard (Direct STR)",
-        "email": "jl.picard@diplomatie.gouv.fr",
-        "phone": "+33 6 12 34 56 78",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1290,
-        "lease_start": "2026-11-06",
-        "lease_end": "2026-11-13"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-11-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 940,
-      "amount_paid": 940,
-      "due_date": "2026-11-19",
-      "payment_date": "2026-11-19",
-      "status": "Paid",
-      "created_at": "2026-11-19T12:00:00Z",
-      "updated_at": "2026-11-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Marcus Sterling (Goldman Sachs) (Booking.com STR)",
-        "email": "msterling@gs.com",
-        "phone": "+44 7911 123456",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 940,
-        "lease_start": "2026-11-19",
-        "lease_end": "2026-11-24"
-      }
-    },
-    {
       "id": "pay-str-2026-unit-502-2026-12-1",
       "tenant_id": "ten-7",
       "lease_id": "lease-7",
@@ -5478,28 +5038,6 @@
         "rent_rate_at_event": 1465,
         "lease_start": "2026-12-06",
         "lease_end": "2026-12-14"
-      }
-    },
-    {
-      "id": "pay-str-2026-unit-502-2026-12-2",
-      "tenant_id": "ten-7",
-      "lease_id": "lease-7",
-      "amount_due": 1115,
-      "amount_paid": 1115,
-      "due_date": "2026-12-19",
-      "payment_date": "2026-12-19",
-      "status": "Paid",
-      "created_at": "2026-12-19T12:00:00Z",
-      "updated_at": "2026-12-19T12:00:00Z",
-      "tenant_snapshot": {
-        "tenant_name": "Sophie Laurent (TotalEnergies) (Airbnb STR)",
-        "email": "sophie.laurent@totalenergies.com",
-        "phone": "+33 6 45 12 78 90",
-        "unit_number": "502",
-        "property_name": "Capital View Residences",
-        "rent_rate_at_event": 1115,
-        "lease_start": "2026-12-19",
-        "lease_end": "2026-12-25"
       }
     },
     {
@@ -9475,8 +9013,8 @@
     },
     {
       "id": "req-506",
-      "unit_id": "unit-204",
-      "tenant_id": "ten-6",
+      "unit_id": "unit-101",
+      "tenant_id": "ten-1",
       "category": "General",
       "priority": "Low",
       "status": "Completed",
@@ -9488,9 +9026,14 @@
       "updated_at": "2026-06-17T14:30:00Z",
       "property_id": "prop-1",
       "tenant_snapshot": {
-        "tenant_name": "Elena Rostova",
-        "email": "elena.rostova@example.ca",
-        "phone": "(416) 555-0611"
+        "tenant_name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.ca",
+        "phone": "(416) 555-0192",
+        "unit_number": "101",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2150,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
       },
       "title": "General Service & Repair Order",
       "vendor_id": "ven-4",
@@ -9772,7 +9315,7 @@
     },
     {
       "id": "maint-gen-2",
-      "tenant_id": "ten-2",
+      "tenant_id": "ten-11",
       "unit_id": "unit-302",
       "property_id": "prop-2",
       "category": "Appliance",
@@ -9789,11 +9332,14 @@
       "created_at": "2026-01-28T09:00:00Z",
       "updated_at": "2026-01-28T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "David Chen",
-        "email": "david.chen@example.ca",
-        "phone": "(416) 555-0341",
+        "tenant_name": "Olivia Tremblay",
+        "email": "olivia.tremblay@brookfield.com",
+        "phone": "(416) 555-0844",
         "unit_number": "302",
-        "property_name": "Harbourview Residences"
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2950,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
       },
       "attachments": [
         {
@@ -9824,7 +9370,7 @@
     },
     {
       "id": "maint-gen-3",
-      "tenant_id": "ten-3",
+      "tenant_id": "ten-5",
       "unit_id": "unit-401",
       "property_id": "prop-3",
       "category": "Electrical",
@@ -9841,9 +9387,9 @@
       "created_at": "2026-02-14T09:00:00Z",
       "updated_at": "2026-02-14T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Jean-Luc Roy",
-        "email": "jeanluc.roy@example.ca",
-        "phone": "(613) 555-0812",
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
         "unit_number": "1A",
         "property_name": "King Street Lofts",
         "rent_rate_at_event": 1950,
@@ -9879,7 +9425,7 @@
     },
     {
       "id": "maint-gen-4",
-      "tenant_id": "ten-4",
+      "tenant_id": "ten-7",
       "unit_id": "unit-502",
       "property_id": "prop-4",
       "category": "HVAC",
@@ -9896,9 +9442,9 @@
       "created_at": "2026-02-23T09:00:00Z",
       "updated_at": "2026-02-23T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Amina Al-Mansoor",
-        "email": "amina.almansoor@example.ca",
-        "phone": "(905) 555-0477",
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
         "unit_number": "502",
         "property_name": "Capital View Residences",
         "rent_rate_at_event": 2100,
@@ -9934,7 +9480,7 @@
     },
     {
       "id": "maint-gen-5",
-      "tenant_id": "ten-5",
+      "tenant_id": "ten-str-ea-204",
       "unit_id": "unit-ea-204",
       "property_id": "prop-5",
       "category": "General",
@@ -9986,7 +9532,7 @@
     },
     {
       "id": "maint-gen-6",
-      "tenant_id": "ten-6",
+      "tenant_id": "ten-str-ik-602",
       "unit_id": "unit-602",
       "property_id": "prop-6",
       "category": "Plumbing",
@@ -10038,7 +9584,7 @@
     },
     {
       "id": "maint-gen-7",
-      "tenant_id": "ten-7",
+      "tenant_id": "ten-str-mt-701",
       "unit_id": "unit-701",
       "property_id": "prop-7",
       "category": "General",
@@ -10090,7 +9636,7 @@
     },
     {
       "id": "maint-gen-8",
-      "tenant_id": "ten-8",
+      "tenant_id": "ten-str-w2-802",
       "unit_id": "unit-802",
       "property_id": "prop-8",
       "category": "Appliance",
@@ -10142,7 +9688,7 @@
     },
     {
       "id": "maint-gen-9",
-      "tenant_id": "ten-9",
+      "tenant_id": "ten-2",
       "unit_id": "unit-102",
       "property_id": "prop-1",
       "category": "Electrical",
@@ -10159,9 +9705,9 @@
       "created_at": "2026-05-11T09:00:00Z",
       "updated_at": "2026-05-11T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Babajide Adeyemi",
-        "email": "b.adeyemi@oandoenergy.com",
-        "phone": "+234 803 412 8890",
+        "tenant_name": "David Chen",
+        "email": "david.chen@example.ca",
+        "phone": "(416) 555-0341",
         "unit_number": "102",
         "property_name": "Maple Heights Apartments",
         "rent_rate_at_event": 2850,
@@ -10197,7 +9743,7 @@
     },
     {
       "id": "maint-gen-10",
-      "tenant_id": "ten-10",
+      "tenant_id": "ten-4",
       "unit_id": "unit-301",
       "property_id": "prop-2",
       "category": "Pest",
@@ -10214,9 +9760,9 @@
       "created_at": "2026-05-25T09:00:00Z",
       "updated_at": "2026-05-25T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Amina Bello",
-        "email": "amina.bello@afdb-consult.org",
-        "phone": "+234 809 555 7122",
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
         "unit_number": "301",
         "property_name": "Harbourview Residences",
         "rent_rate_at_event": 2450,
@@ -10252,7 +9798,7 @@
     },
     {
       "id": "maint-gen-11",
-      "tenant_id": "ten-2026-1",
+      "tenant_id": "ten-5",
       "unit_id": "unit-401",
       "property_id": "prop-3",
       "category": "HVAC",
@@ -10269,9 +9815,9 @@
       "created_at": "2026-06-08T09:00:00Z",
       "updated_at": "2026-06-08T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Ngozi Eze",
-        "email": "ngozi.eze@zenithenergy.ng",
-        "phone": "+234 803 999 1122",
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
         "unit_number": "1A",
         "property_name": "King Street Lofts",
         "rent_rate_at_event": 1950,
@@ -10307,7 +9853,7 @@
     },
     {
       "id": "maint-gen-12",
-      "tenant_id": "ten-2026-2",
+      "tenant_id": "ten-7",
       "unit_id": "unit-502",
       "property_id": "prop-4",
       "category": "General",
@@ -10324,9 +9870,9 @@
       "created_at": "2026-06-20T09:00:00Z",
       "updated_at": "2026-06-20T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Sebastian Tremblay",
-        "email": "sebastian.tremblay@ottawacivic.ca",
-        "phone": "(613) 555-7733",
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
         "unit_number": "502",
         "property_name": "Capital View Residences",
         "rent_rate_at_event": 2100,
@@ -10362,7 +9908,7 @@
     },
     {
       "id": "maint-gen-13",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ea-101",
       "unit_id": "unit-ea-101",
       "property_id": "prop-5",
       "category": "Plumbing",
@@ -10414,7 +9960,7 @@
     },
     {
       "id": "maint-gen-14",
-      "tenant_id": "ten-2",
+      "tenant_id": "ten-str-ik-602",
       "unit_id": "unit-602",
       "property_id": "prop-6",
       "category": "Appliance",
@@ -10466,7 +10012,7 @@
     },
     {
       "id": "maint-gen-15",
-      "tenant_id": "ten-3",
+      "tenant_id": "ten-str-mt-701",
       "unit_id": "unit-701",
       "property_id": "prop-7",
       "category": "General",
@@ -10518,7 +10064,7 @@
     },
     {
       "id": "maint-gen-16",
-      "tenant_id": "ten-4",
+      "tenant_id": "ten-str-w2-802",
       "unit_id": "unit-802",
       "property_id": "prop-8",
       "category": "General",
@@ -10570,7 +10116,7 @@
     },
     {
       "id": "maint-gen-17",
-      "tenant_id": "ten-5",
+      "tenant_id": "ten-str-mh-103",
       "unit_id": "unit-103",
       "property_id": "prop-1",
       "category": "Electrical",
@@ -10622,9 +10168,9 @@
     },
     {
       "id": "maint-gen-18",
-      "tenant_id": "ten-6",
-      "unit_id": "unit-303",
-      "property_id": "prop-2",
+      "tenant_id": "ten-1",
+      "unit_id": "unit-101",
+      "property_id": "prop-1",
       "category": "HVAC",
       "title": "Pre-winter central boiler inspection & zone control motorized actuator replacement",
       "description": "Zone 2 actuator motor unresponsive. Swapped with Honeywell 24V synchronous motorized head.",
@@ -10639,9 +10185,14 @@
       "created_at": "2026-10-18T09:00:00Z",
       "updated_at": "2026-10-18T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Elena Rostova",
-        "email": "elena.rostova@example.ca",
-        "phone": "(416) 555-0611"
+        "tenant_name": "Sarah Mitchell",
+        "email": "sarah.mitchell@example.ca",
+        "phone": "(416) 555-0192",
+        "unit_number": "101",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2150,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
       },
       "attachments": [
         {
@@ -10672,7 +10223,7 @@
     },
     {
       "id": "maint-gen-19",
-      "tenant_id": "ten-7",
+      "tenant_id": "ten-5",
       "unit_id": "unit-401",
       "property_id": "prop-3",
       "category": "Plumbing",
@@ -10689,9 +10240,9 @@
       "created_at": "2026-11-12T09:00:00Z",
       "updated_at": "2026-11-12T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Liam O'Connor",
-        "email": "liam.oconnor@example.ca",
-        "phone": "(613) 555-0133",
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
         "unit_number": "1A",
         "property_name": "King Street Lofts",
         "rent_rate_at_event": 1950,
@@ -10727,7 +10278,7 @@
     },
     {
       "id": "maint-gen-20",
-      "tenant_id": "ten-8",
+      "tenant_id": "ten-7",
       "unit_id": "unit-502",
       "property_id": "prop-4",
       "category": "General",
@@ -10744,9 +10295,9 @@
       "created_at": "2026-12-05T09:00:00Z",
       "updated_at": "2026-12-05T16:00:00Z",
       "tenant_snapshot": {
-        "tenant_name": "Priya Patel",
-        "email": "priya.patel@example.ca",
-        "phone": "(416) 555-0789",
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
         "unit_number": "502",
         "property_name": "Capital View Residences",
         "rent_rate_at_event": 2100,
@@ -10850,13 +10401,13 @@
       "updated_at": "2026-10-18T15:00:00Z",
       "tenant_snapshot": {
         "tenant_name": "Babajide Adeyemi",
-        "email": "babajide@investments.ng",
-        "phone": "+234 802 334 9988",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
         "unit_number": "EA-302",
         "property_name": "Eko Atlantic Waterfront Towers",
-        "rent_rate_at_event": 2800000,
-        "lease_start": "2026-01-01",
-        "lease_end": "2026-12-31"
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
       },
       "title": "Plumbing Service & Repair Order",
       "actual_cost": 145000,
@@ -10885,7 +10436,8 @@
           "size": 142000,
           "uploaded_at": "2026-10-18T15:00:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-9"
     },
     {
       "id": "maint-nov-1",
@@ -10927,7 +10479,8 @@
           "size": 142000,
           "uploaded_at": "2026-11-09T14:00:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-str-ea-101"
     },
     {
       "id": "maint-nov-pending-1",
@@ -10944,13 +10497,13 @@
       "updated_at": "2026-11-10T16:00:00Z",
       "tenant_snapshot": {
         "tenant_name": "Babajide Adeyemi",
-        "email": "babajide@investments.ng",
-        "phone": "+234 802 334 9988",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
         "unit_number": "EA-302",
         "property_name": "Eko Atlantic Waterfront Towers",
-        "rent_rate_at_event": 2800000,
-        "lease_start": "2026-01-01",
-        "lease_end": "2026-12-31"
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
       },
       "title": "HVAC Service & Repair Order",
       "attachments": [
@@ -10970,7 +10523,8 @@
           "size": 156400,
           "uploaded_at": "2026-11-10T16:00:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-9"
     },
     {
       "id": "maint-nov-today-urgent",
@@ -10987,13 +10541,13 @@
       "updated_at": "2026-11-11T09:15:00Z",
       "tenant_snapshot": {
         "tenant_name": "Amina Bello",
-        "email": "amina.bello@embassy.gov.ng",
-        "phone": "+234 803 771 2233",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
         "unit_number": "MT-15",
         "property_name": "Maitama Diplomatic Residences",
-        "rent_rate_at_event": 3800000,
-        "lease_start": "2026-02-01",
-        "lease_end": "2027-01-31"
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
       },
       "title": "Plumbing Service & Repair Order",
       "attachments": [
@@ -11013,7 +10567,8 @@
           "size": 156400,
           "uploaded_at": "2026-11-11T09:15:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-10"
     },
     {
       "id": "maint-ik-oct-1",
@@ -11054,7 +10609,8 @@
           "size": 142000,
           "uploaded_at": "2026-10-10T12:00:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-str-ik-601"
     },
     {
       "id": "maint-mt-nov-1",
@@ -11095,13 +10651,14 @@
           "size": 142000,
           "uploaded_at": "2026-11-03T14:00:00Z"
         }
-      ]
+      ],
+      "tenant_id": "ten-str-mt-701"
     },
     {
       "id": "maint-2026-prop-3-2026-01",
       "property_id": "prop-3",
       "unit_id": "unit-401",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-5",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "King Street Lofts (Unit 1A): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -11137,13 +10694,23 @@
           "size": 142000,
           "uploaded_at": "2026-01-08T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-01",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Capital View Residences (Unit 502): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -11179,13 +10746,23 @@
           "size": 142000,
           "uploaded_at": "2026-01-11T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-5-2026-01",
       "property_id": "prop-5",
       "unit_id": "unit-ea-204",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ea-204",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-204): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -11227,7 +10804,7 @@
       "id": "maint-2026-prop-6-2026-01",
       "property_id": "prop-6",
       "unit_id": "unit-602",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-602",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-05): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -11269,7 +10846,7 @@
       "id": "maint-2026-prop-7-2026-01",
       "property_id": "prop-7",
       "unit_id": "unit-701",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mt-701",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Maitama Diplomatic Residences (Unit MT-12): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -11311,7 +10888,7 @@
       "id": "maint-2026-prop-8-2026-01",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Wuse II Executive Lofts (Unit W2-10): Preventative replacement of braided supply line washer and aerator screen.",
@@ -11353,7 +10930,7 @@
       "id": "maint-2026-prop-1-2026-02",
       "property_id": "prop-1",
       "unit_id": "unit-102",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-2",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Maple Heights Apartments (Unit 102): Preventative replacement of braided supply line washer and aerator screen.",
@@ -11389,13 +10966,23 @@
           "size": 142000,
           "uploaded_at": "2026-02-03T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "David Chen",
+        "email": "david.chen@example.ca",
+        "phone": "(416) 555-0341",
+        "unit_number": "102",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2850,
+        "lease_start": "2025-10-01",
+        "lease_end": "2026-09-30"
+      }
     },
     {
       "id": "maint-2026-prop-2-2026-02",
       "property_id": "prop-2",
       "unit_id": "unit-301",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-4",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Harbourview Residences (Unit 301): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -11431,13 +11018,23 @@
           "size": 142000,
           "uploaded_at": "2026-02-06T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
+        "unit_number": "301",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2450,
+        "lease_start": "2025-09-15",
+        "lease_end": "2026-09-14"
+      }
     },
     {
       "id": "maint-2026-prop-5-2026-02",
       "property_id": "prop-5",
       "unit_id": "unit-ea-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-9",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-302): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -11473,13 +11070,23 @@
           "size": 142000,
           "uploaded_at": "2026-02-15T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
+      }
     },
     {
       "id": "maint-2026-prop-6-2026-02",
       "property_id": "prop-6",
       "unit_id": "unit-601",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-601",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-02): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -11521,7 +11128,7 @@
       "id": "maint-2026-prop-7-2026-02",
       "property_id": "prop-7",
       "unit_id": "unit-702",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-10",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Maitama Diplomatic Residences (Unit MT-15): Preventative replacement of braided supply line washer and aerator screen.",
@@ -11557,13 +11164,23 @@
           "size": 142000,
           "uploaded_at": "2026-02-21T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-8-2026-02",
       "property_id": "prop-8",
       "unit_id": "unit-801",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-801",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Wuse II Executive Lofts (Unit W2-08): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -11605,7 +11222,7 @@
       "id": "maint-2026-prop-1-2026-03",
       "property_id": "prop-1",
       "unit_id": "unit-103",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mh-103",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Maple Heights Apartments (Unit 103): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -11647,7 +11264,7 @@
       "id": "maint-2026-prop-2-2026-03",
       "property_id": "prop-2",
       "unit_id": "unit-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-11",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Harbourview Residences (Unit 302): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -11683,13 +11300,23 @@
           "size": 142000,
           "uploaded_at": "2026-03-07T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Olivia Tremblay",
+        "email": "olivia.tremblay@brookfield.com",
+        "phone": "(416) 555-0844",
+        "unit_number": "302",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2950,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-03",
       "property_id": "prop-3",
       "unit_id": "unit-401",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-5",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "King Street Lofts (Unit 1A): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -11725,13 +11352,23 @@
           "size": 142000,
           "uploaded_at": "2026-03-10T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-03",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Capital View Residences (Unit 502): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -11767,13 +11404,23 @@
           "size": 142000,
           "uploaded_at": "2026-03-13T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-7-2026-03",
       "property_id": "prop-7",
       "unit_id": "unit-701",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mt-701",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Maitama Diplomatic Residences (Unit MT-12): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -11815,7 +11462,7 @@
       "id": "maint-2026-prop-8-2026-03",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Wuse II Executive Lofts (Unit W2-10): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -11857,7 +11504,7 @@
       "id": "maint-2026-prop-1-2026-04",
       "property_id": "prop-1",
       "unit_id": "unit-104",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-8",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Maple Heights Apartments (Unit 104): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -11893,13 +11540,23 @@
           "size": 142000,
           "uploaded_at": "2026-04-05T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Priya Patel",
+        "email": "priya.patel@example.ca",
+        "phone": "(416) 555-0789",
+        "unit_number": "104",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2750,
+        "lease_start": "2025-06-01",
+        "lease_end": "2026-05-31"
+      }
     },
     {
       "id": "maint-2026-prop-2-2026-04",
       "property_id": "prop-2",
       "unit_id": "unit-301",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-4",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Harbourview Residences (Unit 301): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -11935,13 +11592,23 @@
           "size": 142000,
           "uploaded_at": "2026-04-08T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
+        "unit_number": "301",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2450,
+        "lease_start": "2025-09-15",
+        "lease_end": "2026-09-14"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-04",
       "property_id": "prop-3",
       "unit_id": "unit-402",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ks-402",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "King Street Lofts (Unit 2B): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -11983,7 +11650,7 @@
       "id": "maint-2026-prop-4-2026-04",
       "property_id": "prop-4",
       "unit_id": "unit-501",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-3",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Capital View Residences (Unit 501): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12019,13 +11686,23 @@
           "size": 142000,
           "uploaded_at": "2026-04-14T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Jean-Luc Roy",
+        "email": "jeanluc.roy@example.ca",
+        "phone": "(613) 555-0812",
+        "unit_number": "501",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2650,
+        "lease_start": "2025-11-01",
+        "lease_end": "2026-10-31"
+      }
     },
     {
       "id": "maint-2026-prop-5-2026-04",
       "property_id": "prop-5",
       "unit_id": "unit-ea-204",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ea-204",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-204): Preventative replacement of braided supply line washer and aerator screen.",
@@ -12067,7 +11744,7 @@
       "id": "maint-2026-prop-6-2026-04",
       "property_id": "prop-6",
       "unit_id": "unit-601",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-601",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-02): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -12109,7 +11786,7 @@
       "id": "maint-2026-prop-3-2026-05",
       "property_id": "prop-3",
       "unit_id": "unit-401",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-5",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "King Street Lofts (Unit 1A): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12145,13 +11822,23 @@
           "size": 142000,
           "uploaded_at": "2026-05-08T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-05",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Capital View Residences (Unit 502): Preventative replacement of braided supply line washer and aerator screen.",
@@ -12187,13 +11874,23 @@
           "size": 142000,
           "uploaded_at": "2026-05-11T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-5-2026-05",
       "property_id": "prop-5",
       "unit_id": "unit-ea-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-9",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-302): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -12229,13 +11926,23 @@
           "size": 142000,
           "uploaded_at": "2026-05-14T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
+      }
     },
     {
       "id": "maint-2026-prop-6-2026-05",
       "property_id": "prop-6",
       "unit_id": "unit-602",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-602",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-05): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -12277,7 +11984,7 @@
       "id": "maint-2026-prop-7-2026-05",
       "property_id": "prop-7",
       "unit_id": "unit-701",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mt-701",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Maitama Diplomatic Residences (Unit MT-12): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -12319,7 +12026,7 @@
       "id": "maint-2026-prop-8-2026-05",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Wuse II Executive Lofts (Unit W2-10): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -12361,7 +12068,7 @@
       "id": "maint-2026-prop-6-2026-06",
       "property_id": "prop-6",
       "unit_id": "unit-601",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-601",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-02): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -12403,7 +12110,7 @@
       "id": "maint-2026-prop-8-2026-06",
       "property_id": "prop-8",
       "unit_id": "unit-801",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-801",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Wuse II Executive Lofts (Unit W2-08): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12445,7 +12152,7 @@
       "id": "maint-2026-prop-1-2026-07",
       "property_id": "prop-1",
       "unit_id": "unit-103",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mh-103",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Maple Heights Apartments (Unit 103): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12487,7 +12194,7 @@
       "id": "maint-2026-prop-2-2026-07",
       "property_id": "prop-2",
       "unit_id": "unit-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-11",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Harbourview Residences (Unit 302): Preventative replacement of braided supply line washer and aerator screen.",
@@ -12523,13 +12230,23 @@
           "size": 142000,
           "uploaded_at": "2026-07-07T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Olivia Tremblay",
+        "email": "olivia.tremblay@brookfield.com",
+        "phone": "(416) 555-0844",
+        "unit_number": "302",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2950,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-07",
       "property_id": "prop-3",
       "unit_id": "unit-401",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-5",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "King Street Lofts (Unit 1A): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -12565,13 +12282,23 @@
           "size": 142000,
           "uploaded_at": "2026-07-10T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-07",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Capital View Residences (Unit 502): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -12607,13 +12334,23 @@
           "size": 142000,
           "uploaded_at": "2026-07-13T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-7-2026-07",
       "property_id": "prop-7",
       "unit_id": "unit-701",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mt-701",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Maitama Diplomatic Residences (Unit MT-12): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12655,7 +12392,7 @@
       "id": "maint-2026-prop-8-2026-07",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Wuse II Executive Lofts (Unit W2-10): Preventative replacement of braided supply line washer and aerator screen.",
@@ -12697,7 +12434,7 @@
       "id": "maint-2026-prop-5-2026-08",
       "property_id": "prop-5",
       "unit_id": "unit-ea-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-9",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-302): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -12733,13 +12470,23 @@
           "size": 142000,
           "uploaded_at": "2026-08-17T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Babajide Adeyemi",
+        "email": "b.adeyemi@oandoenergy.com",
+        "phone": "+234 803 412 8890",
+        "unit_number": "EA-302",
+        "property_name": "Eko Atlantic Waterfront Towers",
+        "rent_rate_at_event": 3200000,
+        "lease_start": "2025-03-01",
+        "lease_end": "2027-02-28"
+      }
     },
     {
       "id": "maint-2026-prop-6-2026-08",
       "property_id": "prop-6",
       "unit_id": "unit-601",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-601",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-02): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12781,7 +12528,7 @@
       "id": "maint-2026-prop-2-2026-09",
       "property_id": "prop-2",
       "unit_id": "unit-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-11",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Harbourview Residences (Unit 302): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -12817,13 +12564,23 @@
           "size": 142000,
           "uploaded_at": "2026-09-05T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Olivia Tremblay",
+        "email": "olivia.tremblay@brookfield.com",
+        "phone": "(416) 555-0844",
+        "unit_number": "302",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2950,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-09",
       "property_id": "prop-3",
       "unit_id": "unit-401",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-5",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "King Street Lofts (Unit 1A): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -12859,13 +12616,23 @@
           "size": 142000,
           "uploaded_at": "2026-09-08T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Marcus Vance",
+        "email": "marcus.vance@example.ca",
+        "phone": "(905) 555-0922",
+        "unit_number": "1A",
+        "property_name": "King Street Lofts",
+        "rent_rate_at_event": 1950,
+        "lease_start": "2025-07-01",
+        "lease_end": "2026-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-09",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Capital View Residences (Unit 502): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -12901,13 +12668,23 @@
           "size": 142000,
           "uploaded_at": "2026-09-11T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-5-2026-09",
       "property_id": "prop-5",
       "unit_id": "unit-ea-101",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ea-101",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Eko Atlantic Waterfront Towers (Unit EA-101): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -12949,7 +12726,7 @@
       "id": "maint-2026-prop-6-2026-09",
       "property_id": "prop-6",
       "unit_id": "unit-602",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-602",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-05): Preventative replacement of braided supply line washer and aerator screen.",
@@ -12991,7 +12768,7 @@
       "id": "maint-2026-prop-7-2026-09",
       "property_id": "prop-7",
       "unit_id": "unit-701",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mt-701",
       "title": "Smart Keyless Entry Lock Firmware & Battery Service",
       "category": "Electrical",
       "description": "Maitama Diplomatic Residences (Unit MT-12): Replaced lithium cell pack and verified encrypted guest/tenant access codes.",
@@ -13033,7 +12810,7 @@
       "id": "maint-2026-prop-8-2026-09",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Wuse II Executive Lofts (Unit W2-10): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -13075,7 +12852,7 @@
       "id": "maint-2026-prop-1-2026-10",
       "property_id": "prop-1",
       "unit_id": "unit-102",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-2",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Maple Heights Apartments (Unit 102): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -13111,13 +12888,23 @@
           "size": 142000,
           "uploaded_at": "2026-10-03T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "David Chen",
+        "email": "david.chen@example.ca",
+        "phone": "(416) 555-0341",
+        "unit_number": "102",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2850,
+        "lease_start": "2025-10-01",
+        "lease_end": "2026-09-30"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-10",
       "property_id": "prop-3",
       "unit_id": "unit-402",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ks-402",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "King Street Lofts (Unit 2B): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -13159,7 +12946,7 @@
       "id": "maint-2026-prop-4-2026-10",
       "property_id": "prop-4",
       "unit_id": "unit-501",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-3",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Capital View Residences (Unit 501): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -13195,13 +12982,23 @@
           "size": 142000,
           "uploaded_at": "2026-10-12T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Jean-Luc Roy",
+        "email": "jeanluc.roy@example.ca",
+        "phone": "(613) 555-0812",
+        "unit_number": "501",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2650,
+        "lease_start": "2025-11-01",
+        "lease_end": "2026-10-31"
+      }
     },
     {
       "id": "maint-2026-prop-7-2026-10",
       "property_id": "prop-7",
       "unit_id": "unit-702",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-10",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Maitama Diplomatic Residences (Unit MT-15): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -13237,13 +13034,23 @@
           "size": 142000,
           "uploaded_at": "2026-10-21T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-8-2026-10",
       "property_id": "prop-8",
       "unit_id": "unit-801",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-801",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Wuse II Executive Lofts (Unit W2-08): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -13285,7 +13092,7 @@
       "id": "maint-2026-prop-1-2026-11",
       "property_id": "prop-1",
       "unit_id": "unit-103",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-mh-103",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Maple Heights Apartments (Unit 103): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -13318,7 +13125,7 @@
       "id": "maint-2026-prop-2-2026-11",
       "property_id": "prop-2",
       "unit_id": "unit-302",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-11",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Harbourview Residences (Unit 302): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -13354,13 +13161,23 @@
           "size": 142000,
           "uploaded_at": "2026-11-07T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Olivia Tremblay",
+        "email": "olivia.tremblay@brookfield.com",
+        "phone": "(416) 555-0844",
+        "unit_number": "302",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2950,
+        "lease_start": "2026-01-01",
+        "lease_end": "2026-12-31"
+      }
     },
     {
       "id": "maint-2026-prop-4-2026-11",
       "property_id": "prop-4",
       "unit_id": "unit-502",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-7",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "Capital View Residences (Unit 502): Preventative replacement of braided supply line washer and aerator screen.",
@@ -13387,13 +13204,23 @@
           "size": 156400,
           "uploaded_at": "2026-11-13T10:15:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Liam O'Connor",
+        "email": "liam.oconnor@example.ca",
+        "phone": "(613) 555-0133",
+        "unit_number": "502",
+        "property_name": "Capital View Residences",
+        "rent_rate_at_event": 2100,
+        "lease_start": "2025-09-01",
+        "lease_end": "2026-08-31"
+      }
     },
     {
       "id": "maint-2026-prop-6-2026-11",
       "property_id": "prop-6",
       "unit_id": "unit-602",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-602",
       "title": "Balcony Sliding Door Track & Weatherstrip Alignment",
       "category": "Structural",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-05): Lubricated tandem rollers and sealed acoustic perimeter weatherstripping.",
@@ -13435,7 +13262,7 @@
       "id": "maint-2026-prop-8-2026-11",
       "property_id": "prop-8",
       "unit_id": "unit-802",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-802",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Wuse II Executive Lofts (Unit W2-10): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -13477,7 +13304,7 @@
       "id": "maint-2026-prop-1-2026-12",
       "property_id": "prop-1",
       "unit_id": "unit-104",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-8",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Maple Heights Apartments (Unit 104): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -13504,13 +13331,23 @@
           "size": 156400,
           "uploaded_at": "2026-12-05T10:15:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Priya Patel",
+        "email": "priya.patel@example.ca",
+        "phone": "(416) 555-0789",
+        "unit_number": "104",
+        "property_name": "Maple Heights Apartments",
+        "rent_rate_at_event": 2750,
+        "lease_start": "2025-06-01",
+        "lease_end": "2026-05-31"
+      }
     },
     {
       "id": "maint-2026-prop-2-2026-12",
       "property_id": "prop-2",
       "unit_id": "unit-301",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-4",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Harbourview Residences (Unit 301): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -13546,13 +13383,23 @@
           "size": 142000,
           "uploaded_at": "2026-12-08T16:45:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Al-Mansoor",
+        "email": "amina.almansoor@example.ca",
+        "phone": "(905) 555-0477",
+        "unit_number": "301",
+        "property_name": "Harbourview Residences",
+        "rent_rate_at_event": 2450,
+        "lease_start": "2025-09-15",
+        "lease_end": "2026-09-14"
+      }
     },
     {
       "id": "maint-2026-prop-3-2026-12",
       "property_id": "prop-3",
       "unit_id": "unit-402",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ks-402",
       "title": "Kitchen Under-Sink Mixer Valve & Seal Tightening",
       "category": "Plumbing",
       "description": "King Street Lofts (Unit 2B): Preventative replacement of braided supply line washer and aerator screen.",
@@ -13594,7 +13441,7 @@
       "id": "maint-2026-prop-6-2026-12",
       "property_id": "prop-6",
       "unit_id": "unit-601",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-ik-601",
       "title": "In-Suite Washer/Dryer Drain Trap & Belt Inspection",
       "category": "Appliance",
       "description": "Ikoyi Luxury Heights & Suites (Unit IK-02): Cleared lint trap assembly and tested high-spin balance sensors.",
@@ -13636,7 +13483,7 @@
       "id": "maint-2026-prop-7-2026-12",
       "property_id": "prop-7",
       "unit_id": "unit-702",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-10",
       "title": "Bathroom Exhaust Fan & GFCI Outlet Safety Check",
       "category": "Electrical",
       "description": "Maitama Diplomatic Residences (Unit MT-15): Verified humidity sensor trigger and tested GFCI ground-fault trip response.",
@@ -13663,13 +13510,23 @@
           "size": 156400,
           "uploaded_at": "2026-12-23T10:15:00Z"
         }
-      ]
+      ],
+      "tenant_snapshot": {
+        "tenant_name": "Amina Bello",
+        "email": "amina.bello@afdb-consult.org",
+        "phone": "+234 809 555 7122",
+        "unit_number": "MT-15",
+        "property_name": "Maitama Diplomatic Residences",
+        "rent_rate_at_event": 4200000,
+        "lease_start": "2025-07-01",
+        "lease_end": "2027-06-30"
+      }
     },
     {
       "id": "maint-2026-prop-8-2026-12",
       "property_id": "prop-8",
       "unit_id": "unit-801",
-      "tenant_id": "ten-1",
+      "tenant_id": "ten-str-w2-801",
       "title": "HVAC Airflow & Smart Thermostat Calibration",
       "category": "HVAC",
       "description": "Wuse II Executive Lofts (Unit W2-08): Scheduled seasonal airflow balancing and digital thermostat sensor check.",
@@ -19742,7 +19599,8 @@
       "amount": 2203.75,
       "content": "Notice of Rent Increase (Form N1) for Unit 101. Current Rent: $2,150.00. Guideline Increase: 2.5% ($53.75). New Monthly Rent: $2,203.75 starting December 1, 2026.",
       "created_at": "2026-08-20T10:00:00Z",
-      "updated_at": "2026-08-20T10:00:00Z"
+      "updated_at": "2026-08-20T10:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "notif-2",
@@ -19754,7 +19612,8 @@
       "amount": 2850,
       "content": "DRAFT Notice to End a Tenancy Early for Non-payment of Rent (Form N4). Total arrears: $2,850.00 due August 1, 2026. Termination date if unpaid: August 31, 2026.",
       "created_at": "2026-08-21T08:00:00Z",
-      "updated_at": "2026-08-21T08:00:00Z"
+      "updated_at": "2026-08-21T08:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-501",
@@ -19766,7 +19625,9 @@
       "amount_owing": 0,
       "status": "Approved",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-3",
+      "property_id": "prop-4"
     },
     {
       "id": "not-502",
@@ -19778,7 +19639,9 @@
       "amount_owing": 0,
       "status": "Served",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-4",
+      "property_id": "prop-2"
     },
     {
       "id": "not-503",
@@ -19790,7 +19653,9 @@
       "amount_owing": 1950,
       "status": "Draft",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-5",
+      "property_id": "prop-3"
     },
     {
       "id": "not-504",
@@ -19802,7 +19667,8 @@
       "amount_owing": 0,
       "status": "Approved",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-6"
     },
     {
       "id": "not-505",
@@ -19814,7 +19680,9 @@
       "amount_owing": 0,
       "status": "Served",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-7",
+      "property_id": "prop-4"
     },
     {
       "id": "not-506",
@@ -19826,7 +19694,9 @@
       "amount_owing": 2750,
       "status": "Draft",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-8",
+      "property_id": "prop-1"
     },
     {
       "id": "not-507",
@@ -19838,7 +19708,9 @@
       "amount_owing": 0,
       "status": "Approved",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-9",
+      "property_id": "prop-5"
     },
     {
       "id": "not-508",
@@ -19850,7 +19722,9 @@
       "amount_owing": 0,
       "status": "Served",
       "created_at": "2026-05-15T09:00:00Z",
-      "updated_at": "2026-05-15T09:00:00Z"
+      "updated_at": "2026-05-15T09:00:00Z",
+      "lease_id": "lease-10",
+      "property_id": "prop-7"
     },
     {
       "id": "not-2026-2026-01-w1",
@@ -19861,7 +19735,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-01-03T09:00:00Z",
       "created_at": "2026-01-03T08:30:00Z",
-      "updated_at": "2026-01-03T09:00:00Z"
+      "updated_at": "2026-01-03T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-01-w2",
@@ -19872,7 +19747,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-01-10T09:00:00Z",
       "created_at": "2026-01-10T08:30:00Z",
-      "updated_at": "2026-01-10T09:00:00Z"
+      "updated_at": "2026-01-10T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-01-w3",
@@ -19883,7 +19759,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-01-18T09:00:00Z",
       "created_at": "2026-01-18T08:30:00Z",
-      "updated_at": "2026-01-18T09:00:00Z"
+      "updated_at": "2026-01-18T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-01-w4",
@@ -19894,7 +19771,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-01-25T09:00:00Z",
       "created_at": "2026-01-25T08:30:00Z",
-      "updated_at": "2026-01-25T09:00:00Z"
+      "updated_at": "2026-01-25T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-02-w1",
@@ -19905,7 +19783,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-02-03T09:00:00Z",
       "created_at": "2026-02-03T08:30:00Z",
-      "updated_at": "2026-02-03T09:00:00Z"
+      "updated_at": "2026-02-03T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-02-w2",
@@ -19916,7 +19795,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-02-10T09:00:00Z",
       "created_at": "2026-02-10T08:30:00Z",
-      "updated_at": "2026-02-10T09:00:00Z"
+      "updated_at": "2026-02-10T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-02-w3",
@@ -19927,7 +19807,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-02-18T09:00:00Z",
       "created_at": "2026-02-18T08:30:00Z",
-      "updated_at": "2026-02-18T09:00:00Z"
+      "updated_at": "2026-02-18T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-02-w4",
@@ -19938,7 +19819,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-02-25T09:00:00Z",
       "created_at": "2026-02-25T08:30:00Z",
-      "updated_at": "2026-02-25T09:00:00Z"
+      "updated_at": "2026-02-25T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-03-w1",
@@ -19949,7 +19831,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-03-03T09:00:00Z",
       "created_at": "2026-03-03T08:30:00Z",
-      "updated_at": "2026-03-03T09:00:00Z"
+      "updated_at": "2026-03-03T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-03-w2",
@@ -19960,7 +19843,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-03-10T09:00:00Z",
       "created_at": "2026-03-10T08:30:00Z",
-      "updated_at": "2026-03-10T09:00:00Z"
+      "updated_at": "2026-03-10T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-03-w3",
@@ -19971,7 +19855,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-03-18T09:00:00Z",
       "created_at": "2026-03-18T08:30:00Z",
-      "updated_at": "2026-03-18T09:00:00Z"
+      "updated_at": "2026-03-18T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-03-w4",
@@ -19982,7 +19867,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-03-25T09:00:00Z",
       "created_at": "2026-03-25T08:30:00Z",
-      "updated_at": "2026-03-25T09:00:00Z"
+      "updated_at": "2026-03-25T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-04-w1",
@@ -19993,7 +19879,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-04-03T09:00:00Z",
       "created_at": "2026-04-03T08:30:00Z",
-      "updated_at": "2026-04-03T09:00:00Z"
+      "updated_at": "2026-04-03T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-04-w2",
@@ -20004,7 +19891,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-04-10T09:00:00Z",
       "created_at": "2026-04-10T08:30:00Z",
-      "updated_at": "2026-04-10T09:00:00Z"
+      "updated_at": "2026-04-10T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-04-w3",
@@ -20015,7 +19903,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-04-18T09:00:00Z",
       "created_at": "2026-04-18T08:30:00Z",
-      "updated_at": "2026-04-18T09:00:00Z"
+      "updated_at": "2026-04-18T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-04-w4",
@@ -20026,7 +19915,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-04-25T09:00:00Z",
       "created_at": "2026-04-25T08:30:00Z",
-      "updated_at": "2026-04-25T09:00:00Z"
+      "updated_at": "2026-04-25T09:00:00Z",
+      "property_id": "prop-5"
     },
     {
       "id": "not-2026-2026-05-w1",
@@ -20037,7 +19927,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-05-03T09:00:00Z",
       "created_at": "2026-05-03T08:30:00Z",
-      "updated_at": "2026-05-03T09:00:00Z"
+      "updated_at": "2026-05-03T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-05-w2",
@@ -20048,7 +19939,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-05-10T09:00:00Z",
       "created_at": "2026-05-10T08:30:00Z",
-      "updated_at": "2026-05-10T09:00:00Z"
+      "updated_at": "2026-05-10T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-05-w3",
@@ -20059,7 +19951,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-05-18T09:00:00Z",
       "created_at": "2026-05-18T08:30:00Z",
-      "updated_at": "2026-05-18T09:00:00Z"
+      "updated_at": "2026-05-18T09:00:00Z",
+      "property_id": "prop-5"
     },
     {
       "id": "not-2026-2026-05-w4",
@@ -20070,7 +19963,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-05-25T09:00:00Z",
       "created_at": "2026-05-25T08:30:00Z",
-      "updated_at": "2026-05-25T09:00:00Z"
+      "updated_at": "2026-05-25T09:00:00Z",
+      "property_id": "prop-7"
     },
     {
       "id": "not-2026-2026-06-w1",
@@ -20081,7 +19975,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-06-03T09:00:00Z",
       "created_at": "2026-06-03T08:30:00Z",
-      "updated_at": "2026-06-03T09:00:00Z"
+      "updated_at": "2026-06-03T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-06-w2",
@@ -20092,7 +19987,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-06-10T09:00:00Z",
       "created_at": "2026-06-10T08:30:00Z",
-      "updated_at": "2026-06-10T09:00:00Z"
+      "updated_at": "2026-06-10T09:00:00Z",
+      "property_id": "prop-5"
     },
     {
       "id": "not-2026-2026-06-w3",
@@ -20103,7 +19999,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-06-18T09:00:00Z",
       "created_at": "2026-06-18T08:30:00Z",
-      "updated_at": "2026-06-18T09:00:00Z"
+      "updated_at": "2026-06-18T09:00:00Z",
+      "property_id": "prop-7"
     },
     {
       "id": "not-2026-2026-06-w4",
@@ -20114,7 +20011,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-06-25T09:00:00Z",
       "created_at": "2026-06-25T08:30:00Z",
-      "updated_at": "2026-06-25T09:00:00Z"
+      "updated_at": "2026-06-25T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-07-w1",
@@ -20125,7 +20023,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-07-03T09:00:00Z",
       "created_at": "2026-07-03T08:30:00Z",
-      "updated_at": "2026-07-03T09:00:00Z"
+      "updated_at": "2026-07-03T09:00:00Z",
+      "property_id": "prop-5"
     },
     {
       "id": "not-2026-2026-07-w2",
@@ -20136,7 +20035,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-07-10T09:00:00Z",
       "created_at": "2026-07-10T08:30:00Z",
-      "updated_at": "2026-07-10T09:00:00Z"
+      "updated_at": "2026-07-10T09:00:00Z",
+      "property_id": "prop-7"
     },
     {
       "id": "not-2026-2026-07-w3",
@@ -20147,7 +20047,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-07-18T09:00:00Z",
       "created_at": "2026-07-18T08:30:00Z",
-      "updated_at": "2026-07-18T09:00:00Z"
+      "updated_at": "2026-07-18T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-07-w4",
@@ -20158,7 +20059,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-07-25T09:00:00Z",
       "created_at": "2026-07-25T08:30:00Z",
-      "updated_at": "2026-07-25T09:00:00Z"
+      "updated_at": "2026-07-25T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-08-w1",
@@ -20169,7 +20071,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-08-03T09:00:00Z",
       "created_at": "2026-08-03T08:30:00Z",
-      "updated_at": "2026-08-03T09:00:00Z"
+      "updated_at": "2026-08-03T09:00:00Z",
+      "property_id": "prop-7"
     },
     {
       "id": "not-2026-2026-08-w2",
@@ -20180,7 +20083,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-08-10T09:00:00Z",
       "created_at": "2026-08-10T08:30:00Z",
-      "updated_at": "2026-08-10T09:00:00Z"
+      "updated_at": "2026-08-10T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-08-w3",
@@ -20191,7 +20095,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-08-18T09:00:00Z",
       "created_at": "2026-08-18T08:30:00Z",
-      "updated_at": "2026-08-18T09:00:00Z"
+      "updated_at": "2026-08-18T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-08-w4",
@@ -20202,7 +20107,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-08-25T09:00:00Z",
       "created_at": "2026-08-25T08:30:00Z",
-      "updated_at": "2026-08-25T09:00:00Z"
+      "updated_at": "2026-08-25T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-09-w1",
@@ -20213,7 +20119,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-09-03T09:00:00Z",
       "created_at": "2026-09-03T08:30:00Z",
-      "updated_at": "2026-09-03T09:00:00Z"
+      "updated_at": "2026-09-03T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-09-w2",
@@ -20224,7 +20131,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-09-10T09:00:00Z",
       "created_at": "2026-09-10T08:30:00Z",
-      "updated_at": "2026-09-10T09:00:00Z"
+      "updated_at": "2026-09-10T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-09-w3",
@@ -20235,7 +20143,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-09-18T09:00:00Z",
       "created_at": "2026-09-18T08:30:00Z",
-      "updated_at": "2026-09-18T09:00:00Z"
+      "updated_at": "2026-09-18T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-09-w4",
@@ -20246,7 +20155,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-09-25T09:00:00Z",
       "created_at": "2026-09-25T08:30:00Z",
-      "updated_at": "2026-09-25T09:00:00Z"
+      "updated_at": "2026-09-25T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-10-w1",
@@ -20257,7 +20167,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-10-03T09:00:00Z",
       "created_at": "2026-10-03T08:30:00Z",
-      "updated_at": "2026-10-03T09:00:00Z"
+      "updated_at": "2026-10-03T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-10-w2",
@@ -20268,7 +20179,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-10-10T09:00:00Z",
       "created_at": "2026-10-10T08:30:00Z",
-      "updated_at": "2026-10-10T09:00:00Z"
+      "updated_at": "2026-10-10T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-10-w3",
@@ -20279,7 +20191,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-10-18T09:00:00Z",
       "created_at": "2026-10-18T08:30:00Z",
-      "updated_at": "2026-10-18T09:00:00Z"
+      "updated_at": "2026-10-18T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-10-w4",
@@ -20290,7 +20203,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-10-25T09:00:00Z",
       "created_at": "2026-10-25T08:30:00Z",
-      "updated_at": "2026-10-25T09:00:00Z"
+      "updated_at": "2026-10-25T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-11-w1",
@@ -20301,7 +20215,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-11-03T09:00:00Z",
       "created_at": "2026-11-03T08:30:00Z",
-      "updated_at": "2026-11-03T09:00:00Z"
+      "updated_at": "2026-11-03T09:00:00Z",
+      "property_id": "prop-1"
     },
     {
       "id": "not-2026-2026-11-w2",
@@ -20312,7 +20227,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-11-10T09:00:00Z",
       "created_at": "2026-11-10T08:30:00Z",
-      "updated_at": "2026-11-10T09:00:00Z"
+      "updated_at": "2026-11-10T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-11-w3",
@@ -20323,7 +20239,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-11-18T09:00:00Z",
       "created_at": "2026-11-18T08:30:00Z",
-      "updated_at": "2026-11-18T09:00:00Z"
+      "updated_at": "2026-11-18T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-11-w4",
@@ -20334,7 +20251,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-11-25T09:00:00Z",
       "created_at": "2026-11-25T08:30:00Z",
-      "updated_at": "2026-11-25T09:00:00Z"
+      "updated_at": "2026-11-25T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-12-w1",
@@ -20345,7 +20263,8 @@
       "content": "Annual Guideline Rent Adjustment Notice (90-Day Statutory Window) — Formal statutory notice regarding the upcoming annual guideline adjustment effective at the next renewal cycle.",
       "sent_at": "2026-12-03T09:00:00Z",
       "created_at": "2026-12-03T08:30:00Z",
-      "updated_at": "2026-12-03T09:00:00Z"
+      "updated_at": "2026-12-03T09:00:00Z",
+      "property_id": "prop-4"
     },
     {
       "id": "not-2026-2026-12-w2",
@@ -20356,7 +20275,8 @@
       "content": "Scheduled Preventative HVAC & Fire Safety Walkthrough — Please be advised that certified technicians will conduct a routine 15-minute preventative check of in-suite smoke detectors and HVAC filters.",
       "sent_at": "2026-12-10T09:00:00Z",
       "created_at": "2026-12-10T08:30:00Z",
-      "updated_at": "2026-12-10T09:00:00Z"
+      "updated_at": "2026-12-10T09:00:00Z",
+      "property_id": "prop-2"
     },
     {
       "id": "not-2026-2026-12-w3",
@@ -20367,7 +20287,8 @@
       "content": "Upcoming Lease Term Review & Continuation Options — Your tenancy remains in excellent standing. Please review your upcoming continuation options and let our management desk know your preference.",
       "sent_at": "2026-12-18T09:00:00Z",
       "created_at": "2026-12-18T08:30:00Z",
-      "updated_at": "2026-12-18T09:00:00Z"
+      "updated_at": "2026-12-18T09:00:00Z",
+      "property_id": "prop-3"
     },
     {
       "id": "not-2026-2026-12-w4",
@@ -20378,7 +20299,8 @@
       "content": "Quarterly Building Window & Common Facility Maintenance — Exterior facade and common facility servicing is scheduled this week. No disruption to suite utilities is anticipated.",
       "sent_at": "2026-12-25T09:00:00Z",
       "created_at": "2026-12-25T08:30:00Z",
-      "updated_at": "2026-12-25T09:00:00Z"
+      "updated_at": "2026-12-25T09:00:00Z",
+      "property_id": "prop-1"
     }
   ],
   "communications": [

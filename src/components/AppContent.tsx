@@ -298,34 +298,6 @@ export const AppContent: React.FC<AppContentProps> = ({
           {currentTab === 'settings' && (
             <SettingsPage dbState={dbState} />
           )}
-
-          {currentTab === 'portal-tenant' && (
-            <TenantPortal
-              dbState={dbState}
-              onClosePreview={() => setCurrentTab('dashboard')}
-            />
-          )}
-
-          {currentTab === 'portal-landlord' && (
-            <LandlordPortal
-              dbState={dbState}
-              onClosePreview={() => setCurrentTab('dashboard')}
-            />
-          )}
-
-          {currentTab === 'portal-representative' && (
-            <RepresentativePortal
-              dbState={dbState}
-              onClosePreview={() => setCurrentTab('dashboard')}
-            />
-          )}
-
-          {currentTab === 'portal-contractor' && (
-            <ContractorPortal
-              dbState={dbState}
-              onClosePreview={() => setCurrentTab('dashboard')}
-            />
-          )}
         </main>
       </div>
     </div>

@@ -31,8 +31,16 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   const unit = dbState.units.find(u => u.id === lease?.unit_id);
   const property = dbState.properties.find(p => p.id === unit?.property_id);
 
-  const tenantPayments = dbState.payments.filter(p => p.tenant_id === tenant?.id);
-  const tenantRequests = dbState.maintenance_requests.filter(m => m.tenant_id === tenant?.id);
+  const tenantPayments = dbState.payments.filter(
+    p => p.tenant_id === tenant?.id && (!lease || !p.lease_id || p.lease_id === lease.id)
+  );
+  const tenantRequests = dbState.maintenance_requests.filter(
+    m =>
+      m.tenant_id === tenant?.id &&
+      (!unit || !m.unit_id || m.unit_id === unit.id) &&
+      (!property || !m.property_id || m.property_id === property.id)
+  );
+  const tenantNotices = (dbState.notices || []).filter(n => n.tenant_id === tenant?.id);
 
   const nativeCurr: CurrencyCode =
     property?.acquisition?.acquisition_currency ||
@@ -247,31 +255,31 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
     });
   };
 
-  // Mock Circulars & Official Building Notices
+  // Combine Resident's Statutory Notices with Property Circulars
   const buildingNotices = [
+    ...tenantNotices.map(n => ({
+      id: n.id,
+      title: n.title || `Official Notice: ${n.notice_type}`,
+      date: (n.sent_at || n.issue_date || n.created_at || '').slice(0, 10),
+      type: n.status || 'Statutory Notice',
+      priority: 'Important',
+      body: n.body || n.reason || `Formal ${n.notice_type} issued for Unit ${unit?.unit_number || ''} at ${property?.name || ''}.`
+    })),
     {
       id: 'NOT-2026-004',
-      title: 'Quarterly Central HVAC & Filter Servicing Schedule',
+      title: `Quarterly Central HVAC & Filter Servicing — ${property?.name || 'Residence'}`,
       date: '2026-11-08',
       type: 'Maintenance Advisory',
       priority: 'Routine',
-      body: 'Please be advised that authorized HVAC engineers will inspect air handlers and replace HEPA filters for all occupied residences on Wednesday between 10:00 AM and 2:00 PM.'
+      body: `Please be advised that authorized HVAC engineers will inspect air handlers and replace HEPA filters for Unit ${unit?.unit_number || 'your suite'} at ${property?.name || 'the property'} on Wednesday between 10:00 AM and 2:00 PM.`
     },
     {
       id: 'NOT-2026-003',
-      title: 'Fiber Optic High-Speed Backbone Maintenance Notice',
+      title: `Fiber Optic Backbone Maintenance — ${property?.name || 'Residence'}`,
       date: '2026-10-25',
       type: 'Utility Notification',
       priority: 'Important',
       body: 'Building telecommunication providers will perform scheduled infrastructure upgrades to enhance internal speeds. Expected downtime is under 15 minutes during early morning hours.'
-    },
-    {
-      id: 'NOT-2026-002',
-      title: 'Underground Parking Bay Resurfacing & Bay Cleanout',
-      date: '2026-10-12',
-      type: 'Facility Update',
-      priority: 'General',
-      body: 'Basement parking level B1 will undergo deep floor power-washing and bay line restriping. Please ensure personal items are cleared from designated bays.'
     }
   ];
 

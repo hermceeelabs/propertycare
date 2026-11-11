@@ -39,8 +39,15 @@ export const TenantDetailPage: React.FC<TenantDetailProps> = ({
   const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
   const property = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
 
-  const payments = dbState.payments.filter(p => p.tenant_id === tenantId);
-  const maintenance = dbState.maintenance_requests.filter(m => m.tenant_id === tenantId);
+  const payments = dbState.payments.filter(
+    p => p.tenant_id === tenantId && (!lease || !p.lease_id || p.lease_id === lease.id)
+  );
+  const maintenance = dbState.maintenance_requests.filter(
+    m =>
+      m.tenant_id === tenantId &&
+      (!unit || !m.unit_id || m.unit_id === unit.id) &&
+      (!property || !m.property_id || m.property_id === property.id)
+  );
   const communications = dbState.communications.filter(c => c.tenant_id === tenantId || c.recipient === tenant.email);
   const notices = dbState.notices.filter(n => n.tenant_id === tenantId);
 

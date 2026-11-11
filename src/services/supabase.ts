@@ -23,7 +23,7 @@ const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || (i
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // LOCAL PERSISTENT STATE ENGINE SYNCHRONIZED WITH JSON DATABASE
-const STORAGE_KEY = 'propertyflow_db_v10';
+const STORAGE_KEY = 'propertyflow_db_v11';
 
 export interface DatabaseState {
   landlords: Landlord[];
@@ -237,15 +237,21 @@ class StoreManager {
 
       if (vendors && vendors.length > 0) this.state.vendors = vendors as any;
       
-      // Merge maintenance requests: preserve canonical local requests and attachments
+      // Merge maintenance requests: preserve canonical local requests, strict unit->tenant ownership, and attachments
       const jsonMaint: MaintenanceRequest[] = (databaseJson as any)?.maintenance_requests || [];
       if (maint && maint.length > 0) {
         const remoteIds = new Set((maint as any[]).map(m => m.id));
         const enrichedRemoteMaint = (maint as any[]).map(remoteM => {
           const match = jsonMaint.find(jm => jm.id === remoteM.id);
+          const unitId = match?.unit_id || remoteM.unit_id;
+          const unitObj = this.state.units.find(u => u.id === unitId);
+          const leaseObj = this.state.leases.find(l => l.unit_id === unitId);
           return {
             ...remoteM,
-            property_id: remoteM.property_id || match?.property_id,
+            unit_id: unitId,
+            tenant_id: match?.tenant_id || leaseObj?.tenant_id || remoteM.tenant_id,
+            property_id: match?.property_id || unitObj?.property_id || remoteM.property_id,
+            tenant_snapshot: match?.tenant_snapshot || remoteM.tenant_snapshot,
             title: remoteM.title || match?.title,
             vendor_id: remoteM.vendor_id || match?.vendor_id,
             estimated_cost: remoteM.estimated_cost ?? match?.estimated_cost,
@@ -697,6 +703,26 @@ class StoreManager {
         .eq('id', id);
     } catch (err) {
       console.error('Error persisting landlord update to Supabase:', err);
+    }
+  }
+
+  async updateVendor(id: string, updates: Partial<Vendor>) {
+    const updated_at = new Date().toISOString();
+    this.state.vendors = this.state.vendors.map(v =>
+      v.id === id ? { ...v, ...updates, updated_at } : v
+    );
+    this.saveState();
+
+    try {
+      await supabase
+        .from('vendors')
+        .update({
+          ...updates,
+          updated_at
+        })
+        .eq('id', id);
+    } catch (err) {
+      console.error('Error persisting vendor update to Supabase:', err);
     }
   }
 

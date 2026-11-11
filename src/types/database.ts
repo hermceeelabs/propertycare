@@ -270,7 +270,7 @@ export interface Payment {
   updated_at: string;
 }
 
-export type VendorCategory = 'Plumbing' | 'Electrical' | 'HVAC' | 'General Maintenance' | 'Cleaning' | 'Landscaping' | 'Pest Control';
+export type VendorCategory = 'Plumbing' | 'Electrical' | 'HVAC' | 'General Maintenance' | 'Cleaning' | 'Landscaping' | 'Pest Control' | 'Painting' | 'Security' | 'Appliances';
 export type VendorStatus = 'Active' | 'Inactive' | 'Pending';
 
 export interface Vendor {

@@ -98,15 +98,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       ]
     },
     {
-      title: 'Portal Previews',
-      items: [
-        { id: 'portal-landlord' as NavTab, label: 'Landlord Investor Portal', icon: Landmark },
-        { id: 'portal-representative' as NavTab, label: 'Representative / Legal Delegate', icon: ShieldAlert },
-        { id: 'portal-tenant' as NavTab, label: 'Resident Tenant Portal', icon: Users },
-        { id: 'portal-contractor' as NavTab, label: 'Field Contractor Portal', icon: Truck },
-      ]
-    },
-    {
       title: 'System',
       items: [
         { id: 'settings', label: 'Preferences & Team Access', icon: Settings }

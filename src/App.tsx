@@ -34,6 +34,10 @@ import { PermissionsProvider } from './context/PermissionsContext';
 export function App() {
   const [currentTab, setCurrentTab] = useState<NavTab>(() => {
     const saved = localStorage.getItem('propertyflow_active_tab') as NavTab;
+    if (saved && saved.startsWith('portal-')) {
+      localStorage.setItem('propertyflow_active_tab', 'dashboard');
+      return 'dashboard';
+    }
     return saved || 'dashboard';
   });
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | null>(null);

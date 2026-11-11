@@ -57,24 +57,27 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
     property?.acquisition?.acquisition_currency ||
     (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
 
-  // 1. Gather all filtered records for this tenant within date range
+  // 1. Gather all filtered records strictly for this tenant and their unit/property within date range
   const tenantPayments = useMemo(() => {
     return (dbState.payments || []).filter(p => {
       if (p.tenant_id !== tenant.id) return false;
+      if (lease && p.lease_id && p.lease_id !== lease.id) return false;
       const date = p.payment_date;
       if (!date) return false;
       return date >= dateRange.startDate && date <= dateRange.endDate;
     });
-  }, [dbState.payments, tenant.id, dateRange]);
+  }, [dbState.payments, tenant.id, lease, dateRange]);
 
   const tenantRequests = useMemo(() => {
     return (dbState.maintenance_requests || []).filter(m => {
       if (m.tenant_id !== tenant.id) return false;
+      if (unit && m.unit_id && m.unit_id !== unit.id) return false;
+      if (property && m.property_id && m.property_id !== property.id) return false;
       const date = (m.created_at || '').slice(0, 10) || m.reported_date;
       if (!date) return false;
       return date >= dateRange.startDate && date <= dateRange.endDate;
     });
-  }, [dbState.maintenance_requests, tenant.id, dateRange]);
+  }, [dbState.maintenance_requests, tenant.id, unit, property, dateRange]);
 
   const unitInspections = useMemo(() => {
     return (dbState.inspections || []).filter(i => {
@@ -88,12 +91,13 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
 
   const propertyNotices = useMemo(() => {
     return (dbState.notices || []).filter(n => {
+      if (n.tenant_id !== tenant.id) return false;
       if (n.property_id && property && n.property_id !== property.id) return false;
       const date = (n.created_at || '').slice(0, 10);
       if (!date) return false;
       return date >= dateRange.startDate && date <= dateRange.endDate;
     });
-  }, [dbState.notices, property, dateRange]);
+  }, [dbState.notices, tenant.id, property, dateRange]);
 
   // Aggregate metrics
   const totalRentPaid = tenantPayments
