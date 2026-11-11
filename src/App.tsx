@@ -65,7 +65,7 @@ export function App() {
       if (event === 'SIGNED_IN') {
         // Reset active tab on fresh login to prevent inheriting cached external portal previews
         const savedTab = localStorage.getItem('propertyflow_active_tab');
-        if (savedTab === 'portal-landlord' || savedTab === 'portal-tenant' || savedTab === 'portal-contractor') {
+        if (savedTab === 'portal-landlord' || savedTab === 'portal-representative' || savedTab === 'portal-tenant' || savedTab === 'portal-contractor') {
           localStorage.setItem('propertyflow_active_tab', 'dashboard');
           setCurrentTab('dashboard');
         }
@@ -74,6 +74,7 @@ export function App() {
       if (event === 'SIGNED_OUT') {
         localStorage.removeItem('propertyflow_active_tab');
         localStorage.removeItem('propertyflow_landlord_tab');
+        localStorage.removeItem('propertyflow_rep_tab');
         setCurrentTab('dashboard');
       }
 
