@@ -25,13 +25,13 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
 }) => {
   const { currentCurrency, currencyConfig, convertAmount } = useCurrency();
 
-  // Selected preset and date range
-  const [preset, setPreset] = useState<DatePreset>('today');
+  // Selected preset and date range - Default to 'this_month' so complete monthly overview is seen initially
+  const [preset, setPreset] = useState<DatePreset>('this_month');
   
   // Default anchor date matching the rich mock timeline: 2026-08-21
   const defaultAnchorDate = '2026-08-21';
-  const [startDate, setStartDate] = useState<string>(defaultAnchorDate);
-  const [endDate, setEndDate] = useState<string>(defaultAnchorDate);
+  const [startDate, setStartDate] = useState<string>('2026-08-01');
+  const [endDate, setEndDate] = useState<string>('2026-08-31');
   const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string>('All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [activeMediaModal, setActiveMediaModal] = useState<{
@@ -257,7 +257,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
             ))}
           </div>
 
-          {/* Date Picker Inputs */}
+          {/* Date Picker Inputs (Active & editable ONLY when Custom Range preset is selected) */}
           <div className="flex items-center gap-2 text-xs">
             <span className="text-stone-500 font-bold flex items-center gap-1">
               <CalendarRange className="w-3.5 h-3.5 text-stone-400" />
@@ -266,21 +266,35 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
             <input
               type="date"
               value={startDate}
+              disabled={preset !== 'custom'}
               onChange={(e) => {
-                setStartDate(e.target.value);
-                setPreset('custom');
+                if (preset === 'custom') {
+                  setStartDate(e.target.value);
+                }
               }}
-              className="px-3 py-1.5 bg-stone-50 border border-stone-200 rounded-lg text-xs font-semibold text-stone-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+              className={`px-3 py-1.5 border rounded-lg text-xs font-semibold focus:outline-hidden transition-all ${
+                preset === 'custom'
+                  ? 'bg-white border-brand-500 text-stone-900 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer'
+                  : 'bg-stone-100/70 border-stone-200 text-stone-400 cursor-not-allowed select-none'
+              }`}
+              title={preset !== 'custom' ? 'Select "Custom Range" tab to manually pick dates' : 'Start Date'}
             />
             <span className="text-stone-400">to</span>
             <input
               type="date"
               value={endDate}
+              disabled={preset !== 'custom'}
               onChange={(e) => {
-                setEndDate(e.target.value);
-                setPreset('custom');
+                if (preset === 'custom') {
+                  setEndDate(e.target.value);
+                }
               }}
-              className="px-3 py-1.5 bg-stone-50 border border-stone-200 rounded-lg text-xs font-semibold text-stone-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
+              className={`px-3 py-1.5 border rounded-lg text-xs font-semibold focus:outline-hidden transition-all ${
+                preset === 'custom'
+                  ? 'bg-white border-brand-500 text-stone-900 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer'
+                  : 'bg-stone-100/70 border-stone-200 text-stone-400 cursor-not-allowed select-none'
+              }`}
+              title={preset !== 'custom' ? 'Select "Custom Range" tab to manually pick dates' : 'End Date'}
             />
           </div>
         </div>
