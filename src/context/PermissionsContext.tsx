@@ -40,6 +40,13 @@ const DEFAULT_STAFF_PERMISSIONS: UserPermissions = {
   can_trigger_automations: false,
 };
 
+// Master Platform Owners (Hardcoded SuperAdmin whitelist to guarantee executive access regardless of DB state)
+const MASTER_OWNER_EMAILS = [
+  'hermceee@gmail.com',
+  'hermceeelabs@gmail.com',
+  'martecco@gmail.com'
+];
+
 const PermissionsContext = createContext<PermissionsContextType | undefined>(undefined);
 
 export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -82,10 +89,11 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
   /**
    * VERIFIES USER AGAINST SYSTEM DIRECTORIES:
    * STRICT HIERARCHY:
-   * 1. Landlords (Property Owners & Authorized Representatives) -> Direct to Landlord Portal
-   * 2. Tenants (Active Residents) -> Direct to Tenant Portal
-   * 3. Vendors (Trade Contractors) -> Direct to Contractor Portal
-   * 4. Profiles (STRICTLY Company Staff & Executives) -> Operations Admin Workspace
+   * 0. Master Platform Owners / Executives (Emergency SuperAdmin Whitelist) -> Operations Admin Workspace
+   * 1. Profiles Table (Company Staff & Executives) -> Operations Admin Workspace
+   * 2. Landlords (Property Owners & Authorized Representatives) -> Direct to Landlord Portal
+   * 3. Tenants (Active Residents) -> Direct to Tenant Portal
+   * 4. Vendors (Trade Contractors) -> Direct to Contractor Portal
    * 5. Unregistered Identity -> Access Denied
    */
   const verifyStakeholder = async (user: any) => {
@@ -93,7 +101,81 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const email = (user.email || '').toLowerCase().trim();
 
     try {
-      // 1. CHECK LANDLORDS TABLE FIRST (Primary Owner OR Authorized Legal Representative)
+      // 0. MASTER OWNER / SUPERADMIN WHITELIST CHECK FIRST
+      if (MASTER_OWNER_EMAILS.includes(email)) {
+        const masterProfile: UserProfile = {
+          id: user.id || 'master-owner',
+          email: email,
+          full_name: user.user_metadata?.full_name || 'Platform Master Owner',
+          avatar_url: user.user_metadata?.avatar_url,
+          is_owner: true,
+          user_type: 'owner',
+          permissions: DEFAULT_OWNER_PERMISSIONS,
+          assigned_properties: [],
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        verifiedUserIdRef.current = user.id;
+        setProfile(masterProfile);
+        setAuthResult({
+          authorized: true,
+          stakeholderType: 'owner',
+          status: 'Active',
+          profileData: masterProfile
+        });
+        setIsVerifying(false);
+        return;
+      }
+
+      // 1. CHECK PROFILES TABLE FIRST (Company Staff & Executives)
+      const { data: profileMatch } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('email', email)
+        .maybeSingle();
+
+      if (profileMatch) {
+        const isStatusActive = (profileMatch as any).status !== 'Suspended' && (profileMatch as any).status !== 'Inactive';
+        if (!isStatusActive) {
+          setAuthResult({
+            authorized: false,
+            stakeholderType: profileMatch.user_type as any,
+            status: (profileMatch as any).status,
+            profileData: profileMatch,
+            rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
+          });
+          setIsVerifying(false);
+          return;
+        }
+
+        const userProfile: UserProfile = {
+          id: profileMatch.id,
+          email: profileMatch.email,
+          full_name: profileMatch.full_name || user.user_metadata?.full_name,
+          avatar_url: profileMatch.avatar_url || user.user_metadata?.avatar_url,
+          phone: profileMatch.phone,
+          is_owner: !!profileMatch.is_owner,
+          user_type: profileMatch.user_type as UserType,
+          permissions: profileMatch.is_owner ? DEFAULT_OWNER_PERMISSIONS : (profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS),
+          assigned_properties: profileMatch.assigned_properties || [],
+          created_at: profileMatch.created_at,
+          updated_at: profileMatch.updated_at
+        };
+
+        verifiedUserIdRef.current = user.id;
+        setProfile(userProfile);
+        setAuthResult({
+          authorized: true,
+          stakeholderType: profileMatch.is_owner ? 'owner' : 'staff',
+          status: 'Active',
+          profileData: userProfile
+        });
+        setIsVerifying(false);
+        return;
+      }
+
+      // 2. CHECK LANDLORDS TABLE (Property Owners & Authorized Representatives)
       let allLandlords = store.getState().landlords || [];
       try {
         const { data: dbLandlords } = await supabase
@@ -289,54 +371,7 @@ export const PermissionsProvider: React.FC<{ children: React.ReactNode }> = ({ c
         return;
       }
 
-      // 4. CHECK PROFILES TABLE (STRICTLY Internal Company Staff & Master Owner)
-      const { data: profileMatch } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('email', email)
-        .maybeSingle();
-
-      if (profileMatch) {
-        const isStatusActive = (profileMatch as any).status !== 'Suspended' && (profileMatch as any).status !== 'Inactive';
-        if (!isStatusActive) {
-          setAuthResult({
-            authorized: false,
-            stakeholderType: profileMatch.user_type as any,
-            status: (profileMatch as any).status,
-            profileData: profileMatch,
-            rejectionReason: 'Your staff account has been suspended or deactivated by the PropertyFlow administrator.'
-          });
-          setIsVerifying(false);
-          return;
-        }
-
-        const userProfile: UserProfile = {
-          id: profileMatch.id,
-          email: profileMatch.email,
-          full_name: profileMatch.full_name || user.user_metadata?.full_name,
-          avatar_url: profileMatch.avatar_url || user.user_metadata?.avatar_url,
-          phone: profileMatch.phone,
-          is_owner: !!profileMatch.is_owner,
-          user_type: profileMatch.user_type as UserType,
-          permissions: profileMatch.is_owner ? DEFAULT_OWNER_PERMISSIONS : (profileMatch.permissions || DEFAULT_STAFF_PERMISSIONS),
-          assigned_properties: profileMatch.assigned_properties || [],
-          created_at: profileMatch.created_at,
-          updated_at: profileMatch.updated_at
-        };
-
-        verifiedUserIdRef.current = user.id;
-        setProfile(userProfile);
-        setAuthResult({
-          authorized: true,
-          stakeholderType: profileMatch.is_owner ? 'owner' : 'staff',
-          status: 'Active',
-          profileData: userProfile
-        });
-        setIsVerifying(false);
-        return;
-      }
-
-      // 5. Account Not Found in ANY System Directory -> Deny Access
+      // 4. Account Not Found in ANY System Directory -> Deny Access
       verifiedUserIdRef.current = user.id;
       setAuthResult({
         authorized: false,

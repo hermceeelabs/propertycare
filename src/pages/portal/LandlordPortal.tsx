@@ -66,7 +66,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     id: 'landlord-1',
     first_name: 'David',
     last_name: 'Adeyemi',
-    email: 'martecco@gmail.com',
+    email: 'david.adeyemi@adeyemiholdings.com',
     company_name: 'Adeyemi Asset Holdings Ltd',
     management_fee_percentage: 10.0,
     authorized_representatives: []
