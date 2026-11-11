@@ -78,7 +78,38 @@ export interface Landlord {
 
 export type PropertyType = 'Multi-Family' | 'Condominium' | 'Commercial' | 'Townhome' | 'Single-Family';
 export type PropertyStatus = 'Active' | 'Under Maintenance' | 'Inactive';
+
+// Refined ownership & commercial operating models
+export type OwnershipType = 'Landlord-Owned' | 'Firm-Owned';
+export type BusinessModel = 
+  | 'Direct Management'       // Landlord asset: Firm manages & remits rent minus mgmt fees & maintenance
+  | 'Corporate Master Lease'  // Landlord asset: Firm leases entire property from Landlord, runs shortlet/long-term
+  | 'Revenue Share'           // Landlord asset: Turnkey STR/Shortlet revenue split (e.g. 80/20)
+  | 'Outright Purchase'       // Firm asset: Firm purchased 100% equity on balance sheet
+  | 'Mortgage / Financed';    // Firm asset: Firm paying amortized loan / mortgage
+
 export type AcquisitionType = 'Outright Purchase' | 'Long-Term Lease' | 'Financed / Mortgage';
+
+export interface LandlordContractTerms {
+  remittance_frequency: 'Monthly' | 'Quarterly' | 'Bi-Weekly' | 'Semi-Annual' | 'Yearly / Annual Upfront';
+  management_fee_percentage?: number;
+  fixed_master_lease_rent?: number; // Fixed payment firm remits to landlord per cycle
+  contract_start_date: string;
+  contract_end_date: string;
+  notes?: string;
+}
+
+export interface FirmAcquisitionTerms {
+  purchase_date: string;
+  total_purchase_cost: number;
+  down_payment: number;
+  mortgage_monthly_payment?: number;
+  amortization_period_years?: number;
+  interest_rate_percent?: number;
+  annual_depreciation?: number;
+  acquisition_currency: CurrencyCode;
+  notes?: string;
+}
 
 export interface PropertyAcquisition {
   acquisition_type: AcquisitionType;
@@ -102,6 +133,10 @@ export type CurrencyCode = 'CAD' | 'USD' | 'EUR' | 'GBP' | 'NGN' | 'AED';
 export interface Property {
   id: string;
   landlord_id?: string;
+  ownership_type?: OwnershipType;
+  business_model?: BusinessModel;
+  landlord_contract?: LandlordContractTerms;
+  firm_acquisition?: FirmAcquisitionTerms;
   name: string;
   address: string;
   city: string;
@@ -184,6 +219,17 @@ export interface Lease {
   updated_at: string;
 }
 
+export interface TenantSnapshot {
+  tenant_name: string;
+  email: string;
+  phone?: string;
+  unit_number?: string;
+  property_name?: string;
+  rent_rate_at_event?: number;
+  lease_start?: string;
+  lease_end?: string;
+}
+
 export type PaymentStatus = 'Paid' | 'Pending' | 'Partially Paid' | 'Overdue';
 
 export interface Payment {
@@ -195,6 +241,7 @@ export interface Payment {
   due_date: string;
   payment_date?: string;
   status: PaymentStatus;
+  tenant_snapshot?: TenantSnapshot;
   created_at: string;
   updated_at: string;
 }
@@ -232,6 +279,7 @@ export interface MaintenanceRequest {
   id: string;
   tenant_id: string;
   unit_id: string;
+  property_id?: string;
   title?: string;
   category: MaintenanceCategory;
   description: string;
@@ -243,6 +291,7 @@ export interface MaintenanceRequest {
   admin_notes?: string;
   estimated_cost?: number;
   scheduled_date?: string;
+  tenant_snapshot?: TenantSnapshot;
   created_at: string;
   completed_at?: string;
   updated_at: string;

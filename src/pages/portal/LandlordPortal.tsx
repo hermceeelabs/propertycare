@@ -621,7 +621,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
                               {propOccupancyRate}% Occupied ({propOccupiedUnits.length}/{propUnits.length} Units)
                             </span>
                             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-stone-100 text-stone-600">
-                              {activeProp.acquisition?.acquisition_type || 'Outright Asset'}
+                              {activeProp.business_model || activeProp.acquisition?.acquisition_type || 'Direct Management'}
                             </span>
                           </div>
                         </div>
@@ -839,7 +839,7 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
 
                         {/* Action Footer */}
                         <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
-                          <span className="font-semibold text-stone-700">{prop.acquisition?.acquisition_type || 'Outright Asset'}</span>
+                          <span className="font-semibold text-stone-700">{prop.business_model || prop.acquisition?.acquisition_type || 'Direct Management'}</span>
                           <span className="text-brand-600 font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
                             Explore Suites & Tenancies <ChevronRight className="w-3.5 h-3.5" />
                           </span>
