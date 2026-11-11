@@ -4,14 +4,14 @@ import {
   FileText, CheckCircle2, AlertCircle, Eye, Search, Landmark,
   Video, Mic, Image, Paperclip, ChevronRight, Sparkles, Building2,
   CalendarRange, ShieldCheck, ChevronDown, ExternalLink, Play, Wrench, Home,
-  Layers, CheckSquare, Hotel
+  Layers, CheckSquare, Hotel, ArrowUpDown, ArrowDownWideNarrow, ArrowUpNarrowWide
 } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 import { Landlord, PropertyInspection, Expense, InspectionAttachment, ExpenseProof, Property, Unit, MaintenanceRequest } from '../types/database';
 import { DualCurrencyDisplay } from './DualCurrencyDisplay';
 import {
-  ReportTimeFrame, getDateRangeForTimeFrame, getDateRangeForQuarter, formatMonthName,
+  ReportTimeFrame, SortOrder, getDateRangeForTimeFrame, getDateRangeForQuarter, formatMonthName,
   formatDayTitle, formatReadableDate, getQuarterInfo, DEFAULT_ANCHOR_DATE, getRealWorldToday
 } from '../services/reportGrouping';
 
@@ -36,6 +36,7 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
   });
   const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string>('All');
   const [categoryFilter, setCategoryFilter] = useState<'All' | 'Remittances' | 'Expenses' | 'Inspections' | 'Maintenance'>('All');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [activeMediaModal, setActiveMediaModal] = useState<{
     type: 'video' | 'audio' | 'photo' | 'document';
     url: string;
@@ -259,8 +260,9 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       monthSet.add(dateRange.startDate.slice(0, 7));
     }
 
-    return Array.from(monthSet).sort().reverse();
-  }, [filteredPayments, filteredExpenses, filteredInspections, filteredMaintenanceRequests, dateRange]);
+    const arr = Array.from(monthSet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [filteredPayments, filteredExpenses, filteredInspections, filteredMaintenanceRequests, dateRange, sortOrder]);
 
   // Group events by day for week view
   const allDays = useMemo(() => {
@@ -280,19 +282,28 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
       daySet.add(dateRange.startDate);
     }
 
-    return Array.from(daySet).sort().reverse();
-  }, [filteredPayments, filteredExpenses, filteredInspections, dateRange]);
+    const arr = Array.from(daySet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [filteredPayments, filteredExpenses, filteredInspections, dateRange, sortOrder]);
 
   // Quarters for yearly view
   const quarters = useMemo(() => {
     const year = parseInt((dateRange.startDate || DEFAULT_ANCHOR_DATE).slice(0, 4), 10) || 2026;
-    return [
+    const baseQuarters = [
       getQuarterInfo(year, 1),
       getQuarterInfo(year, 2),
       getQuarterInfo(year, 3),
       getQuarterInfo(year, 4)
     ];
-  }, [dateRange]);
+
+    if (sortOrder === 'desc') {
+      return baseQuarters.reverse().map(q => ({
+        ...q,
+        months: [...q.months].reverse()
+      }));
+    }
+    return baseQuarters;
+  }, [dateRange, sortOrder]);
 
   // -------------------------------------------------------------
   // RENDER: HIERARCHICAL PROPERTY -> UNIT LEDGER BREAKDOWN
@@ -1167,6 +1178,36 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                 <option value="Maintenance">Maintenance Dispatch Log</option>
                 <option value="Inspections">Physical Audits</option>
               </select>
+            </div>
+
+            {/* Sort Order Selector (Ascending / Descending) */}
+            <div className="flex items-center gap-1 bg-stone-50 p-1 rounded-xl border border-stone-200">
+              <button
+                type="button"
+                onClick={() => setSortOrder('desc')}
+                title="Sort Newest First (Descending, e.g. December → January)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'desc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowDownWideNarrow className="w-3.5 h-3.5" />
+                <span>Newest First (Desc)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortOrder('asc')}
+                title="Sort Oldest First (Ascending, e.g. January → December)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'asc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowUpNarrowWide className="w-3.5 h-3.5" />
+                <span>Oldest First (Asc)</span>
+              </button>
             </div>
           </div>
 

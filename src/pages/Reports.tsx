@@ -3,12 +3,13 @@ import {
   Calendar, Clock, DollarSign, TrendingUp, Sparkles, Building2, Wrench,
   ShieldCheck, FileText, Bell, ChevronLeft, ChevronRight, CheckCircle2,
   AlertCircle, Download, Printer, User, Filter, ArrowUpRight, ArrowDownRight,
-  ClipboardCheck, Eye, Search, Landmark
+  ClipboardCheck, Eye, Search, Landmark, ArrowDownWideNarrow, ArrowUpNarrowWide
 } from 'lucide-react';
 import { DatabaseState, supabase } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 import { StaffReportView } from '../components/StaffReportView';
 import { UserProfile } from '../types/database';
+import { SortOrder } from '../services/reportGrouping';
 
 interface ReportsProps {
   dbState: DatabaseState;
@@ -19,6 +20,7 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   const [reportView, setReportView] = useState<'daily' | 'landlords' | 'staff' | 'capital'>('daily');
   const [selectedDate, setSelectedDate] = useState('2026-08-20');
   const [landlordFilter, setLandlordFilter] = useState('All');
+  const [dailyDateSortOrder, setDailyDateSortOrder] = useState<SortOrder>('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [staffProfiles, setStaffProfiles] = useState<UserProfile[]>([]);
 
@@ -33,16 +35,19 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
   }, []);
 
   // 1. Gather all unique event dates across the system
-  const allRecordedDates = Array.from(new Set([
-    ...dbState.payments.map(p => p.payment_date).filter(Boolean),
-    ...dbState.shortlet_bookings.map(b => b.check_in).filter(Boolean),
-    ...dbState.shortlet_bookings.map(b => b.check_out).filter(Boolean),
-    ...dbState.expenses.map(e => e.date).filter(Boolean),
-    ...dbState.maintenance_requests.map(m => m.created_at?.slice(0, 10)).filter(Boolean),
-    ...dbState.notices.map(n => n.created_at?.slice(0, 10)).filter(Boolean),
-    ...dbState.communications.map(c => c.sent_at?.slice(0, 10)).filter(Boolean),
-    ...(dbState.inspections || []).map(i => i.scheduled_date).filter(Boolean),
-  ])).sort().reverse();
+  const allRecordedDates = React.useMemo(() => {
+    const raw = Array.from(new Set([
+      ...dbState.payments.map(p => p.payment_date).filter(Boolean),
+      ...dbState.shortlet_bookings.map(b => b.check_in).filter(Boolean),
+      ...dbState.shortlet_bookings.map(b => b.check_out).filter(Boolean),
+      ...dbState.expenses.map(e => e.date).filter(Boolean),
+      ...dbState.maintenance_requests.map(m => m.created_at?.slice(0, 10)).filter(Boolean),
+      ...dbState.notices.map(n => n.created_at?.slice(0, 10)).filter(Boolean),
+      ...dbState.communications.map(c => c.sent_at?.slice(0, 10)).filter(Boolean),
+      ...(dbState.inspections || []).map(i => i.scheduled_date).filter(Boolean),
+    ])).sort();
+    return dailyDateSortOrder === 'desc' ? raw.reverse() : raw;
+  }, [dbState, dailyDateSortOrder]);
 
   const activeDate = selectedDate || allRecordedDates[0] || '2026-08-20';
 
@@ -222,8 +227,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
               </div>
             </div>
 
-            {/* Quick Date Navigator */}
-            <div className="flex items-center gap-2">
+            {/* Quick Date Navigator & Sort Controls */}
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-bold text-stone-600">Select Date:</span>
               <select
                 value={activeDate}
@@ -236,6 +241,35 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
                   </option>
                 ))}
               </select>
+
+              <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-cream-300 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setDailyDateSortOrder('desc')}
+                  title="Sort Newest Dates First"
+                  className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                    dailyDateSortOrder === 'desc'
+                      ? 'bg-slate-900 text-white shadow-2xs'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
+                  }`}
+                >
+                  <ArrowDownWideNarrow className="w-3.5 h-3.5" />
+                  <span>Desc</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDailyDateSortOrder('asc')}
+                  title="Sort Oldest Dates First"
+                  className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                    dailyDateSortOrder === 'asc'
+                      ? 'bg-slate-900 text-white shadow-2xs'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
+                  }`}
+                >
+                  <ArrowUpNarrowWide className="w-3.5 h-3.5" />
+                  <span>Asc</span>
+                </button>
+              </div>
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { CurrencyCode } from '../types/database';
 
 export type ReportTimeFrame = 'day' | 'week' | 'month' | 'multi_month' | 'year' | 'all' | 'custom';
+export type SortOrder = 'desc' | 'asc';
 
 export interface DateRange {
   startDate: string; // YYYY-MM-DD

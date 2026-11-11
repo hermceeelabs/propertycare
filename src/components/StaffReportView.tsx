@@ -3,11 +3,12 @@ import { DatabaseState } from '../services/supabase';
 import {
   Users, UserCheck, Calendar, Clock, CheckCircle2, ShieldCheck,
   Wrench, Bell, Mail, FileText, Filter, Printer, ChevronRight,
-  TrendingUp, Sparkles, Building2, CalendarRange, Search, AlertCircle
+  TrendingUp, Sparkles, Building2, CalendarRange, Search, AlertCircle,
+  ArrowDownWideNarrow, ArrowUpNarrowWide
 } from 'lucide-react';
 import { UserProfile, PropertyInspection, MaintenanceRequest, Notice, Communication, Task } from '../types/database';
 import {
-  ReportTimeFrame, getDateRangeForTimeFrame, formatMonthName,
+  ReportTimeFrame, SortOrder, getDateRangeForTimeFrame, formatMonthName,
   formatDayTitle, formatReadableDate, getQuarterInfo, DEFAULT_ANCHOR_DATE
 } from '../services/reportGrouping';
 
@@ -25,6 +26,7 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
   const [timeFrame, setTimeFrame] = useState<ReportTimeFrame>('week');
   const [dateRange, setDateRange] = useState(() => getDateRangeForTimeFrame('week'));
   const [activityCategory, setActivityCategory] = useState<'All' | 'Inspections' | 'Maintenance' | 'Notices' | 'Comms' | 'Tasks'>('All');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   const handleTimeFrameChange = (newTf: ReportTimeFrame) => {
     setTimeFrame(newTf);
@@ -135,8 +137,9 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
     if (monthSet.size === 0 && dateRange.startDate) {
       monthSet.add(dateRange.startDate.slice(0, 7));
     }
-    return Array.from(monthSet).sort().reverse();
-  }, [staffInspections, staffMaintenance, staffNotices, staffTasks, dateRange]);
+    const arr = Array.from(monthSet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [staffInspections, staffMaintenance, staffNotices, staffTasks, dateRange, sortOrder]);
 
   // Unique days across staff activities for week view
   const allDays = useMemo(() => {
@@ -155,19 +158,28 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
     if (daySet.size === 0 && dateRange.startDate) {
       daySet.add(dateRange.startDate);
     }
-    return Array.from(daySet).sort().reverse();
-  }, [staffInspections, staffMaintenance, staffNotices, staffTasks, dateRange]);
+    const arr = Array.from(daySet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [staffInspections, staffMaintenance, staffNotices, staffTasks, dateRange, sortOrder]);
 
   // Quarters for year view
   const quarters = useMemo(() => {
     const year = parseInt((dateRange.startDate || DEFAULT_ANCHOR_DATE).slice(0, 4), 10) || 2026;
-    return [
+    const baseQuarters = [
       getQuarterInfo(year, 1),
       getQuarterInfo(year, 2),
       getQuarterInfo(year, 3),
       getQuarterInfo(year, 4)
     ];
-  }, [dateRange]);
+
+    if (sortOrder === 'desc') {
+      return baseQuarters.reverse().map(q => ({
+        ...q,
+        months: [...q.months].reverse()
+      }));
+    }
+    return baseQuarters;
+  }, [dateRange, sortOrder]);
 
   // Render a specific month section's content
   const renderMonthSectionContent = (monthStr: string) => {
@@ -463,8 +475,8 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
             </div>
           </div>
 
-          {/* Activity Category Filter & Print Actions */}
-          <div className="flex items-center gap-2">
+          {/* Activity Category Filter, Sort Order & Print Actions */}
+          <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
               <Filter className="w-3.5 h-3.5 text-stone-500" />
               <select
@@ -478,6 +490,36 @@ export const StaffReportView: React.FC<StaffReportViewProps> = ({
                 <option value="Notices">Notices Issued</option>
                 <option value="Tasks">Tasks Handled</option>
               </select>
+            </div>
+
+            {/* Sort Order Selector */}
+            <div className="flex items-center gap-1 bg-stone-50 p-1 rounded-xl border border-stone-200">
+              <button
+                type="button"
+                onClick={() => setSortOrder('desc')}
+                title="Sort Newest First (Descending, e.g. December → January)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'desc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowDownWideNarrow className="w-3.5 h-3.5" />
+                <span>Newest First (Desc)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortOrder('asc')}
+                title="Sort Oldest First (Ascending, e.g. January → December)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'asc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowUpNarrowWide className="w-3.5 h-3.5" />
+                <span>Oldest First (Asc)</span>
+              </button>
             </div>
 
             <button

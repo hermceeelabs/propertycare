@@ -4,7 +4,8 @@ import {
   Calendar, Clock, Download, Printer, Filter, CheckCircle2,
   FileText, Wrench, ShieldCheck, Bell, CreditCard, ChevronDown,
   ChevronRight, AlertCircle, Eye, Paperclip, Video, Mic, Image,
-  ExternalLink, Building2, CalendarRange, Sparkles
+  ExternalLink, Building2, CalendarRange, Sparkles,
+  ArrowDownWideNarrow, ArrowUpNarrowWide
 } from 'lucide-react';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 import {
@@ -13,7 +14,7 @@ import {
 } from '../types/database';
 import { DualCurrencyDisplay } from './DualCurrencyDisplay';
 import {
-  ReportTimeFrame, getDateRangeForTimeFrame, formatMonthName,
+  ReportTimeFrame, SortOrder, getDateRangeForTimeFrame, formatMonthName,
   formatDayTitle, formatReadableDate, getQuarterInfo, DEFAULT_ANCHOR_DATE
 } from '../services/reportGrouping';
 
@@ -42,6 +43,7 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
   const [timeFrame, setTimeFrame] = useState<ReportTimeFrame>('month');
   const [dateRange, setDateRange] = useState(() => getDateRangeForTimeFrame('month'));
   const [categoryFilter, setCategoryFilter] = useState<'All' | 'Payments' | 'Maintenance' | 'Inspections' | 'Notices'>('All');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   // Handle switching time frames
   const handleTimeFrameChange = (newTf: ReportTimeFrame) => {
@@ -118,8 +120,9 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
       monthSet.add(dateRange.startDate.slice(0, 7));
     }
 
-    return Array.from(monthSet).sort().reverse();
-  }, [tenantPayments, tenantRequests, unitInspections, propertyNotices, dateRange]);
+    const arr = Array.from(monthSet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [tenantPayments, tenantRequests, unitInspections, propertyNotices, dateRange, sortOrder]);
 
   // Group events by day for week / daily view
   const allDays = useMemo(() => {
@@ -139,19 +142,28 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
       daySet.add(dateRange.startDate);
     }
 
-    return Array.from(daySet).sort().reverse();
-  }, [tenantPayments, tenantRequests, unitInspections, propertyNotices, dateRange]);
+    const arr = Array.from(daySet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [tenantPayments, tenantRequests, unitInspections, propertyNotices, dateRange, sortOrder]);
 
   // Quarters for yearly view
   const quarters = useMemo(() => {
     const year = parseInt((dateRange.startDate || DEFAULT_ANCHOR_DATE).slice(0, 4), 10) || 2026;
-    return [
+    const baseQuarters = [
       getQuarterInfo(year, 1),
       getQuarterInfo(year, 2),
       getQuarterInfo(year, 3),
       getQuarterInfo(year, 4)
     ];
-  }, [dateRange]);
+
+    if (sortOrder === 'desc') {
+      return baseQuarters.reverse().map(q => ({
+        ...q,
+        months: [...q.months].reverse()
+      }));
+    }
+    return baseQuarters;
+  }, [dateRange, sortOrder]);
 
   // Render a specific month section's detailed content
   const renderMonthSectionContent = (monthStr: string) => {
@@ -512,8 +524,8 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
             </div>
           </div>
 
-          {/* Category Filter & Print Actions */}
-          <div className="flex items-center gap-2">
+          {/* Category Filter, Sort Order & Print Actions */}
+          <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
               <Filter className="w-3.5 h-3.5 text-stone-500" />
               <select
@@ -527,6 +539,36 @@ export const TenantReportView: React.FC<TenantReportViewProps> = ({
                 <option value="Inspections">Safety & Inspections</option>
                 <option value="Notices">Notices & Bulletins</option>
               </select>
+            </div>
+
+            {/* Sort Order Selector */}
+            <div className="flex items-center gap-1 bg-stone-50 p-1 rounded-xl border border-stone-200">
+              <button
+                type="button"
+                onClick={() => setSortOrder('desc')}
+                title="Sort Newest First (Descending, e.g. December → January)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'desc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowDownWideNarrow className="w-3.5 h-3.5" />
+                <span>Newest First (Desc)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortOrder('asc')}
+                title="Sort Oldest First (Ascending, e.g. January → December)"
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  sortOrder === 'asc'
+                    ? 'bg-slate-900 text-white shadow-2xs'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
+                }`}
+              >
+                <ArrowUpNarrowWide className="w-3.5 h-3.5" />
+                <span>Oldest First (Asc)</span>
+              </button>
             </div>
 
             <button
