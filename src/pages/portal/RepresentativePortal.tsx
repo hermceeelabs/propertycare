@@ -163,7 +163,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
     {
       title: 'Power of Attorney & Mandate',
       items: [
-        { id: 'mandate' as RepNavTab, label: 'Legal Mandate & Scope', icon: ShieldCheck },
+        { id: 'mandate' as RepNavTab, label: 'Executive Summary & Scope', icon: ShieldCheck },
         { id: 'holdings' as RepNavTab, label: 'Supervised Holdings', icon: Building2, badge: `${ownedProperties.length}` },
       ]
     },
@@ -211,30 +211,16 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           </div>
         </div>
 
-        {/* Legal Mandate Context Pill */}
-        <div className="px-4 py-3 bg-slate-950/40 border-b border-slate-800/80">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-300 font-bold flex items-center justify-center text-xs">
-              <ShieldCheck className="w-3.5 h-3.5" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="block text-xs font-bold text-white truncate">
-                {representative.name}
-              </span>
-              <span className="text-[10px] text-purple-300/80 truncate block">
-                {representative.relationship}
-              </span>
-            </div>
-          </div>
-        </div>
-
         {/* Principal Landlord Entity */}
-        <div className="px-4 py-2.5 bg-slate-950/60 border-b border-slate-800/80 text-[11px]">
+        <div className="px-4 py-3 bg-slate-950/60 border-b border-slate-800/80 text-[11px]">
           <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block">Principal Client</span>
           <span className="font-bold text-stone-200 block truncate">
             {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
           </span>
-          <span className="text-[10px] text-emerald-400 font-medium">Power of Attorney Active</span>
+          <span className="text-[10px] text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Power of Attorney Active
+          </span>
         </div>
 
         {/* Currency Switcher in Left Sidebar */}
@@ -373,14 +359,14 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
           )}
 
           {/* =========================================================================
-              VIEW 1: LEGAL MANDATE & POWERS OF ATTORNEY OVERVIEW
+              VIEW 1: EXECUTIVE SUMMARY & POWERS OF ATTORNEY OVERVIEW
               ========================================================================= */}
           {currentTab === 'mandate' && (
             <div className="space-y-6">
               {/* Adopted Title and Subtitle Section Design (Strict Single Line) */}
               <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
                 <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-                  {representative.name}
+                  Representative Executive Summary
                 </h1>
                 <span className="text-cream-400 font-light shrink-0">|</span>
                 <p className="text-sm text-stone-600 truncate">
@@ -388,7 +374,52 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 </p>
               </div>
 
+              {/* Personalized Welcome Banner */}
+              <div className="flex items-center justify-between text-xs text-stone-600 bg-white px-4 py-2.5 rounded-xl border border-stone-200/80 shadow-2xs">
+                <span>
+                  Welcome, <strong className="text-stone-900">{representative.name}</strong> ({representative.relationship}) · Delegated Legal Authority Active
+                </span>
+                <span className="text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">
+                  Mandate Ratified: {representative.created_at?.slice(0, 10) || '2024-01-15'}
+                </span>
+              </div>
+
               <hr className="border-t border-slate-800/80" />
+
+              {/* High-Level Portfolio Metrics for Representative */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Supervised Portfolio</span>
+                  <div className="text-2xl font-black text-stone-900">{ownedProperties.length} Properties</div>
+                  <span className="text-[11px] text-stone-500">{ownedUnits.length} Total Units Across Assets</span>
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-stone-400">Portfolio Occupancy</span>
+                  <div className="text-2xl font-black text-emerald-600">
+                    {ownedUnits.length > 0 ? Math.round((ownedUnits.filter(u => u.status === 'Occupied').length / ownedUnits.length) * 100) : 100}%
+                  </div>
+                  <span className="text-[11px] text-emerald-700 font-medium">
+                    {ownedUnits.filter(u => u.status === 'Occupied').length} Occupied / {ownedUnits.filter(u => u.status === 'Vacant').length} Vacant
+                  </span>
+                </div>
+
+                <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">Pending Approvals</span>
+                  <div className="text-2xl font-black text-amber-600">{pendingApprovals.length} Work Orders</div>
+                  <span className="text-[11px] text-stone-500">Require representative ratification</span>
+                </div>
+
+                <div className="bg-purple-50/60 border border-purple-200/80 p-5 rounded-2xl shadow-xs space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-purple-900">Principal Client</span>
+                  <div className="text-lg font-black text-purple-950 truncate">
+                    {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
+                  </div>
+                  <span className="text-[11px] text-purple-700 font-bold block truncate">
+                    Contract Fee: {landlord.management_fee_percentage ?? 10}%
+                  </span>
+                </div>
+              </div>
 
               {/* Power of Attorney Status Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -410,7 +441,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       </span>
                     )}
                   </div>
-                  <div className="text-lg font-bold text-stone-900">Financial Reports & Yields</div>
+                  <div className="text-base font-bold text-stone-900">Financial Reports & Yields</div>
                   <p className="text-xs text-stone-600 leading-relaxed">
                     {representative.can_view_statements
                       ? 'Full permission to audit gross tenant collections, management deductions, operating invoices, and net remittances.'
@@ -436,7 +467,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       </span>
                     )}
                   </div>
-                  <div className="text-lg font-bold text-stone-900">Repair Quotes & Dispatch</div>
+                  <div className="text-base font-bold text-stone-900">Repair Quotes & Dispatch</div>
                   <p className="text-xs text-stone-600 leading-relaxed">
                     {representative.can_approve_maintenance
                       ? 'Full signatory power to approve contractor repair estimates, author dispatch orders, or request price negotiations.'
@@ -462,7 +493,7 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                       </span>
                     )}
                   </div>
-                  <div className="text-lg font-bold text-stone-900">Bank Routing Credentials</div>
+                  <div className="text-base font-bold text-stone-900">Bank Routing Credentials</div>
                   <p className="text-xs text-stone-600 leading-relaxed">
                     {representative.can_modify_banking
                       ? 'Authorized to update remittance bank accounts and routing numbers.'
@@ -471,59 +502,14 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 </div>
               </div>
 
-              {/* Legal Mandate Dossier */}
-              <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-purple-600" />
-                    <h3 className="font-bold text-stone-900 text-base">Delegation Terms & Principal Mandate</h3>
-                  </div>
-                  <span className="text-xs px-2.5 py-1 bg-stone-100 text-stone-700 rounded-lg font-semibold">
-                    Mandate Established: {representative.created_at?.slice(0, 10) || '2024-01-15'}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                  <div className="space-y-3">
-                    <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-stone-500">Appointing Principal Entity</span>
-                      <div className="text-sm font-bold text-stone-900">
-                        {landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}
-                      </div>
-                      <div className="text-xs text-stone-500">Contact Email: {landlord.email}</div>
-                    </div>
-
-                    <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-stone-500">Delegate Legal Role</span>
-                      <div className="text-sm font-bold text-stone-900">{representative.relationship}</div>
-                      <div className="text-xs text-stone-500">Delegate ID: {representative.id}</div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-stone-500">Supervised Portfolio Scope</span>
-                      <div className="text-sm font-bold text-stone-900">
-                        {ownedProperties.length} Properties ({ownedUnits.length} Units)
-                      </div>
-                      <div className="text-xs text-stone-500">
-                        {ownedProperties.map(p => p.name).join(', ') || 'All registered principal assets'}
-                      </div>
-                    </div>
-
-                    <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1">
-                      <span className="text-[10px] uppercase font-bold text-stone-500">Direct Contact & Communications</span>
-                      <div className="text-sm font-bold text-stone-900">{representative.phone || 'Not Specified'}</div>
-                      <div className="text-xs text-stone-500">{representative.email}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-purple-50/60 rounded-xl border border-purple-200/60 text-xs text-purple-900 flex items-start gap-2.5">
-                  <Sparkles className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Delegated Executive Governance:</strong> Actions ratified via this representative portal (including repair dispatch authorizations and audit sign-offs) carry legal binding authority under the principal landlord's executed property management agreement.
-                  </span>
+              {/* Quick Action & Executive Guidance Pill */}
+              <div className="p-4 bg-purple-50/60 rounded-2xl border border-purple-200/60 text-xs text-purple-900 flex items-start gap-3">
+                <Sparkles className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <div className="font-bold text-purple-950">Delegated Executive Governance & Representation</div>
+                  <p className="text-purple-900/90 leading-relaxed">
+                    Actions ratified via this representative portal (including repair dispatch authorizations and audit sign-offs) carry legal binding authority under the principal landlord's executed property management agreement.
+                  </p>
                 </div>
               </div>
             </div>
