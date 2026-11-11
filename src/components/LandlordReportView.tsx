@@ -3,11 +3,11 @@ import {
   Calendar, Clock, DollarSign, Download, Printer, Filter,
   FileText, CheckCircle2, AlertCircle, Eye, Search, Landmark,
   Video, Mic, Image, Paperclip, ChevronRight, Sparkles, Building2,
-  CalendarRange, ShieldCheck, ChevronDown, ExternalLink, Play, Wrench
+  CalendarRange, ShieldCheck, ChevronDown, ExternalLink, Play, Wrench, Home
 } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
-import { Landlord, PropertyInspection, Expense, InspectionAttachment, ExpenseProof } from '../types/database';
+import { Landlord, PropertyInspection, Expense, InspectionAttachment, ExpenseProof, Property, Unit } from '../types/database';
 import { DualCurrencyDisplay } from './DualCurrencyDisplay';
 import {
   ReportTimeFrame, getDateRangeForTimeFrame, formatMonthName,
@@ -184,6 +184,381 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
     ];
   }, [dateRange]);
 
+  // Helper to render hierarchical breakdown of Properties -> Units for a specific list of payments & expenses
+  const renderPropertyUnitHierarchicalBreakdown = (
+    periodPayments: typeof filteredPayments,
+    periodExpenses: typeof filteredExpenses
+  ) => {
+    const targetProperties = selectedPropertyFilter === 'All'
+      ? ownedProperties
+      : ownedProperties.filter(p => p.id === selectedPropertyFilter);
+
+    if (targetProperties.length === 0) {
+      return (
+        <div className="py-4 text-center text-xs text-stone-400">
+          No registered properties found for this landlord.
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-6">
+        {targetProperties.map((prop) => {
+          const nativeCurr = getPropNativeCurrency(prop.id);
+          const propUnits = (dbState.units || []).filter(u => u.property_id === prop.id);
+
+          // All expenses that belong directly to this property
+          const allPropExpenses = periodExpenses.filter(e => e.property_id === prop.id);
+          // General operating costs: expenses with scope 'Property' or no specific unit_id
+          const generalPropertyExpenses = allPropExpenses.filter(e => e.scope === 'Property' || !e.unit_id);
+          const totalGeneralExpense = generalPropertyExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+          // Calculate property-level totals
+          const propPayments = periodPayments.filter(p => {
+            const lease = (dbState.leases || []).find(l => l.id === p.lease_id);
+            const unit = lease ? (dbState.units || []).find(u => u.id === lease.unit_id) : undefined;
+            return unit?.property_id === prop.id;
+          });
+
+          const totalPropCollected = propPayments.reduce((sum, p) => sum + (p.amount_paid || p.amount || 0), 0);
+          const totalPropExpenses = allPropExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+          const totalPropFirmDeduction = Math.round((totalPropCollected * mgmtFeePercent) / 100);
+          const totalPropNetPayout = Math.max(0, totalPropCollected - totalPropFirmDeduction - totalPropExpenses);
+
+          return (
+            <div key={prop.id} className="bg-stone-50 rounded-2xl border border-stone-200/90 overflow-hidden shadow-2xs">
+              {/* Property Header Banner */}
+              <div className="p-4 bg-white border-b border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-bold text-sm text-stone-900">{prop.name}</h4>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cream-200 text-stone-800 border border-cream-300">
+                        {prop.property_type}
+                      </span>
+                      <span className="text-[10px] font-mono text-stone-400">
+                        {prop.city}, {prop.province}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-stone-500 mt-0.5">
+                      {propUnits.length} Total Suites · General Operating Costs:{' '}
+                      <strong className="text-rose-600 font-mono">
+                        {currencyConfig.symbol}{convertAmount(totalGeneralExpense, nativeCurr, currentCurrency).toLocaleString()}
+                      </strong>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Property Summary Pill */}
+                <div className="flex items-center gap-3 text-xs bg-cream-50 px-3.5 py-1.5 rounded-xl border border-cream-200">
+                  <div className="text-right">
+                    <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block">Net Remittance</span>
+                    <span className="font-black font-mono text-emerald-600 text-sm">
+                      {currencyConfig.symbol}{convertAmount(totalPropNetPayout, nativeCurr, currentCurrency).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* General Property Expenses Strip (Costs not tied to single unit) */}
+              {generalPropertyExpenses.length > 0 && (
+                <div className="px-4 py-3 bg-rose-50/40 border-b border-rose-100/80 text-xs">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold text-rose-800 uppercase tracking-wider flex items-center gap-1.5">
+                      <Wrench className="w-3 h-3 text-rose-600" />
+                      General Building Operating Costs (Shared Building Infrastructure):
+                    </span>
+                    <span className="font-bold font-mono text-rose-700">
+                      Total: {currencyConfig.symbol}{convertAmount(totalGeneralExpense, nativeCurr, currentCurrency).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    {generalPropertyExpenses.map(ge => (
+                      <div key={ge.id} className="p-2 bg-white rounded-lg border border-rose-200/60 text-[11px] flex justify-between items-center">
+                        <div>
+                          <span className="font-semibold text-stone-900 block truncate">{ge.category}</span>
+                          <span className="text-[10px] text-stone-500 truncate block">{ge.description}</span>
+                        </div>
+                        <span className="font-bold font-mono text-rose-600 ml-2 shrink-0">
+                          -{currencyConfig.symbol}{convertAmount(ge.amount || 0, nativeCurr, currentCurrency).toLocaleString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Nested Units Breakdown Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-stone-100/80 border-b border-stone-200 text-[10px] uppercase font-bold text-stone-500 tracking-wider">
+                      <th className="py-2.5 px-3">Unit / Suite</th>
+                      <th className="py-2.5 px-3">Active Tenant / Resident</th>
+                      <th className="py-2.5 px-3">Status / Model</th>
+                      <th className="py-2.5 px-3 text-right">Rent Inflow</th>
+                      <th className="py-2.5 px-3 text-right">Unit Expenses</th>
+                      <th className="py-2.5 px-3 text-right">Firm Fee ({mgmtFeePercent}%)</th>
+                      <th className="py-2.5 px-3 text-right">Net Unit Payout</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-200/60 text-stone-700">
+                    {propUnits.map((unit) => {
+                      const lease = (dbState.leases || []).find(l => l.unit_id === unit.id && l.status === 'Active') ||
+                                    (dbState.leases || []).find(l => l.unit_id === unit.id);
+                      const activeTenant = lease ? (dbState.tenants || []).find(t => t.id === lease.tenant_id) : undefined;
+
+                      // Payments for this unit in the active period
+                      const unitPayments = periodPayments.filter(p => p.lease_id === lease?.id);
+                      const unitRentCollected = unitPayments.reduce((sum, p) => sum + (p.amount_paid || p.amount || 0), 0);
+
+                      // Expenses specific to this unit
+                      const unitExpenses = allPropExpenses.filter(e => e.unit_id === unit.id && e.scope === 'Unit');
+                      const totalUnitExpense = unitExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+                      // Management fee on unit rent
+                      const unitFirmFee = Math.round((unitRentCollected * mgmtFeePercent) / 100);
+                      const unitNetPayout = Math.max(0, unitRentCollected - unitFirmFee - totalUnitExpense);
+
+                      return (
+                        <tr key={unit.id} className="hover:bg-white transition-colors">
+                          <td className="py-3 px-3 font-bold text-stone-900">
+                            Unit {unit.unit_number}
+                            <span className="text-[10px] text-stone-400 font-normal block">
+                              {unit.bedrooms}BR / {unit.bathrooms}BA · {unit.square_feet ? `${unit.square_feet} sqft` : 'Standard'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3">
+                            {activeTenant ? (
+                              <div>
+                                <span className="font-semibold text-stone-800">{activeTenant.first_name} {activeTenant.last_name}</span>
+                                <span className="text-[10px] text-stone-400 block font-mono">{activeTenant.phone || activeTenant.email}</span>
+                              </div>
+                            ) : (
+                              <span className="text-stone-400 italic">Unoccupied / Vacant</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-3">
+                            <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
+                              unit.status === 'Occupied' ? 'bg-emerald-100 text-emerald-800' :
+                              unit.status === 'Vacant' ? 'bg-amber-100 text-amber-800' :
+                              'bg-stone-200 text-stone-700'
+                            }`}>
+                              {unit.status}
+                            </span>
+                            <span className="text-[10px] text-stone-500 block mt-0.5">
+                              {unit.rental_model || 'Long-Term'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono font-bold text-stone-900">
+                            {unitRentCollected > 0 ? (
+                              <DualCurrencyDisplay
+                                amount={unitRentCollected}
+                                sourceCurrency={nativeCurr}
+                                amountClassName="font-bold font-mono"
+                              />
+                            ) : (
+                              <span className="text-stone-400">₦0.00</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono font-bold text-rose-600">
+                            {totalUnitExpense > 0 ? (
+                              <span>-{currencyConfig.symbol}{convertAmount(totalUnitExpense, nativeCurr, currentCurrency).toLocaleString()}</span>
+                            ) : (
+                              <span className="text-stone-400">—</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono font-medium text-stone-600">
+                            {unitFirmFee > 0 ? (
+                              <span>-{currencyConfig.symbol}{convertAmount(unitFirmFee, nativeCurr, currentCurrency).toLocaleString()}</span>
+                            ) : (
+                              <span className="text-stone-400">—</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-3 text-right font-mono font-black text-emerald-600">
+                            {currencyConfig.symbol}{convertAmount(unitNetPayout, nativeCurr, currentCurrency).toLocaleString()}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // Helper to render hierarchical Property -> Unit expenses breakdown with detailed proofs
+  const renderHierarchicalExpensesDetail = (periodExpenses: typeof filteredExpenses) => {
+    const targetProperties = selectedPropertyFilter === 'All'
+      ? ownedProperties
+      : ownedProperties.filter(p => p.id === selectedPropertyFilter);
+
+    if (periodExpenses.length === 0) {
+      return (
+        <p className="text-xs text-stone-400 py-3 text-center">No maintenance expenses deducted for this period.</p>
+      );
+    }
+
+    return (
+      <div className="space-y-6">
+        {targetProperties.map((prop) => {
+          const nativeCurr = getPropNativeCurrency(prop.id);
+          const propExpenses = periodExpenses.filter(e => e.property_id === prop.id);
+          if (propExpenses.length === 0) return null;
+
+          // Group by Unit (with 'Property-Wide' for non-unit specific expenses)
+          const generalExpenses = propExpenses.filter(e => e.scope === 'Property' || !e.unit_id);
+          const unitExpensesMap = new Map<string, Expense[]>();
+
+          propExpenses.forEach(e => {
+            if (e.scope === 'Unit' && e.unit_id) {
+              const list = unitExpensesMap.get(e.unit_id) || [];
+              list.push(e);
+              unitExpensesMap.set(e.unit_id, list);
+            }
+          });
+
+          const totalPropExpenseAmt = propExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+          return (
+            <div key={prop.id} className="bg-stone-50 rounded-2xl border border-stone-200 overflow-hidden shadow-2xs space-y-3 p-4">
+              {/* Property Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-stone-200 gap-2">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-brand-600" />
+                  <h4 className="font-bold text-sm text-stone-900">{prop.name}</h4>
+                  <span className="text-[10px] text-stone-500 font-mono">({propExpenses.length} Expense Item{propExpenses.length !== 1 ? 's' : ''})</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase font-bold text-stone-400 block">Total Incurred</span>
+                  <span className="font-black font-mono text-rose-600 text-xs">
+                    -{currencyConfig.symbol}{convertAmount(totalPropExpenseAmt, nativeCurr, currentCurrency).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+
+              {/* 1. General Property-Wide Incurred Expenses */}
+              {generalExpenses.length > 0 && (
+                <div className="bg-white rounded-xl border border-stone-200 p-3 space-y-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-stone-400"></span>
+                    General Building Operating Costs (Shared Infrastructure)
+                  </span>
+                  <div className="space-y-2">
+                    {generalExpenses.map(ge => (
+                      <div key={ge.id} className="p-3 bg-stone-50 rounded-lg border border-stone-200/80 space-y-1.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono font-bold text-stone-900">{ge.date}</span>
+                            <span className="font-semibold text-stone-800">{ge.category}</span>
+                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-stone-200 text-stone-800">
+                              Property Scope
+                            </span>
+                          </div>
+                          <span className="font-black font-mono text-rose-600">
+                            -{currencyConfig.symbol}{convertAmount(ge.amount || 0, nativeCurr, currentCurrency).toLocaleString()}
+                          </span>
+                        </div>
+                        <p className="text-xs text-stone-600">{ge.description}</p>
+                        {ge.proofs && ge.proofs.length > 0 && (
+                          <div className="flex items-center gap-2 pt-1 border-t border-stone-200/60">
+                            <span className="text-[10px] font-bold uppercase text-stone-400">Proofs:</span>
+                            {ge.proofs.map(prf => (
+                              <button
+                                key={prf.id}
+                                onClick={() => setActiveMediaModal({
+                                  type: prf.file_type === 'photo' ? 'photo' : 'document',
+                                  url: prf.file_url,
+                                  title: prf.file_name,
+                                  caption: prf.caption
+                                })}
+                                className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
+                              >
+                                <Paperclip className="w-3 h-3 text-rose-600" />
+                                {prf.file_name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 2. Unit-by-Unit Incurred Expenses */}
+              {Array.from(unitExpensesMap.entries()).map(([uId, uExpenses]) => {
+                const unit = (dbState.units || []).find(u => u.id === uId);
+                const totalUnitExp = uExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+
+                return (
+                  <div key={uId} className="bg-white rounded-xl border border-stone-200 p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-stone-800 flex items-center gap-1.5">
+                        <Home className="w-3.5 h-3.5 text-brand-600" />
+                        Unit {unit?.unit_number || uId} Deductions
+                      </span>
+                      <span className="font-bold font-mono text-xs text-rose-600">
+                        Total: -{currencyConfig.symbol}{convertAmount(totalUnitExp, nativeCurr, currentCurrency).toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      {uExpenses.map(ue => (
+                        <div key={ue.id} className="p-3 bg-stone-50 rounded-lg border border-stone-200/80 space-y-1.5">
+                          <div className="flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono font-bold text-stone-900">{ue.date}</span>
+                              <span className="font-semibold text-stone-800">{ue.category}</span>
+                              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-100 text-amber-800">
+                                Suite Specific
+                              </span>
+                            </div>
+                            <span className="font-black font-mono text-rose-600">
+                              -{currencyConfig.symbol}{convertAmount(ue.amount || 0, nativeCurr, currentCurrency).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="text-xs text-stone-600">{ue.description}</p>
+                          {ue.proofs && ue.proofs.length > 0 && (
+                            <div className="flex items-center gap-2 pt-1 border-t border-stone-200/60">
+                              <span className="text-[10px] font-bold uppercase text-stone-400">Proofs:</span>
+                              {ue.proofs.map(prf => (
+                                <button
+                                  key={prf.id}
+                                  onClick={() => setActiveMediaModal({
+                                    type: prf.file_type === 'photo' ? 'photo' : 'document',
+                                    url: prf.file_url,
+                                    title: prf.file_name,
+                                    caption: prf.caption
+                                  })}
+                                  className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
+                                >
+                                  <Paperclip className="w-3 h-3 text-rose-600" />
+                                  {prf.file_name}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   // Render a specific month section's detailed content
   const renderMonthSectionContent = (monthStr: string) => {
     const monthPayments = filteredPayments.filter(p => (p.payment_date || p.due_date)?.startsWith(monthStr));
@@ -227,79 +602,34 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
           </div>
         </div>
 
-        {/* SUBSECTION 1: RENT COLLECTIONS & INFLOWS */}
+        {/* SECTION 1: HIERARCHICAL PROPERTY & UNIT OPERATIONAL REMITTANCE MATRIX */}
         {(categoryFilter === 'All' || categoryFilter === 'Remittances') && (
-          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
-            <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
+          <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 bg-emerald-50 text-emerald-700 rounded-lg">
                   <Landmark className="w-4 h-4" />
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                    Collected Rents & Remittance Ledgers
+                    Property & Unit Operational Remittance Ledger
                   </h4>
                   <p className="text-[11px] text-stone-500">
-                    Tenant payments verified and credited to portfolio statement
+                    High-level property operating costs, nested suites, collected rents, firm deductions & net payouts
                   </p>
                 </div>
               </div>
               <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full">
-                {monthPayments.length} Payment{monthPayments.length !== 1 ? 's' : ''}
+                {ownedProperties.length} Properties · {ownedUnits.length} Suites
               </span>
             </div>
 
-            {monthPayments.length === 0 ? (
-              <p className="text-xs text-stone-400 py-3 text-center">No rent collections logged for this month.</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
-                  <thead>
-                    <tr className="border-b border-stone-100 text-[10px] uppercase font-bold text-stone-400 tracking-wider">
-                      <th className="py-2 px-2">Date</th>
-                      <th className="py-2 px-2">Property & Unit</th>
-                      <th className="py-2 px-2">Ref</th>
-                      <th className="py-2 px-2 text-right">Collected Amount</th>
-                      <th className="py-2 px-2 text-center">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-100 text-stone-700">
-                    {monthPayments.map(p => {
-                      const lease = (dbState.leases || []).find(l => l.id === p.lease_id);
-                      const unit = lease ? (dbState.units || []).find(u => u.id === lease.unit_id) : undefined;
-                      const prop = (dbState.properties || []).find(pr => pr.id === unit?.property_id);
-                      const nativeCurr = getPropNativeCurrency(prop?.id);
-
-                      return (
-                        <tr key={p.id} className="hover:bg-cream-50/60 transition-colors">
-                          <td className="py-2.5 px-2 font-mono">{p.payment_date || p.due_date}</td>
-                          <td className="py-2.5 px-2 font-semibold text-stone-900">
-                            {prop?.name} {unit ? `(Unit ${unit.unit_number})` : ''}
-                          </td>
-                          <td className="py-2.5 px-2 font-mono text-stone-500">{p.id}</td>
-                          <td className="py-2.5 px-2 text-right font-mono font-bold text-stone-900">
-                            <DualCurrencyDisplay
-                              amount={p.amount_paid || p.amount || 0}
-                              sourceCurrency={p.currency || nativeCurr}
-                              amountClassName="font-bold font-mono"
-                            />
-                          </td>
-                          <td className="py-2.5 px-2 text-center">
-                            <span className="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px]">
-                              {p.status || 'Paid'}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
+            {/* Render Hierarchical Property & Unit Table */}
+            {renderPropertyUnitHierarchicalBreakdown(monthPayments, monthExpenses)}
           </div>
         )}
 
-        {/* SUBSECTION 2: MAINTENANCE EXPENSES & DEDUCTIONS (Hierarchically grouped by Property & Unit) */}
+        {/* SECTION 2: HIERARCHICAL EXPENSES & CONTRACTOR PROOFS */}
         {(categoryFilter === 'All' || categoryFilter === 'Expenses') && (
           <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-stone-100">
@@ -309,297 +639,24 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-                    Operational Deductions & Contractor Invoices
+                    Hierarchical Maintenance Deductions & Proofs
                   </h4>
                   <p className="text-[11px] text-stone-500">
-                    Dispatched repair costs, vendor receipts, and verified proof attachments categorized by property and unit
+                    Broken down property by property, with units, detailed expense descriptions, and attached invoices
                   </p>
                 </div>
               </div>
               <span className="text-[11px] font-bold text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full">
-                {monthExpenses.length} Expense{monthExpenses.length !== 1 ? 's' : ''}
+                {monthExpenses.length} Expense Item{monthExpenses.length !== 1 ? 's' : ''}
               </span>
             </div>
 
-            {monthExpenses.length === 0 ? (
-              <p className="text-xs text-stone-400 py-3 text-center">No maintenance expenses deducted for this month.</p>
-            ) : (
-              <div className="space-y-4">
-                {/* 1. Property-by-Property & Unit Breakdown Table */}
-                <div className="overflow-x-auto rounded-xl border border-stone-200 bg-stone-50/50">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-stone-200 bg-stone-100/70 text-[10px] uppercase font-bold text-stone-500 tracking-wider">
-                        <th className="py-2.5 px-3">Property / Estate</th>
-                        <th className="py-2.5 px-3">Unit / Suite</th>
-                        <th className="py-2.5 px-3">Scope</th>
-                        <th className="py-2.5 px-3 text-center">Expense Count</th>
-                        <th className="py-2.5 px-3 text-right">Total Deductions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stone-200/70 text-stone-700">
-                      {ownedProperties.map(prop => {
-                        const propExpenses = monthExpenses.filter(e => e.property_id === prop.id);
-                        if (propExpenses.length === 0) return null;
-                        const propNativeCurr = getPropNativeCurrency(prop.id);
-
-                        // Group by unit within this property
-                        const unitsInProp = (dbState.units || []).filter(u => u.property_id === prop.id);
-                        const unitGroups: { [unitId: string]: typeof propExpenses } = {};
-                        const commonAreaExpenses: typeof propExpenses = [];
-
-                        propExpenses.forEach(e => {
-                          if (e.unit_id) {
-                            if (!unitGroups[e.unit_id]) unitGroups[e.unit_id] = [];
-                            unitGroups[e.unit_id].push(e);
-                          } else {
-                            commonAreaExpenses.push(e);
-                          }
-                        });
-
-                        const rows = [];
-
-                        // Unit-level rows
-                        Object.entries(unitGroups).forEach(([uId, uExps]) => {
-                          const unitObj = unitsInProp.find(u => u.id === uId);
-                          const uTotal = uExps.reduce((s, e) => s + (e.amount || 0), 0);
-
-                          rows.push(
-                            <tr key={`${prop.id}-${uId}`} className="hover:bg-white/80 transition-colors">
-                              <td className="py-2.5 px-3 font-bold text-stone-900">{prop.name}</td>
-                              <td className="py-2.5 px-3">
-                                <span className="font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-200/60 font-mono text-[11px]">
-                                  Suite {unitObj?.unit_number || uId}
-                                </span>
-                              </td>
-                              <td className="py-2.5 px-3 text-[11px] text-stone-500">Unit Specific</td>
-                              <td className="py-2.5 px-3 text-center font-bold text-stone-700">{uExps.length}</td>
-                              <td className="py-2.5 px-3 text-right font-mono font-bold text-rose-600">
-                                <DualCurrencyDisplay
-                                  amount={uTotal}
-                                  sourceCurrency={propNativeCurr}
-                                  amountClassName="font-bold font-mono text-rose-600"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        });
-
-                        // Common areas row (if any)
-                        if (commonAreaExpenses.length > 0) {
-                          const commonTotal = commonAreaExpenses.reduce((s, e) => s + (e.amount || 0), 0);
-                          rows.push(
-                            <tr key={`${prop.id}-common`} className="hover:bg-white/80 transition-colors">
-                              <td className="py-2.5 px-3 font-bold text-stone-900">{prop.name}</td>
-                              <td className="py-2.5 px-3 text-stone-500 italic text-[11px]">Building Common Area</td>
-                              <td className="py-2.5 px-3 text-[11px] text-stone-500">Facility / Estate</td>
-                              <td className="py-2.5 px-3 text-center font-bold text-stone-700">{commonAreaExpenses.length}</td>
-                              <td className="py-2.5 px-3 text-right font-mono font-bold text-rose-600">
-                                <DualCurrencyDisplay
-                                  amount={commonTotal}
-                                  sourceCurrency={propNativeCurr}
-                                  amountClassName="font-bold font-mono text-rose-600"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        }
-
-                        return rows;
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* 2. Itemized Expense Cards Grouped By Property & Unit */}
-                <div className="space-y-4 pt-1">
-                  {ownedProperties.map(prop => {
-                    const propExpenses = monthExpenses.filter(e => e.property_id === prop.id);
-                    if (propExpenses.length === 0) return null;
-                    const propNativeCurr = getPropNativeCurrency(prop.id);
-                    const unitsInProp = (dbState.units || []).filter(u => u.property_id === prop.id);
-
-                    // Group by unit within property
-                    const unitMap = new Map<string, typeof propExpenses>();
-                    const unassigned: typeof propExpenses = [];
-
-                    propExpenses.forEach(e => {
-                      if (e.unit_id) {
-                        const cur = unitMap.get(e.unit_id) || [];
-                        cur.push(e);
-                        unitMap.set(e.unit_id, cur);
-                      } else {
-                        unassigned.push(e);
-                      }
-                    });
-
-                    return (
-                      <div key={prop.id} className="rounded-xl border border-stone-200 bg-stone-50/40 p-3.5 space-y-3">
-                        {/* Property Subheader */}
-                        <div className="flex items-center justify-between pb-2 border-b border-stone-200">
-                          <div className="flex items-center gap-2">
-                            <Building2 className="w-4 h-4 text-brand-600" />
-                            <h5 className="font-bold text-xs text-stone-900 uppercase tracking-wide">
-                              {prop.name}
-                            </h5>
-                          </div>
-                          <span className="text-[11px] text-stone-500 font-medium">
-                            {propExpenses.length} deduction{propExpenses.length !== 1 ? 's' : ''}
-                          </span>
-                        </div>
-
-                        {/* Unit Clusters */}
-                        <div className="space-y-3">
-                          {Array.from(unitMap.entries()).map(([uId, uExpenses]) => {
-                            const unitObj = unitsInProp.find(u => u.id === uId);
-                            const uTotal = uExpenses.reduce((s, e) => s + (e.amount || 0), 0);
-
-                            return (
-                              <div key={uId} className="bg-white rounded-xl border border-stone-200 p-3 shadow-2xs space-y-2">
-                                <div className="flex items-center justify-between pb-1.5 border-b border-stone-100">
-                                  <div className="flex items-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-rose-500"></span>
-                                    <span className="font-bold text-xs text-stone-900">
-                                      Suite {unitObj?.unit_number || uId}
-                                    </span>
-                                    <span className="text-[10px] text-stone-400">
-                                      ({unitObj?.bedrooms || 1} Bed · {unitObj?.bathrooms || 1} Bath)
-                                    </span>
-                                  </div>
-                                  <div className="text-right">
-                                    <DualCurrencyDisplay
-                                      amount={uTotal}
-                                      sourceCurrency={propNativeCurr}
-                                      amountClassName="text-xs font-black font-mono text-rose-600"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                  {uExpenses.map(e => (
-                                    <div key={e.id} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                                      <div>
-                                        <div className="flex items-center gap-2">
-                                          <span className="font-mono text-[11px] text-stone-500">{e.date}</span>
-                                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-stone-200 text-stone-800">
-                                            {e.category}
-                                          </span>
-                                          {e.invoice_number && (
-                                            <span className="text-[10px] font-mono text-stone-400">
-                                              #{e.invoice_number}
-                                            </span>
-                                          )}
-                                        </div>
-                                        <p className="text-[11px] text-stone-600 mt-0.5">{e.description}</p>
-                                      </div>
-
-                                      <div className="flex items-center gap-2 shrink-0">
-                                        <DualCurrencyDisplay
-                                          amount={e.amount || 0}
-                                          sourceCurrency={propNativeCurr}
-                                          amountClassName="font-bold font-mono text-rose-600 text-xs"
-                                        />
-
-                                        {e.proofs && e.proofs.length > 0 && (
-                                          <div className="flex items-center gap-1">
-                                            {e.proofs.map(proof => (
-                                              <button
-                                                key={proof.id}
-                                                onClick={() => setActiveMediaModal({
-                                                  type: proof.type === 'video' ? 'video' : 'photo',
-                                                  url: proof.url,
-                                                  title: proof.name,
-                                                  caption: proof.caption || proof.description
-                                                })}
-                                                className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
-                                                title="View proof receipt/invoice"
-                                              >
-                                                <Paperclip className="w-3 h-3 text-rose-600" />
-                                                Proof
-                                              </button>
-                                            ))}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          })}
-
-                          {/* Common Area / Facility Expenses (if any) */}
-                          {unassigned.length > 0 && (
-                            <div className="bg-white rounded-xl border border-stone-200 p-3 shadow-2xs space-y-2">
-                              <div className="flex items-center justify-between pb-1.5 border-b border-stone-100">
-                                <div className="flex items-center gap-2">
-                                  <span className="w-2 h-2 rounded-full bg-stone-400"></span>
-                                  <span className="font-bold text-xs text-stone-700 italic">
-                                    Estate & Building Common Facilities
-                                  </span>
-                                </div>
-                                <DualCurrencyDisplay
-                                  amount={unassigned.reduce((s, e) => s + (e.amount || 0), 0)}
-                                  sourceCurrency={propNativeCurr}
-                                  amountClassName="text-xs font-black font-mono text-rose-600"
-                                />
-                              </div>
-
-                              <div className="space-y-2">
-                                {unassigned.map(e => (
-                                  <div key={e.id} className="p-2.5 bg-stone-50 rounded-lg border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="font-mono text-[11px] text-stone-500">{e.date}</span>
-                                        <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-stone-200 text-stone-800">
-                                          {e.category}
-                                        </span>
-                                      </div>
-                                      <p className="text-[11px] text-stone-600 mt-0.5">{e.description}</p>
-                                    </div>
-
-                                    <div className="flex items-center gap-2 shrink-0">
-                                      <DualCurrencyDisplay
-                                        amount={e.amount || 0}
-                                        sourceCurrency={propNativeCurr}
-                                        amountClassName="font-bold font-mono text-rose-600 text-xs"
-                                      />
-                                      {e.proofs && e.proofs.length > 0 && (
-                                        <div className="flex items-center gap-1">
-                                          {e.proofs.map(proof => (
-                                            <button
-                                              key={proof.id}
-                                              onClick={() => setActiveMediaModal({
-                                                type: proof.type === 'video' ? 'video' : 'photo',
-                                                url: proof.url,
-                                                title: proof.name,
-                                                caption: proof.caption || proof.description
-                                              })}
-                                              className="px-2 py-0.5 bg-white hover:bg-stone-100 border border-stone-200 rounded text-[10px] font-medium text-stone-700 flex items-center gap-1 cursor-pointer"
-                                            >
-                                              <Paperclip className="w-3 h-3 text-rose-600" />
-                                              Proof
-                                            </button>
-                                          ))}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+            {/* Render Hierarchical Expenses Details */}
+            {renderHierarchicalExpensesDetail(monthExpenses)}
           </div>
         )}
 
-        {/* SUBSECTION 3: PHYSICAL AUDITS & INSPECTIONS */}
+        {/* SECTION 3: PHYSICAL AUDITS & INSPECTIONS */}
         {(categoryFilter === 'All' || categoryFilter === 'Inspections') && (
           <div className="bg-white rounded-xl border border-stone-200 p-4 shadow-2xs">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
@@ -722,6 +779,21 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Property Selector Filter */}
+            <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
+              <Building2 className="w-3.5 h-3.5 text-stone-500" />
+              <select
+                value={selectedPropertyFilter}
+                onChange={(e) => setSelectedPropertyFilter(e.target.value)}
+                className="bg-transparent text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
+              >
+                <option value="All">All Owned Properties</option>
+                {ownedProperties.map(p => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
+                ))}
+              </select>
+            </div>
+
             <div className="flex items-center gap-1.5 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-200">
               <Filter className="w-3.5 h-3.5 text-stone-500" />
               <select
@@ -798,43 +870,28 @@ export const LandlordReportView: React.FC<LandlordReportViewProps> = ({
                 </div>
 
                 <div className="p-5 space-y-4">
-                  {dayPayments.length > 0 && (
+                  {/* Render Hierarchical Property & Unit Table for the day */}
+                  {(categoryFilter === 'All' || categoryFilter === 'Remittances') && (
                     <div className="space-y-2">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
-                        Rent Collected:
+                        Properties & Suites Daily Breakdown:
                       </span>
-                      {dayPayments.map(p => (
-                        <div key={p.id} className="p-3 bg-cream-50 rounded-xl border border-cream-200 flex items-center justify-between text-xs">
-                          <span className="font-bold text-stone-900">Rent Remittance #{p.id}</span>
-                          <span className="font-mono font-bold text-stone-900">
-                            {currencyConfig.symbol}{(p.amount_paid || p.amount || 0).toLocaleString()}
-                          </span>
-                        </div>
-                      ))}
+                      {renderPropertyUnitHierarchicalBreakdown(dayPayments, dayExpenses)}
                     </div>
                   )}
 
-                  {dayExpenses.length > 0 && (
-                    <div className="space-y-2">
+                  {/* Render Hierarchical Expenses Details for the day */}
+                  {(categoryFilter === 'All' || categoryFilter === 'Expenses') && dayExpenses.length > 0 && (
+                    <div className="space-y-2 pt-2 border-t border-stone-100">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
-                        Maintenance Deductions:
+                        Maintenance Deductions (Properties & Units):
                       </span>
-                      {dayExpenses.map(e => (
-                        <div key={e.id} className="p-3 bg-rose-50/60 rounded-xl border border-rose-200 flex items-center justify-between text-xs">
-                          <div>
-                            <span className="font-bold text-stone-900">{e.category}</span>
-                            <p className="text-stone-600 text-[11px]">{e.description}</p>
-                          </div>
-                          <span className="font-mono font-bold text-rose-600">
-                            -{currencyConfig.symbol}{(e.amount || 0).toLocaleString()}
-                          </span>
-                        </div>
-                      ))}
+                      {renderHierarchicalExpensesDetail(dayExpenses)}
                     </div>
                   )}
 
                   {dayInspections.length > 0 && (
-                    <div className="space-y-2">
+                    <div className="space-y-2 pt-2 border-t border-stone-100">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block">
                         Physical Audits:
                       </span>
