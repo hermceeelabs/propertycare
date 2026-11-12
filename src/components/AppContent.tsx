@@ -261,6 +261,10 @@ export const AppContent: React.FC<AppContentProps> = ({
             <OperationsHub dbState={dbState} initialTab="tickets" />
           )}
 
+          {currentTab === 'inspections' && (
+            <OperationsHub dbState={dbState} initialTab="inspections" />
+          )}
+
           {currentTab === 'vendors' && (
             <OperationsHub dbState={dbState} initialTab="vendors" />
           )}

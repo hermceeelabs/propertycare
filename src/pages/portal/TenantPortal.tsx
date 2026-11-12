@@ -23,7 +23,7 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
   onClosePreview
 }) => {
   const { formatMoney, currentCurrency, setCurrency, currencyConfig } = useCurrency();
-  const [activeTab, setActiveTab] = useState<'overview' | 'payments' | 'maintenance' | 'documents' | 'notices' | 'reports'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'payments' | 'maintenance' | 'inspections' | 'documents' | 'notices' | 'reports'>('overview');
   
   // Selected Tenant based on passed-in tenantId
   const tenant = dbState.tenants.find(t => t.id === tenantId) || dbState.tenants[0];
@@ -41,6 +41,14 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
       (!property || !m.property_id || m.property_id === property.id)
   );
   const tenantNotices = (dbState.notices || []).filter(n => n.tenant_id === tenant?.id);
+  const tenantUnitInspections = (dbState.inspections || [])
+    .filter(
+      i =>
+        property &&
+        i.property_id === property.id &&
+        (!i.unit_id || (unit && i.unit_id === unit.id))
+    )
+    .sort((a, b) => (b.scheduled_date || '').localeCompare(a.scheduled_date || ''));
 
   const nativeCurr: CurrencyCode =
     property?.acquisition?.acquisition_currency ||
@@ -381,6 +389,25 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                 activeTab === 'maintenance' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
               }`}>
                 {tenantRequests.length}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('inspections')}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                activeTab === 'inspections'
+                  ? 'bg-brand-600 text-white shadow-xs font-bold'
+                  : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Calendar className="w-4 h-4" />
+                <span>Unit Inspections & Schedule</span>
+              </div>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${
+                activeTab === 'inspections' ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
+              }`}>
+                {tenantUnitInspections.length}
               </span>
             </button>
 
@@ -1177,6 +1204,114 @@ export const TenantPortal: React.FC<TenantPortalProps> = ({
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4B: UNIT INSPECTIONS TIMETABLE & FIELD REMARKS */}
+        {activeTab === 'inspections' && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl border border-stone-200 p-6 shadow-sm space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-100">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">
+                    Unit Inspection Timetable & Walkthrough Reviews
+                  </h2>
+                  <p className="text-xs text-stone-500">
+                    Upcoming scheduled inspection dates, assigned field team members, and published remarks for Unit {unit?.unit_number} ({property?.name})
+                  </p>
+                </div>
+                <span className="px-3 py-1 bg-brand-50 text-brand-800 rounded-full text-xs font-bold w-fit">
+                  {tenantUnitInspections.length} Scheduled / Completed Sessions
+                </span>
+              </div>
+
+              {tenantUnitInspections.length === 0 ? (
+                <div className="p-10 text-center text-xs text-stone-500">
+                  No inspections are currently scheduled or recorded for your residence.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {tenantUnitInspections.map(insp => {
+                    const isUpcoming = insp.status === 'Scheduled' || insp.status === 'In Progress';
+                    return (
+                      <div
+                        key={insp.id}
+                        className={`p-5 rounded-2xl border space-y-3 ${
+                          isUpcoming
+                            ? 'bg-blue-50/40 border-blue-200'
+                            : 'bg-stone-50 border-stone-200'
+                        }`}
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-200/70 pb-3">
+                          <div className="space-y-0.5">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-sm text-slate-900">{insp.title}</span>
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                  isUpcoming
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-emerald-100 text-emerald-800'
+                                }`}
+                              >
+                                {insp.status}
+                              </span>
+                              {insp.overall_condition && (
+                                <span className="px-2 py-0.5 rounded-md bg-white border border-stone-200 text-[10px] font-bold text-stone-700">
+                                  Rating: {insp.overall_condition}
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-xs text-stone-500">
+                              Team Lead: <strong className="text-slate-800">{insp.team_lead_name}</strong>
+                              {(insp.assigned_attendees || []).length > 0 && (
+                                <>
+                                  {' '}• Crew:{' '}
+                                  {(insp.assigned_attendees || []).map(a => a.staff_name).join(', ')}
+                                </>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="text-right">
+                            <div className="font-mono text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                              <Calendar className="w-3.5 h-3.5 text-brand-600" />
+                              {insp.scheduled_date}
+                            </div>
+                            <span className="text-[11px] text-stone-500">
+                              {insp.scheduled_time || '10:00 AM - 12:00 PM'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {insp.general_remarks && (
+                          <p className="text-xs text-stone-700 leading-relaxed">
+                            <strong className="text-slate-900">Inspector Remarks: </strong>
+                            {insp.general_remarks}
+                          </p>
+                        )}
+
+                        {(insp.findings || []).length > 0 && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                            {(insp.findings || []).map((f, idx) => (
+                              <div
+                                key={idx}
+                                className="p-2.5 bg-white rounded-xl border border-stone-200 text-[11px]"
+                              >
+                                <div className="flex items-center justify-between font-bold text-slate-800">
+                                  <span>{f.area}</span>
+                                  <span className="text-emerald-700">{f.rating}</span>
+                                </div>
+                                <p className="text-stone-500 mt-0.5">{f.remarks}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         )}

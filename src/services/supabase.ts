@@ -520,7 +520,13 @@ class StoreManager {
 
   addInspection(inspection: PropertyInspection) {
     if (!this.state.inspections) this.state.inspections = [];
-    this.state.inspections.unshift(inspection);
+    this.state.inspections = [inspection, ...this.state.inspections];
+    this.saveState();
+  }
+
+  addInspectionsBatch(newInspections: PropertyInspection[]) {
+    if (!this.state.inspections) this.state.inspections = [];
+    this.state.inspections = [...newInspections, ...this.state.inspections];
     this.saveState();
   }
 

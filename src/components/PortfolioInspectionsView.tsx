@@ -25,6 +25,7 @@ export const PortfolioInspectionsView: React.FC<PortfolioInspectionsViewProps> =
 
   const [selectedPropertyId, setSelectedPropertyId] = useState<string>('All');
   const [selectedCondition, setSelectedCondition] = useState<string>('All');
+  const [selectedStatus, setSelectedStatus] = useState<string>('All');
   const [selectedScope, setSelectedScope] = useState<'All' | 'Building' | 'Unit'>('All');
   const [selectedMonth, setSelectedMonth] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -65,6 +66,7 @@ export const PortfolioInspectionsView: React.FC<PortfolioInspectionsViewProps> =
   const filteredInspections = useMemo(() => {
     return ownedInspections.filter(insp => {
       if (selectedPropertyId !== 'All' && insp.property_id !== selectedPropertyId) return false;
+      if (selectedStatus !== 'All' && insp.status !== selectedStatus) return false;
       if (selectedCondition !== 'All' && insp.overall_condition !== selectedCondition) return false;
       if (selectedScope === 'Building' && insp.unit_id) return false;
       if (selectedScope === 'Unit' && !insp.unit_id) return false;
@@ -90,7 +92,7 @@ export const PortfolioInspectionsView: React.FC<PortfolioInspectionsViewProps> =
 
       return true;
     });
-  }, [ownedInspections, selectedPropertyId, selectedCondition, selectedScope, selectedMonth, searchQuery, ownedProperties, dbState.units]);
+  }, [ownedInspections, selectedPropertyId, selectedStatus, selectedCondition, selectedScope, selectedMonth, searchQuery, ownedProperties, dbState.units]);
 
   // Summary metrics
   const excellentOrGoodCount = ownedInspections.filter(
@@ -215,6 +217,20 @@ export const PortfolioInspectionsView: React.FC<PortfolioInspectionsViewProps> =
             </div>
 
             {/* Condition Filter */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Status:</span>
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="px-3 py-1.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-800 cursor-pointer focus:outline-hidden"
+              >
+                <option value="All">All Timetable & Completed</option>
+                <option value="Scheduled">Upcoming / Scheduled</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Approved / Completed">Approved & Signed Off</option>
+              </select>
+            </div>
+
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Condition:</span>
               <select

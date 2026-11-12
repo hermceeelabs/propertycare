@@ -505,6 +505,36 @@ export type InspectionFrequency = 'Weekly' | 'Bi-Weekly' | 'Monthly' | 'Quarterl
 export type InspectionStatus = 'Scheduled' | 'In Progress' | 'Pending Review' | 'Approved / Completed' | 'Cancelled' | 'Missed';
 export type ConditionRating = 'Excellent' | 'Good' | 'Fair' | 'Requires Attention' | 'Critical Hazard';
 
+export interface PropertyInspectionPolicy {
+  property_id: string;
+  enabled: boolean;
+  frequency: InspectionFrequency;
+  scope: 'Building-Wide' | 'All Occupied Units' | 'All Units';
+  preferred_time?: string;
+}
+
+export interface InspectionTimetableConfig {
+  horizon_months: 3 | 4 | 6 | 12;
+  start_date: string;
+  min_team_size: number;
+  max_team_size: number;
+  min_inspections_per_staff_week: number;
+  max_inspections_per_staff_week: number;
+  min_inspections_per_staff_month: number;
+  max_inspections_per_staff_month: number;
+  designated_lead_ids: string[];
+  designated_member_ids: string[];
+  property_policies: PropertyInspectionPolicy[];
+}
+
+export interface StaffDirectoryMember {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  can_be_lead: boolean;
+}
+
 export interface InspectionAttachment {
   id: string;
   file_name: string;

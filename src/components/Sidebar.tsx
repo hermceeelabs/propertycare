@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   LayoutDashboard, Building2, Users, FileText, CreditCard,
-  Wrench, Truck, Receipt, Bell, Mail,
+  Wrench, Truck, Receipt, Bell, Mail, ClipboardCheck,
   Zap, BarChart3, Settings, ShieldAlert, Sparkles, Home, LogIn, LogOut, UserCheck, Eye, Landmark
 } from 'lucide-react';
 import { supabase } from '../services/supabase';
@@ -18,6 +18,7 @@ export type NavTab =
   | 'bills'
   | 'reports'
   | 'maintenance'
+  | 'inspections'
   | 'vendors'
   | 'notices'
   | 'communications'
@@ -89,6 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ...(can('can_dispatch_maintenance') ? [
           { id: 'maintenance' as NavTab, label: 'Work Orders & Field Hub', icon: Wrench }
         ] : []),
+        { id: 'inspections' as NavTab, label: 'Inspection Timetable', icon: ClipboardCheck },
         ...(can('can_issue_notices') ? [
           { id: 'notices' as NavTab, label: 'Legal Notices & Comms Hub', icon: Bell }
         ] : []),
