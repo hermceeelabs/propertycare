@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Wrench, Truck, ClipboardCheck } from 'lucide-react';
+import { Wrench, Truck } from 'lucide-react';
 import { DatabaseState } from '../services/supabase';
 import { MaintenancePage } from './Maintenance';
 import { VendorsPage } from './Vendors';
-import { InspectionsPage } from './Inspections';
 
 interface OperationsHubProps {
   dbState: DatabaseState;
-  initialTab?: 'tickets' | 'inspections' | 'vendors';
+  initialTab?: 'tickets' | 'vendors';
 }
 
 export const OperationsHub: React.FC<OperationsHubProps> = ({
   dbState,
   initialTab = 'tickets'
 }) => {
-  const [activeTab, setActiveTab] = useState<'tickets' | 'inspections' | 'vendors'>(initialTab);
+  const [activeTab, setActiveTab] = useState<'tickets' | 'vendors'>(initialTab);
 
   useEffect(() => {
     setActiveTab(initialTab);
@@ -36,16 +35,6 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
             <Wrench className="w-4 h-4" /> Maintenance Tickets ({dbState.maintenance_requests.length})
           </button>
           <button
-            onClick={() => setActiveTab('inspections')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-              activeTab === 'inspections'
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-            }`}
-          >
-            <ClipboardCheck className="w-4 h-4" /> Inspection Timetable & Audits ({(dbState.inspections || []).length})
-          </button>
-          <button
             onClick={() => setActiveTab('vendors')}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'vendors'
@@ -64,7 +53,6 @@ export const OperationsHub: React.FC<OperationsHubProps> = ({
       {/* Tab View Render */}
       <div>
         {activeTab === 'tickets' && <MaintenancePage dbState={dbState} />}
-        {activeTab === 'inspections' && <InspectionsPage dbState={dbState} />}
         {activeTab === 'vendors' && <VendorsPage dbState={dbState} />}
       </div>
     </div>

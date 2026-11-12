@@ -21,6 +21,7 @@ import { AutomationsPage } from '../pages/Automations';
 import { AutomationLogsPage } from '../pages/AutomationLogs';
 import { FinancialsHub } from '../pages/FinancialsHub';
 import { OperationsHub } from '../pages/OperationsHub';
+import { InspectionsPage } from '../pages/Inspections';
 import { LegalCommsHub } from '../pages/LegalCommsHub';
 import { AutomationsHub } from '../pages/AutomationsHub';
 import { ReportsPage } from '../pages/Reports';
@@ -262,7 +263,7 @@ export const AppContent: React.FC<AppContentProps> = ({
           )}
 
           {currentTab === 'inspections' && (
-            <OperationsHub dbState={dbState} initialTab="inspections" />
+            <InspectionsPage dbState={dbState} />
           )}
 
           {currentTab === 'vendors' && (
