@@ -30,7 +30,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [selectedUnitForExpense, setSelectedUnitForExpense] = useState<string | undefined>(undefined);
   const [adjustPriceUnit, setAdjustPriceUnit] = useState<any | null>(null);
-  const { formatMoney, currencyConfig, liveFx, refreshLiveFx, getLiveRateVsUsd } = useCurrency();
+  const { formatMoney, convertToCAD, currencyConfig, liveFx, refreshLiveFx, getLiveRateVsUsd } = useCurrency();
 
   const property = dbState.properties.find(p => p.id === propertyId);
   if (!property) {
@@ -42,6 +42,10 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
     );
   }
 
+  const nativeCurr: CurrencyCode = property.acquisition?.acquisition_currency || (property.city === 'Lagos' || property.city === 'Abuja' ? 'NGN' : 'CAD');
+  const formatPropMoney = (nativeAmt: number, opts?: Intl.NumberFormatOptions) =>
+    formatMoney(convertToCAD(nativeAmt || 0, nativeCurr), opts);
+
   const units = dbState.units.filter(u => u.property_id === propertyId);
   const unitIds = new Set(units.map(u => u.id));
 
@@ -49,8 +53,8 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const tenantIds = new Set(leases.map(l => l.tenant_id));
   const tenants = dbState.tenants.filter(t => tenantIds.has(t.id));
 
-  const payments = dbState.payments.filter(p => tenantIds.has(p.tenant_id));
-  const maintenance = dbState.maintenance_requests.filter(m => unitIds.has(m.unit_id));
+  const payments = dbState.payments.filter(p => tenantIds.has(p.tenant_id) || leases.some(l => l.id === p.lease_id));
+  const maintenance = dbState.maintenance_requests.filter(m => m.property_id === propertyId || (m.unit_id && unitIds.has(m.unit_id)));
   const bills = dbState.bills.filter(b => b.property_id === propertyId);
   const expenses = (dbState.expenses || []).filter(e => e.property_id === propertyId);
 
@@ -58,13 +62,14 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const occupiedUnits = units.filter(u => u.status === 'Occupied');
   const actualMonthlyRent = occupiedUnits.reduce((acc, u) => acc + u.monthly_rent, 0);
   const totalPropertyExpenses = expenses.reduce((acc, e) => acc + e.amount, 0);
+  const monthlyAvgExpenses = totalPropertyExpenses / 12;
 
   // Master Lease monthly deduction if applicable
   const monthlyMasterLeaseFee = property.acquisition?.acquisition_type === 'Long-Term Lease'
     ? (property.acquisition.monthly_lease_cost || 0)
     : 0;
 
-  const propertyNetOperatingIncome = actualMonthlyRent - totalPropertyExpenses - monthlyMasterLeaseFee;
+  const propertyNetOperatingIncome = actualMonthlyRent - monthlyAvgExpenses - monthlyMasterLeaseFee;
   const propertyProfitMargin = actualMonthlyRent > 0
     ? Math.round((propertyNetOperatingIncome / actualMonthlyRent) * 100)
     : 0;
@@ -108,7 +113,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
   const initialEquityInUsd = defaultAcqRate > 0 ? (initialCashOutlay / defaultAcqRate) : 0;
 
   // Adjusted Expenses & Adjusted Annual Cash Flow under FX / expense sensitivity:
-  const adjustedTotalExpenses = totalPropertyExpenses * (1 + (expenseInflationPercent / 100));
+  const adjustedTotalExpenses = monthlyAvgExpenses * (1 + (expenseInflationPercent / 100));
   const dynamicMonthlyNOI = actualMonthlyRent - adjustedTotalExpenses - monthlyMasterLeaseFee;
   const dynamicAnnualNetCashFlow = dynamicMonthlyNOI * 12;
 
@@ -257,7 +262,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
           <div>
             <span className="text-xs text-slate-500 block font-medium">Monthly Inflow</span>
             <span className="text-xl font-extrabold text-slate-900">
-              {formatMoney(actualMonthlyRent)}
+              {formatPropMoney(actualMonthlyRent)}
             </span>
           </div>
           <div>
@@ -812,24 +817,24 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <span className="text-xs text-slate-500 font-medium block">Total Monthly Inflow</span>
-                <span className="text-xl font-extrabold text-slate-900">{formatMoney(actualMonthlyRent)}</span>
+                <span className="text-xl font-extrabold text-slate-900">{formatPropMoney(actualMonthlyRent)}</span>
                 <span className="text-[11px] text-slate-400 block mt-1">From {occupiedUnits.length} active leases</span>
               </div>
 
               <div className="p-4 bg-rose-50/50 rounded-xl border border-rose-200">
-                <span className="text-xs text-rose-800 font-medium block">Total Operating Outflow</span>
+                <span className="text-xs text-rose-800 font-medium block">Total 2026 Expenses</span>
                 <span className="text-xl font-extrabold text-rose-700">
-                  {formatMoney(totalPropertyExpenses + monthlyMasterLeaseFee)}
+                  {formatPropMoney(totalPropertyExpenses)}
                 </span>
                 <span className="text-[11px] text-rose-600 block mt-1">
-                  {monthlyMasterLeaseFee > 0 ? `Includes ${formatMoney(monthlyMasterLeaseFee)} master lease fee` : `${expenses.length} operating expenses logged`}
+                  {formatPropMoney(monthlyAvgExpenses)}/mo avg • {expenses.length} expenses
                 </span>
               </div>
 
               <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
                 <span className="text-xs text-emerald-800 font-medium block">Net Operating Income (NOI)</span>
                 <span className={`text-xl font-extrabold ${propertyNetOperatingIncome >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
-                  {formatMoney(propertyNetOperatingIncome)}
+                  {formatPropMoney(propertyNetOperatingIncome)}
                 </span>
                 <span className="text-[11px] text-emerald-700 block mt-1">Net property monthly yield</span>
               </div>
@@ -851,9 +856,9 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     <th className="p-3.5">Unit #</th>
                     <th className="p-3.5">Status</th>
                     <th className="p-3.5">Monthly Income</th>
-                    <th className="p-3.5">Direct Unit Expenses</th>
-                    <th className="p-3.5">Shared Building Cost</th>
-                    <th className="p-3.5">Net Profit / Yield</th>
+                    <th className="p-3.5">Direct Unit Expenses (2026)</th>
+                    <th className="p-3.5">Shared Building Cost (2026)</th>
+                    <th className="p-3.5">Net Profit / Mo</th>
                     <th className="p-3.5">Profit Margin</th>
                     <th className="p-3.5 text-right">Actions</th>
                   </tr>
@@ -866,15 +871,15 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     // Property-wide shared costs distributed proportionally across units
                     const propertyWideExpenses = expenses.filter(e => e.scope === 'Property');
                     const sharedPropertyCostPerUnit = units.length > 0
-                      ? (propertyWideExpenses.reduce((acc, e) => acc + e.amount, 0) + monthlyMasterLeaseFee) / units.length
+                      ? propertyWideExpenses.reduce((acc, e) => acc + e.amount, 0) / units.length
                       : 0;
 
-                    const totalCostForUnit = unitDirectTotal + sharedPropertyCostPerUnit;
+                    const monthlyUnitCost = (unitDirectTotal / 12) + (sharedPropertyCostPerUnit / 12) + (units.length > 0 ? monthlyMasterLeaseFee / units.length : 0);
                     const unitIncome = unit.status === 'Occupied' ? unit.monthly_rent : 0;
-                    const unitProfit = unitIncome - totalCostForUnit;
+                    const unitProfit = unitIncome - monthlyUnitCost;
                     const unitMargin = unitIncome > 0
                       ? Math.round((unitProfit / unitIncome) * 100)
-                      : (totalCostForUnit > 0 ? -100 : 0);
+                      : (monthlyUnitCost > 0 ? -100 : 0);
 
                     return (
                       <tr key={unit.id} className="hover:bg-slate-50/80 transition-colors">
@@ -894,21 +899,21 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                           </span>
                         </td>
                         <td className="p-3.5 font-bold text-slate-900">
-                          {formatMoney(unitIncome)}
+                          {formatPropMoney(unitIncome)}
                         </td>
                         <td className="p-3.5 text-rose-600 font-semibold">
-                          {formatMoney(unitDirectTotal)}
+                          {formatPropMoney(unitDirectTotal)}
                           <span className="block text-[10px] text-slate-400 font-normal">
                             {unitDirectExpenses.length} logged
                           </span>
                         </td>
                         <td className="p-3.5 text-slate-500">
-                          {formatMoney(sharedPropertyCostPerUnit)}
+                          {formatPropMoney(sharedPropertyCostPerUnit)}
                           <span className="block text-[10px] text-slate-400">allocated</span>
                         </td>
                         <td className="p-3.5 font-extrabold">
                           <span className={unitProfit >= 0 ? 'text-emerald-600' : 'text-rose-600'}>
-                            {formatMoney(unitProfit)}
+                            {formatPropMoney(unitProfit)}
                           </span>
                         </td>
                         <td className="p-3.5">
@@ -978,7 +983,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                         </div>
 
                         <div className="flex items-center gap-4">
-                          <span className="font-extrabold text-sm text-rose-600">-{formatMoney(exp.amount)}</span>
+                          <span className="font-extrabold text-sm text-rose-600">-{formatPropMoney(exp.amount)}</span>
                           <button
                             onClick={() => store.deleteExpense(exp.id)}
                             className="p-1 text-slate-400 hover:text-rose-600 rounded hover:bg-slate-200 transition-colors"
@@ -1052,7 +1057,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                     <td className="py-3 font-bold text-slate-900">Unit {u.unit_number}</td>
                     <td className="py-3 text-slate-600">{u.unit_type}</td>
                     <td className="py-3 text-slate-600">{u.bedrooms} Bed / {u.bathrooms} Bath</td>
-                    <td className="py-3 font-semibold text-slate-900">{formatMoney(u.monthly_rent)}</td>
+                    <td className="py-3 font-semibold text-slate-900">{formatPropMoney(u.monthly_rent)}</td>
                     <td className="py-3">
                       <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/80 text-[10px] font-bold">
                         {u.management_fee_percentage ?? property.landlord_contract?.management_fee_percentage ?? 10}%
@@ -1106,7 +1111,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <h4 className="font-bold text-xs text-slate-900">Lease #{l.id}</h4>
                   <p className="text-xs text-slate-500">{l.start_date} to {l.end_date}</p>
                 </div>
-                <span className="font-extrabold text-sm text-slate-900">{formatMoney(l.monthly_rent)} / mo</span>
+                <span className="font-extrabold text-sm text-slate-900">{formatPropMoney(l.monthly_rent)} / mo</span>
               </div>
             ))}
           </div>
@@ -1118,7 +1123,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
               <div key={p.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
                 <div>
                   <h4 className="font-bold text-xs text-slate-900">Payment Due: {p.due_date}</h4>
-                  <p className="text-xs text-slate-500">Paid: {formatMoney(p.amount_paid)} / Due: {formatMoney(p.amount_due)}</p>
+                  <p className="text-xs text-slate-500">Paid: {formatPropMoney(p.amount_paid)} / Due: {formatPropMoney(p.amount_due)}</p>
                 </div>
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                   p.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
@@ -1132,19 +1137,27 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
 
         {activeTab === 'maintenance' && (
           <div className="space-y-3">
-            {maintenance.map(m => (
-              <div key={m.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider bg-brand-50 text-brand-700 px-2 py-0.5 rounded">
-                    {m.category} • {m.priority}
-                  </span>
-                  <p className="text-xs font-semibold text-slate-900 mt-1">{m.description}</p>
+            {maintenance.map(m => {
+              const cost = m.actual_cost ?? m.estimated_cost;
+              return (
+                <div key={m.id} className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-brand-50 text-brand-700 px-2 py-0.5 rounded">
+                      {m.category} • {m.priority}
+                    </span>
+                    <p className="text-xs font-semibold text-slate-900 mt-1">{m.description}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {cost !== undefined && cost > 0 && (
+                      <span className="text-xs font-extrabold text-slate-900">{formatPropMoney(cost)}</span>
+                    )}
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                      {m.status}
+                    </span>
+                  </div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
-                  {m.status}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -1156,7 +1169,7 @@ export const PropertyDetailPage: React.FC<PropertyDetailProps> = ({
                   <h4 className="font-bold text-xs text-slate-900">Invoice #{b.bill_number}</h4>
                   <p className="text-xs text-slate-500">{b.description} (Due: {b.due_date})</p>
                 </div>
-                <span className="font-extrabold text-sm text-slate-900">{formatMoney(b.amount)}</span>
+                <span className="font-extrabold text-sm text-slate-900">{formatPropMoney(b.amount)}</span>
               </div>
             ))}
           </div>

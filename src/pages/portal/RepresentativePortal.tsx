@@ -128,8 +128,9 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
     const nativeCurr = getPropNativeCurrency(e.property_id);
     return acc + convertAmount(e.amount || 0, nativeCurr, currentCurrency);
   }, 0);
+  const monthlyAvgRepairsInActiveCurr = totalRepairsInActiveCurr / 12;
 
-  const netRemittanceInActiveCurr = Math.max(0, grossMonthlyRentInActiveCurr - managementFeeInActiveCurr - totalRepairsInActiveCurr);
+  const netRemittanceInActiveCurr = Math.max(0, grossMonthlyRentInActiveCurr - managementFeeInActiveCurr - monthlyAvgRepairsInActiveCurr);
 
   // Maintenance requests strictly under this portfolio (reactive to dbState updates)
   const [maintenanceTickets, setMaintenanceTickets] = useState<MaintenanceRequest[]>([]);

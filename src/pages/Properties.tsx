@@ -5,7 +5,7 @@ import { Property } from '../types/database';
 import { AddExpenseModal } from '../components/AddExpenseModal';
 import { AddPropertyModal } from '../components/AddPropertyModal';
 import { OnboardLandlordModal } from '../components/OnboardLandlordModal';
-import { useCurrency } from '../context/CurrencyContext';
+import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 
 interface PropertiesProps {
   dbState: DatabaseState;
@@ -18,7 +18,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
   const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
   const [isOnboardLandlordOpen, setIsOnboardLandlordOpen] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>(undefined);
-  const { formatMoney } = useCurrency();
+  const { formatMoney, convertToCAD } = useCurrency();
 
   const availableCities = ['All', ...Array.from(new Set(dbState.properties.map(p => p.city)))];
 
@@ -98,21 +98,23 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
             return unit?.property_id === property.id && m.status !== 'Completed';
           }).length;
 
-          // Financial aggregates
+          // Financial aggregates (normalized to CAD from property native currency)
+          const nativeCurr: CurrencyCode = property.acquisition?.acquisition_currency || (property.city === 'Lagos' || property.city === 'Abuja' ? 'NGN' : 'CAD');
           const propExpenses = (dbState.expenses || []).filter(e => e.property_id === property.id);
-          const totalExpenses = propExpenses.reduce((acc, e) => acc + e.amount, 0);
-          const monthlyRevenue = propUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + u.monthly_rent, 0);
+          const totalExpenses = propExpenses.reduce((acc, e) => acc + convertToCAD(e.amount || 0, nativeCurr), 0);
+          const monthlyAvgExpenses = totalExpenses / 12;
+          const monthlyRevenue = propUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + convertToCAD(u.monthly_rent || 0, nativeCurr), 0);
           
           const masterLeaseMonthly = property.acquisition?.acquisition_type === 'Long-Term Lease'
-            ? (property.acquisition.monthly_lease_cost || 0)
+            ? convertToCAD(property.acquisition.monthly_lease_cost || 0, nativeCurr)
             : 0;
 
-          const netOperatingIncome = monthlyRevenue - totalExpenses - masterLeaseMonthly;
+          const netOperatingIncome = monthlyRevenue - monthlyAvgExpenses - masterLeaseMonthly;
           const margin = monthlyRevenue > 0 ? Math.round((netOperatingIncome / monthlyRevenue) * 100) : 0;
 
           // Break-Even Metrics
           const acq = property.acquisition;
-          const initialOutlay = acq?.down_payment_or_deposit || 0;
+          const initialOutlay = convertToCAD(acq?.down_payment_or_deposit || 0, nativeCurr);
           const annualNet = netOperatingIncome * 12;
           const breakEvenYears = annualNet > 0 && initialOutlay > 0 ? (initialOutlay / annualNet).toFixed(1) : null;
 
@@ -185,7 +187,7 @@ export const PropertiesPage: React.FC<PropertiesProps> = ({ dbState, onSelectPro
                   View Amortization & Unit Economics <ChevronRight className="w-3.5 h-3.5" />
                 </span>
                 <span className="text-[11px] text-stone-400">
-                  {acq ? `Initial Cash: ${formatMoney(acq.down_payment_or_deposit, { maximumFractionDigits: 0 })}` : ''}
+                  {acq ? `Total Expenses: ${formatMoney(totalExpenses, { maximumFractionDigits: 0 })} · Initial Cash: ${formatMoney(initialOutlay, { maximumFractionDigits: 0 })}` : `Total Expenses: ${formatMoney(totalExpenses, { maximumFractionDigits: 0 })}`}
                 </span>
               </div>
             </div>

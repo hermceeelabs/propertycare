@@ -26,7 +26,12 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
   const [activeBookingUnitId, setActiveBookingUnitId] = useState<string | undefined>(undefined);
   const [adjustPriceUnit, setAdjustPriceUnit] = useState<{ unit: any; propertyName?: string; propertyDefaultCommission?: number; nativeCurrency?: CurrencyCode } | null>(null);
 
-  const { formatMoney } = useCurrency();
+  const { formatMoney, convertToCAD } = useCurrency();
+
+  const getPropCurrency = (propId?: string): CurrencyCode => {
+    const prop = dbState.properties.find(p => p.id === propId);
+    return prop?.acquisition?.acquisition_currency || (prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD');
+  };
 
   const statuses = ['All', 'Occupied', 'Vacant', 'Notice Given', 'Maintenance', 'Reserved'];
 
@@ -53,20 +58,20 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
 
   const totalLongTermRevenue = longTermUnits
     .filter(u => u.status === 'Occupied')
-    .reduce((acc, u) => acc + u.monthly_rent, 0);
+    .reduce((acc, u) => acc + convertToCAD(u.monthly_rent || 0, getPropCurrency(u.property_id)), 0);
 
   // Shortlet revenue estimate based on nightly rate * 30 days * occupancy rate
   const totalShortletRevenue = shortletUnits.reduce((acc, u) => {
     const dailyRate = u.nightly_rate || (u.monthly_rent / 30);
     const occ = (u.current_occupancy_rate || 75) / 100;
-    return acc + (dailyRate * 30 * occ);
+    return acc + convertToCAD(dailyRate * 30 * occ, getPropCurrency(u.property_id));
   }, 0);
 
   const totalMonthlyGross = totalLongTermRevenue + totalShortletRevenue;
 
   const totalUnitExpenses = (dbState.expenses || [])
     .filter(e => e.scope === 'Unit')
-    .reduce((acc, e) => acc + e.amount, 0);
+    .reduce((acc, e) => acc + convertToCAD(e.amount || 0, getPropCurrency(e.property_id)), 0);
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
@@ -234,16 +239,18 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
                 const tenant = activeLease ? dbState.tenants.find(t => t.id === activeLease.tenant_id) : undefined;
                 const activeBooking = (dbState.shortlet_bookings || []).find(b => b.unit_id === unit.id && b.booking_status === 'Checked In');
 
-                // Expenses
+                // Expenses (normalized to CAD)
+                const nativeCurr = getPropCurrency(unit.property_id);
                 const unitExpenses = (dbState.expenses || []).filter(e => e.unit_id === unit.id);
-                const directCost = unitExpenses.reduce((acc, e) => acc + e.amount, 0);
+                const directCost = unitExpenses.reduce((acc, e) => acc + convertToCAD(e.amount || 0, nativeCurr), 0);
 
-                // Revenue calculation
-                const monthlyIncome = isShortlet
+                // Revenue calculation (normalized to CAD)
+                const monthlyIncomeNative = isShortlet
                   ? (unit.nightly_rate || 180) * 30 * ((unit.current_occupancy_rate || 75) / 100)
                   : (unit.status === 'Occupied' ? unit.monthly_rent : 0);
+                const monthlyIncome = convertToCAD(monthlyIncomeNative, nativeCurr);
 
-                const netMargin = monthlyIncome - directCost;
+                const netMargin = monthlyIncome - (directCost / 12);
                 const marginPercent = monthlyIncome > 0
                   ? Math.round((netMargin / monthlyIncome) * 100)
                   : (directCost > 0 ? -100 : 0);

@@ -53,7 +53,7 @@ export const FinancialsHub: React.FC<FinancialsHubProps> = ({
               : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
           }`}
         >
-          <Receipt className="w-4 h-4" /> Expenses & Invoices ({dbState.bills.length})
+          <Receipt className="w-4 h-4" /> Expenses & Invoices ({(dbState.expenses || []).length + (dbState.bills || []).length})
         </button>
       </div>
 

@@ -718,8 +718,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             onClick={() => setReportView('ledger')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'ledger'
-                ? 'bg-brand-950 text-white shadow-xs'
-                : 'text-stone-600 hover:bg-white'
+                ? 'bg-navy-950 text-white shadow-xs'
+                : 'text-stone-700 hover:bg-white'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" /> Company Executive Ledger
@@ -728,8 +728,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             onClick={() => setReportView('landlords')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'landlords'
-                ? 'bg-brand-950 text-white shadow-xs'
-                : 'text-stone-600 hover:bg-white'
+                ? 'bg-navy-950 text-white shadow-xs'
+                : 'text-stone-700 hover:bg-white'
             }`}
           >
             <User className="w-3.5 h-3.5" /> Landlord Statements
@@ -738,8 +738,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             onClick={() => setReportView('staff')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'staff'
-                ? 'bg-brand-950 text-white shadow-xs'
-                : 'text-stone-600 hover:bg-white'
+                ? 'bg-navy-950 text-white shadow-xs'
+                : 'text-stone-700 hover:bg-white'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" /> Staff Operations Journal
@@ -748,8 +748,8 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
             onClick={() => setReportView('capital')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'capital'
-                ? 'bg-brand-950 text-white shadow-xs'
-                : 'text-stone-600 hover:bg-white'
+                ? 'bg-navy-950 text-white shadow-xs'
+                : 'text-stone-700 hover:bg-white'
             }`}
           >
             <Landmark className="w-3.5 h-3.5" /> Capital Matrix
@@ -770,26 +770,26 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
       {reportView === 'ledger' && (
         <div className="space-y-6">
           {/* All-Time Baseline Portfolio Strip */}
-          <div className="bg-brand-950 text-white rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+          <div className="bg-navy-950 text-white rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 shadow-sm">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-300 block">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-navy-300 block">
                 Full 2026 Portfolio Baseline ({dbState.payments.length} Payments • {dbState.shortlet_bookings.length} Shortlets • {dbState.expenses.length} Expenses)
               </span>
               <div className="flex flex-wrap items-baseline gap-6 mt-1.5">
                 <div>
-                  <span className="text-xs text-brand-200">Total Revenue: </span>
-                  <span className="text-base font-extrabold">{formatMoney(allTimeStats.rentCad + allTimeStats.shortletCad)}</span>
+                  <span className="text-xs text-navy-200">Total Revenue: </span>
+                  <span className="text-base font-extrabold text-white">{formatMoney(allTimeStats.rentCad + allTimeStats.shortletCad)}</span>
                 </div>
                 <div>
-                  <span className="text-xs text-brand-200">Mgmt Fees: </span>
+                  <span className="text-xs text-navy-200">Mgmt Fees: </span>
                   <span className="text-base font-extrabold text-amber-300">{formatMoney(allTimeStats.feeCad)}</span>
                 </div>
                 <div>
-                  <span className="text-xs text-brand-200">Expenses: </span>
+                  <span className="text-xs text-navy-200">Expenses: </span>
                   <span className="text-base font-extrabold text-rose-300">-{formatMoney(allTimeStats.expenseCad)}</span>
                 </div>
                 <div>
-                  <span className="text-xs text-brand-200">Net Cash Flow: </span>
+                  <span className="text-xs text-navy-200">Net Cash Flow: </span>
                   <span className="text-base font-extrabold text-emerald-300">{formatMoney(allTimeStats.netCashFlowCad)}</span>
                 </div>
               </div>

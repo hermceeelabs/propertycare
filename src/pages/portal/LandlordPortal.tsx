@@ -166,8 +166,9 @@ export const LandlordPortal: React.FC<LandlordPortalProps> = ({
     const nativeCurr = getPropNativeCurrency(e.property_id);
     return acc + convertAmount(e.amount || 0, nativeCurr, currentCurrency);
   }, 0);
+  const monthlyAvgRepairsInActiveCurr = totalRepairsInActiveCurr / 12;
 
-  const netRemittanceInActiveCurr = grossMonthlyRentInActiveCurr - managementFeeInActiveCurr - totalRepairsInActiveCurr;
+  const netRemittanceInActiveCurr = grossMonthlyRentInActiveCurr - managementFeeInActiveCurr - monthlyAvgRepairsInActiveCurr;
 
   // Maintenance requests strictly for owned properties or owned units
   const ownedMaintenance = (dbState.maintenance_requests || []).filter(m => {
