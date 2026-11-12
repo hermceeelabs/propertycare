@@ -1,28 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  Calendar, Clock, DollarSign, TrendingUp, Sparkles, Building2, Wrench,
-  ShieldCheck, FileText, Bell, ChevronLeft, ChevronRight, CheckCircle2,
-  AlertCircle, Download, Printer, User, Filter, ArrowUpRight, ArrowDownRight,
-  ClipboardCheck, Eye, Search, Landmark, ArrowDownWideNarrow, ArrowUpNarrowWide
+  Calendar, DollarSign, TrendingUp, Sparkles, Building2, Wrench,
+  ShieldCheck, FileText, Bell, Printer, User, Landmark,
+  ChevronDown, ChevronRight, ClipboardCheck, Eye, Search, Layers,
+  Home, Receipt, Camera
 } from 'lucide-react';
 import { DatabaseState, supabase } from '../services/supabase';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
 import { StaffReportView } from '../components/StaffReportView';
+import { LandlordReportView } from '../components/LandlordReportView';
+import { TimeframeFilterBar } from '../components/TimeframeFilterBar';
+import { PortalMediaModal, PortalMediaItem } from '../components/PortalMediaModal';
 import { UserProfile } from '../types/database';
-import { SortOrder } from '../services/reportGrouping';
+import {
+  ReportTimeFrame,
+  SortOrder,
+  DateRange,
+  DEFAULT_ANCHOR_DATE,
+  getDateRangeForTimeFrame,
+  formatMonthName,
+  formatDayTitle,
+  getQuarterInfo
+} from '../services/reportGrouping';
 
 interface ReportsProps {
   dbState: DatabaseState;
 }
 
+type CategoryFilter = 'all' | 'revenue' | 'expenses' | 'maintenance' | 'inspections' | 'notices';
+
 export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
-  const { formatMoney, convertToCAD, currencyConfig } = useCurrency();
-  const [reportView, setReportView] = useState<'daily' | 'landlords' | 'staff' | 'capital'>('daily');
-  const [selectedDate, setSelectedDate] = useState('2026-08-20');
-  const [landlordFilter, setLandlordFilter] = useState('All');
-  const [dailyDateSortOrder, setDailyDateSortOrder] = useState<SortOrder>('desc');
-  const [searchTerm, setSearchTerm] = useState('');
+  const { formatMoney, convertToCAD } = useCurrency();
+  const [reportView, setReportView] = useState<'ledger' | 'landlords' | 'staff' | 'capital'>('ledger');
   const [staffProfiles, setStaffProfiles] = useState<UserProfile[]>([]);
+
+  // Ledger State
+  const [timeFrame, setTimeFrame] = useState<ReportTimeFrame>('month');
+  const [selectedQuarter, setSelectedQuarter] = useState<1 | 2 | 3 | 4>(4);
+  const [dateRange, setDateRange] = useState<DateRange>(() =>
+    getDateRangeForTimeFrame('month', DEFAULT_ANCHOR_DATE)
+  );
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [selectedPropertyFilter, setSelectedPropertyFilter] = useState<string>('all');
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeMediaModal, setActiveMediaModal] = useState<PortalMediaItem | null>(null);
+
+  // Expand/collapse state for hierarchical groups
+  const [expandedQuarters, setExpandedQuarters] = useState<Record<string, boolean>>({ Q4: true, Q3: true, Q2: true, Q1: true });
+  const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
+  const [expandedDays, setExpandedDays] = useState<Record<string, boolean>>({});
+
+  // Landlord Statement selector
+  const [selectedLandlordId, setSelectedLandlordId] = useState<string>(
+    dbState.landlords?.[0]?.id || ''
+  );
 
   // Fetch staff list for the Staff Performance tab
   React.useEffect(() => {
@@ -34,111 +66,614 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
       });
   }, []);
 
-  // 1. Gather all unique event dates across the system
-  const allRecordedDates = React.useMemo(() => {
-    const raw = Array.from(new Set([
-      ...dbState.payments.map(p => p.payment_date).filter(Boolean),
-      ...dbState.shortlet_bookings.map(b => b.check_in).filter(Boolean),
-      ...dbState.shortlet_bookings.map(b => b.check_out).filter(Boolean),
-      ...dbState.expenses.map(e => e.date).filter(Boolean),
-      ...dbState.maintenance_requests.map(m => m.created_at?.slice(0, 10)).filter(Boolean),
-      ...dbState.notices.map(n => n.created_at?.slice(0, 10)).filter(Boolean),
-      ...dbState.communications.map(c => c.sent_at?.slice(0, 10)).filter(Boolean),
-      ...(dbState.inspections || []).map(i => i.scheduled_date).filter(Boolean),
-    ])).sort();
-    return dailyDateSortOrder === 'desc' ? raw.reverse() : raw;
-  }, [dbState, dailyDateSortOrder]);
+  // Helper: Resolve native currency for a property
+  const getPropCurrency = (propId?: string): CurrencyCode => {
+    const prop = dbState.properties.find(p => p.id === propId);
+    if (prop?.acquisition?.acquisition_currency) return prop.acquisition.acquisition_currency;
+    return prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD';
+  };
 
-  const activeDate = selectedDate || allRecordedDates[0] || '2026-08-20';
-
-  // 2. Filter daily activity feed for selectedDate
-  const dayPayments = dbState.payments.filter(p => p.payment_date === activeDate);
-  const dayCheckIns = dbState.shortlet_bookings.filter(b => b.check_in === activeDate);
-  const dayCheckOuts = dbState.shortlet_bookings.filter(b => b.check_out === activeDate);
-  const dayExpenses = dbState.expenses.filter(e => e.date === activeDate);
-  const dayMaintenance = dbState.maintenance_requests.filter(m => m.created_at?.startsWith(activeDate));
-  const dayNotices = dbState.notices.filter(n => n.created_at?.startsWith(activeDate));
-  const dayComms = dbState.communications.filter(c => c.sent_at?.startsWith(activeDate));
-  const dayInspections = (dbState.inspections || []).filter(i => i.scheduled_date === activeDate);
-
-  // Financial aggregates for the selected day (normalized to base CAD then converted)
-  const dayInflowCad = dayPayments.reduce((acc, p) => {
-    const lease = dbState.leases.find(l => l.id === p.lease_id);
+  // Helper: Resolve property ID for a payment
+  const getPaymentPropertyId = (leaseId: string): string | undefined => {
+    const lease = dbState.leases.find(l => l.id === leaseId);
     const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
-    const prop = unit ? dbState.properties.find(pr => pr.id === unit.property_id) : undefined;
-    const curr: CurrencyCode = prop?.acquisition?.acquisition_currency || (prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD');
-    return acc + convertToCAD(p.amount_paid || 0, curr);
-  }, 0);
+    return unit?.property_id;
+  };
 
-  const dayShortletCad = dayCheckIns.reduce((acc, b) => {
-    const unit = dbState.units.find(u => u.id === b.unit_id);
-    const prop = unit ? dbState.properties.find(pr => pr.id === unit.property_id) : undefined;
-    const curr: CurrencyCode = prop?.acquisition?.acquisition_currency || (prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD');
-    return acc + convertToCAD(b.total_payout || 0, curr);
-  }, 0);
+  // Helper: Resolve property ID for a unit
+  const getUnitPropertyId = (unitId?: string): string | undefined => {
+    if (!unitId) return undefined;
+    return dbState.units.find(u => u.id === unitId)?.property_id;
+  };
 
-  const dayOutflowCad = dayExpenses.reduce((acc, e) => {
-    const prop = dbState.properties.find(pr => pr.id === e.property_id);
-    const curr: CurrencyCode = prop?.acquisition?.acquisition_currency || (prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD');
-    return acc + convertToCAD(e.amount || 0, curr);
-  }, 0);
+  // Helper: Effective management fee % for a unit
+  const getEffectiveFeePercent = (unitId?: string, propId?: string): number => {
+    const unit = unitId ? dbState.units.find(u => u.id === unitId) : undefined;
+    const prop = propId ? dbState.properties.find(p => p.id === propId) : undefined;
+    return unit?.management_fee_percentage ?? prop?.landlord_contract?.management_fee_percentage ?? 10;
+  };
 
-  const totalDayRevenueCad = dayInflowCad + dayShortletCad;
-  const netDayCashFlowCad = totalDayRevenueCad - dayOutflowCad;
+  // Helper: Check if a date string (YYYY-MM-DD or ISO) falls within active dateRange
+  const isInRange = (dateStr?: string): boolean => {
+    if (!dateStr) return false;
+    const d = dateStr.slice(0, 10);
+    return d >= dateRange.startDate && d <= dateRange.endDate;
+  };
 
-  // 3. Landlord-specific reporting data
-  const landlordReports = (dbState.landlords || []).map(landlord => {
-    const ownedProps = dbState.properties.filter(p => p.landlord_id === landlord.id);
-    const propIds = ownedProps.map(p => p.id);
-    const ownedUnits = dbState.units.filter(u => propIds.includes(u.property_id));
-    const occupiedUnits = ownedUnits.filter(u => u.status === 'Occupied');
-    const occupancyRate = ownedUnits.length > 0 ? Math.round((occupiedUnits.length / ownedUnits.length) * 100) : 100;
+  // All-Time Portfolio Totals (CAD normalized)
+  const allTimeStats = useMemo(() => {
+    let rentCad = 0;
+    let shortletCad = 0;
+    let feeCad = 0;
+    let expenseCad = 0;
 
-    const grossRent = occupiedUnits.reduce((acc, u) => acc + (u.monthly_rent || 0), 0);
-    const mgmtFee = occupiedUnits.reduce((acc, u) => {
-      const prop = ownedProps.find(p => p.id === u.property_id);
-      const feePct = u.management_fee_percentage ?? prop?.landlord_contract?.management_fee_percentage ?? 10;
-      return acc + Math.round(((u.monthly_rent || 0) * feePct) / 100);
-    }, 0);
-    const expenses = (dbState.expenses || []).filter(e => propIds.includes(e.property_id));
-    const repairCosts = expenses.reduce((acc, e) => acc + (e.amount || 0), 0);
-    const netRemittance = Math.max(0, grossRent - mgmtFee - repairCosts);
-
-    const activeTickets = dbState.maintenance_requests.filter(m => {
-      const u = dbState.units.find(unit => unit.id === m.unit_id);
-      return (u && propIds.includes(u.property_id)) || (m.property_id && propIds.includes(m.property_id));
+    dbState.payments.forEach(p => {
+      const lease = dbState.leases.find(l => l.id === p.lease_id);
+      const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+      const propId = unit?.property_id;
+      const curr = getPropCurrency(propId);
+      const val = convertToCAD(p.amount_paid || 0, curr);
+      rentCad += val;
+      feeCad += (val * getEffectiveFeePercent(unit?.id, propId)) / 100;
     });
 
-    const audits = (dbState.inspections || []).filter(i => propIds.includes(i.property_id));
+    dbState.shortlet_bookings.forEach(b => {
+      const propId = getUnitPropertyId(b.unit_id);
+      const curr = getPropCurrency(propId);
+      const val = convertToCAD(b.total_payout || 0, curr);
+      shortletCad += val;
+      feeCad += (val * getEffectiveFeePercent(b.unit_id, propId)) / 100;
+    });
+
+    dbState.expenses.forEach(e => {
+      const curr = getPropCurrency(e.property_id);
+      expenseCad += convertToCAD(e.amount || 0, curr);
+    });
 
     return {
-      landlord,
-      ownedProps,
-      ownedUnits,
-      occupiedCount: occupiedUnits.length,
-      occupancyRate,
-      grossRent,
-      mgmtFee,
-      repairCosts,
-      netRemittance,
-      expenses,
-      activeTickets,
-      audits
+      rentCad,
+      shortletCad,
+      feeCad,
+      expenseCad,
+      netCashFlowCad: rentCad + shortletCad - expenseCad
     };
-  }).filter(r => landlordFilter === 'All' || r.landlord.id === landlordFilter);
+  }, [dbState, convertToCAD]);
+
+  // Filtered records for the active timeframe, property, category & search
+  const filteredRecords = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    const matchesProp = (propId?: string) =>
+      selectedPropertyFilter === 'all' || propId === selectedPropertyFilter;
+
+    const payments = (categoryFilter === 'all' || categoryFilter === 'revenue')
+      ? dbState.payments.filter(p => {
+          if (!isInRange(p.payment_date)) return false;
+          const lease = dbState.leases.find(l => l.id === p.lease_id);
+          const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+          const propId = unit?.property_id;
+          if (!matchesProp(propId)) return false;
+          if (!q) return true;
+          const tenant = lease ? dbState.tenants.find(t => t.id === lease.tenant_id) : undefined;
+          const prop = dbState.properties.find(pr => pr.id === propId);
+          return `${tenant?.first_name} ${tenant?.last_name} ${unit?.unit_number} ${prop?.name} ${p.payment_method}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    const shortlets = (categoryFilter === 'all' || categoryFilter === 'revenue')
+      ? dbState.shortlet_bookings.filter(b => {
+          if (!isInRange(b.check_in)) return false;
+          const propId = getUnitPropertyId(b.unit_id);
+          if (!matchesProp(propId)) return false;
+          if (!q) return true;
+          const unit = dbState.units.find(u => u.id === b.unit_id);
+          const prop = dbState.properties.find(pr => pr.id === propId);
+          return `${b.guest_name} ${b.platform_source} ${unit?.unit_number} ${prop?.name}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    const expenses = (categoryFilter === 'all' || categoryFilter === 'expenses')
+      ? dbState.expenses.filter(e => {
+          if (!isInRange(e.date)) return false;
+          if (!matchesProp(e.property_id)) return false;
+          if (!q) return true;
+          const prop = dbState.properties.find(pr => pr.id === e.property_id);
+          const vendor = dbState.vendors?.find(v => v.id === e.vendor_id);
+          return `${e.category} ${e.description} ${vendor?.company || vendor?.name || ''} ${e.invoice_number || ''} ${prop?.name}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    const maintenance = (categoryFilter === 'all' || categoryFilter === 'maintenance')
+      ? dbState.maintenance_requests.filter(m => {
+          if (!isInRange(m.created_at)) return false;
+          const propId = m.property_id || getUnitPropertyId(m.unit_id);
+          if (!matchesProp(propId)) return false;
+          if (!q) return true;
+          const prop = dbState.properties.find(pr => pr.id === propId);
+          return `${m.category} ${m.description} ${m.priority} ${prop?.name}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    const inspections = (categoryFilter === 'all' || categoryFilter === 'inspections')
+      ? (dbState.inspections || []).filter(i => {
+          if (!isInRange(i.scheduled_date)) return false;
+          if (!matchesProp(i.property_id)) return false;
+          if (!q) return true;
+          const prop = dbState.properties.find(pr => pr.id === i.property_id);
+          return `${i.title} ${i.team_lead_name} ${i.status} ${prop?.name}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    const notices = (categoryFilter === 'all' || categoryFilter === 'notices')
+      ? dbState.notices.filter(n => {
+          if (!isInRange(n.created_at)) return false;
+          const lease = dbState.leases.find(l => l.tenant_id === n.tenant_id);
+          const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+          const propId = unit?.property_id;
+          if (selectedPropertyFilter !== 'all' && !matchesProp(propId)) return false;
+          if (!q) return true;
+          const tenant = dbState.tenants.find(t => t.id === n.tenant_id);
+          return `${n.notice_type} ${n.content} ${tenant?.first_name} ${tenant?.last_name}`.toLowerCase().includes(q);
+        })
+      : [];
+
+    return { payments, shortlets, expenses, maintenance, inspections, notices };
+  }, [dbState, dateRange, selectedPropertyFilter, categoryFilter, searchTerm]);
+
+  // Period KPI Totals (CAD normalized)
+  const periodStats = useMemo(() => {
+    let rentCad = 0;
+    let shortletCad = 0;
+    let feeCad = 0;
+    let expenseCad = 0;
+
+    filteredRecords.payments.forEach(p => {
+      const lease = dbState.leases.find(l => l.id === p.lease_id);
+      const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
+      const propId = unit?.property_id;
+      const val = convertToCAD(p.amount_paid || 0, getPropCurrency(propId));
+      rentCad += val;
+      feeCad += (val * getEffectiveFeePercent(unit?.id, propId)) / 100;
+    });
+
+    filteredRecords.shortlets.forEach(b => {
+      const propId = getUnitPropertyId(b.unit_id);
+      const val = convertToCAD(b.total_payout || 0, getPropCurrency(propId));
+      shortletCad += val;
+      feeCad += (val * getEffectiveFeePercent(b.unit_id, propId)) / 100;
+    });
+
+    filteredRecords.expenses.forEach(e => {
+      expenseCad += convertToCAD(e.amount || 0, getPropCurrency(e.property_id));
+    });
+
+    return {
+      rentCad,
+      shortletCad,
+      feeCad,
+      expenseCad,
+      netCashFlowCad: rentCad + shortletCad - expenseCad
+    };
+  }, [filteredRecords, dbState, convertToCAD]);
+
+  // Unique sorted days present in filteredRecords
+  const allDays = useMemo(() => {
+    const daySet = new Set<string>();
+    filteredRecords.payments.forEach(p => p.payment_date && daySet.add(p.payment_date.slice(0, 10)));
+    filteredRecords.shortlets.forEach(b => b.check_in && daySet.add(b.check_in.slice(0, 10)));
+    filteredRecords.expenses.forEach(e => e.date && daySet.add(e.date.slice(0, 10)));
+    filteredRecords.maintenance.forEach(m => m.created_at && daySet.add(m.created_at.slice(0, 10)));
+    filteredRecords.inspections.forEach(i => i.scheduled_date && daySet.add(i.scheduled_date.slice(0, 10)));
+    filteredRecords.notices.forEach(n => n.created_at && daySet.add(n.created_at.slice(0, 10)));
+    const arr = Array.from(daySet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [filteredRecords, sortOrder]);
+
+  // Unique sorted months present in allDays
+  const allMonths = useMemo(() => {
+    const monthSet = new Set<string>(allDays.map(d => d.slice(0, 7)));
+    const arr = Array.from(monthSet).sort();
+    return sortOrder === 'desc' ? arr.reverse() : arr;
+  }, [allDays, sortOrder]);
+
+  // Quarters list for Full Year view
+  const quarters = useMemo(() => {
+    const qs: (1 | 2 | 3 | 4)[] = sortOrder === 'desc' ? [4, 3, 2, 1] : [1, 2, 3, 4];
+    return qs.map(q => {
+      const info = getQuarterInfo(2026, q);
+      const monthsInQ = allMonths.filter(m => info.months.includes(m));
+      return { q, info, months: monthsInQ };
+    }).filter(item => item.months.length > 0);
+  }, [allMonths, sortOrder]);
+
+  // Compute financials for a set of dates
+  const computeRangeTotals = (dates: string[]) => {
+    const dateSet = new Set(dates);
+    let rentCad = 0;
+    let shortletCad = 0;
+    let expenseCad = 0;
+    let count = 0;
+
+    filteredRecords.payments.forEach(p => {
+      if (dateSet.has(p.payment_date?.slice(0, 10))) {
+        const propId = getPaymentPropertyId(p.lease_id);
+        rentCad += convertToCAD(p.amount_paid || 0, getPropCurrency(propId));
+        count++;
+      }
+    });
+    filteredRecords.shortlets.forEach(b => {
+      if (dateSet.has(b.check_in?.slice(0, 10))) {
+        const propId = getUnitPropertyId(b.unit_id);
+        shortletCad += convertToCAD(b.total_payout || 0, getPropCurrency(propId));
+        count++;
+      }
+    });
+    filteredRecords.expenses.forEach(e => {
+      if (dateSet.has(e.date?.slice(0, 10))) {
+        expenseCad += convertToCAD(e.amount || 0, getPropCurrency(e.property_id));
+        count++;
+      }
+    });
+    filteredRecords.maintenance.forEach(m => {
+      if (dateSet.has(m.created_at?.slice(0, 10))) count++;
+    });
+    filteredRecords.inspections.forEach(i => {
+      if (dateSet.has(i.scheduled_date?.slice(0, 10))) count++;
+    });
+    filteredRecords.notices.forEach(n => {
+      if (dateSet.has(n.created_at?.slice(0, 10))) count++;
+    });
+
+    return { rentCad, shortletCad, expenseCad, netCad: rentCad + shortletCad - expenseCad, count };
+  };
+
+  // Render Property -> Unit hierarchical breakdown for a single day
+  const renderDayBreakdown = (day: string) => {
+    const dPayments = filteredRecords.payments.filter(p => p.payment_date?.slice(0, 10) === day);
+    const dShortlets = filteredRecords.shortlets.filter(b => b.check_in?.slice(0, 10) === day);
+    const dExpenses = filteredRecords.expenses.filter(e => e.date?.slice(0, 10) === day);
+    const dMaint = filteredRecords.maintenance.filter(m => m.created_at?.slice(0, 10) === day);
+    const dInsp = filteredRecords.inspections.filter(i => i.scheduled_date?.slice(0, 10) === day);
+    const dNotices = filteredRecords.notices.filter(n => n.created_at?.slice(0, 10) === day);
+
+    // Group by property
+    const propIdsSet = new Set<string>();
+    dPayments.forEach(p => { const pid = getPaymentPropertyId(p.lease_id); if (pid) propIdsSet.add(pid); });
+    dShortlets.forEach(b => { const pid = getUnitPropertyId(b.unit_id); if (pid) propIdsSet.add(pid); });
+    dExpenses.forEach(e => e.property_id && propIdsSet.add(e.property_id));
+    dMaint.forEach(m => { const pid = m.property_id || getUnitPropertyId(m.unit_id); if (pid) propIdsSet.add(pid); });
+    dInsp.forEach(i => i.property_id && propIdsSet.add(i.property_id));
+
+    const activeProps = dbState.properties.filter(p => propIdsSet.has(p.id));
+
+    return (
+      <div className="space-y-4 pt-3 border-t border-slate-100">
+        {activeProps.map(prop => {
+          const curr = getPropCurrency(prop.id);
+          const propUnits = dbState.units.filter(u => u.property_id === prop.id);
+          const propPayments = dPayments.filter(p => getPaymentPropertyId(p.lease_id) === prop.id);
+          const propShortlets = dShortlets.filter(b => getUnitPropertyId(b.unit_id) === prop.id);
+          const propExpenses = dExpenses.filter(e => e.property_id === prop.id);
+          const propMaint = dMaint.filter(m => (m.property_id || getUnitPropertyId(m.unit_id)) === prop.id);
+          const propInsp = dInsp.filter(i => i.property_id === prop.id);
+
+          const propRentNative = propPayments.reduce((s, p) => s + (p.amount_paid || 0), 0);
+          const propShortletNative = propShortlets.reduce((s, b) => s + (b.total_payout || 0), 0);
+          const propExpNative = propExpenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+          // Units with activity on this day
+          const activeUnits = propUnits.filter(u =>
+            propPayments.some(p => dbState.leases.find(l => l.id === p.lease_id)?.unit_id === u.id) ||
+            propShortlets.some(b => b.unit_id === u.id) ||
+            propExpenses.some(e => e.unit_id === u.id) ||
+            propMaint.some(m => m.unit_id === u.id)
+          );
+
+          const generalExpenses = propExpenses.filter(e => !e.unit_id);
+          const generalMaint = propMaint.filter(m => !m.unit_id);
+
+          return (
+            <div key={prop.id} className="bg-slate-50/70 rounded-2xl border border-slate-200/80 p-4 space-y-3">
+              {/* Property Header */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200/70">
+                <div className="flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-brand-700" />
+                  <span className="font-bold text-slate-900 text-sm">{prop.name}</span>
+                  <span className="text-xs text-slate-500">• {prop.city}</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-700">{curr}</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs font-bold">
+                  {(propRentNative > 0 || propShortletNative > 0) && (
+                    <span className="text-emerald-700">
+                      +{formatMoney(convertToCAD(propRentNative + propShortletNative, curr))}
+                    </span>
+                  )}
+                  {propExpNative > 0 && (
+                    <span className="text-rose-700">
+                      -{formatMoney(convertToCAD(propExpNative, curr))}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Unit-level rows */}
+              {activeUnits.map(unit => {
+                const uPayments = propPayments.filter(p => dbState.leases.find(l => l.id === p.lease_id)?.unit_id === unit.id);
+                const uShortlets = propShortlets.filter(b => b.unit_id === unit.id);
+                const uExpenses = propExpenses.filter(e => e.unit_id === unit.id);
+                const uMaint = propMaint.filter(m => m.unit_id === unit.id);
+                const feePct = getEffectiveFeePercent(unit.id, prop.id);
+
+                return (
+                  <div key={unit.id} className="bg-white rounded-xl border border-slate-200/70 p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Home className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="font-bold text-slate-800 text-xs">Unit {unit.unit_number}</span>
+                        <span className="text-[10px] text-slate-400">Mgmt Fee: {feePct}%</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 pl-5">
+                      {uPayments.map(p => {
+                        const lease = dbState.leases.find(l => l.id === p.lease_id);
+                        const tenant = lease ? dbState.tenants.find(t => t.id === lease.tenant_id) : undefined;
+                        return (
+                          <div key={p.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                            <div className="flex items-center gap-2">
+                              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">RENT</span>
+                              <span className="font-semibold text-slate-800">{tenant?.first_name} {tenant?.last_name}</span>
+                              <span className="text-slate-400">({p.payment_method})</span>
+                            </div>
+                            <span className="font-extrabold text-emerald-700">+{formatMoney(convertToCAD(p.amount_paid || 0, curr))}</span>
+                          </div>
+                        );
+                      })}
+
+                      {uShortlets.map(b => (
+                        <div key={b.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                          <div className="flex items-center gap-2">
+                            <span className="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px]">SHORTLET</span>
+                            <span className="font-semibold text-slate-800">{b.guest_name}</span>
+                            <span className="text-slate-400">({b.platform_source} • {b.nights_count} nights)</span>
+                          </div>
+                          <span className="font-extrabold text-purple-700">+{formatMoney(convertToCAD(b.total_payout || 0, curr))}</span>
+                        </div>
+                      ))}
+
+                      {uExpenses.map(e => {
+                        const vendor = dbState.vendors?.find(v => v.id === e.vendor_id);
+                        return (
+                          <div key={e.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">EXPENSE</span>
+                              <span className="font-semibold text-slate-800">{e.category}: {e.description}</span>
+                              {vendor && <span className="text-slate-400">• {vendor.company || vendor.name}</span>}
+                              {e.receipt_url && (
+                                <button
+                                  onClick={() => setActiveMediaModal({
+                                    type: 'document',
+                                    url: e.receipt_url!,
+                                    title: `${e.category} Receipt`,
+                                    caption: e.description,
+                                    propertyName: prop.name,
+                                    unitNumber: unit.unit_number,
+                                    vendorOrAuditor: vendor?.company || vendor?.name,
+                                    date: e.date,
+                                    amountFormatted: formatMoney(convertToCAD(e.amount || 0, curr)),
+                                    status: e.payment_status
+                                  })}
+                                  className="inline-flex items-center gap-1 text-[10px] font-bold text-brand-700 hover:underline"
+                                >
+                                  <Eye className="w-3 h-3" /> Proof
+                                </button>
+                              )}
+                            </div>
+                            <span className="font-extrabold text-rose-700">-{formatMoney(convertToCAD(e.amount || 0, curr))}</span>
+                          </div>
+                        );
+                      })}
+
+                      {uMaint.map(m => (
+                        <div key={m.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                          <div className="flex items-center gap-2">
+                            <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">TICKET</span>
+                            <span className="font-semibold text-slate-800">{m.category}: {m.description}</span>
+                            <span className="text-[10px] text-slate-500">[{m.priority}]</span>
+                          </div>
+                          <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold text-[10px]">{m.status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Property-wide general expenses, maintenance & inspections */}
+              {(generalExpenses.length > 0 || generalMaint.length > 0 || propInsp.length > 0) && (
+                <div className="bg-white rounded-xl border border-slate-200/70 p-3 space-y-1.5">
+                  <span className="text-[11px] font-bold text-slate-500 uppercase block">Property-Wide Operations</span>
+                  {generalExpenses.map(e => {
+                    const vendor = dbState.vendors?.find(v => v.id === e.vendor_id);
+                    return (
+                      <div key={e.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[10px]">EXPENSE</span>
+                          <span className="font-semibold text-slate-800">{e.category}: {e.description}</span>
+                          {vendor && <span className="text-slate-400">• {vendor.company || vendor.name}</span>}
+                          {e.receipt_url && (
+                            <button
+                              onClick={() => setActiveMediaModal({
+                                type: 'document',
+                                url: e.receipt_url!,
+                                title: `${e.category} Receipt`,
+                                caption: e.description,
+                                propertyName: prop.name,
+                                vendorOrAuditor: vendor?.company || vendor?.name,
+                                date: e.date,
+                                amountFormatted: formatMoney(convertToCAD(e.amount || 0, curr)),
+                                status: e.payment_status
+                              })}
+                              className="inline-flex items-center gap-1 text-[10px] font-bold text-brand-700 hover:underline"
+                            >
+                              <Eye className="w-3 h-3" /> Proof
+                            </button>
+                          )}
+                        </div>
+                        <span className="font-extrabold text-rose-700">-{formatMoney(convertToCAD(e.amount || 0, curr))}</span>
+                      </div>
+                    );
+                  })}
+                  {generalMaint.map(m => (
+                    <div key={m.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                      <div className="flex items-center gap-2">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">TICKET</span>
+                        <span className="font-semibold text-slate-800">{m.category}: {m.description}</span>
+                      </div>
+                      <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold text-[10px]">{m.status}</span>
+                    </div>
+                  ))}
+                  {propInsp.map(i => (
+                    <div key={i.id} className="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
+                      <div className="flex items-center gap-2">
+                        <span className="px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">AUDIT</span>
+                        <span className="font-semibold text-slate-800">{i.title}</span>
+                        <span className="text-slate-400">• Lead: {i.team_lead_name}</span>
+                        {i.attachments && i.attachments.length > 0 && (
+                          <button
+                            onClick={() => setActiveMediaModal({
+                              type: i.attachments![0].file_type,
+                              url: i.attachments![0].file_url,
+                              title: i.title,
+                              caption: i.general_remarks,
+                              propertyName: prop.name,
+                              vendorOrAuditor: i.team_lead_name,
+                              date: i.scheduled_date,
+                              status: i.status
+                            })}
+                            className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-700 hover:underline"
+                          >
+                            <Camera className="w-3 h-3" /> {i.attachments.length} Media
+                          </button>
+                        )}
+                      </div>
+                      <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold text-[10px]">{i.status}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Notices issued on this day */}
+        {dNotices.length > 0 && (
+          <div className="bg-stone-50 rounded-2xl border border-stone-200 p-4 space-y-2">
+            <span className="text-xs font-bold text-stone-700 uppercase flex items-center gap-1.5">
+              <Bell className="w-3.5 h-3.5 text-brand-700" /> Statutory Notices Dispatched ({dNotices.length})
+            </span>
+            {dNotices.map(n => {
+              const tenant = dbState.tenants.find(t => t.id === n.tenant_id);
+              return (
+                <div key={n.id} className="flex items-center justify-between text-xs py-1 border-b border-stone-200/60 last:border-0">
+                  <div>
+                    <span className="font-bold text-stone-900">{n.notice_type}</span>
+                    <span className="text-stone-500"> → {tenant?.first_name} {tenant?.last_name}</span>
+                    <p className="text-[11px] text-stone-500 line-clamp-1">{n.content}</p>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-stone-200 text-stone-800 font-bold text-[10px]">{n.status}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // Render a single Day accordion card
+  const renderDayCard = (day: string, defaultOpen = false) => {
+    const isExpanded = expandedDays[day] ?? defaultOpen;
+    const totals = computeRangeTotals([day]);
+    return (
+      <div key={day} className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <button
+          onClick={() => setExpandedDays(prev => ({ ...prev, [day]: !isExpanded }))}
+          className="w-full px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 hover:bg-slate-50/70 transition-colors text-left"
+        >
+          <div className="flex items-center gap-2.5">
+            {isExpanded ? <ChevronDown className="w-4 h-4 text-slate-500" /> : <ChevronRight className="w-4 h-4 text-slate-500" />}
+            <Calendar className="w-4 h-4 text-brand-700" />
+            <span className="font-bold text-slate-900 text-sm">{formatDayTitle(day)}</span>
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold">
+              {totals.count} events
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs font-bold">
+            {(totals.rentCad > 0 || totals.shortletCad > 0) && (
+              <span className="text-emerald-700">+{formatMoney(totals.rentCad + totals.shortletCad)}</span>
+            )}
+            {totals.expenseCad > 0 && (
+              <span className="text-rose-700">-{formatMoney(totals.expenseCad)}</span>
+            )}
+            <span className={`px-2.5 py-0.5 rounded-lg ${totals.netCad >= 0 ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}>
+              Net: {formatMoney(totals.netCad)}
+            </span>
+          </div>
+        </button>
+        {isExpanded && <div className="px-5 pb-5">{renderDayBreakdown(day)}</div>}
+      </div>
+    );
+  };
+
+  // Render a Month accordion card containing its days
+  const renderMonthCard = (monthStr: string, defaultOpen = false) => {
+    const isExpanded = expandedMonths[monthStr] ?? defaultOpen;
+    const monthDays = allDays.filter(d => d.startsWith(monthStr));
+    const totals = computeRangeTotals(monthDays);
+    return (
+      <div key={monthStr} className="bg-cream-50/70 rounded-3xl border border-cream-300 overflow-hidden">
+        <button
+          onClick={() => setExpandedMonths(prev => ({ ...prev, [monthStr]: !isExpanded }))}
+          className="w-full px-6 py-4 flex flex-wrap items-center justify-between gap-3 hover:bg-cream-100/70 transition-colors text-left"
+        >
+          <div className="flex items-center gap-3">
+            {isExpanded ? <ChevronDown className="w-5 h-5 text-stone-600" /> : <ChevronRight className="w-5 h-5 text-stone-600" />}
+            <Layers className="w-4 h-4 text-brand-700" />
+            <span className="font-extrabold text-stone-900 text-base">{formatMonthName(monthStr)}</span>
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-white border border-cream-300 text-stone-600 font-bold">
+              {monthDays.length} active days • {totals.count} records
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs font-extrabold">
+            <span className="text-emerald-700">Inflow: {formatMoney(totals.rentCad + totals.shortletCad)}</span>
+            <span className="text-rose-700">Outflow: {formatMoney(totals.expenseCad)}</span>
+            <span className="px-3 py-1 rounded-xl bg-white border border-cream-300 text-stone-900">
+              Net: {formatMoney(totals.netCad)}
+            </span>
+          </div>
+        </button>
+        {isExpanded && (
+          <div className="px-5 pb-5 space-y-3">
+            {monthDays.map((day, idx) => renderDayCard(day, idx === 0))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Capital break-even matrix calculation
   const propertyProfitData = dbState.properties.map(p => {
+    const curr = getPropCurrency(p.id);
     const pUnits = dbState.units.filter(u => u.property_id === p.id);
-    const revenue = pUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + u.monthly_rent, 0);
+    const revenue = pUnits.filter(u => u.status === 'Occupied').reduce((acc, u) => acc + convertToCAD(u.monthly_rent, curr), 0);
     const pExpenses = (dbState.expenses || []).filter(e => e.property_id === p.id);
-    const operatingExpense = pExpenses.reduce((acc, e) => acc + e.amount, 0);
+    const operatingExpense = pExpenses.reduce((acc, e) => acc + convertToCAD(e.amount, curr), 0) / 12;
     const masterLeaseMonthly = p.acquisition?.acquisition_type === 'Long-Term Lease'
-      ? (p.acquisition.monthly_lease_cost || 0)
+      ? convertToCAD(p.acquisition.monthly_lease_cost || 0, curr)
       : 0;
     const totalCost = operatingExpense + masterLeaseMonthly;
     const netProfit = revenue - totalCost;
-    const initialOutlay = p.acquisition?.down_payment_or_deposit || 0;
+    const initialOutlay = convertToCAD(p.acquisition?.down_payment_or_deposit || 0, curr);
     const annualNet = netProfit * 12;
     const breakEvenYears = annualNet > 0 && initialOutlay > 0 ? (initialOutlay / annualNet) : 0;
 
@@ -154,503 +689,292 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
     };
   });
 
+  // Active Landlord for View 2
+  const activeLandlord = dbState.landlords?.find(l => l.id === selectedLandlordId) || dbState.landlords?.[0];
+  const activeLandlordOwnedPropertyIds = activeLandlord
+    ? dbState.properties.filter(p => p.landlord_id === activeLandlord.id).map(p => p.id)
+    : [];
+
   return (
-    <div className="p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-8 space-y-6 max-w-7xl mx-auto">
       {/* Header Banner: Strict Single Line Title & Description */}
       <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
         <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
-          Executive Intelligence & Daily Audit Reports
+          Executive Intelligence & Audit Reports
         </h1>
         <span className="text-cream-400 font-light shrink-0">|</span>
         <p className="text-sm text-stone-600 truncate">
-          Automated daily operational journal, landlord remittances & asset break-even
+          Hierarchical multi-timeframe operational ledger, landlord statements, staff audits & capital break-even
         </p>
       </div>
 
-      {/* Decorative Divider */}
+      {/* Single Divider */}
       <hr className="border-t border-slate-800/80 print:hidden" />
 
       {/* View Switcher Tabs Bar */}
-      <div className="flex items-center justify-between gap-4 print:hidden">
-        <div className="flex items-center bg-cream-100 p-1 rounded-2xl border border-cream-300">
+      <div className="flex flex-wrap items-center justify-between gap-4 print:hidden">
+        <div className="flex flex-wrap items-center gap-2 bg-cream-100 p-1.5 rounded-2xl border border-cream-300">
           <button
-            onClick={() => setReportView('daily')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              reportView === 'daily'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+            onClick={() => setReportView('ledger')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+              reportView === 'ledger'
+                ? 'bg-brand-950 text-white shadow-xs'
+                : 'text-stone-600 hover:bg-white'
             }`}
           >
-            <Clock className="w-3.5 h-3.5" /> Company Daily Journal
+            <Sparkles className="w-3.5 h-3.5" /> Company Executive Ledger
           </button>
           <button
             onClick={() => setReportView('landlords')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'landlords'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+                ? 'bg-brand-950 text-white shadow-xs'
+                : 'text-stone-600 hover:bg-white'
             }`}
           >
-            <Landmark className="w-3.5 h-3.5" /> Landlord Statements
+            <User className="w-3.5 h-3.5" /> Landlord Statements
           </button>
           <button
             onClick={() => setReportView('staff')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'staff'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+                ? 'bg-brand-950 text-white shadow-xs'
+                : 'text-stone-600 hover:bg-white'
             }`}
           >
-            <User className="w-3.5 h-3.5" /> Staff Operations Journal
+            <ShieldCheck className="w-3.5 h-3.5" /> Staff Operations Journal
           </button>
           <button
             onClick={() => setReportView('capital')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               reportView === 'capital'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'text-stone-600 hover:text-stone-900 hover:bg-white/60'
+                ? 'bg-brand-950 text-white shadow-xs'
+                : 'text-stone-600 hover:bg-white'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5" /> Capital Matrix
+            <Landmark className="w-3.5 h-3.5" /> Capital Matrix
           </button>
         </div>
+
+        <button
+          onClick={() => window.print()}
+          className="px-4 py-2 rounded-xl bg-white border border-cream-300 text-xs font-bold text-stone-700 hover:bg-cream-50 flex items-center gap-2 shadow-2xs"
+        >
+          <Printer className="w-3.5 h-3.5" /> Print Report
+        </button>
       </div>
 
-      {/* Demarcation Divider */}
-      <hr className="border-t border-slate-800/80" />
-
       {/* ============================================================== */}
-      {/* VIEW 1: COMPANY AUTOMATED DAILY OPERATIONAL JOURNAL             */}
+      {/* VIEW 1: HIERARCHICAL MULTI-TIMEFRAME EXECUTIVE LEDGER          */}
       {/* ============================================================== */}
-      {reportView === 'daily' && (
+      {reportView === 'ledger' && (
         <div className="space-y-6">
-          {/* Date Selector Bar */}
-          <div className="bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-brand-600" />
-              <div>
-                <span className="text-xs font-bold text-stone-500 uppercase tracking-wider block">Journal Audit Date:</span>
-                <span className="text-sm font-extrabold text-stone-900">
-                  {new Date(activeDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                </span>
+          {/* All-Time Baseline Portfolio Strip */}
+          <div className="bg-brand-950 text-white rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-300 block">
+                Full 2026 Portfolio Baseline ({dbState.payments.length} Payments • {dbState.shortlet_bookings.length} Shortlets • {dbState.expenses.length} Expenses)
+              </span>
+              <div className="flex flex-wrap items-baseline gap-6 mt-1.5">
+                <div>
+                  <span className="text-xs text-brand-200">Total Revenue: </span>
+                  <span className="text-base font-extrabold">{formatMoney(allTimeStats.rentCad + allTimeStats.shortletCad)}</span>
+                </div>
+                <div>
+                  <span className="text-xs text-brand-200">Mgmt Fees: </span>
+                  <span className="text-base font-extrabold text-amber-300">{formatMoney(allTimeStats.feeCad)}</span>
+                </div>
+                <div>
+                  <span className="text-xs text-brand-200">Expenses: </span>
+                  <span className="text-base font-extrabold text-rose-300">-{formatMoney(allTimeStats.expenseCad)}</span>
+                </div>
+                <div>
+                  <span className="text-xs text-brand-200">Net Cash Flow: </span>
+                  <span className="text-base font-extrabold text-emerald-300">{formatMoney(allTimeStats.netCashFlowCad)}</span>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Quick Date Navigator & Sort Controls */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold text-stone-600">Select Date:</span>
+          {/* Timeframe & Filter Controls */}
+          <div className="space-y-3 print:hidden">
+            <TimeframeFilterBar
+              timeFrame={timeFrame}
+              onTimeFrameChange={setTimeFrame}
+              dateRange={dateRange}
+              onDateRangeChange={setDateRange}
+              selectedQuarter={selectedQuarter}
+              onQuarterChange={setSelectedQuarter}
+              sortOrder={sortOrder}
+              onSortOrderChange={setSortOrder}
+            />
+
+            <div className="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-wrap items-center gap-3">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search tenant, guest, unit, vendor, ticket..."
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+
               <select
-                value={activeDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="px-3 py-1.5 bg-white border border-cream-300 rounded-xl text-xs font-bold text-stone-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer"
+                value={selectedPropertyFilter}
+                onChange={e => setSelectedPropertyFilter(e.target.value)}
+                className="px-3 py-1.5 text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl text-slate-700"
               >
-                {allRecordedDates.slice(0, 15).map(dateStr => (
-                  <option key={dateStr} value={dateStr}>
-                    {dateStr} ({new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})
-                  </option>
+                <option value="all">All Properties ({dbState.properties.length})</option>
+                {dbState.properties.map(p => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
 
-              <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-cream-300 shadow-2xs">
-                <button
-                  type="button"
-                  onClick={() => setDailyDateSortOrder('desc')}
-                  title="Sort Newest Dates First"
-                  className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                    dailyDateSortOrder === 'desc'
-                      ? 'bg-slate-900 text-white shadow-2xs'
-                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
-                  }`}
-                >
-                  <ArrowDownWideNarrow className="w-3.5 h-3.5" />
-                  <span>Desc</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setDailyDateSortOrder('asc')}
-                  title="Sort Oldest Dates First"
-                  className={`px-2 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                    dailyDateSortOrder === 'asc'
-                      ? 'bg-slate-900 text-white shadow-2xs'
-                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
-                  }`}
-                >
-                  <ArrowUpNarrowWide className="w-3.5 h-3.5" />
-                  <span>Asc</span>
-                </button>
-              </div>
+              <select
+                value={categoryFilter}
+                onChange={e => setCategoryFilter(e.target.value as CategoryFilter)}
+                className="px-3 py-1.5 text-xs font-bold bg-slate-50 border border-slate-200 rounded-xl text-slate-700"
+              >
+                <option value="all">All Categories</option>
+                <option value="revenue">Rent & Shortlets</option>
+                <option value="expenses">Operating Expenses</option>
+                <option value="maintenance">Maintenance Tickets</option>
+                <option value="inspections">Field Inspections</option>
+                <option value="notices">Statutory Notices</option>
+              </select>
             </div>
           </div>
 
-          {/* Daily Financial Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">
-                <span>Total Daily Collections</span>
-                <ArrowUpRight className="w-4 h-4 text-emerald-600" />
-              </div>
-              <span className="text-xl font-extrabold text-emerald-600 block">{formatMoney(totalDayRevenueCad)}</span>
-              <p className="text-[11px] text-slate-400 mt-1">
-                {dayPayments.length} Rent Pmt{dayPayments.length !== 1 ? 's' : ''} • {dayCheckIns.length} Shortlet Booking{dayCheckIns.length !== 1 ? 's' : ''}
-              </p>
+          {/* Active Period KPI Tiles */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-slate-500 uppercase block">Period Rent</span>
+              <span className="text-lg font-black text-emerald-700 mt-1 block">{formatMoney(periodStats.rentCad)}</span>
+              <span className="text-[11px] text-slate-400">{filteredRecords.payments.length} payments</span>
             </div>
-
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">
-                <span>Daily Disbursements / Costs</span>
-                <ArrowDownRight className="w-4 h-4 text-rose-600" />
-              </div>
-              <span className="text-xl font-extrabold text-rose-600 block">-{formatMoney(dayOutflowCad)}</span>
-              <p className="text-[11px] text-slate-400 mt-1">{dayExpenses.length} Expense item{dayExpenses.length !== 1 ? 's' : ''} logged</p>
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-slate-500 uppercase block">Shortlet Payouts</span>
+              <span className="text-lg font-black text-purple-700 mt-1 block">{formatMoney(periodStats.shortletCad)}</span>
+              <span className="text-[11px] text-slate-400">{filteredRecords.shortlets.length} stays</span>
             </div>
-
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">
-                <span>Net Daily Cash Inflow</span>
-                <DollarSign className="w-4 h-4 text-brand-600" />
-              </div>
-              <span className={`text-xl font-extrabold block ${netDayCashFlowCad >= 0 ? 'text-brand-700' : 'text-rose-700'}`}>
-                {formatMoney(netDayCashFlowCad)}
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-slate-500 uppercase block">Mgmt Fees Earned</span>
+              <span className="text-lg font-black text-amber-700 mt-1 block">{formatMoney(periodStats.feeCad)}</span>
+              <span className="text-[11px] text-slate-400">Unit commission</span>
+            </div>
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-slate-500 uppercase block">Period Expenses</span>
+              <span className="text-lg font-black text-rose-700 mt-1 block">-{formatMoney(periodStats.expenseCad)}</span>
+              <span className="text-[11px] text-slate-400">{filteredRecords.expenses.length} bills</span>
+            </div>
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs col-span-2 md:col-span-1">
+              <span className="text-[11px] font-bold text-slate-500 uppercase block">Net Cash Flow</span>
+              <span className={`text-lg font-black mt-1 block ${periodStats.netCashFlowCad >= 0 ? 'text-stone-900' : 'text-rose-700'}`}>
+                {formatMoney(periodStats.netCashFlowCad)}
               </span>
-              <p className="text-[11px] text-slate-400 mt-1">Operating margin yield</p>
-            </div>
-
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-              <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">
-                <span>Field Operations Logged</span>
-                <ClipboardCheck className="w-4 h-4 text-purple-600" />
-              </div>
-              <span className="text-xl font-extrabold text-slate-900 block">
-                {dayInspections.length + dayMaintenance.length + dayNotices.length} Events
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">
-                {dayInspections.length} Audit{dayInspections.length !== 1 ? 's' : ''} • {dayMaintenance.length} Ticket{dayMaintenance.length !== 1 ? 's' : ''}
-              </p>
+              <span className="text-[11px] text-slate-400">{allDays.length} active days</span>
             </div>
           </div>
 
-          {/* Timeline Feed: Detailed Chronological Journal for the Day */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <h2 className="text-base font-bold text-slate-900">Chronological Event Stream for {activeDate}</h2>
-                <p className="text-xs text-slate-500">Auto-aggregated transactions, guest arrivals, physical inspections, and formal legal notices</p>
-              </div>
-              <span className="px-3 py-1 bg-slate-100 text-slate-700 font-bold text-xs rounded-full">
-                {dayPayments.length + dayCheckIns.length + dayCheckOuts.length + dayExpenses.length + dayMaintenance.length + dayNotices.length + dayComms.length + dayInspections.length} Total Records
-              </span>
+          {/* Hierarchical Ledger Body */}
+          {allDays.length === 0 ? (
+            <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center">
+              <Calendar className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+              <h3 className="text-base font-bold text-slate-800">No Records in Selected Period</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Try switching to All Time, Full Year, or another Quarter/Month using the timeframe bar above.
+              </p>
             </div>
-
+          ) : timeFrame === 'year' ? (
+            <div className="space-y-5">
+              {quarters.map(({ q, info, months }) => {
+                const qKey = `Q${q}`;
+                const isQOpen = expandedQuarters[qKey] ?? true;
+                const qDays = allDays.filter(d => months.includes(d.slice(0, 7)));
+                const qTotals = computeRangeTotals(qDays);
+                return (
+                  <div key={qKey} className="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+                    <button
+                      onClick={() => setExpandedQuarters(prev => ({ ...prev, [qKey]: !isQOpen }))}
+                      className="w-full px-6 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 text-left"
+                    >
+                      <div className="flex items-center gap-3">
+                        {isQOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                        <span className="font-black text-base">{info.label}</span>
+                        <span className="text-xs text-slate-300">({months.length} months • {qTotals.count} records)</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs font-bold">
+                        <span className="text-emerald-300">+{formatMoney(qTotals.rentCad + qTotals.shortletCad)}</span>
+                        <span className="text-rose-300">-{formatMoney(qTotals.expenseCad)}</span>
+                        <span className="px-3 py-1 rounded-xl bg-white/10">Net: {formatMoney(qTotals.netCad)}</span>
+                      </div>
+                    </button>
+                    {isQOpen && (
+                      <div className="p-5 space-y-4">
+                        {months.map((m, mIdx) => renderMonthCard(m, q === 4 && mIdx === 0))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : timeFrame === 'multi_month' || timeFrame === 'all' || timeFrame === 'month' ? (
             <div className="space-y-4">
-              {/* 1. Shortlet Check-Ins / Bookings */}
-              {dayCheckIns.map(b => {
-                const unit = dbState.units.find(u => u.id === b.unit_id);
-                const prop = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
-                return (
-                  <div key={b.id} className="p-4 rounded-xl bg-purple-50/60 border border-purple-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-purple-200 text-purple-800 rounded-xl mt-0.5">
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-purple-900 uppercase">Shortlet Guest Arrival</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-200 text-purple-900 font-extrabold">{b.platform_source}</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">{b.booking_status}</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          {b.guest_name} — Suite {unit?.unit_number} ({prop?.name})
-                        </h4>
-                        <p className="text-xs text-slate-500">
-                          {b.nights_count} Nights (Check-out: {b.check_out}) • Guest Tel: {b.guest_phone}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-extrabold text-sm text-purple-900 block">+{currencyConfig.symbol}{b.total_payout.toLocaleString()}</span>
-                      <span className="text-[11px] text-purple-700">Nightly: {currencyConfig.symbol}{b.nightly_rate} + {currencyConfig.symbol}{b.cleaning_fee} cln</span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* 2. Rent Payments Received */}
-              {dayPayments.map(p => {
-                const tenant = dbState.tenants.find(t => t.id === p.tenant_id);
-                const lease = dbState.leases.find(l => l.id === p.lease_id);
-                const unit = lease ? dbState.units.find(u => u.id === lease.unit_id) : undefined;
-                const prop = unit ? dbState.properties.find(pr => pr.id === unit.property_id) : undefined;
-                const nativeCurr: CurrencyCode = prop?.acquisition?.acquisition_currency || (prop?.city === 'Lagos' || prop?.city === 'Abuja' ? 'NGN' : 'CAD');
-                return (
-                  <div key={p.id} className="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-emerald-200 text-emerald-800 rounded-xl mt-0.5">
-                        <DollarSign className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-emerald-900 uppercase">Rent Payment Collected</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900 font-bold">{p.status}</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          {tenant?.first_name} {tenant?.last_name} — {prop?.name} (Unit {unit?.unit_number})
-                        </h4>
-                        <p className="text-xs text-slate-500">Due Date: {p.due_date} • Payment Date: {p.payment_date}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-extrabold text-sm text-emerald-700 block">
-                        +{formatMoney(convertToCAD(p.amount_paid, nativeCurr))}
-                      </span>
-                      <span className="text-[11px] text-slate-400">Total Due: {formatMoney(convertToCAD(p.amount_due, nativeCurr))}</span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* 3. Physical Property Audits & Inspections */}
-              {dayInspections.map(i => {
-                const prop = dbState.properties.find(p => p.id === i.property_id);
-                const unit = i.unit_id ? dbState.units.find(u => u.id === i.unit_id) : undefined;
-                return (
-                  <div key={i.id} className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-blue-200 text-blue-800 rounded-xl mt-0.5">
-                        <ClipboardCheck className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-blue-900 uppercase">Field Inspection Conducted</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-200 text-blue-900 font-bold">{i.status}</span>
-                          {i.overall_condition && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 font-bold">
-                              Condition: {i.overall_condition}
-                            </span>
-                          )}
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          {i.title} ({prop?.name} {unit ? `• Unit ${unit.unit_number}` : ''})
-                        </h4>
-                        <p className="text-xs text-slate-600 mt-0.5">{i.general_remarks}</p>
-                        <div className="text-[11px] text-slate-500 mt-1 flex items-center gap-2">
-                          <span>Team Lead: <strong>{i.team_lead_name}</strong></span>
-                          <span>•</span>
-                          <span>Crew: {i.assigned_attendees.map(a => a.staff_name).join(', ')}</span>
-                          {i.attachments && i.attachments.length > 0 && (
-                            <>
-                              <span>•</span>
-                              <span className="text-blue-700 font-semibold">{i.attachments.length} Media Attachment(s)</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {i.incurred_cost && i.incurred_cost > 0 ? (
-                      <div className="text-right">
-                        <span className="font-bold text-xs text-rose-700 block">Cost Incurred:</span>
-                        <span className="font-extrabold text-sm text-rose-700">-{formatMoney(i.incurred_cost)}</span>
-                      </div>
-                    ) : (
-                      <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-xl">
-                        Clean Pass
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-
-              {/* 4. Expenses & Operational Outlays */}
-              {dayExpenses.map(e => {
-                const prop = dbState.properties.find(p => p.id === e.property_id);
-                const unit = e.unit_id ? dbState.units.find(u => u.id === e.unit_id) : undefined;
-                return (
-                  <div key={e.id} className="p-4 rounded-xl bg-rose-50/50 border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-rose-200 text-rose-800 rounded-xl mt-0.5">
-                        <ArrowDownRight className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-rose-900 uppercase">Operational Expense Disbursed</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-200 text-rose-900 font-bold">{e.category}</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          {e.description} ({prop?.name} {unit ? `• Unit ${unit.unit_number}` : ''})
-                        </h4>
-                        <p className="text-xs text-slate-400">Payment Status: {e.payment_status} • Scope: {e.scope}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-extrabold text-sm text-rose-600 block">-{formatMoney(e.amount)}</span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* 5. Maintenance Requests Logged */}
-              {dayMaintenance.map(m => {
-                const tenant = dbState.tenants.find(t => t.id === m.tenant_id);
-                const unit = dbState.units.find(u => u.id === m.unit_id);
-                const prop = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
-                return (
-                  <div key={m.id} className="p-4 rounded-xl bg-amber-50/50 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-amber-200 text-amber-800 rounded-xl mt-0.5">
-                        <Wrench className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-amber-900 uppercase">Maintenance Ticket Created</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold">{m.status}</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold">Priority: {m.priority}</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          {m.category}: {m.description}
-                        </h4>
-                        <p className="text-xs text-slate-500">
-                          Tenant: {tenant?.first_name} {tenant?.last_name} • Unit {unit?.unit_number} ({prop?.name})
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-bold text-slate-500">{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                  </div>
-                );
-              })}
-
-              {/* 6. Formal Notices Dispatched */}
-              {dayNotices.map(n => {
-                const tenant = dbState.tenants.find(t => t.id === n.tenant_id);
-                return (
-                  <div key={n.id} className="p-4 rounded-xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 bg-stone-200 text-stone-700 rounded-xl mt-0.5">
-                        <FileText className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-bold text-stone-800 uppercase">Official Tenant Notice Issued</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-brand-100 text-brand-800 font-bold">{n.notice_type}</span>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-stone-200 text-stone-700 font-bold">{n.status}</span>
-                        </div>
-                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">
-                          Recipient: {tenant?.first_name} {tenant?.last_name}
-                        </h4>
-                        <p className="text-xs text-slate-600 line-clamp-1">{n.content}</p>
-                      </div>
-                    </div>
-                    {n.amount && n.amount > 0 && (
-                      <span className="font-extrabold text-xs text-slate-900">Notice Value: {formatMoney(n.amount)}</span>
-                    )}
-                  </div>
-                );
-              })}
+              {allMonths.map((m, idx) => renderMonthCard(m, idx === 0))}
             </div>
-          </div>
+          ) : (
+            <div className="space-y-3">
+              {allDays.map((day, idx) => renderDayCard(day, idx === 0))}
+            </div>
+          )}
         </div>
       )}
 
       {/* ============================================================== */}
-      {/* VIEW 2: DEDICATED LANDLORD REMITTANCE STATEMENTS                */}
+      {/* VIEW 2: DEDICATED LANDLORD REMITTANCE STATEMENTS (SHARED)      */}
       {/* ============================================================== */}
       {reportView === 'landlords' && (
         <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-cream-50 p-4 rounded-2xl border border-cream-300">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-cream-50 p-4 rounded-2xl border border-cream-300 print:hidden">
             <div>
               <h2 className="text-base font-bold text-stone-900">Landlord Portfolio Statements & Net Remittance</h2>
-              <p className="text-xs text-stone-500">Gross revenue minus management commissions and approved contractor repair bills</p>
+              <p className="text-xs text-stone-500">Full hierarchical multi-timeframe statement identical to the Landlord Portal</p>
             </div>
 
             <div className="flex items-center gap-2">
-              <label className="text-xs font-bold text-stone-700">Filter Landlord:</label>
+              <label className="text-xs font-bold text-stone-700">Select Landlord:</label>
               <select
-                value={landlordFilter}
-                onChange={(e) => setLandlordFilter(e.target.value)}
+                value={activeLandlord?.id || ''}
+                onChange={(e) => setSelectedLandlordId(e.target.value)}
                 className="px-3 py-1.5 bg-white border border-cream-300 rounded-xl text-xs font-bold text-stone-800 shadow-2xs"
               >
-                <option value="All">All Landlords ({dbState.landlords?.length || 0})</option>
                 {(dbState.landlords || []).map(l => (
-                  <option key={l.id} value={l.id}>{l.company_name || `${l.first_name} ${l.last_name}`}</option>
+                  <option key={l.id} value={l.id}>
+                    {l.company_name || `${l.first_name} ${l.last_name}`}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div className="space-y-6">
-            {landlordReports.map(({ landlord, ownedProps, occupiedCount, ownedUnits, occupancyRate, grossRent, mgmtFee, repairCosts, netRemittance, expenses, audits }) => (
-              <div key={landlord.id} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-bold text-slate-900">{landlord.company_name || `${landlord.first_name} ${landlord.last_name}`}</h3>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">Active Mandate</span>
-                    </div>
-                    <p className="text-xs text-slate-500">
-                      Disbursement Account: <strong>{landlord.bank_name || 'TD Bank'} ({landlord.bank_account_number || '•••• 8910'})</strong> • Payout: {landlord.remittance_frequency || 'Monthly'}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs text-slate-400 block">Net Payout to Landlord</span>
-                    <span className="text-2xl font-black text-emerald-700">{formatMoney(netRemittance)}</span>
-                  </div>
-                </div>
-
-                {/* 4 Financial Tiles */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
-                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase block">Gross Rent Collected</span>
-                    <span className="text-base font-extrabold text-stone-900">{formatMoney(grossRent)}</span>
-                  </div>
-                  <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-                    <span className="text-[11px] font-bold text-stone-500 uppercase block">Firm Commission (Per Suite)</span>
-                    <span className="text-base font-extrabold text-stone-600">-{formatMoney(mgmtFee)}</span>
-                  </div>
-                  <div className="p-3 bg-rose-50/50 rounded-xl border border-rose-200">
-                    <span className="text-[11px] font-bold text-rose-700 uppercase block">Repair Deductions</span>
-                    <span className="text-base font-extrabold text-rose-700">-{formatMoney(repairCosts)}</span>
-                  </div>
-                  <div className="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200">
-                    <span className="text-[11px] font-bold text-emerald-800 uppercase block">Portfolio Occupancy</span>
-                    <span className="text-base font-extrabold text-emerald-800">{occupancyRate}% ({occupiedCount}/{ownedUnits.length} Units)</span>
-                  </div>
-                </div>
-
-                {/* Associated Properties & Audits */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-slate-700 uppercase block">Managed Properties ({ownedProps.length})</span>
-                    {ownedProps.map(p => (
-                      <div key={p.id} className="text-xs flex justify-between items-center py-1 border-b border-slate-200/60 last:border-0">
-                        <span className="font-semibold text-slate-800">{p.name} ({p.city})</span>
-                        <span className="text-slate-500">{p.units_count || 12} Total Units</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                    <span className="text-xs font-bold text-slate-700 uppercase block">Recent Field Audits ({audits.length})</span>
-                    {audits.length === 0 ? (
-                      <p className="text-xs text-slate-400 italic">No field audits logged for these assets yet.</p>
-                    ) : (
-                      audits.map(a => (
-                        <div key={a.id} className="text-xs flex justify-between items-center py-1 border-b border-slate-200/60 last:border-0">
-                          <div>
-                            <strong className="block text-slate-800">{a.title}</strong>
-                            <span className="text-[10px] text-slate-500">Date: {a.scheduled_date} • Lead: {a.team_lead_name}</span>
-                          </div>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">{a.status}</span>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          {activeLandlord ? (
+            <LandlordReportView
+              dbState={dbState}
+              landlord={activeLandlord}
+              ownedPropertyIds={activeLandlordOwnedPropertyIds}
+            />
+          ) : (
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center text-sm text-slate-500">
+              No landlords registered in the database.
+            </div>
+          )}
         </div>
       )}
 
       {/* ============================================================== */}
-      {/* VIEW 3: STAFF OPERATIONS JOURNAL & PERFORMANCE REPORT           */}
+      {/* VIEW 3: STAFF OPERATIONS JOURNAL & PERFORMANCE REPORT          */}
       {/* ============================================================== */}
       {reportView === 'staff' && (
         <StaffReportView dbState={dbState} staffProfiles={staffProfiles} />
@@ -700,6 +1024,12 @@ export const ReportsPage: React.FC<ReportsProps> = ({ dbState }) => {
           </div>
         </div>
       )}
+
+      {/* Proof & Inspection Media Modal */}
+      <PortalMediaModal
+        item={activeMediaModal}
+        onClose={() => setActiveMediaModal(null)}
+      />
     </div>
   );
 };

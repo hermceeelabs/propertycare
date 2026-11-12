@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Building2, Home, Users, DollarSign, AlertCircle, Wrench,
   Calendar, Zap, ArrowUpRight, ArrowDownRight, ChevronRight, CheckCircle2, ShieldAlert
@@ -7,6 +7,8 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGri
 import { DatabaseState } from '../services/supabase';
 import { NavTab } from '../components/Sidebar';
 import { useCurrency, CurrencyCode } from '../context/CurrencyContext';
+import { TimeframeFilterBar } from '../components/TimeframeFilterBar';
+import { ReportTimeFrame, getDateRangeForTimeFrame } from '../services/reportGrouping';
 
 interface DashboardProps {
   dbState: DatabaseState;
@@ -15,6 +17,11 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => {
   const { formatMoney, convertToCAD, convertFromCAD, currencyConfig } = useCurrency();
+  const [timeFrame, setTimeFrame] = useState<ReportTimeFrame>('month');
+  const [dateRange, setDateRange] = useState(() => getDateRangeForTimeFrame('month'));
+  const [selectedQuarter, setSelectedQuarter] = useState<1 | 2 | 3 | 4>(() => {
+    return (Math.floor(new Date().getMonth() / 3) + 1) as 1 | 2 | 3 | 4;
+  });
 
   // Dynamic KPI Aggregations from actual database state
   const totalProperties = dbState.properties.length;
@@ -34,31 +41,77 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
     return convertToCAD(amount, nativeCurr);
   };
 
-  // Active current billing cycle collections (August 2026)
-  const currentBillingCyclePayments = dbState.payments.filter(p => !p.due_date || p.due_date.startsWith('2026-08'));
-  const paidPayments = currentBillingCyclePayments.filter(p => p.status === 'Paid' || p.status === 'Partially Paid');
-  const rentCollected = paidPayments.reduce((acc, p) => acc + getPaymentInCad(p.amount_paid || 0, p.lease_id), 0);
+  const getUnitAmountInCad = (amount: number, unitId?: string): number => {
+    if (!amount) return 0;
+    const unit = dbState.units.find(u => u.id === unitId);
+    const property = unit ? dbState.properties.find(p => p.id === unit.property_id) : undefined;
+    const nativeCurr: CurrencyCode =
+      property?.acquisition?.acquisition_currency ||
+      (property?.city === 'Lagos' || property?.city === 'Abuja' ? 'NGN' : 'CAD');
+    return convertToCAD(amount, nativeCurr);
+  };
 
-  const pendingPayments = currentBillingCyclePayments.filter(
+  // Payments & Shortlets within active timeframe
+  const periodPayments = useMemo(() => {
+    return dbState.payments.filter(p => {
+      const d = p.payment_date || p.due_date || '';
+      if (!d) return false;
+      return d >= dateRange.startDate && d <= dateRange.endDate;
+    });
+  }, [dbState.payments, dateRange]);
+
+  const periodShortlets = useMemo(() => {
+    return (dbState.shortlet_bookings || []).filter(b => {
+      const d = b.check_in || '';
+      if (!d) return false;
+      return d >= dateRange.startDate && d <= dateRange.endDate && b.booking_status !== 'Cancelled';
+    });
+  }, [dbState.shortlet_bookings, dateRange]);
+
+  const paidPayments = periodPayments.filter(p => p.status === 'Paid' || p.status === 'Partially Paid');
+  const rentCollected =
+    paidPayments.reduce((acc, p) => acc + getPaymentInCad(p.amount_paid || 0, p.lease_id), 0) +
+    periodShortlets.reduce((acc, b) => acc + getUnitAmountInCad(b.total_payout || 0, b.unit_id), 0);
+
+  const pendingPayments = periodPayments.filter(
     p => p.status === 'Pending' || p.status === 'Overdue' || p.status === 'Late' || p.status === 'Partially Paid'
   );
   const outstandingRent = pendingPayments.reduce(
-    (acc, p) => acc + getPaymentInCad((p.amount_due || 0) - (p.amount_paid || 0), p.lease_id),
+    (acc, p) => acc + getPaymentInCad(Math.max(0, (p.amount_due || 0) - (p.amount_paid || 0)), p.lease_id),
     0
   );
 
   const openMaintenance = dbState.maintenance_requests.filter(m => m.status !== 'Completed' && m.status !== 'Cancelled').length;
   const expiringLeases = dbState.leases.filter(l => l.status === 'Expiring Soon').length;
 
-  // Chart data for Rent Overview (in base CAD, automatically converted to active display currency in BarChart)
-  const rentChartData = [
-    { month: 'Mar', Collected: 24500, Outstanding: 1200 },
-    { month: 'Apr', Collected: 25200, Outstanding: 1100 },
-    { month: 'May', Collected: 25800, Outstanding: 1400 },
-    { month: 'Jun', Collected: 26000, Outstanding: 1600 },
-    { month: 'Jul', Collected: 26071, Outstanding: 1350 },
-    { month: 'Aug', Collected: Math.round(rentCollected), Outstanding: Math.round(outstandingRent) },
-  ];
+  // Dynamic 12-Month Rent & Revenue Collection Chart from real database records
+  const activeChartYear = parseInt((dateRange.startDate || '2026-01-01').slice(0, 4), 10) || 2026;
+  const rentChartData = useMemo(() => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months.map((label, idx) => {
+      const ym = `${activeChartYear}-${String(idx + 1).padStart(2, '0')}`;
+      const mPayments = dbState.payments.filter(p => (p.payment_date || p.due_date || '').startsWith(ym));
+      const mShortlets = (dbState.shortlet_bookings || []).filter(
+        b => (b.check_in || '').startsWith(ym) && b.booking_status !== 'Cancelled'
+      );
+
+      const collected =
+        mPayments
+          .filter(p => p.status === 'Paid' || p.status === 'Partially Paid')
+          .reduce((sum, p) => sum + getPaymentInCad(p.amount_paid || 0, p.lease_id), 0) +
+        mShortlets.reduce((sum, b) => sum + getUnitAmountInCad(b.total_payout || 0, b.unit_id), 0);
+
+      const outstanding = mPayments
+        .filter(p => p.status === 'Pending' || p.status === 'Overdue' || p.status === 'Late' || p.status === 'Partially Paid')
+        .reduce((sum, p) => sum + getPaymentInCad(Math.max(0, (p.amount_due || 0) - (p.amount_paid || 0)), p.lease_id), 0);
+
+      return {
+        month: label,
+        Collected: Math.round(collected),
+        Outstanding: Math.round(outstanding)
+      };
+    });
+  }, [dbState.payments, dbState.shortlet_bookings, activeChartYear]);
 
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">
@@ -71,6 +124,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ dbState, onNavigate }) => 
 
       {/* Visual Horizontal Separator */}
       <hr className="border-t border-slate-800/80" />
+
+      {/* Unified Timeframe Filter Bar (Below Separator) */}
+      <TimeframeFilterBar
+        timeFrame={timeFrame}
+        onTimeFrameChange={setTimeFrame}
+        dateRange={dateRange}
+        onDateRangeChange={setDateRange}
+        selectedQuarter={selectedQuarter}
+        onQuarterChange={setSelectedQuarter}
+      />
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
