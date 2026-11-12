@@ -70,10 +70,13 @@ export const UnitsPage: React.FC<UnitsProps> = ({ dbState }) => {
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Page Header: Clean Title & Subtitle */}
-      <div>
-        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Suites & Residential Inventory</h1>
-        <p className="text-sm text-stone-600 mt-1">
+      {/* Page Header: Strict Single Line Title & Subtitle */}
+      <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+          Suites & Residential Inventory
+        </h1>
+        <span className="text-cream-400 font-light shrink-0">|</span>
+        <p className="text-sm text-stone-600 truncate">
           Unified portfolio management for long-term residential leases, apartment suites, and shortlet vacation rentals
         </p>
       </div>

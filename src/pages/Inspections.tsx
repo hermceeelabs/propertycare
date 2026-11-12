@@ -243,31 +243,15 @@ export const InspectionsPage: React.FC<InspectionsPageProps> = ({ dbState }) => 
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
-      {/* Page Title & Action Buttons */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Inspection Timetable, Staff Quotas & Field Audits
-          </h1>
-          <p className="text-sm text-slate-500">
-            Configure property inspection frequencies, balance staff weekly/monthly workloads, track crew attendance & lock Team Lead approvals
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setIsAddSingleOpen(true)}
-            className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-xl text-xs font-bold flex items-center gap-2 shadow-2xs cursor-pointer"
-          >
-            <Plus className="w-4 h-4" /> Schedule Single Inspection
-          </button>
-          <button
-            onClick={() => setIsGeneratorOpen(true)}
-            className="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-md cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4" /> Generate Smart Inspection Timetable
-          </button>
-        </div>
+      {/* Page Title & Subtitle (Strict Single Line, No Buttons) */}
+      <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+          Inspection Timetable & Field Audits
+        </h1>
+        <span className="text-cream-400 font-light shrink-0">|</span>
+        <p className="text-sm text-stone-600 truncate">
+          Configure property inspection frequencies, balance staff weekly/monthly workloads, track crew attendance & lock Team Lead approvals
+        </p>
       </div>
 
       <hr className="border-t border-slate-800/80" />
@@ -373,16 +357,31 @@ export const InspectionsPage: React.FC<InspectionsPageProps> = ({ dbState }) => 
             </button>
           </div>
 
-          {/* Search Input */}
-          <div className="relative min-w-[230px] flex-1 max-w-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search property, unit, staff, findings..."
-              className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800"
-            />
+          {/* Search Input & Action Buttons */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="relative min-w-[220px]">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search property, unit, staff..."
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800"
+              />
+            </div>
+
+            <button
+              onClick={() => setIsAddSingleOpen(true)}
+              className="px-3.5 py-1.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" /> Schedule Single
+            </button>
+            <button
+              onClick={() => setIsGeneratorOpen(true)}
+              className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5" /> Generate Smart Timetable
+            </button>
           </div>
         </div>
 

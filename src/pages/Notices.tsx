@@ -45,24 +45,7 @@ export const NoticesPage: React.FC<NoticesProps> = ({ dbState }) => {
   };
 
   return (
-    <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Tenant Notices & Forms (N1 / N4)</h1>
-          <p className="text-sm text-slate-500">Ontario Landlord & Tenant Board administrative draft-and-approval workflow</p>
-        </div>
-
-        <button
-          onClick={() => setShowN1Wizard(true)}
-          className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
-        >
-          <Calculator className="w-4 h-4" /> Form N1 Rent Increase Wizard
-        </button>
-      </div>
-
-      {/* Decorative Divider */}
-      <hr className="border-t border-slate-800/80" />
-
+    <div className="space-y-6">
       {/* Mandatory Legal Compliance Banner */}
       <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl shadow-xs space-y-1">
         <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
@@ -74,21 +57,30 @@ export const NoticesPage: React.FC<NoticesProps> = ({ dbState }) => {
         </p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
-        {['All', 'Draft', 'Awaiting Review', 'Approved', 'Sent'].map(s => (
-          <button
-            key={s}
-            onClick={() => setStatusFilter(s)}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              statusFilter === s
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-            }`}
-          >
-            {s} ({s === 'All' ? dbState.notices.length : dbState.notices.filter(n => n.status === s).length})
-          </button>
-        ))}
+      {/* Filter Tabs & Wizard Action */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          {['All', 'Draft', 'Awaiting Review', 'Approved', 'Sent'].map(s => (
+            <button
+              key={s}
+              onClick={() => setStatusFilter(s)}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                statusFilter === s
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              {s} ({s === 'All' ? dbState.notices.length : dbState.notices.filter(n => n.status === s).length})
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => setShowN1Wizard(true)}
+          className="px-4 py-1.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <Calculator className="w-3.5 h-3.5" /> Form N1 Rent Increase Wizard
+        </button>
       </div>
 
       {/* Notices List */}

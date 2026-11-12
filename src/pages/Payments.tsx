@@ -41,17 +41,7 @@ export const PaymentsPage: React.FC<PaymentsProps> = ({ dbState }) => {
   const paymentStatuses = ['All', 'Paid', 'Pending', 'Partially Paid', 'Overdue'];
 
   return (
-    <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      {/* Page Header: Line 1 Title and Subtitle with visual divider */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-        <h1 className="text-2xl font-bold text-stone-900 tracking-tight">Rent & Financial Ledger</h1>
-        <span className="hidden sm:inline text-cream-400 font-light">|</span>
-        <p className="text-sm text-stone-600">Track monthly rent collections, outstanding balances & overdue escalations</p>
-      </div>
-
-      {/* Visual Horizontal Separator */}
-      <hr className="border-t border-slate-800/80" />
-
+    <div className="space-y-6">
       {/* Controls Line: Filters & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-wrap bg-cream-50 p-4 rounded-2xl border border-cream-300 shadow-xs">
         {/* Status Dropdown Filter */}

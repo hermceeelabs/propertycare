@@ -262,10 +262,13 @@ export const LandlordsPage: React.FC<LandlordsPageProps> = ({
       ) : (
         /* Landlords Directory View */
         <div className="space-y-6">
-          {/* Header */}
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Landlord Clients & Asset Owners</h1>
-            <p className="text-sm text-slate-500 mt-1">
+          {/* Header: Strict Single Line Title and Subtitle */}
+          <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+            <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+              Landlord Clients & Asset Owners
+            </h1>
+            <span className="text-cream-400 font-light shrink-0">|</span>
+            <p className="text-sm text-stone-600 truncate">
               Manage property owner accounts, remitted asset yields, management contracts & appointed legal delegates
             </p>
           </div>

@@ -17,17 +17,7 @@ export const AutomationLogsPage: React.FC<AutomationLogsProps> = ({ dbState }) =
   });
 
   return (
-    <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Automation Audit Trail</h1>
-          <p className="text-sm text-slate-500">Immutable execution history, payload metadata & system diagnostics</p>
-        </div>
-      </div>
-
-      {/* Decorative Divider */}
-      <hr className="border-t border-slate-800/80" />
-
+    <div className="space-y-6">
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
         {['All', 'Success', 'Failed', 'Skipped'].map(s => (

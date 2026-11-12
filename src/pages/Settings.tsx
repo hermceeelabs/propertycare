@@ -113,9 +113,14 @@ Operations Team
 
   return (
     <div className="p-8 space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">System Preferences & Database Management</h1>
-        <p className="text-sm text-slate-500">Configure company profile, JSON database synchronization, automation rules & integrations</p>
+      <div className="flex items-baseline gap-2 sm:gap-3 overflow-hidden">
+        <h1 className="text-2xl font-bold text-stone-900 tracking-tight whitespace-nowrap shrink-0">
+          System Preferences & Database Management
+        </h1>
+        <span className="text-cream-400 font-light shrink-0">|</span>
+        <p className="text-sm text-stone-600 truncate">
+          Configure company profile, JSON database synchronization, automation rules & integrations
+        </p>
       </div>
 
       {/* Decorative Divider */}

@@ -431,6 +431,8 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                 </p>
               </div>
 
+              <hr className="border-t border-slate-800/80" />
+
               {/* Personalized Welcome Banner */}
               <div className="flex items-center justify-between text-xs text-stone-600 bg-white px-4 py-2.5 rounded-xl border border-stone-200/80 shadow-2xs">
                 <span>
@@ -440,8 +442,6 @@ export const RepresentativePortal: React.FC<RepresentativePortalProps> = ({
                   Authorized on: {representative.created_at?.slice(0, 10) || '2024-01-15'}
                 </span>
               </div>
-
-              <hr className="border-t border-slate-800/80" />
 
               {/* High-Level Portfolio Metrics for Representative (Live FX Converted) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
