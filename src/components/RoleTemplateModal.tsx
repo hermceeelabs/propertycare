@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, ShieldCheck, Plus, Sparkles, Check, Trash2, Edit3 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, ShieldCheck } from 'lucide-react';
 import { RoleTemplate, UserPermissions } from '../types/database';
 import { supabase } from '../services/supabase';
 
@@ -32,6 +32,15 @@ export const RoleTemplateModal: React.FC<RoleTemplateModalProps> = ({
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setName(editingTemplate?.name || '');
+      setDescription(editingTemplate?.description || '');
+      setPermissions(editingTemplate?.permissions ? { ...editingTemplate.permissions } : { ...DEFAULT_PERMS });
+      setErrorMsg(null);
+    }
+  }, [editingTemplate, isOpen]);
 
   if (!isOpen) return null;
 

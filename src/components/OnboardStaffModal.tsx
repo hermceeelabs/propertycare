@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, ShieldCheck, Mail, Phone, User, CheckCircle2, Building, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, ShieldCheck, Mail, Phone, User, CheckCircle2 } from 'lucide-react';
 import { UserPermissions, RoleTemplate, UserProfile } from '../types/database';
 import { supabase } from '../services/supabase';
 import { checkEmailConflict } from '../services/stakeholderValidator';
@@ -10,6 +10,7 @@ interface OnboardStaffModalProps {
   roleTemplates: RoleTemplate[];
   properties: Array<{ id: string; name: string }>;
   onStaffAdded: (newProfile: UserProfile) => void;
+  editingStaff?: UserProfile | null;
 }
 
 const DEFAULT_PERMISSIONS: UserPermissions = {
@@ -26,12 +27,13 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
   onClose,
   roleTemplates,
   properties,
-  onStaffAdded
+  onStaffAdded,
+  editingStaff
 }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(roleTemplates[0]?.id || '');
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(roleTemplates[0]?.id || 'custom');
   const [roleTitle, setRoleTitle] = useState(roleTemplates[0]?.name || 'Operations Specialist');
   const [permissions, setPermissions] = useState<UserPermissions>(
     roleTemplates[0]?.permissions || DEFAULT_PERMISSIONS
@@ -39,6 +41,30 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
   const [assignedProperties, setAssignedProperties] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setErrorMsg(null);
+    if (editingStaff) {
+      setFullName(editingStaff.full_name || '');
+      setEmail(editingStaff.email || '');
+      setPhone(editingStaff.phone || '');
+      const matchedTpl = roleTemplates.find(t => t.id === editingStaff.role_template_id);
+      setSelectedTemplateId(matchedTpl ? matchedTpl.id : 'custom');
+      setRoleTitle(editingStaff.role_title || matchedTpl?.name || 'Operations Specialist');
+      setPermissions(editingStaff.permissions ? { ...editingStaff.permissions } : { ...DEFAULT_PERMISSIONS });
+      setAssignedProperties(editingStaff.assigned_properties ? [...editingStaff.assigned_properties] : []);
+    } else {
+      const defaultTpl = roleTemplates[0];
+      setFullName('');
+      setEmail('');
+      setPhone('');
+      setSelectedTemplateId(defaultTpl?.id || 'custom');
+      setRoleTitle(defaultTpl?.name || 'Operations Specialist');
+      setPermissions(defaultTpl?.permissions ? { ...defaultTpl.permissions } : { ...DEFAULT_PERMISSIONS });
+      setAssignedProperties([]);
+    }
+  }, [editingStaff, isOpen, roleTemplates]);
 
   if (!isOpen) return null;
 
@@ -71,35 +97,44 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
     setIsSubmitting(true);
     setErrorMsg(null);
 
-    // Cross-role validation check
-    const conflict = await checkEmailConflict(email);
+    // Cross-role validation check (ignore current staff record when editing)
+    const conflict = await checkEmailConflict(email, editingStaff?.id);
     if (conflict.hasConflict) {
       setErrorMsg(conflict.errorMessage || 'This email is already in use by another role.');
       setIsSubmitting(false);
       return;
     }
 
+    const resolvedTemplateId =
+      selectedTemplateId && selectedTemplateId !== 'custom' ? selectedTemplateId : null;
+
     try {
-      const newProfile: Partial<UserProfile> = {
+      const staffPayload: Record<string, any> = {
         email: email.trim().toLowerCase(),
         full_name: fullName.trim(),
-        phone: phone.trim() || undefined,
+        phone: phone.trim() || null,
         is_owner: false,
         user_type: 'staff',
         role_title: roleTitle.trim() || 'Operations Specialist',
-        role_template_id: selectedTemplateId || undefined,
-        status: 'Active',
+        role_template_id: resolvedTemplateId,
+        status: editingStaff?.status || 'Active',
         permissions: permissions,
         assigned_properties: assignedProperties,
         updated_at: new Date().toISOString()
       };
 
-      // Save to Supabase staffs table
-      const { data, error } = await supabase
-        .from('staffs')
-        .upsert(newProfile, { onConflict: 'email' })
-        .select()
-        .single();
+      const { data, error } = editingStaff
+        ? await supabase
+            .from('staffs')
+            .update(staffPayload)
+            .eq('id', editingStaff.id)
+            .select()
+            .single()
+        : await supabase
+            .from('staffs')
+            .upsert(staffPayload, { onConflict: 'email' })
+            .select()
+            .single();
 
       if (error) {
         throw error;
@@ -108,7 +143,7 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
       onStaffAdded(data as UserProfile);
       onClose();
     } catch (err: any) {
-      console.error('Error onboarding staff:', err);
+      console.error('Error saving staff record:', err);
       setErrorMsg(err.message || 'Failed to save staff record to database.');
     } finally {
       setIsSubmitting(false);
@@ -125,8 +160,14 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-lg text-white">Onboard Company Staff</h3>
-              <p className="text-xs text-slate-400">Add team members, assign reusable roles or configure custom permissions</p>
+              <h3 className="font-extrabold text-lg text-white">
+                {editingStaff ? 'Edit Staff Member & Role' : 'Onboard Company Staff'}
+              </h3>
+              <p className="text-xs text-slate-400">
+                {editingStaff
+                  ? 'Update staff details, assign a role template or customize permissions'
+                  : 'Add team members, assign reusable roles or configure custom permissions'}
+              </p>
             </div>
           </div>
           <button
@@ -319,7 +360,9 @@ export const OnboardStaffModal: React.FC<OnboardStaffModalProps> = ({
               disabled={isSubmitting}
               className="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-md shadow-brand-600/30 transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
-              {isSubmitting ? 'Registering Staff...' : 'Onboard Staff Member'}
+              {isSubmitting
+                ? (editingStaff ? 'Saving Changes...' : 'Registering Staff...')
+                : (editingStaff ? 'Save Staff & Role Changes' : 'Onboard Staff Member')}
             </button>
           </div>
         </form>
