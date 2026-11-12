@@ -157,7 +157,7 @@ export const InspectionDetailModal: React.FC<InspectionDetailModalProps> = ({
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    Array.from(files).forEach(file => {
+    Array.from(files).forEach((file: File) => {
       const ext = file.name.split('.').pop()?.toLowerCase() || '';
       const fType: 'photo' | 'video' | 'audio' | 'document' =
         file.type.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp'].includes(ext)
